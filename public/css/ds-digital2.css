@@ -1,0 +1,12 @@
+/*****************************
+ All rights reserved.
+ AllFont.ru (c) 2011-2015
+ *****************************/
+@font-face {
+    font-family: 'DS-Digital';
+    font-style: normal;
+    font-weight: 400;
+    src: local('DS-Digital'), local('DS-Digital-Normal'),
+        url(../css/fonts/ds-digital_53393af39e25438b56f0b27c57e80b3b.woff) format('woff'),
+        url(../css/fonts/ds-digital_53393af39e25438b56f0b27c57e80b3b.ttf) format('truetype');
+}

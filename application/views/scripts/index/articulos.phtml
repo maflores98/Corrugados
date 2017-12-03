@@ -1,0 +1,328 @@
+<style>
+.modal-dialog {
+    width: 60%;
+}  
+</style>
+<script type="text/javascript">
+  var Id;
+  $(document).ready(function() {
+    MostrarGrid(false);
+    $("#msj-guarda-articulo").hide();
+    $("#actuArticulo").hide();
+    $("#msj-articulo-actu").hide();
+    $( ".buttons-excel" ).hide();
+    
+    $("#"+sessionStorage.getItem("valor")+"l").addClass("active");
+    function MostrarGrid(valor){
+      $('#<?php echo $this->grid;  ?>').DataTable({
+        "ajax": {
+          "url": "<?php echo $this->urlGrid;?>?valor="+ sessionStorage.getItem("valor")
+        },
+
+        "language": {
+          "lengthMenu": "Mostrar _MENU_ registros por página",
+          "search": "",
+          "zeroRecords": "No existe el registro",
+          "info": "Página _PAGE_ de _PAGES_",
+          "infoEmpty": "No records available",
+          "infoFiltered": "(Encontrado de _MAX_ registros)",
+          "paginate": {
+            "first":      "Inicio",
+            "last":       "Último",
+            "next":       "Siguiente",
+            "previous":   "Anterior"
+          }
+        },
+        "lengthMenu": [[10, 20, -1], [10, 20, "Todo"]],
+
+        dom: 'frtiB',
+        buttons: ['excel'],
+        "lengthMenu": [[10, 25, 50,100,200,500,1000 -1], [10, 25, 50,100,200,500,1000, "All"]]
+
+      });
+
+      var table = $('#<?php echo $this->grid;  ?>').DataTable();
+
+      $( "#btn-excel" ).on( "click", function() {
+        $( ".buttons-excel" ).trigger( "click" );
+      });
+      
+
+      $('#<?php echo $this->grid;  ?> tbody').on( 'click', 'tr', function () {
+        if ( $(this).hasClass('selected') ) {
+          $(this).removeClass('selected');
+        }
+        else {
+          table.$('tr.selected').removeClass('selected');
+          $(this).addClass('selected');
+
+          Id = $(this).find('td').eq(0).html();
+          $("#id").val(Id);
+          OrdenID=$("#id").val();
+
+
+        }
+
+      });
+
+        //editar
+        $("#cancelar").click(function(){
+          $('#<?php echo $this->nomForm;?>')[0].reset();
+          window.location="<?php echo $this->baseUrl; ?>";
+        });
+        $("#editarArticulo").click(function(){
+          // alert(Id);
+
+          $("#guardarArticulo").hide();
+          $("#actuArticulo").show();
+            //return false;
+            if(Id != ""){
+
+             $.post("<?php echo $this->consultaarticulo; ?>",{id_articulo:Id},
+              function(data){
+                $("#id_articulo").val(data.datos[0].id_articulo);
+                $("#clave").val(data.datos[0].clave);
+                $("#descripcion").val(data.datos[0].descripcion);
+                $("#id_categoria").val(data.datos[0].id_categoria);
+                $("#costo").val(data.datos[0].costo);
+                $("#margen").val(data.datos[0].margen);
+                $("#precio").val(data.datos[0].precio);
+                $("#precio_anterior").val(data.datos[0].precio_anterior);
+                $("#unidad").val(data.datos[0].unidad);
+                $("#id_estatus").val(data.datos[0].id_estatus);
+                
+
+                $("#btnNuevaOrden").trigger("click");
+              },'json'
+
+              );
+
+
+           }
+           
+
+         });
+
+      //boton de suspender
+      $("#suspender").click(function(){
+
+        alert("suspender a " + Id);
+
+      });
+
+    }
+
+
+    $("#buscadorGeneral").change(function(){
+        //alert("hola");
+        $("[aria-controls='<?php echo $this->grid; ?>']").val($("#buscadorGeneral").val());
+        $('#<?php echo $this->grid; ?>_filter input').attr("placeholder", "BUSCAR");
+        $('#<?php echo $this->grid; ?>_filter input').addClass("text-uppercase");
+        $('#<?php echo $this->grid; ?>_filter input').focus();
+      });
+
+    $(".pagination li a").click(function(){
+     sessionStorage.setItem("valor", $(this).attr("id"));
+     window.location='<?php echo $this->redireccionar; ?>';
+     $('#<?php echo $this->grid;  ?>').dataTable()._fnAjaxUpdate();
+
+   });
+
+
+     //funcionalidades para guardar
+     $("#<?php echo $this->nomForm;?>").submit(function(){
+      var clientes=$("#<?php echo $this->nomForm;?>").serialize();
+
+      $.post("<?php echo $this->guardarArticulo; ?>",clientes,
+        function(data){
+
+          $('#<?php echo $this->grid;  ?>').dataTable()._fnAjaxUpdate();
+          $("#msj-guarda-articulo").show();  
+          
+        },'json'
+
+        );
+      return false;
+
+    });
+
+     $("#actuArticulo").click(function(){
+       // alert("preparar para actulizar");
+       var articulos=$("#<?php echo $this->nomForm;?>").serialize();
+       $.post("<?php echo $this->actualizaCliente; ?>",articulos,
+        function(data){
+
+         $('#<?php echo $this->grid;  ?>').dataTable()._fnAjaxUpdate();
+         $("#id_clienteDir").val($("#id_cliente").val());
+
+         $("#msj-articulo-actu").show();
+
+       },'json'
+
+       );
+       return false;
+
+
+     });
+
+         //permisos de usuarios , dato de la base de datos
+
+         sessionStorage.setItem("actualizar","true");
+         sessionStorage.setItem("eliminar","true");
+         sessionStorage.setItem("suspender","true");
+         sessionStorage.setItem("nuevo","true");
+         sessionStorage.setItem("buscar","true");
+         sessionStorage.setItem("botonesExportar","true");
+
+
+         if(sessionStorage.getItem("actualizar")=="false"){
+          $("#editarCliente").attr("disabled",true);
+        }
+        if(sessionStorage.getItem("nuevo")=="false"){
+          $("#btnNuevaOrden").attr("disabled",true);
+        }
+        if(sessionStorage.getItem("suspender")=="false"){
+          $("#suspender").attr("disabled",true);
+        }
+        if(sessionStorage.getItem("buscar")=="false"){
+          $("li").addClass('disabled');
+        }
+        if(sessionStorage.getItem("botonesExportar")=="false"){
+          $(".dt-buttons a").addClass('disabled');
+        }
+
+
+
+      });
+
+
+
+
+    </script>
+
+
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" id="btnNuevaOrden">
+      <span class="glyphicon glyphicon-plus-sign"></span> Nuevo
+    </button>
+    <button class="btn btn-primary" id='editarArticulo'><span class="glyphicon glyphicon-pencil"></span>Editar</button>
+    <button class="btn btn-primary" id='suspender'><span class="glyphicon glyphicon-hourglass"></span>Suspender</button>
+    <button class="btn btn-primary" id='btn-excel'>Exportar a Excel</button>
+
+    <table id="<?php echo $this->grid; ?>" class="table table-striped table-bordered" style='font-size:11px;'>
+      <thead>
+
+        <tr>
+          <th>Id</th>
+          <th>clave</th>
+          <th>descripcion</th>
+          <th>id_categoria</th>
+          <th>Costo</th>
+          <th>Margen</th>
+          <th>Precio</th>
+          <th>Precio Anterior</th>
+          <th>Unidad</th>
+          <th>Estatus</th>
+        </tr>
+      </thead>
+      <tbody id="bdy-grid">
+      </tbody>
+    </table>
+
+    <div class="modal fade" id="myModal" role="dialog" style='font-size:11px;'>
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title" style="color:#deb887;"><?php echo $this->tituloModal; ?></h4>
+          </div>
+          <div class="modal-body">
+            <?php  if($this->identificador=="articulo"){ ?>
+            <form  name="<?php echo $this->nomForm;?>" id="<?php echo $this->nomForm;?>" class="form-inline" method="POST">
+             <input id="id_articulo" class="form-control" name="id_articulo" type="hidden" value="" required>
+             <table class="table table-striped">
+              <tbody>
+
+                <tr>
+                  <td class="td_right">Clave:</td>
+                  <td colspan="3">
+                    <input id="clave" class="form-control" name="clave" type="text" value="" required>
+                  </td>
+                  <td class="td_right">Descripción:</td>
+                  <td colspan="6">
+                   <textarea id="descripcion" name="descripcion" rows="4" cols="100"></textarea>
+                 </td>
+               </tr>
+               <tr>
+                <td class="td_right">Categoría:</td>
+                <td colspan="3">
+                  <select id='id_categoria' class="form-control" name="id_categoria" type="text" value="" required>
+                    <option value="">Seleccionar..</option>
+                    <option value="1">cat1</option>
+                    <option value="2">cat2</option>
+                    <option value="3">cat3</option>
+                  </select>
+                </td>
+                <td class="td_right">Costo:</td>
+                <td colspan="3">
+                  <input id="costo" class="form-control" name="costo" type="text" value="" required>
+                </td>
+                <td class="td_right">Margen:</td>
+                <td colspan="3">
+                  <input id="margen" class="form-control" name="margen" type="text" value="" required>
+                </td>
+              </tr>
+              <tr>
+                <td class="td_right">Precio:</td>
+                <td colspan="3">
+                  <input id="precio" class="form-control" name="precio" type="text" value="" required>
+                </td>
+                <td class="td_right">Precio anterior:</td>
+                <td colspan="3">
+                  <input id="precio_anterior" class="form-control" name="precio_anterior" type="text" value="" required>
+                </td>
+                <td class="td_right">Unidad:</td>
+                <td colspan="3">
+                  <input id="unidad" class="form-control" name="unidad" type="text" value="" required>
+                </td>
+              </tr>
+              <tr>
+               <td class="td_right">Estatus:</td>
+               <td colspan="3">
+                <select id='id_estatus' class="form-control" name="id_estatus" type="text" value="" required>
+                  <option value="">Seleccionar..</option>
+                  <option value="1">Activo</option>
+                  <option value="2">Inactivo</option>
+                  <option value="3">Suspendido</option>
+                </select>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <button type="submit" class="btn btn-success"  id="guardarArticulo" style="float: right;margin-top: -30px;"><span class="glyphicon glyphicon-ok" ></span>Guardar</button>
+      </form>
+      <button type="submit" class="btn btn-success"  id="actuArticulo" style="float: right;margin-top: -30px;"><span class="glyphicon glyphicon-refresh" ></span>Actualizar</button>
+    </form>
+
+    <div class="alert alert-success" id='msj-guarda-articulo' style="font-size:24px !important;">
+      <strong>Aviso!</strong> Artículo Guardado con éxito.
+    </div>
+    <div class="alert alert-success" id='msj-articulo-actu' style="font-size:24px !important;">
+      <strong>Aviso!</strong> Artículo actualizado con éxito.
+    </div>
+
+
+    <?php } ?>
+    
+    <div class="modal-footer">
+     <button type="submit" class="btn btn-default" data-dismiss="modal" id="cancelar"><span class="glyphicon glyphicon-remove"></span>Cerrar</button>
+
+
+   </div>
+ </div>
+</div>
+
+</div>
+</div>

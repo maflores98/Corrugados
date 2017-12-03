@@ -1,0 +1,66 @@
+#contenedor{
+  margin: 0px auto;
+  width: 374px;
+  height: 115px;
+}
+table th{
+  color: #000;
+}
+.reloj{
+  margin: -35px 0px -30px 0px;
+  float: left;
+  font-size: 108px;
+  font-family: 'DS-Digital', arial;
+  color: #363431;
+}
+.boton{
+  outline: none;
+  border: 1px solid #dddddd;
+  color: black;
+  width: 128px;
+  height: 40px;
+  //text-shadow: 0px -1px 1px black;
+  font-size: 20px;
+  border-radius: 5px;
+  font-family: Helvetica;
+  cursor: pointer;
+  background-image: linear-gradient(#dddddd,#dddddd);
+  color: black;
+}
+.boton:active{
+  background-image: linear-gradient(#dddddd,#dddddd);
+  color: black;
+}
+.boton:hover{
+  box-shadow: 0px 0px 14px #9e9e9e;
+  color: black;
+}
+
+.boton:disabled{
+  background-image: linear-gradient(#337ab7,#337ab7);
+  border: 1px solid #337ab7;
+  box-shadow: none;
+  color: white;
+  //text-decoration:line-through;
+}
+h4.bs-titulo {
+  font-size: 14px;
+  font-weight: bold;
+}
+.bs-titulo {
+  margin-top: -10px;
+  padding-left: 5px;
+  margin-bottom: 0px;
+}
+.bs-titulo span { 
+  color: grey;
+  background-color: white;
+  padding: 0 8px 0 8px;
+}
+.modal-dialog
+{
+  width: 40%;
+}
+.btn-preview{
+  padding: 2px 3px;
+}

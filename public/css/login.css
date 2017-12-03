@@ -1,0 +1,14 @@
+#logo {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 232px;
+    height: 185px;
+    z-index: 1;
+    background-image: url(images/logo.png);
+    background-repeat: no-repeat;
+    cursor: pointer;
+    cursor: hand;
+}
+
+

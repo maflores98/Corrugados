@@ -1,0 +1,278 @@
+/*! Isaac Alejandro López Castrejón | 2017 */
+/*pesos*/
+.form-group-lg .currency
+{
+    padding-left:19px;
+}
+
+.form-group-lg .currency-symbol
+{
+    position: absolute;
+    z-index: 10;
+    margin-left: 6px;
+    margin-top: 10px;
+    font-size: 18px;
+    bottom: 0;
+    left: 16px;
+}
+
+.form-group .currency
+{
+    padding-left:17px;
+}
+
+.form-group .currency-symbol
+{
+    position: absolute;
+    z-index: 10;
+    margin-left: 6px;
+    margin-top: 7px;
+    bottom: 0;
+    left: 16px;
+}
+
+.form-group-sm .currency
+{
+    padding-left:16px;
+}
+
+.form-group-sm .currency-symbol
+{
+    position: absolute;
+    z-index: 10;
+    margin-left: 5px;
+    margin-top: 5px;
+    bottom: 0;
+    left: 16px;
+}
+/*pesos*/
+
+/*pesos*/
+.col-sm-1 .form-group-sm .currency
+{
+    padding-left:16px;
+    padding-right: 0px;
+}
+
+.col-sm-1 .form-group-sm .currency-symbol
+{
+    position: absolute;
+    z-index: 10;
+    margin-left: 5px;
+    margin-top: 5px;
+    bottom: 0;
+    left: 16px;
+}
+/*pesos*/
+
+/*centimetros*/
+.form-group-lg .input_centimetros
+{
+    padding-right: 31px;
+}
+
+.form-group-lg .span_centimetros
+{
+    position: absolute;
+    right: 21px;
+    z-index: 10;
+    font-size: 18px;
+    bottom: 0;
+    margin-bottom: 11px
+}
+
+.form-group .input_centimetros
+{
+    padding-right: 24px;
+}
+
+.form-group .span_centimetros
+{
+    position: absolute;
+    right: 21px;
+    z-index: 10;
+    bottom: 0;
+    margin-bottom: 22px;
+}
+
+.form-group-sm .input_centimetros
+{
+    padding-right: 20px;
+}
+
+.form-group-sm .span_centimetros
+{
+    position: absolute;
+    right: 21px;
+    z-index: 10;
+    font-size: 11px;
+    bottom: 0;
+    margin-bottom: 7px;
+}
+/*centimetros*/
+
+/*centimetros especiales*/
+.col-sm-1 .form-group-sm .input_centimetros
+{
+    padding-right: 19px;
+}
+
+.col-sm-1 .form-group-sm .span_centimetros
+{
+    position: absolute;
+    right: 4px;
+    z-index: 10;
+    font-size: 11px;
+    bottom: 0;
+    margin-bottom: 7px;
+}
+/*centimetros especiales*/
+
+/*piezas*/
+.form-group-lg .input_cantidad
+{
+    padding-right: 40px;
+}
+
+.form-group-lg .span_cantidad
+{
+    position: absolute;
+    right: 21px;
+    z-index: 10;
+    bottom: 0;
+    margin-bottom: 13px;
+}
+
+.form-group .input_cantidad
+{
+    padding-right: 33px;
+}
+
+.form-group .span_cantidad
+{
+    position: absolute;
+    right: 21px;
+    z-index: 10;
+    font-size: 11px;
+    bottom: 0;
+    margin-bottom: 24px;
+}
+
+.form-group-sm .input_cantidad
+{
+    padding-right: 30px;
+}
+
+.form-group-sm .span_cantidad
+{
+    position: absolute;
+    right: 21px;
+    z-index: 10;
+    font-size: 11px;
+    bottom: 0;
+    margin-bottom: 7px;
+}
+/*piezas*/
+
+/*piezas especiales*/
+.col-sm-1 .form-group-sm .input_cantidad
+{
+    padding-right: 27px;
+}
+
+.col-sm-1 .form-group-sm .span_cantidad
+{
+    position: absolute;
+    right: 3px;
+    z-index: 10;
+    font-size: 11px;
+    bottom: 0;
+    margin-bottom: 7px;
+}
+/*piezas especiales*/
+
+.form-group-lg .input_porcentaje
+{
+    padding: 7px 23px 7px 12px !important;
+}
+
+.form-group-lg .span_porcentaje
+{
+    position: absolute;
+    right: 22px;
+    z-index: 10;
+    bottom: 0px;
+    margin-bottom: 11px;
+}
+
+.form-group .input_porcentaje
+{
+    padding: 7px 23px 7px 12px !important;
+}
+
+.form-group .span_porcentaje
+{
+    position: absolute;
+    right: 22px;
+    z-index: 10;
+    bottom: 0px;
+    margin-bottom: 21px;
+}
+
+.form-group-sm .input_porcentaje
+{
+    padding: 7px 23px 7px 12px !important;
+}
+
+.form-group-sm .span_porcentaje
+{
+    position: absolute;
+    right: 22px;
+    z-index: 10;
+    bottom: 0px;
+    margin-bottom: 5px;
+}
+
+.form-group-lg .input_horas
+{
+    padding-right: 31px;
+}
+
+.form-group-lg .span_horas
+{
+    position: absolute;
+    right: 21px;
+    z-index: 10;
+    font-size: 18px;
+    bottom: 0;
+    margin-bottom: 11px
+}
+
+.form-group .input_horas
+{
+    padding-right: 24px;
+}
+
+.form-group .span_horas
+{
+    position: absolute;
+    right: 21px;
+    z-index: 10;
+    bottom: 0;
+    margin-bottom: 22px;
+}
+
+.form-group-sm .input_horas
+{
+    padding-right: 20px;
+}
+
+.form-group-sm .span_horas
+{
+    position: absolute;
+    right: 21px;
+    z-index: 10;
+    font-size: 11px;
+    bottom: 0;
+    margin-bottom: 7px;
+}

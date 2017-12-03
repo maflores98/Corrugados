@@ -1,0 +1,42 @@
+<style>
+#Modal_Ordenes .modal-dialog {
+     width: 80%; 
+}
+</style>
+<script>
+$(document).ready(function()
+{
+    //modal_orden();
+    function modal_orden()
+    {
+        $("#div_orden input, #div_orden select").each(function()
+        {
+            $(this).attr('readonly','true');
+        });
+        $("#div_opciones").addClass("display_none");
+        $('#Modal_Ordenes').modal('show');
+        $("#Modal_Ordenes #div_orden input:checkbox").removeAttr("checked");
+        $("#Modal_Ordenes #div_orden input").val("");
+        $("#Modal_Ordenes #div_orden textarea").val("");
+        $("#Modal_Ordenes #div_orden select").val("");
+        $("#Modal_Ordenes #div_orden")[0].reset();
+    }
+});
+</script>
+<div id="Modal_Ordenes" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Orden </h4>
+            </div>
+            <div class="modal-body">
+                <?= $this->partial('partials/orden.phtml'); ?>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>

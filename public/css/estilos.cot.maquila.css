@@ -1,0 +1,39 @@
+/*! Isaac Alejandro López Castrejón | 2017 */
+.label_input
+{
+    position: absolute;
+    z-index: 10;
+    font-size: 11px;
+    top: -14px;
+}
+
+.margin_t_85
+{
+    margin-top: 35px;
+}
+
+.margi_top_15px
+{
+    margin-top: 15px;
+}
+
+.margin_b_20
+{
+    margin-bottom: 20px;
+}
+
+.padding-left-15
+{
+    padding-left: 0px;
+}
+
+.padding-right-15
+{
+    padding-right: 0px;
+}
+
+.label_checkbox
+{
+    font-size: 10px;
+    text-align: left;
+}

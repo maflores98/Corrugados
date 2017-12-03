@@ -1,0 +1,616 @@
+<style>
+
+input[type=date]::-webkit-outer-spin-button,
+
+input[type=date]::-webkit-inner-spin-button {
+
+	-webkit-appearance: none;
+	margin: 0;
+
+} 
+
+input[type=date] {
+
+	-moz-appearance:textfield;
+
+}
+
+.helper {
+	margin-top: -19px;
+	margin-bottom: 0px;
+	font-size: 12px;
+}
+
+.bs-panel-interno{
+	margin-bottom: 0px;
+}
+h4.bs-titulo {
+	font-size: 14px;
+	font-weight: bold;
+}
+.bs-titulo {
+	margin-top: -10px;
+	padding-left: 5px;
+	margin-bottom: 0px;
+}
+.bs-titulo span { 
+	background-color: white;
+	padding: 0 8px 0 8px;
+}
+
+.bs-body{
+	padding: 0 10px 0 10px;
+}
+
+.bs-sm{
+	width: 65px !important;
+}
+
+.bs-md{
+	width: 84px !important;
+}
+
+label{
+	font-size: 13px;
+}
+
+</style>
+<script src="<?php echo $this->baseUrl(); ?>/js/script.ord.produc.js"></script>
+<div id="div_orden">
+    <div class="row">
+            <div class="col-md-3">
+                    <div class="form-horizontal">
+                            <div class="form-group">
+                                    <label for="inputtext3" class="col-md-4 control-label">Folio OP:</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" id="id_ordenproduccion" name="id_ordenproduccion" placeholder="00000">
+                                    </div>
+                            </div>
+                    </div>
+
+            </div>
+
+            <div class="col-md-3">
+
+                    <div class="form-horizontal">
+                            <div class="form-group">
+                                    <label for="inputtext3" class="col-md-6 control-label">Folio OC prov:</label>
+                                    <div class="col-md-6">
+                                            <input type="text" class="form-control" id="id_ordenmaterial" name="id_ordenmaterial" placeholder="00000">
+                                    </div>
+                            </div>
+                    </div>
+
+            </div>
+    </div>
+
+    <div class="row">
+            <div class="col-md-6">
+                    <div class="form-horizontal">
+                            <div class="form-group">
+                                    <label for="inputtext3" class="col-md-2 control-label">Cliente:</label>
+                                    <div class="col-md-10">
+                                            <input type="text" class="form-control" id="id_cliente" name="id_cliente" placeholder="id_cliente + nombre_cliente">
+                                    </div>
+                            </div>
+                    </div>
+            </div>
+            <div class="col-md-3">
+                    <div class="form-horizontal">
+                            <div class="form-group">
+                                    <label for="inputtext3" class="col-md-6 control-label">F. OC Cliente:</label>
+                                    <div class="col-md-6">
+                                            <input type="text" class="form-control" id="id_ordencompra" name="id_ordencompra" placeholder="00000">
+                                    </div>
+                            </div>
+                    </div>
+            </div>
+            <div class="col-md-3">
+                    <div class="form-horizontal">
+                            <div class="form-group">
+                                    <label for="inputtext3" class="col-md-6 control-label">Fecha registro:</label>
+                                    <div class="col-md-6">
+                                            <input type="date" class="form-control" id="inputtext3" >
+                                    </div>
+                            </div>
+                    </div>
+            </div>
+    </div>
+
+    <div class="row">
+            <div class="col-md-6">
+                    <div class="form-horizontal">
+                            <div class="form-group">
+                                    <label for="inputtext3" class="col-md-2 control-label">Trabajo:</label>
+                                    <div class="col-md-10">
+                                            <input type="text" class="form-control" id="nombre_trabajo" name="nombre_trabajo" placeholder="Trabajo">
+                                    </div>
+                            </div>
+                    </div>
+            </div>
+            <div class="col-md-3">
+                    <div class="form-horizontal">
+                            <div class="form-group">
+                                    <label for="inputtext3" class="col-md-6 control-label">F. cotización:</label>
+                                    <div class="col-md-6">
+                                            <input type="text" class="form-control" id="id_cotizacion" name="id_cotizacion" placeholder="00000">
+                                    </div>
+                            </div>
+                    </div>
+            </div>
+            <div class="col-md-3">
+                    <div class="form-horizontal">
+                            <div class="form-group">
+                                    <label for="inputtext3" class="col-md-6 control-label">Fecha entrega:</label>
+                                    <div class="col-md-6">
+                                            <input type="date" class="form-control" id="inputtext3" >
+                                    </div>
+                            </div>
+                    </div>
+            </div>
+
+    </div>
+    <br>
+    <div class="row">
+            <div class="col-md-3">
+                    <div class="form-horizontal">
+                            <div class="form-group">
+                                    <label for="inputtext3" class="col-md-6 control-label">Cant. requerida</label>
+                                    <div class="col-md-6">
+                                            <input type="text" class="form-control" id="cant_requerida" name="cant_requerida" placeholder="cant_requerida">
+                                    </div>
+                            </div>
+                    </div>
+            </div>
+            <div class="col-md-4">
+                    <div class="form-horizontal">
+                            <div class="form-group">
+                                    <label class="col-md-3 control-label">M. Final:</label>
+
+                                    <div class="col-sm-3">
+                                            <span class="help-block helper">Frente</span>
+                                            <input type="text" class="form-control" id="med_frente" name="med_frente" placeholder="Frente">
+
+
+                                    </div>
+                                    <div class="col-sm-3">
+
+                                            <span class="help-block helper">Fondo</span>
+                                            <input type="text" class="form-control" id="med_fondo" name="med_fondo" placeholder="Fondo">
+
+                                    </div>
+                                    <div class="col-sm-3">
+
+                                            <span class="help-block helper">Alto</span>
+                                            <input type="text" class="form-control" id="med_alto" name="med_alto" placeholder="Alto">
+
+                                    </div>
+                            </div>
+                    </div>
+            </div>
+            <div class="col-md-2">
+                    <div class="row">
+                            <div class="radio">
+                                    <label class="radio-inline">
+                                            <input type="radio" name="inlineRadioOptions" id="caja" name="tipo_medida" value="option1"> M. Caja
+                                    </label>
+                                    <label class="radio-inline">
+                                            <input type="radio" name="inlineRadioOptions" id="carton" name="tipo_medida" value="option2"> M. Carton
+                                    </label>
+                            </div>
+                    </div>
+            </div>
+            <div class="col-md-1">
+
+                    <span class="help-block helper">Largo</span>
+                    <input type="text" class="form-control" id="med_largo" name="med_largo" placeholder="text">
+
+            </div>
+
+            <div class="col-md-1">
+
+                    <span class="help-block helper">Ancho</span>
+                    <input type="text" class="form-control" id="med_ancho" name="med_ancho" placeholder="text">
+
+            </div>
+            <div class="col-md-1">
+
+                    <span class="help-block helper">Med. req</span>
+                    <input type="text" class="form-control" id="med_requerido" placeholder="text">
+
+            </div>
+    </div>
+    <div class="row">
+            <div class="col-md-4">
+                    <div class="form-horizontal">
+                            <div class="form-group">
+                                    <label for="articulo" class="col-md-3 control-label">Articulo:</label>
+                                    <div class="col-md-9">
+                                            <select class="form-control" id="articulo" name="articulo">
+                                                    <option>Mustard</option>
+                                                    <option>Ketchup</option>
+                                                    <option>Relish</option>
+                                            </select>
+                                    </div>
+                            </div>
+                    </div>
+                    <div class="form-horizontal">
+                            <div class="form-group">
+                                    <label for="tipo_producto" class="col-md-3 control-label">Producto:</label>
+                                    <div class="col-md-9" id="tipo_producto" name="tipo_producto" >
+                                            <select class="form-control">
+                                                    <option>Mustard</option>
+                                                    <option>Ketchup</option>
+                                                    <option>Relish</option>
+                                            </select>
+                                    </div>
+                            </div>
+                    </div>
+            </div>
+            <div class="col-md-8">
+                    <div class="panel panel-default">
+                            <h4 class="bs-titulo"><span>Material</span></h4>
+                            <div class="panel-body bs-body">
+                                    <div class="col-md-5">
+                                            <div class="radio">
+                                                    <label><input type="radio" id="mat-corrugados" name="selector_material" value="8">Corrugados</label>
+                                            </div>
+                                            <div class="radio">
+                                                    <label><input type="radio" id="mat-kaples" name="selector_material" value="9">Kaples y sulfatadas</label>
+                                            </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                            <div class="form-horizontal">
+                                                    <div class="form-group">
+                                                            <label for="tipo_material" class="col-md-3 control-label">Tipo:</label>
+                                                            <div class="col-md-9">
+                                                                    <select class="form-control" id="tipo_material" name="tipo_material">
+                                                                            <option>Mustard</option>
+                                                                            <option>Ketchup</option>
+                                                                            <option>Relish</option>
+                                                                    </select>
+                                                            </div>
+                                                    </div>
+                                            </div>
+                                            <div class="form-horizontal">
+                                                    <div class="form-group">
+                                                            <label for="carton" class="col-md-3 control-label">Carton:</label>
+                                                            <div class="col-md-9">
+                                                                    <select class="form-control" id="carton" name="carton">
+                                                                            <option>Mustard</option>
+                                                                            <option>Ketchup</option>
+                                                                            <option>Relish</option>
+                                                                    </select>
+                                                            </div>
+                                                    </div>
+                                            </div>
+                                    </div>
+                            </div>
+                    </div>
+            </div>
+    </div>
+    <div class="row">
+            <div class="col-md-6">
+                    <div class="panel panel-default">
+                            <div class="bs-titulo">
+                                    <h4 class="bs-titulo"><span>Suajado</span></h4>
+                            </div>
+                            <div class="panel-body">
+                                    <div class="row">
+                                            <div class="col-md-6">
+                                                    <div class="panel panel-default bs-panel-interno">
+                                                            <h5 class="bs-titulo"><span>Maquina</span></h5>
+                                                            <div class="panel-body bs-body">
+                                                                    <div class="radio">
+                                                                            <label><input type="radio" id="maq-automatica" name="maquina_suajado" value="7" data-maquina="SUAJADORA AUTOMATICA" data-proceso="11">Automatica</label>
+                                                                    </div>
+                                                                    <div class="radio">
+                                                                            <label><input type="radio" id="maq-quijada1" name="maquina_suajado" value="8" data-maquina="SUAJADORA QUIJADA 1" data-proceso="12" >Quijada 1</label>
+                                                                    </div>
+                                                                    <div class="radio">
+                                                                            <label><input type="radio" id="maq-quijada2" name="maquina_suajado" value="9" data-maquina="SUAJADORA QUIJADA 2" data-proceso="13" >Quijada 2</label>
+                                                                    </div>
+                                                                    <div class="radio">
+                                                                            <label><input type="radio" id="maq-plana" name="maquina_suajado" value="10" data-maquina="SUAJADORA PLANA" data-proceso="14">Plana</label>
+                                                                    </div>
+                                                            </div>
+                                                    </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                    <div class="form-horizontal">
+                                                            <div class="form-group">
+                                                                    <label for="med_suaje" class="col-md-6 control-label">Medida lineal:</label>
+                                                                    <div class="col-md-6">
+                                                                            <input type="text" class="form-control" id="med_suaje" name="med_suaje" >
+                                                                    </div>
+                                                            </div>
+                                                    </div>
+                                                    <div class="form-horizontal">
+                                                            <div class="form-group">
+                                                                    <label for="med_clto" class="col-md-6 control-label">Medida clto:</label>
+                                                                    <div class="col-md-6">
+                                                                            <input type="text" class="form-control" id="med_clto" name="med_clto" >
+                                                                    </div>
+                                                            </div>
+                                                    </div>
+                                                    <div class="form-horizontal">
+                                                            <div class="form-group">
+                                                                    <label for="tipo_desbarbe" class="col-md-6 control-label">Desbarbe:</label>
+                                                                    <div class="col-md-6">
+                                                                            <input type="text" class="form-control" id="tipo_desbarbe" name="tipo_desbarbe">
+                                                                    </div>
+                                                            </div>
+                                                    </div>
+                                            </div>
+                                    </div>
+                            </div>
+                    </div>
+                    <div class="panel panel-default">
+                            <h4 class="bs-titulo"><span>Pegado</span></h4>
+                            <div class="panel-body">
+                                    <div class="row">
+                                            <div class="col-md-12">
+                                                    <div class="panel panel-default bs-panel-interno">
+                                                            <h5 class="bs-titulo"><span>Maquina</span></h5>
+                                                            <div class="panel-body bs-body">
+                                                                    <div class="col-md-6">
+
+                                                                            <div class="radio">
+                                                                                    <label><input type="radio" id="pegado-cajas" name="tipo_pegado" value="4" data-maquina="PEGADORA CORRUGADOS" data-proceso="8">Pegadora de cajas</label>
+                                                                                    <label><input type="radio" id="pegado-chica" name="tipo_pegado" value="12" data-maquina="PEGADORA LINEAL CHICA" data-proceso="16">Pegadora lineal chica</label>
+                                                                            </div>
+                                                                    </div>
+
+                                                                    <div class="col-md-6">
+                                                                            <div class="radio">
+                                                                                    <label><input type="radio" id="pegado-grande" name="tipo_pegado" value="11" data-maquina="PEGADORA LINEAL GRANDE" data-proceso="15">Pegadora lineal grande</label>
+                                                                                    <label><input type="radio" id="pegado-manual" name="tipo_pegado" value="13" data-maquina="PEGADO MANUAL" data-proceso="17">Pegado Manual</label>
+                                                                            </div>
+                                                                    </div>
+
+                                                            </div>
+                                                    </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                    <br>
+                                                    <div class="col-md-4">
+                                                            <div class="checkbox">
+                                                                    <label><input type="checkbox" value="" name="predoblado" id="predoblado">Predoblado</label>
+                                                            </div>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                            <div class="form-horizontal">
+                                                                    <div class="form-group">
+                                                                            <label for="cve_pegamento" class="col-md-6 control-label" style="text-align: left;">
+                                                                                    Clave pegamento:
+                                                                            </label>
+                                                                            <div class="col-md-6">
+                                                                                    <input type="text" class="form-control" id="cve_pegamento" name="cve_pegamento">
+                                                                            </div>
+                                                                    </div>
+                                                            </div>
+                                                    </div>
+
+                                            </div>
+                                            <div class="col-md-12">
+                                                    <div class="panel panel-default">
+                                                            <div class="panel-body">
+                                                                    <div class="col-md-12">
+                                                                            <center>
+                                                                                    <label class="radio-inline"><input type="radio" id="pegado-disco" name="pegado_con">Con disco</label>
+                                                                                    <label class="radio-inline"><input type="radio" id="pegado-inyector" name="pegado_con">Con inyector</label>
+                                                                            </center>
+                                                                    </div>
+                                                            </div>
+                                                    </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                    <div class="panel panel-default" style="margin-bottom: 2px;">
+                                                            <div class="panel-body bs-body">
+                                                                    <div class="form-inline">
+                                                                            <center>
+                                                                                    <div class="checkbox">
+                                                                                            <label><input type="checkbox" value="15" name="grapado" data-maquina="ENGRAPADORA" data-proceso="18"> Grapado</label>
+                                                                                    </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                                    <div class="form-group" style="margin-bottom: 0px; margin-top: 10px;">
+                                                                                            <label for="text">Núm. grapas:</label>
+                                                                                            <input type="text" class="form-control" id="num_grapas" name="num_grapas">
+                                                                                    </div>
+                                                                            </center>
+                                                                    </div> 
+                                                            </div>
+                                                    </div>
+                                            </div>
+                                    </div>
+                            </div>
+                    </div>
+
+                    <div class="row">
+                            <div class="col-md-6">
+                                    <div class="panel panel-default">
+                                            <h4 class="bs-titulo"><span>Envío</span></h4>
+                                            <div class="panel-body">
+                                                    <label class="radio-inline"><input type="radio" id="domicilio" name="tipo_envio">A domicilio</label>
+                                                    <label class="radio-inline"><input type="radio" id="cliente" name="tipo_envio">Cliente recoge</label>
+                                            </div>
+                                    </div>
+                            </div>
+                            <div class="col-md-6">
+                                    <div class="panel panel-default">
+                                            <h4 class="bs-titulo"><span>Entrega</span></h4>
+                                            <div class="panel-body">
+                                                    <label class="radio-inline"><input type="radio" id="ent-parcial" name="tipo_entrega">Parcial</label>
+                                                    <label class="radio-inline"><input type="radio" id="ent-total" name="tipo_entrega">Total</label>
+                                            </div>
+                                    </div>
+                            </div>
+                    </div>
+
+            </div>
+
+            <div class="col-md-6">
+                    <div class="panel panel-default">
+                            <h4 class="bs-titulo"><span>Ranurado</span></h4>
+                            <div class="panel-body">
+                                    <label>Maquina:&nbsp;&nbsp;</label>
+                                    <label class="radio-inline"><input type="radio" id="maq-flexografica" name="maquina_ranurado" value="3" data-maquina="FLEXOGRAFICA" data-proceso="7">Flexografica</label>
+                                    <label class="radio-inline"><input type="radio" id="maq-caiman" name="maquina_ranurado" value="1" data-maquina="CAIMAN" data-proceso="1">Caiman</label>
+                            </div>
+                    </div>
+                    <div class="panel panel-default">
+                            <h4 class="bs-titulo"><span>Refiladora</span></h4>
+                            <div class="panel-body">
+                                    <label>Proceso:&nbsp;&nbsp;</label>
+                                    <label class="radio-inline"><input type="radio" name="proceso_refilado" id="maq-refilado" value="2" data-maquina="REFILADORA" data-proceso="2">Refilado</label>
+                                    <label class="radio-inline"><input type="radio" name="proceso_refilado" id="maq-rayado" value="2" data-maquina="REFILADORA" data-proceso="3">Rayado</label>
+                                    <label class="radio-inline"><input type="radio" name="proceso_refilado" id="maq-refilado-rayado" value="2" data-maquina="REFILADORA" data-proceso="4">Refilado + Rayado</label>
+                            </div>
+                    </div>
+                    <div class="panel panel-default">
+                            <h4 class="bs-titulo"><span>Empalme</span></h4>
+                            <div class="panel-body">
+                                    <label>Maquina:&nbsp;&nbsp;</label>
+                                    <label class="radio-inline"><input type="radio" id="maq-auto" name="maquina_empalme" value="5" data-maquina="EMPALMADORA AUTOMATICA" data-proceso="9">Automatica</label>
+                                    <label class="radio-inline"><input type="radio" id="maq-semi" name="maquina_empalme" value="6" data-maquina="EMPALMADORA SEMIAUTOMATICA" data-proceso="10">Semi-automatica</label>
+                            </div>
+                    </div>
+                    <div class="panel panel-default">
+                            <h4 class="bs-titulo"><span>Impresion</span></h4>
+                            <div class="panel-body">
+                                    <div class="row">
+                                            <div class="col-md-2">
+                                                    <div class="radio">
+                                                            <label><input type="radio" name="tipo_impresion" id="imp-flexo" name="tipo_impresion" value="3" data-maquina="FLEXOGRAFICA" data-proceso="5">Flexo</label>
+                                                    </div>
+                                                    <div class="radio">
+                                                            <label><input type="radio" name="tipo_impresion" id="imp-offset" name="tipo_impresion" value="14" data-maquina="OFFSET" data-proceso="19">Offset</label>
+                                                    </div>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                    <span class="help-block helper">Num tintas</span>
+                                                    <input type="text" class="form-control" id="num_tintas" name="num_tintas" >
+                                            </div>
+                                            <div class="col-md-2">
+                                                    <span class="help-block helper">Largo</span>
+                                                    <input type="text" class="form-control" id="largo_tinta1" name="largo_tinta1">
+                                                    <input type="text" class="form-control" id="largo_tinta2" name="largo_tinta2">
+                                            </div>
+                                            <div class="col-md-2">
+                                                    <span class="help-block helper">Ancho</span>
+                                                    <input type="text" class="form-control" id="ancho_tinta1" name="ancho_tinta1" >
+                                                    <input type="text" class="form-control" id="ancho_tinta2" name="ancho_tinta2" >	
+                                            </div>
+                                            <div class="col-md-2">
+                                                    <span class="help-block helper">Largo</span>
+                                                    <input type="text" class="form-control" id="largo_tinta3" name="largo_tinta3">
+                                                    <input type="text" class="form-control" id="largo_tinta4" name="largo_tinta4">	
+                                            </div>
+                                            <div class="col-md-2">
+                                                    <span class="help-block helper">Ancho</span>
+                                                    <input type="text" class="form-control" id="ancho_tinta3" name="ancho_tinta3" >
+                                                    <input type="text" class="form-control" id="ancho_tinta4" name="ancho_tinta4" >	
+                                            </div>
+                                    </div>
+                            </div>
+                    </div>
+                    <div class="panel panel-default">
+                            <h4 class="bs-titulo"><span>Empaque</span></h4>
+                            <br>
+                            <div class="panel-body">
+                                    <div class="form-inline">
+                                            <div class="form-group">
+                                                    <span class="help-block helper">Ligas</span>
+                                                    <input type="text" class="form-control bs-sm" id="num_ligas" placeholder="0" name="num_ligas">
+                                            </div>
+                                            <div class="form-group">
+                                                    <span class="help-block helper">Fajillas</span>
+                                                    <input type="text" class="form-control bs-sm" id="num_fajillas" placeholder="0" name="num_fajillas">
+                                            </div>
+                                            <div class="form-group">
+                                                    <span class="help-block helper">Granel</span>
+                                                    <input type="text" class="form-control bs-sm" id="cant_granel" placeholder="0" name="cant_granel">
+                                            </div>
+                                            <div class="form-group">
+                                                    <span class="help-block helper">C. x Paquete</span>
+                                                    <input type="text" class="form-control bs-md" id="cant_xpaquete" placeholder="0" name="cant_xpaquete">
+                                            </div>
+                                            <div class="form-group">
+                                                    <span class="help-block helper">C. x corrug</span>
+                                                    <input type="text" class="form-control bs-md" id="cant_xcorrugado" placeholder="0" name="cant_xcorrugado">
+                                            </div>
+                                            <div class="form-group">
+                                                    <span class="help-block helper">Tarima</span>
+                                                    <input type="text" class="form-control bs-sm" id="cant_xtarima" placeholder="0" name="cant_xtarima">
+                                            </div>
+                                    </div>
+                                    <div>
+                                            <center>
+                                                    <label class="checkbox-inline"><input type="checkbox" id="esquineros" name="esquineros">Esquineros</label>
+                                                    <label class="checkbox-inline"><input type="checkbox" id="emplayado" name="emplayado">Emplayado</label>
+                                                    <label class="checkbox-inline"><input type="checkbox" id="flejado" name="flejado">Flejado</label>
+                                            </center>
+                                    </div>
+                            </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                            <h4 class="bs-titulo"><span>Notas</span></h4>
+                            <div class="panel-body">
+                                    <div class="form-group">
+                                            <textarea class="form-control" rows="2" id="notas" name="notas">rthbsrtgbsgb</textarea>
+                                    </div>
+                            </div>
+                    </div>
+
+                    <div id="div_opciones" class="panel panel-default display_none">
+                            <h4 class="bs-titulo"><span>Opciones</span></h4>
+                            <div class="panel-body">
+                                    <button type="button" class="btn btn-default" id="btn-liberar">Liberar</button>
+                            </div>
+                    </div>
+
+            </div>
+    </div>
+</div>
+<script type="text/javascript">
+	$('input[type=radio]').click(function(e){
+		if (e.ctrlKey) {
+			$(this).prop('checked', false);
+		}
+	});
+
+	$('#btn-liberar').click(function(){
+		if($('input[name="maquina_suajado"]:radio').is(':checked')){
+			alert("Suajado");
+		}
+
+		if($('input[name="tipo_pegado"]:radio').is(':checked')){
+			alert("Pegado");
+		}
+
+		if($('input[name="grapado"]:checkbox').is(':checked')){
+			alert("Grapado");
+		}
+
+		if($('input[name="maquina_ranurado"]:radio').is(':checked')){
+			alert("Ranurado");
+		}
+
+		if($('input[name="proceso_refilado"]:radio').is(':checked')){
+			alert("refilado");
+		}
+
+		if($('input[name="maquina_empalme"]:radio').is(':checked')){
+			alert("empalme");
+		}
+
+		if($('input[name="tipo_impresion"]:radio').is(':checked')){
+			alert("impresion");
+		}
+
+	});
+
+</script>

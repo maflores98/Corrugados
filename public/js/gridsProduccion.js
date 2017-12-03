@@ -416,7 +416,7 @@ var enPendiente = $('#enPendiente').DataTable({
 	//"info" : false,
 	"searching": true,
 	"paging":    false,
-	"scrollY":   '10vh',
+	"scrollY":   '25vh',
 	"scrollX": true			
 });
 
@@ -435,7 +435,8 @@ var enPendiente = $('#enPendiente').DataTable({
 		reinicio();
 		//orden = $(this).find('td').eq(0).html();
 		orden = $(this).find('button').data('fila');
-		alert(orden);
+		//alert(orden);
+		
 //extraerDatosEnPendiente(orden);
 
 /*$.post('consultarexisteajuste', {orden,ajuste},

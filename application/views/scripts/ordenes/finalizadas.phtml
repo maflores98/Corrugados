@@ -1,0 +1,69 @@
+  <div class="row">
+  	<div class="col-md-12 padding-right-15">
+  		<div class="row">
+  			<div class="col-md-12">
+  				<button id="nuevaOrden" class="btn btn-primary">Nueva</button>
+  			</div>
+  		</div>
+  		<br><br>
+		<div class="row">
+			<div class="col-md-12">
+			    <table id="ordFinalizadas" class="compact cell-border" cellspacing="0" width="100%" style="text-align: center;">
+			      <thead>
+			        <tr>
+			          <th>IdOrden</th>
+			          <th>Nombre Trabajo</th>
+			          <th>Estatus</th>
+			          <th>Cantidad</th>
+			          <th>Fecha Entrega</th>
+			        </tr>
+			      </thead>
+			      <tbody>
+			        <!--Registro de la BD-->
+			      </tbody>
+			    </table>				
+			</div>
+		</div>		  		
+  	</div>
+  </div>
+
+  <script>
+  	var ordFinalizadas = $('#ordFinalizadas').DataTable({
+	ajax:{
+		url: 'consultarfinalizadas'
+	}, 	
+	"columns":[
+	{data:"numorden",width:"5%"},
+	{data:"trabajo"},
+	{data:"estatus",width:"10%"},
+	{data:"cantidad",width:"10%"},
+	{data:"fecha_entrega",width:"10%"}
+	],
+	  "columnDefs": 
+	  [
+	  {"className": "dt-body-left", "targets": [1]},
+	  {"className": "dt-head-center", "targets": "_all"}
+	  ],	
+	//"info" : false,
+	"searching": true,
+	"paging":    false,
+	"scrollY":   '65vh',
+	"scrollX": true			
+});
+
+$('#ordFinalizadas tbody').on( 'click', 'tr', function () {
+	if ( $(this).hasClass('selected') ) {
+		$(this).removeClass('selected');
+	}
+	else {
+		ordFinalizadas.$('tr.selected').removeClass('selected');
+		$(this).addClass('selected');
+	}
+ 		var id = $(this).find('td').eq(0).html();
+ 		alert(id);
+ 	});  	
+
+ 	$("#nuevaOrden").click(function(){
+ 		window.location.href = "show";  		
+ 	});
+  </script>

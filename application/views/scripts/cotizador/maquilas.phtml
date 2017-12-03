@@ -1,0 +1,677 @@
+<link rel="stylesheet" href="<?php echo $this->baseUrl(); ?>/css/estilos.cot.maquila.css">
+<script src="<?php echo $this->baseUrl(); ?>/js/script.cot.maquilas.js"></script>
+<!--<div class="col-xs-12 display_none">
+    <div class="col-md-12"><span class="glyphicon glyphicon-folder-open"></span></div>
+    <div class="col-md-11"><span class="glyphicon glyphicon-folder-open"></span></div>
+    <div class="col-md-10"><span class="glyphicon glyphicon-folder-open"></span></div>
+    <div class="col-md-9"><span class="glyphicon glyphicon-folder-open"></span></div>
+    <div class="col-md-8"><span class="glyphicon glyphicon-folder-open"></span></div>
+    <div class="col-md-7"><span class="glyphicon glyphicon-folder-open"></span></div>
+    <div class="col-sm-6"><span class="glyphicon glyphicon-folder-open"></span></div>
+    <div class="col-sm-7"><span class="glyphicon glyphicon-folder-open"></span></div>
+    <div class="col-sm-5"><span class="glyphicon glyphicon-folder-open"></span></div>
+    <div class="col-sm-4"><span class="glyphicon glyphicon-folder-open"></span></div>
+    <div class="col-sm-3"><span class="glyphicon glyphicon-folder-open"></span></div>
+    <div class="col-sm-2"><span class="glyphicon glyphicon-folder-open"></span></div>
+    <div class="col-sm-1"><span class="glyphicon glyphicon-folder-open"></span></div>
+</div>-->
+<div class="col-xs-12 padding-right-15">
+    <div class="row">
+        <form id="contizador_maquila">
+            <div class="col-xs-12">
+                <div class="row">
+                    <div class="btn-group btn-group-justified">
+                        <span id="abrir" class="btn btn-md btn-success tabindex">Abrir <span class="glyphicon glyphicon-folder-open"></span></span>
+                        <span id="guardar" class="btn btn-md btn-primary tabindex">Guardar <span class="glyphicon glyphicon-floppy-disk"></span></span>
+                        <!--<span id="op" class="btn btn-md btn-info tabindex">Ord. Producción <span class="glyphicon glyphicon-list"></span></span>-->
+                        <!--<span id="imprimir" class="btn btn-md btn-warning tabindex">Imprimir <span class="glyphicon glyphicon-print"></span></span>-->
+                        <span id="limpiar" class="btn btn-md btn-default tabindex">Limpiar <span class="glyphicon glyphicon-erase"></span></span>
+                    </div>
+                </div>
+            </div>
+            <div id="container_print">
+                <div class="col-xs-12  margin_t_85 display_none">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group-sm">
+                                <label for="id_cot_maq" class="label_input">id cotizacion:</label>
+                                <input id="id_cot_maq" class="form-control readonly">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group-sm">
+                                <label for="id_produccion" class="label_input">Orden de Producción:</label>
+                                <input id="id_produccion" class="form-control readonly">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2 padding-right-15 margin_t_85">
+                    <div class="well">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group-sm">
+                                    <input id="porcentaje_cantidad" class="form-control input_porcentaje readonly" value="1">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-10 margin_t_85">
+                    <div class="well">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group-sm">
+                                    <label for="cantidad_cotizada" class="label_input">Cantidad cotizada:</label>
+                                    <input id="cantidad_cotizada" class="form-control input_cantidad tabindex" autofocus>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group-sm">
+                                    <label for="largo" class="label_input">Largo:</label>
+                                    <input id="largo" class="form-control input_centimetros tabindex">
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group-sm">
+                                    <label for="ancho" class="label_input">Ancho:</label>
+                                    <input id="ancho" class="form-control input_centimetros tabindex">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="well">
+                        <div class="row">
+                            <div class="col-sm-3 margin_b_20">
+                                <div class="form-group-sm">
+                                    <label for="precio_unitario" class="label_input">Precio unitario:</label>
+                                    <input id="precio_unitario" class="form-control currency readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-3 margin_b_20">
+                                <div class="form-group-sm">
+                                    <label for="importe" class="label_input">Importe:</label>
+                                    <input id="importe" class="form-control currency readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-3 margin_b_20">
+                                <div class="form-group-sm">
+                                    <label for="margen" class="label_input">Margen:</label>
+                                    <input id="margen" class="form-control currency readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-3 margin_b_20">
+                                <div class="form-group-sm">
+                                    <label for="total" class="label_input">Total:</label>
+                                    <input id="total" class="form-control currency readonly">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 text-center">
+                    <div class="well">
+                        <div class="row">
+                            <input class="tabindex" name="tipo_producto" type="radio" value="1" checked>&nbsp;Corrugados Precio Normal&nbsp;&nbsp;
+                            <input class="tabindex" name="tipo_producto" type="radio" value="2">&nbsp;Corrugados Precio Especial&nbsp;&nbsp;
+                            <input class="tabindex" name="tipo_producto" type="radio" value="3">&nbsp;Kaples y sulfatadas
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="well">
+                        <div class="row">
+                            <div class="col-sm-2 padding-left-15 padding-right-15">
+                                <div class="form-group-sm">
+                                    <input id="checkbox_empalme" class="tabindex" type="checkbox" name="checkbox_empalme">&nbsp;
+                                    <label for="checkbox_empalme" class="control-label label_checkbox">EMPALME</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15">
+                                <div class="form-group-sm">
+                                    <label for="empalme_med_min_unidad" class="label_input">Unidad:</label>
+                                    <input id="empalme_med_min_unidad" class="form-control readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15">
+                                <div class="form-group-sm">
+                                    <label for="empalme_med_min_largo" class="label_input">Largo:</label>
+                                    <input id="empalme_med_min_largo" class="form-control input_centimetros readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15">
+                                <div class="form-group-sm">
+                                    <label for="empalme_med_min_ancho" class="label_input">Ancho:</label>
+                                    <input id="empalme_med_min_ancho" class="form-control input_centimetros readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15">
+                                <div class="form-group-sm">
+                                    <label for="empalme_med_max_largo" class="label_input">Largo:</label>
+                                    <input id="empalme_med_max_largo" class="form-control input_centimetros readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15">
+                                <div class="form-group-sm">
+                                    <label for="empalme_med_max_ancho" class="label_input">Ancho:</label>
+                                    <input id="empalme_med_max_ancho" class="form-control input_centimetros readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15">
+                                <div class="form-group-sm">
+                                    <label for="empalme_med_max_merma" class="label_input">Merma:</label>
+                                    <input id="empalme_med_max_merma" class="form-control readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15">
+                                <div class="form-group-sm">
+                                    <label for="empalme_med_max_m2" class="label_input">M2:</label>
+                                    <input id="empalme_med_max_m2" class="form-control readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15">
+                                <div class="form-group-sm">
+                                    <label for="empalme_med_max_xunidad" class="label_input">$ x Unidad:</label>
+                                    <input id="empalme_med_max_xunidad" class="form-control currency readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15">
+                                <div class="form-group-sm">
+                                    <label for="empalme_med_max_importe" class="label_input">Importe:</label>
+                                    <input id="empalme_med_max_importe" class="form-control currency readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15">
+                                <div class="form-group-sm">
+                                    <label for="empalme_med_max_med_valida" class="label_input">Med. Valida?:</label>
+                                    <input id="empalme_med_max_med_valida" class="form-control readonly">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="well">
+                        <div class="row">
+                            <div class="col-sm-2 padding-left-15 padding-right-15">
+                                <div class="form-group-sm">
+                                    <input id="checkbox_suaje_automatico" class="tabindex" type="checkbox">&nbsp;
+                                    <label for="checkbox_suaje_automatico" class="control-label label_checkbox">SUAJE  AUTOMATICO</label>
+                                    <br/>
+                                    <input id="checkbox_suaje_automatico_arreglo" class="tabindex" type="checkbox">&nbsp;
+                                    <label for="checkbox_suaje_automatico_arreglo" class="control-label label_checkbox">ARREGLO SUAJE</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="suaje_automatico_med_min_unidad" class="label_input">Unidad:</label>
+                                    <input id="suaje_automatico_med_min_unidad" class="form-control readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="suaje_automatico_med_min_largo" class="label_input">Largo:</label>
+                                    <input id="suaje_automatico_med_min_largo" class="form-control input_centimetros readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="suaje_automatico_med_min_ancho" class="label_input">Ancho:</label>
+                                    <input id="suaje_automatico_med_min_ancho" class="form-control input_centimetros readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="suaje_automatico_med_max_largo" class="label_input">Largo:</label>
+                                    <input id="suaje_automatico_med_max_largo" class="form-control input_centimetros readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="suaje_automatico_med_max_ancho" class="label_input">Ancho:</label>
+                                    <input id="suaje_automatico_med_max_ancho" class="form-control input_centimetros readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="suaje_automatico_med_max_merma" class="label_input">Merma:</label>
+                                    <input id="suaje_automatico_med_max_merma" class="form-control input_centimetros readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="suaje_automatico_med_max_arreglo" class="label_input">Arreglo:</label>
+                                    <input id="suaje_automatico_med_max_arreglo" class="form-control input_cantidad readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="suaje_automatico_med_max_xunidad" class="label_input">$ x Unidad:</label>
+                                    <input id="suaje_automatico_med_max_xunidad" class="form-control currency readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="suaje_automatico_med_max_importe" class="label_input">Importe:</label>
+                                    <input id="suaje_automatico_med_max_importe" class="form-control currency readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="suaje_automatico_med_max_med_valida" class="label_input">Med. Valida?:</label>
+                                    <input id="suaje_automatico_med_max_med_valida" class="form-control readonly">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="well">
+                        <div class="row">
+                            <div class="col-sm-2 padding-left-15 padding-right-15">
+                                <div class="form-group-sm">
+                                    <input id="checkbox_suaje_manual" class="tabindex" type="checkbox">&nbsp;
+                                    <label for="checkbox_suaje_manual" class="control-label label_checkbox">SUAJE  MANUAL</label>
+                                    <br/>
+                                    <input id="checkbox_suaje_manual_arreglo" class="tabindex" type="checkbox">&nbsp;
+                                    <label for="checkbox_suaje_manual_arreglo" class="control-label label_checkbox">ARREGLO SUAJE</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="suaje_manual_med_min_unidad" class="label_input">Unidad:</label>
+                                    <input id="suaje_manual_med_min_unidad" class="form-control readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="suaje_manual_med_min_largo" class="label_input">Largo:</label>
+                                    <input id="suaje_manual_med_min_largo" class="form-control input_centimetros readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="suaje_manual_med_min_ancho" class="label_input">Ancho:</label>
+                                    <input id="suaje_manual_med_min_ancho" class="form-control input_centimetros readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="suaje_manual_med_max_largo" class="label_input">Largo:</label>
+                                    <input id="suaje_manual_med_max_largo" class="form-control input_centimetros readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="suaje_manual_med_max_ancho" class="label_input">Ancho:</label>
+                                    <input id="suaje_manual_med_max_ancho" class="form-control input_centimetros readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="suaje_manual_med_max_merma" class="label_input">Merma:</label>
+                                    <input id="suaje_manual_med_max_merma" class="form-control input_centimetros readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="suaje_manual_med_max_arreglo" class="label_input">Arreglo:</label>
+                                    <input id="suaje_manual_med_max_arreglo" class="form-control input_cantidad readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="suaje_manual_med_max_xunidad" class="label_input">$ x Unidad:</label>
+                                    <input id="suaje_manual_med_max_xunidad" class="form-control currency readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="suaje_manual_med_max_importe" class="label_input">Importe:</label>
+                                    <input id="suaje_manual_med_max_importe" class="form-control currency readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="suaje_manual_med_max_med_valida" class="label_input">Med. Valida?:</label>
+                                    <input id="suaje_manual_med_max_med_valida" class="form-control readonly">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="well">
+                        <div class="row">
+                            <div class="col-sm-2 padding-left-15 padding-right-15">
+                                <div class="form-group-sm">
+                                    <input id="checkbox_pegado_lineal_maquina" class="tabindex" type="checkbox">&nbsp;
+                                    <label for="checkbox_pegado_lineal_maquina" class="control-label label_checkbox">PEGADO LINEAL EN MAQUINA</label>
+                                    <br/>
+                                    <input id="checkbox_pegado_lineal_maquina_arreglo" class="tabindex" type="checkbox">&nbsp;
+                                    <label for="checkbox_pegado_lineal_maquina_arreglo" class="control-label label_checkbox">ARREGLO PEGUE</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="pegado_lineal_maquina_med_min_unidad" class="label_input">Unidad:</label>
+                                    <input id="pegado_lineal_maquina_med_min_unidad" class="form-control readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="pegado_lineal_maquina_med_min_largo" class="label_input">Min. Largo:</label>
+                                    <input id="pegado_lineal_maquina_med_min_largo" class="form-control input_centimetros readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 col-sm-offset-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="pegado_lineal_maquina_med_max_largo" class="label_input">Max. Largo:</label>
+                                    <input id="pegado_lineal_maquina_med_max_largo" class="form-control input_centimetros readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 col-sm-offset-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="pegado_lineal_maquina_med_max_merma" class="label_input">Merma:</label>
+                                    <input id="pegado_lineal_maquina_med_max_merma" class="form-control input_centimetros readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="pegado_lineal_maquina_med_max_arreglo" class="label_input">Arreglo:</label>
+                                    <input id="pegado_lineal_maquina_med_max_arreglo" class="form-control input_cantidad readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="pegado_lineal_maquina_med_max_xunidad" class="label_input">$ x Unidad:</label>
+                                    <input id="pegado_lineal_maquina_med_max_xunidad" class="form-control currency readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="pegado_lineal_maquina_med_max_importe" class="label_input">Importe:</label>
+                                    <input id="pegado_lineal_maquina_med_max_importe" class="form-control currency readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="pegado_lineal_maquina_med_max_med_valida" class="label_input">Med. Valida?:</label>
+                                    <input id="pegado_lineal_maquina_med_max_med_valida" class="form-control readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-3 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <select id="pegado_lineal_maquina_med_min_acabado" class="form-control">
+                                        <option value="0">Selecciona una opción</option>
+                                        <option class="pegado_lineal_maquina_med_min_acabado_mostrar" value="1">EMPALMADOS CON SINGLE (E,F,B,C),</option>
+                                        <option class="pegado_lineal_maquina_med_min_acabado_mostrar" value="2">MICRO E</option>
+                                        <option class="pegado_lineal_maquina_med_min_acabado_mostrar" value="3">FLAUTA B,C,BC</option>
+                                        <option class="pegado_lineal_maquina_med_min_acabado_ocultar display_none" value="10">10 cm ceja de pegue</option>
+                                        <option class="pegado_lineal_maquina_med_min_acabado_ocultar display_none" value="11">20 cm ceja de pegue</option>
+                                        <option class="pegado_lineal_maquina_med_min_acabado_ocultar display_none" value="12">30 cm ceja de pegue</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="well">
+                        <div class="row">
+                            <div class="col-sm-2 padding-left-15 padding-right-15">
+                                <div class="form-group-sm">
+                                    <input id="checkbox_pegado_fondo_auto_maquina" class="tabindex" type="checkbox">&nbsp;
+                                    <label for="checkbox_pegado_fondo_auto_maquina" class="control-label label_checkbox">PEGADO FONDO AUTO<br/>EN MAQUINA</label>
+                                    <br/>
+                                    <input id="checkbox_pegado_fondo_auto_maquina_arreglo" class="tabindex" type="checkbox">&nbsp;
+                                    <label for="checkbox_pegado_fondo_auto_maquina_arreglo" class="control-label label_checkbox">ARREGLO PEGUE</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="pegado_fondo_auto_maquina_med_min_unidad" class="label_input">Unidad:</label>
+                                    <input id="pegado_fondo_auto_maquina_med_min_unidad" class="form-control readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="pegado_fondo_auto_maquina_med_min_largo" class="label_input">Min. Largo:</label>
+                                    <input id="pegado_fondo_auto_maquina_med_min_largo" class="form-control input_centimetros readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 col-sm-offset-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="pegado_fondo_auto_maquina_med_max_largo" class="label_input">Max. Largo:</label>
+                                    <input id="pegado_fondo_auto_maquina_med_max_largo" class="form-control input_centimetros readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 col-sm-offset-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="pegado_fondo_auto_maquina_med_max_merma" class="label_input">Merma:</label>
+                                    <input id="pegado_fondo_auto_maquina_med_max_merma" class="form-control input_centimetros readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="pegado_fondo_auto_maquina_med_max_arreglo" class="label_input">Arreglo:</label>
+                                    <input id="pegado_fondo_auto_maquina_med_max_arreglo" class="form-control input_cantidad readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="pegado_fondo_auto_maquina_med_max_xunidad" class="label_input">$ x Unidad:</label>
+                                    <input id="pegado_fondo_auto_maquina_med_max_xunidad" class="form-control currency readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="pegado_fondo_auto_maquina_med_max_importe" class="label_input">Importe:</label>
+                                    <input id="pegado_fondo_auto_maquina_med_max_importe" class="form-control currency readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="pegado_fondo_auto_maquina_med_max_med_valida" class="label_input">Med. Valida?:</label>
+                                    <input id="pegado_fondo_auto_maquina_med_max_med_valida" class="form-control readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-3 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <select id="pegado_fondo_auto_maquina_med_min_acabado" class="form-control">
+                                        <option value="0">Selecciona una opción</option>
+                                        <option class="pegado_fondo_auto_maquina_med_min_acabado_ocultar display_none" value="1">10 cm ceja de pegue</option>
+                                        <option class="pegado_fondo_auto_maquina_med_min_acabado_ocultar display_none" value="2">20 cm ceja de pegue</option>
+                                        <option class="pegado_fondo_auto_maquina_med_min_acabado_ocultar display_none" value="3">30 cm ceja de pegue</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="well">
+                        <div class="row">
+                            <div class="col-sm-2 padding-left-15 padding-right-15">
+                                <div class="form-group-sm">
+                                    <input id="checkbox_pegue_manual" class="tabindex" type="checkbox">&nbsp;
+                                    <label for="checkbox_pegue_manual" class="control-label label_checkbox">PEGUE MANUAL</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="pegue_manual_med_min_unidad" class="label_input">Unidad:</label>
+                                    <input id="pegue_manual_med_min_unidad" class="form-control readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="pegue_manual_med_min_largo" class="label_input">Min. Largo:</label>
+                                    <input id="pegue_manual_med_min_largo" class="form-control input_centimetros readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 col-sm-offset-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="pegue_manual_med_max_largo" class="label_input">Max. Largo:</label>
+                                    <input id="pegue_manual_med_max_largo" class="form-control input_centimetros readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 col-sm-offset-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="pegue_manual_med_max_merma" class="label_input">Merma:</label>
+                                    <input id="pegue_manual_med_max_merma" class="form-control input_centimetros readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 col-sm-offset-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="pegue_manual_med_max_xunidad" class="label_input">$ x Unidad:</label>
+                                    <input id="pegue_manual_med_max_xunidad" class="form-control currency readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="pegue_manual_med_max_importe" class="label_input">Importe:</label>
+                                    <input id="pegue_manual_med_max_importe" class="form-control currency readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="pegue_manual_med_max_med_valida" class="label_input">Med. Valida?:</label>
+                                    <input id="pegue_manual_med_max_med_valida" class="form-control readonly">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="well">
+                        <div class="row">
+                            <div class="col-sm-2 padding-left-15 padding-right-15">
+                                <div class="form-group-sm">
+                                    <input id="checkbox_predoblez_manual" class="tabindex" type="checkbox">&nbsp;
+                                    <label for="checkbox_predoblez_manual" class="control-label label_checkbox">PREDOBLEZ MANUAL</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="predoblez_manual_med_min_unidad" class="label_input">Unidad:</label>
+                                    <input id="predoblez_manual_med_min_unidad" class="form-control readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="predoblez_manual_med_min_largo" class="label_input">Min. Largo:</label>
+                                    <input id="predoblez_manual_med_min_largo" class="form-control input_centimetros readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 col-sm-offset-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="predoblez_manual_med_max_largo" class="label_input">Max. Largo:</label>
+                                    <input id="predoblez_manual_med_max_largo" class="form-control input_centimetros readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 col-sm-offset-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="predoblez_manual_med_max_merma" class="label_input">Merma:</label>
+                                    <input id="predoblez_manual_med_max_merma" class="form-control input_centimetros readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 col-sm-offset-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="predoblez_manual_med_max_xunidad" class="label_input">$ x Unidad:</label>
+                                    <input id="predoblez_manual_med_max_xunidad" class="form-control currency readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="predoblez_manual_med_max_importe" class="label_input">Importe:</label>
+                                    <input id="predoblez_manual_med_max_importe" class="form-control currency readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="predoblez_manual_med_max_med_valida" class="label_input">Med. Valida?:</label>
+                                    <input id="predoblez_manual_med_max_med_valida" class="form-control readonly">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="well">
+                        <div class="row">
+                            <div class="col-sm-2 padding-left-15 padding-right-15">
+                                <div class="form-group-sm">
+                                    <input id="checkbox_desbarbe" class="tabindex" type="checkbox">&nbsp;
+                                    <label for="checkbox_desbarbe" class="control-label label_checkbox">DESBARBE</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="desbarbe_med_min_unidad" class="label_input">Unidad:</label>
+                                    <input id="desbarbe_med_min_unidad" class="form-control readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 col-sm-offset-4 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="desbarbe_med_max_merma" class="label_input">Merma:</label>
+                                    <input id="desbarbe_med_max_merma" class="form-control input_centimetros readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 col-sm-offset-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="desbarbe_med_max_xunidad" class="label_input">$ x Unidad:</label>
+                                    <input id="desbarbe_med_max_xunidad" class="form-control currency readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="desbarbe_med_max_importe" class="label_input">Importe:</label>
+                                    <input id="desbarbe_med_max_importe" class="form-control currency readonly">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 margin_b_20">
+                    <div class="well">
+                        <div class="row">
+                            <div class="col-sm-2 padding-left-15 padding-right-15">
+                                <div class="form-group-sm">
+                                    <input id="checkbox_empaque" class="tabindex" type="checkbox">&nbsp;
+                                    <label for="checkbox_empaque" class="control-label label_checkbox">EMPAQUE</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="empaque_med_min_unidad" class="label_input">Unidad:</label>
+                                    <input id="empaque_med_min_unidad" class="form-control readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 col-sm-offset-4 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="empaque_med_max_merma" class="label_input">Merma:</label>
+                                    <input id="empaque_med_max_merma" class="form-control input_centimetros readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 col-sm-offset-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="empaque_med_max_xunidad" class="label_input">$ x Unidad:</label>
+                                    <input id="empaque_med_max_xunidad" class="form-control currency readonly">
+                                </div>
+                            </div>
+                            <div class="col-sm-1 padding-right-15 margi_top_15px">
+                                <div class="form-group-sm">
+                                    <label for="empaque_med_max_importe" class="label_input">Importe:</label>
+                                    <input id="empaque_med_max_importe" class="form-control currency readonly">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

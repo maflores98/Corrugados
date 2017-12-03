@@ -1,0 +1,137 @@
+<?php $this->headScript()->appendFile($this->baseUrl('js/kardex.js'), 'text/javascript');?>
+<?php $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js', 'text/javascript');?>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+
+<div class="row">
+  <div class="col-md-9 btns"><button type="button" class="btn btn-primary" id="btn-addMovimiento">Agregar movimento</button></div>
+  <div class="col-md-3"><h1><?php  echo $this->titulo; echo @$this->nombreCliente?></h1></div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <table id="kardex" class="display compact" cellspacing="0" width="100%" style="font-size: .9em;">
+      <thead>
+        <tr>
+          <th>Clave</th>
+          <th>Descripción</th>
+          <th>Existencia</th>
+          <th>Unidad</th>
+          <th>Detalle</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="KardexModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-sm" style="width: 600px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Agregar movimiento</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="row">
+
+            <div class="col-md-8">
+
+              <label for="Estatus" class="control-label">Descripción</label>
+              <select class="selectpicker form-control" id="Estatus" title="SELECCIONAR" data-live-search="true">
+
+              </select>
+
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="articulo" class="control-label">Cod. Articulo</label>
+                <input type="text" class="form-control" id="articulo">
+              </div>
+            </div>
+
+          </div>
+
+          <div class="row">
+
+            <div class="col-md-4">
+
+              <div class="form-group">
+                <label for="Movimiento">Movimiento</label>
+                <select class="form-control" id="Movimiento">
+                  <option value="" selected disabled>SELECCIONA UNA OPCIÓN</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="TipoMovimiento" class="control-label">Tipo de Movimiento</label>
+                <input type="text" class="form-control" id="TipoMovimiento" readonly>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="cantidad" class="control-label">Cantidad</label>
+                <input type="text" class="form-control" id="cantidad">
+              </div>
+            </div>
+            
+          </div>
+
+          <div class="row">
+
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="message-text" class="control-label">Notas</label>
+                <textarea class="form-control" id="message-text"></textarea>
+              </div>
+            </div>
+
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" id="addMovimiento">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal detalles -->
+<div class="modal fade" id="DetalleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-sm" style="width: 900px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModaltitle"></h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <table id="detalle" class="display compact" width="100%" style="font-size: .9em;">
+              <thead>
+                <tr>
+                  <th>Clave</th>
+                  <th>Articulo</th>
+                  <th>Movimiento</th>
+                  <th>Cantidad</th>
+                  <th>Unidad</th>
+                </tr>
+              </thead>
+              <tbody id="body-detalle"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary" id="addMovimiento">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>

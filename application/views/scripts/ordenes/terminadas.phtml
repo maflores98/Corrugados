@@ -1,0 +1,50 @@
+  <div class="row">
+  	<div class="col-md-12 padding-right-15">
+  		<div class="row">
+  			<div class="col-md-12">
+  				<button id="nuevaOrden" class="btn btn-primary">Nueva</button>
+  			</div>
+  		</div>
+  		<br><br>
+		<div class="row">
+			<div class="col-md-12">
+			    <table id="ordTerminadas" class="display compact cell-border" cellspacing="0" width="100%" style="text-align: center;">
+			      <thead>
+			        <tr>
+			          <th>Orden</th>
+			          <th>Trabajo</th>
+			          <th>Estatus</th>
+			        </tr>
+			      </thead>
+			      <tbody>
+			        <!--Registro de la BD-->
+			      </tbody>
+			    </table>				
+			</div>
+		</div>		  		
+  	</div>
+  </div>
+
+  <script>
+  	var ordTerminadas = $('#ordTerminadas').DataTable({
+	/*Ajax:{
+		url: 'consultarenproceso',
+		data: {vista: vista}
+	}, 	
+	"columns":[
+	{data:"id", 
+	width: "1%"},
+
+	{data:"trabajo"}
+	],*/	
+	//"info" : false,
+	"searching": false,
+	"paging":    false,
+	"scrollY":   '5vh',
+	"scrollX": true			
+});
+
+  	$("#nuevaOrden").click(function(){
+ 		window.location.href = "show";  		
+  	});
+  </script>

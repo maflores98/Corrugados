@@ -436,7 +436,7 @@ var enPendiente = $('#enPendiente').DataTable({
 		//orden = $(this).find('td').eq(0).html();
 		orden = $(this).find('button').data('fila');
 		//alert(orden);
-		
+
 //extraerDatosEnPendiente(orden);
 
 /*$.post('consultarexisteajuste', {orden,ajuste},
@@ -511,6 +511,7 @@ $("#operador").change(function(){
 });
 
 $("#inicio").click(function(){
+
 	if( ($("#orden").val() == "") && ($("#operador").val() == "" ) || ($("#orden").val() == "") || ($("#operador").val() == "" ) ){
 		swal("Oops","Completa todos los campos","error");
 	} else {
@@ -567,9 +568,10 @@ $("#inicio").click(function(){
 });
 
 $("#parar").click(function(){
+
 	if( idinicio != 1 )
 	{
-		swal("Oops","No puedes Parar si el proceso no ha iniciado","error");
+		swal("Oops","No puedes parar si el proceso no ha iniciado","error");
 	} else {
 		parar();
 		//obtenerAcumulados(orden);
@@ -656,6 +658,7 @@ $("#guardar").click(function(){
 								function(result){
 									if (result.validacion == true) {
 										swal("Correcto","success");
+										generarMembrete();
 										limpiar();
 										reinicio();
 										enProceso.ajax.reload();
@@ -799,6 +802,11 @@ function validaAjustes()
 		alert(proceso + "LINEAL CHICA");
 		idproceso = 24;
 	}		
+}
+
+function generarMembrete()
+{
+	$.post('imprimirmarbete', {orden:orden});	
 }
 
 $(document).bind('keydown',function(e){

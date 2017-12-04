@@ -65,7 +65,30 @@ class Application_Model_DbTable_DetalleProcesos extends Zend_Db_Table_Abstract
 		$response = new stdClass();
 		$response->validacion = true;
 		return $response;
+	}
 
+	public function imprimirmarbete($idorden)
+	{
+		$select = $this->select();
+		$select->from(array("t"=>"detalle_procesos"),array("id_orden","nombre_trabajo","nombre_maquina","nombre_proceso"));
+		$select->where("id_orden = ?",$idorden);
+		$response=new stdClass();
+		$rows = $this->fetchAll($select);
+                        //$consulta = $select->__toString();
+                        //echo $consulta;
+                        //exit();
+		$impMarbete = array();
+		foreach ($rows as $row) {
+
+			$impMarbete[] = array(
+				"id_orden" => $row['id_orden'],
+				"trabajo" => $row['nombre_trabajo'],
+				"maquina" => $row['nombre_maquina'],
+				"proceso" => $row['nombre_proceso']
+				); 
+		}
+		//$response->data = $impMarbete;
+		return $impMarbete;		
 	}
 
 }

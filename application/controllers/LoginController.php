@@ -69,7 +69,7 @@ class LoginController extends Zend_Controller_Action
         Zend_Auth::getInstance()->clearIdentity();
         //Zend_Session::namespaceUnset('mysession');
         Zend_Session::destroy();
-        $front =Zend_Controller_Front :: getInstance (); 
+        $front = Zend_Controller_Front :: getInstance (); 
         $baseUrl = $front -> getBaseUrl ();
         $this->render();
     }

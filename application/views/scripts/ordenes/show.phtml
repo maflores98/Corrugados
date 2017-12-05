@@ -743,9 +743,9 @@ label{
 
        <center>
 
-         <label class="radio-inline"><input type="radio" id="pegado-disco" name="pegado_con">Con disco</label>
+         <label class="radio-inline"><input type="radio" id="pegado-disco" name="pegado_con" value="DISCO">Con disco</label>
 
-         <label class="radio-inline"><input type="radio" id="pegado-inyector" name="pegado_con">Con inyector</label>
+         <label class="radio-inline"><input type="radio" id="pegado-inyector" name="pegado_con" value="INYECTOR">Con inyector</label>
 
        </center>
 
@@ -1066,11 +1066,11 @@ label{
   <div style="margin-top: 10px;">
     <center>
 
-      <label class="checkbox-inline"><input type="checkbox" id="esquineros" name="esquineros">Esquineros</label>
+      <label class="checkbox-inline"><input type="checkbox" id="esquineros" name="esquineros" value="1">Esquineros</label>
 
-      <label class="checkbox-inline"><input type="checkbox" id="emplayado" name="emplayado">Emplayado</label>
+      <label class="checkbox-inline"><input type="checkbox" id="emplayado" name="emplayado" value="1">Emplayado</label>
 
-      <label class="checkbox-inline"><input type="checkbox" id="flejado" name="flejado">Flejado</label>
+      <label class="checkbox-inline"><input type="checkbox" id="flejado" name="flejado" value="1">Flejado</label>
 
     </center>
   </div>
@@ -1370,11 +1370,13 @@ $('select[name="articulo"]').change(function(){
 
 $( "#btn-guardar" ).click(function() {
 
+  var user = localStorage.user;
 
+  var ordenProduccion = $("#OrdenProduccion").serialize() + "&id_usuario="+user+"&tipo_orden=MANUAL";
 
- var ordenProduccion = $("#OrdenProduccion").serialize();
+  alert(ordenProduccion);
 
- $.ajax({
+  $.ajax({
 
    dataType: "json",
 

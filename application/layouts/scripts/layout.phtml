@@ -32,6 +32,7 @@
   echo $this->headTitle(); 
   echo $this->headLink();
   echo $this->headScript();
+
   ?>
   <!--Currency-->
   <link rel="stylesheet" href="<?php echo $this->baseUrl(); ?>/currency/css/currency.css">
@@ -44,151 +45,155 @@
   <link rel="stylesheet" href="<?php echo $this->baseUrl(); ?>/sweetalert/css/sweetalert.css">
   <script src="<?php echo $this->baseUrl(); ?>/sweetalert/js/sweetalert.min.js"></script>
   <script src="<?php echo $this->baseUrl(); ?>/js/typeahead.js"></script>
-  <!--jQuery Sweet Alert-->
-  <script>
-            var path = "<?php echo $this->baseUrl(); ?>";//por si queremos la url base en js
-          </script>
-          <script type="text/javascript">
-            $(document).ready(function()
-            {
-              errores=sessionStorage.getItem("id");
 
-              if(errores!="")
-              {
-                $("#notificaciones").html("Consulta exitosa");
-              }
-              else
-              {
-                $("#notificaciones").html("A ocurrido error");
-              }
-            });
-          </script>
-          <script language="JavaScript">
-            function mueveReloj()
-            {
-              momentoActual = new Date();
-              hora = momentoActual.getHours();
-              minuto = momentoActual.getMinutes();
-              segundo = momentoActual.getSeconds();
-              if(segundo<10)
-              {
-                segundo="0"+segundo;
-              }
-              if(minuto<10)
-              {
-                minuto="0"+minuto;
-              }
-              horaImprimible = hora + " : " + minuto + " : " + segundo;
-              $("#hora").html(horaImprimible);
-            }
-            setInterval (function() {mueveReloj();}, 500);
-          </script>
-        </head>
-        <body onload="mueveReloj()"  >		<!--style="overflow-y:hidden"-->
-          <header>
-            <div class="logo-resize">
-             <nav class="navbar navbar-default navbar-fixed-top">
-              <div class="container-fluid">
-                <div class="navbar-header">
-                  <a class="navbar-brand" href="<?php echo $this->baseUrl(); ?>"><img src="<?php echo $this->baseUrl(); ?>/images/logo.png"></a>
-                </div>
-                <ul class="nav navbar-nav navbar-right">
-                  <img  class="img-right" src="<?php echo $this->baseUrl(); ?>/images/f_header.png">
+  <script type="text/javascript">
+
+    $(document).ready(function()
+    {
+
+      localStorage.user = "<?php $usuario = Zend_Auth::getInstance()->getIdentity(); echo $usuario->id_usuario; ?>";
+
+      errores = sessionStorage.getItem("id");
+
+      alert("Hla");
+
+      if(errores!="")
+      {
+        $("#notificaciones").html("Consulta exitosa");
+      }
+      else
+      {
+        $("#notificaciones").html("A ocurrido error");
+      }
+
+      function mueveReloj(){
+        momentoActual = new Date();
+        hora = momentoActual.getHours();
+        minuto = momentoActual.getMinutes();
+        segundo = momentoActual.getSeconds();
+        if(segundo<10)
+        {
+          segundo="0"+segundo;
+        }
+        if(minuto<10)
+        {
+          minuto="0"+minuto;
+        }
+        horaImprimible = hora + " : " + minuto + " : " + segundo;
+        $("#hora").html(horaImprimible);
+      }
+      setInterval (function() {mueveReloj();}, 500);
+
+    });
+  </script>
+</head>
+<body>
+
+  <header>
+
+    <div class="logo-resize">
+     <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="<?php echo $this->baseUrl(); ?>"><img src="<?php echo $this->baseUrl(); ?>/images/logo.png"></a>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+          <img  class="img-right" src="<?php echo $this->baseUrl(); ?>/images/f_header.png">
+        </ul>
+      </div>
+    </nav> 
+  </div>
+</header>
+
+<?php   
+$front =Zend_Controller_Front :: getInstance ();  
+$baseUrl = $front -> getBaseUrl (); 
+?>
+<main>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-2 menu">
+        <div style="position: fixed;">
+          <div class="nav-side-menu">
+            <div class="brand">PANEL DE CONTROL</div>
+            <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
+            <div class="menu-list">
+              <ul id="menu-content" class="menu-content collapse out">
+                <li  data-toggle="collapse" data-target="#products" class="collapsed">
+                  <a href="#"><i class="glyphicon glyphicon-list-alt"></i> Ordenes<span class="arrow"></span></a>
+                </li>
+                <ul class="sub-menu collapse" id="products">
+                  <!--li><a href="<?php //echo $baseUrl;?>/Ordenes/show">Nueva</a></li-->
+                  <li><a href="<?php echo $baseUrl;?>/ordenes/activas">Activas</a></li>
+                  <li><a href="<?php echo $baseUrl;?>/ordenes/canceladas">Canceladas</a></li>
+                  <li><a href="<?php echo $baseUrl;?>/ordenes/finalizadas">Finalizadas</a></li>
+                  <li><a href="#!">Estatus de Ordenes</a></li>
+                  <!--li><a href="#">Imprimir</a></li-->
                 </ul>
-              </div>
-            </nav> 
-          </div>
-        </header>
-
-        <?php   
-        $front =Zend_Controller_Front :: getInstance ();  
-        $baseUrl = $front -> getBaseUrl (); 
-        ?>
-        <main>
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-md-2 menu">
-                <div style="position: fixed;">
-                  <div class="nav-side-menu">
-                    <div class="brand">PANEL DE CONTROL</div>
-                    <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
-                    <div class="menu-list">
-                      <ul id="menu-content" class="menu-content collapse out">
-                        <li  data-toggle="collapse" data-target="#products" class="collapsed">
-                          <a href="#"><i class="glyphicon glyphicon-list-alt"></i> Ordenes<span class="arrow"></span></a>
-                        </li>
-                        <ul class="sub-menu collapse" id="products">
-                          <!--li><a href="<?php //echo $baseUrl;?>/Ordenes/show">Nueva</a></li-->
-                          <li><a href="<?php echo $baseUrl;?>/ordenes/activas">Activas</a></li>
-                          <li><a href="<?php echo $baseUrl;?>/ordenes/canceladas">Canceladas</a></li>
-                          <li><a href="<?php echo $baseUrl;?>/ordenes/finalizadas">Finalizadas</a></li>
-                          <li><a href="#!">Estatus de Ordenes</a></li>
-                          <!--li><a href="#">Imprimir</a></li-->
-                        </ul>
-                        <li data-toggle="collapse" data-target="#produccion" class="collapsed">
-                          <a href="#"><i class="fa fa-cog fa-lg"></i> Producción<span class="arrow"></span></a>
-                        </li>
-                        <ul class="sub-menu collapse" id="produccion">
-                          <li><a href="<?php echo $baseUrl;?>/produccion/ranurado">Ranurado</a></li>
-                          <li><a href="<?php echo $baseUrl;?>/produccion/refilado">Refilado</a></li>
-                          <li><a href="<?php echo $baseUrl;?>/produccion/flexoranurado">Flexo Ranurado</a></li>  
-                          <li><a href="<?php echo $baseUrl;?>/produccion/pegadodecorrugado">Pegado de Corrugado</a></li>  
-                          <li><a href="<?php echo $baseUrl;?>/produccion/empalmado">Empalmado</a></li>
-                          <li><a href="<?php echo $baseUrl;?>/produccion/suajado">Suajado</a></li>  
-                          <li><a href="<?php echo $baseUrl;?>/produccion/pegado">Pegado</a></li>                                           
-                        </ul>
-                        <li data-toggle="collapse" data-target="#almacen" class="collapsed">
-                          <a href="#"><i class="fa fa-dropbox fa-lg"></i> Almacen</a><span class="arrow"></span>
-                        </li>
-                        <ul class="sub-menu collapse" id="almacen">
-                          <li><a href="<?php echo $baseUrl;?>/Kardex/show">Kardex</a></li>
-                          <li><a href="#!">Orden de compra</a></li>
-                        </ul>
-                        <li data-toggle="collapse" class="collapsed"><!--data-target="#service"-->
-                          <a href="#!"><i class="glyphicon glyphicon-usd"></i>Cotizador<span class="arrow"></span></a>
-                        </li>  
-                        <ul class="sub-menu collapse" id="service">
-                          <li><a href="<?php echo $baseUrl;?>/Cotizador">Orden de producción</a></li>
-                          <li><a href="<?php echo $baseUrl;?>/cotizador/maquilas">Cotizador de Maqulias</a></li>
-                          <li>Imprimir</li>
-                        </ul>
-                        <li data-toggle="collapse" data-target="#service2" class="collapsed">
-                          <a href="#"><i class="fa fa-globe fa-lg"></i>Catálogos<span class="arrow"></span></a>
-                        </li>  
-                        <ul class="sub-menu collapse" id="service2">
-                          <li><a href="<?php echo $baseUrl;?>/index">Clientes</a></li>
-                          <li><a href="<?php echo $baseUrl;?>/index/proveedores">Proveedores</a></li>
-                          <li><a href="<?php echo $baseUrl;?>/index/articulos">Artículos</a></li>
-                          <li><a href="<?php echo $baseUrl;?>/index/materiales">Materiales</a></li>
-                          <li><a href="<?php echo $baseUrl;?>/index/maquinas">Máquinas</a></li>
-                          <li><a href="<?php echo $baseUrl;?>/index/usuario">Usuarios</a></li>
-                        </ul>
-                        <li>
-                          <a href="Login/salir">
-                            <i class="glyphicon glyphicon-log-out"></i>Salir
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-10">
-                <?= $this->layout()->content;?>
-              </div>
+                <li data-toggle="collapse" data-target="#produccion" class="collapsed">
+                  <a href="#"><i class="fa fa-cog fa-lg"></i> Producción<span class="arrow"></span></a>
+                </li>
+                <ul class="sub-menu collapse" id="produccion">
+                  <li><a href="<?php echo $baseUrl;?>/produccion/ranurado">Ranurado</a></li>
+                  <li><a href="<?php echo $baseUrl;?>/produccion/refilado">Refilado</a></li>
+                  <li><a href="<?php echo $baseUrl;?>/produccion/flexoranurado">Flexo Ranurado</a></li>  
+                  <li><a href="<?php echo $baseUrl;?>/produccion/pegadodecorrugado">Pegado de Corrugado</a></li>  
+                  <li><a href="<?php echo $baseUrl;?>/produccion/empalmado">Empalmado</a></li>
+                  <li><a href="<?php echo $baseUrl;?>/produccion/suajado">Suajado</a></li>  
+                  <li><a href="<?php echo $baseUrl;?>/produccion/pegado">Pegado</a></li>                                           
+                </ul>
+                <li data-toggle="collapse" data-target="#almacen" class="collapsed">
+                  <a href="#"><i class="fa fa-dropbox fa-lg"></i> Almacen</a><span class="arrow"></span>
+                </li>
+                <ul class="sub-menu collapse" id="almacen">
+                  <li><a href="<?php echo $baseUrl;?>/Kardex/show">Kardex</a></li>
+                  <li><a href="#!">Orden de compra</a></li>
+                </ul>
+                <li data-toggle="collapse" class="collapsed"><!--data-target="#service"-->
+                  <a href="#!"><i class="glyphicon glyphicon-usd"></i>Cotizador<span class="arrow"></span></a>
+                </li>  
+                <ul class="sub-menu collapse" id="service">
+                  <li><a href="<?php echo $baseUrl;?>/Cotizador">Orden de producción</a></li>
+                  <li><a href="<?php echo $baseUrl;?>/cotizador/maquilas">Cotizador de Maqulias</a></li>
+                  <li>Imprimir</li>
+                </ul>
+                <li data-toggle="collapse" data-target="#service2" class="collapsed">
+                  <a href="#"><i class="fa fa-globe fa-lg"></i>Catálogos<span class="arrow"></span></a>
+                </li>  
+                <ul class="sub-menu collapse" id="service2">
+                  <li><a href="<?php echo $baseUrl;?>/index">Clientes</a></li>
+                  <li><a href="<?php echo $baseUrl;?>/index/proveedores">Proveedores</a></li>
+                  <li><a href="<?php echo $baseUrl;?>/index/articulos">Artículos</a></li>
+                  <li><a href="<?php echo $baseUrl;?>/index/materiales">Materiales</a></li>
+                  <li><a href="<?php echo $baseUrl;?>/index/maquinas">Máquinas</a></li>
+                  <li><a href="<?php echo $baseUrl;?>/index/usuario">Usuarios</a></li>
+                </ul>
+                <li>
+                  <a href="<?php echo $baseUrl;?>/Login/salir">
+                    <i class="glyphicon glyphicon-log-out"></i>Salir
+                  </a>
+                </li>
+              </ul>
             </div>
           </div>
-        </main>
-        <footer>
-          <div class="container">
-            <div class="row footer">
-              <div id="notificaciones" class="col-md-3 vcenter">Error de consutla</div>
-              <div id="usr" class="col-md-3 vcenter">Sesión de</div>
-              <div id="fecha" class="col-md-2 vcenter"><?php echo date("d-m-Y"); ?></div>
-              <div id="hora" class="col-md-2 vcenter"></div>
-              <div class="col-md-2 vcenter">Version 1.1</div>
-            </div> 
-          </div>
-        </footer>
-      </body>
-      </html>
+        </div>
+      </div>
+      <div class="col-md-10">
+        <?= $this->layout()->content;?>
+      </div>
+    </div>
+  </div>
+</main>
+<footer>
+  <div class="container">
+    <div class="row footer">
+      <div id="notificaciones" class="col-md-3 vcenter">Error de consutla</div>
+      <div id="usr" class="col-md-3 vcenter">Sesión de: <?php $usuario = Zend_Auth::getInstance()->getIdentity(); echo $usuario->nombre; ?></div>
+      <div id="fecha" class="col-md-2 vcenter"><?php echo date("d-m-Y"); ?></div>
+      <div id="hora" class="col-md-2 vcenter"></div>
+      <div class="col-md-2 vcenter">Version 1.1</div>
+    </div> 
+  </div>
+</footer>
+</body>
+</html>

@@ -53,9 +53,7 @@
 
       localStorage.user = "<?php $usuario = Zend_Auth::getInstance()->getIdentity(); echo $usuario->id_usuario; ?>";
 
-      errores = sessionStorage.getItem("id");
-
-      alert("Hla");
+      var errores = sessionStorage.getItem("id");
 
       if(errores!="")
       {

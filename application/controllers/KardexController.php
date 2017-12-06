@@ -91,10 +91,10 @@ class KardexController extends Zend_Controller_Action
 		$this->_helper->layout->disableLayout();
 		$this->_helper->viewRenderer->setNoRender();
 
-		$id_articulo = $_POST['id_articulo'];
+		$material = $_POST['Material'];
 
-		$movimientos = new Application_Model_DbTable_Kardex();
-		$movimiento = $movimientos->getMovimientos($id_articulo);
+		$movimientos = new Application_Model_DbTable_vDetalleKardex();
+		$movimiento = $movimientos->getMovimientos($material);
 
 		echo Zend_Json::encode($movimiento);
 

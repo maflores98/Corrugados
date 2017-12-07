@@ -436,7 +436,7 @@ var enPendiente = $('#enPendiente').DataTable({
 		//orden = $(this).find('td').eq(0).html();
 		orden = $(this).find('button').data('fila');
 		//alert(orden);
-
+		generarMembrete();
 //extraerDatosEnPendiente(orden);
 
 /*$.post('consultarexisteajuste', {orden,ajuste},
@@ -511,7 +511,6 @@ $("#operador").change(function(){
 });
 
 $("#inicio").click(function(){
-
 	if( ($("#orden").val() == "") && ($("#operador").val() == "" ) || ($("#orden").val() == "") || ($("#operador").val() == "" ) ){
 		swal("Oops","Completa todos los campos","error");
 	} else {
@@ -806,7 +805,8 @@ function validaAjustes()
 
 function generarMembrete()
 {
-	$.post('imprimirmarbete', {orden:orden});	
+	//$.post('../../application/models/generarMarbete.php', {orden:orden});
+	window.open("../../application/models/generarMarbete.php?orden=" + orden,'_blank');
 }
 
 $(document).bind('keydown',function(e){

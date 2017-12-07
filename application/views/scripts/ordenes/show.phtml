@@ -99,8 +99,6 @@ label{
 
   </div>
 
-
-
   <div class="col-md-3">
 
    <div class="form-horizontal">
@@ -110,9 +108,7 @@ label{
        <label for="inputtext3" class="col-md-6 control-label">Folio OC prov:</label>
 
        <div class="col-md-6">
-
         <input type="text" class="form-control input-sm" id="id_ordenmaterial" name="id_ordenmaterial">
-
       </div>
 
     </div>
@@ -311,25 +307,17 @@ label{
 
     <div class="col-sm-3">
 
-
-
       <span class="help-block helper">Fondo</span>
 
       <input type="text" class="form-control input-sm" id="med_fondo" name="med_fondo" >
-
-
 
     </div>
 
     <div class="col-sm-3">
 
-
-
       <span class="help-block helper">Alto</span>
 
       <input type="text" class="form-control input-sm" id="med_alto" name="med_alto" >
-
-
 
     </div>
 
@@ -365,8 +353,6 @@ label{
 
 <div class="col-md-1">
 
-
-
  <span class="help-block helper">Largo</span>
  <input type="text" class="form-control input-sm" id="med_largo" name="med_largo"/>
 
@@ -376,25 +362,16 @@ label{
 
 <div class="col-md-1">
 
-
-
  <span class="help-block helper">Ancho</span>
-
  <input type="text" class="form-control input-sm" id="med_ancho" name="med_ancho">
-
- 
 
 </div>
 
+
 <div class="col-md-1">
 
-
-
  <span class="help-block helper">Med. req</span>
-
  <input type="text" class="form-control input-sm" id="med_requerido">
-
- 
 
 </div>
 
@@ -777,7 +754,6 @@ label{
          <div class="form-group" style="margin: 10px 0 10px 100px;">
 
            <label for="text">Núm. grapas:</label>
-
            <input type="text" class="form-control input-sm" id="num_grapas" name="num_grapas">
 
          </div>
@@ -810,9 +786,8 @@ label{
 
     <div class="panel-body">
 
-      <label class="radio-inline"><input type="radio" id="domicilio" name="tipo_envio">A domicilio</label>
-
-      <label class="radio-inline"><input type="radio" id="cliente" name="tipo_envio">Cliente recoge</label>
+      <label class="radio-inline"><input type="radio" id="domicilio" name="tipo_envio" value="DOMICILIO">A domicilio</label>
+      <label class="radio-inline"><input type="radio" id="cliente" name="tipo_envio" value="CLIENTE RECOGE">Cliente recoge</label>
 
     </div>
 
@@ -828,9 +803,8 @@ label{
 
   <div class="panel-body">
 
-    <label class="radio-inline"><input type="radio" id="ent-parcial" name="tipo_entrega">Parcial</label>
-
-    <label class="radio-inline"><input type="radio" id="ent-total" name="tipo_entrega">Total</label>
+    <label class="radio-inline"><input type="radio" id="ent-parcial" name="tipo_entrega" value="PARCIAL">Parcial</label>
+    <label class="radio-inline"><input type="radio" id="ent-total" name="tipo_entrega" value="TOTAL">Total</label>
 
   </div>
 
@@ -839,8 +813,6 @@ label{
 </div>
 
 </div>
-
-
 
 </div>
 
@@ -1161,6 +1133,17 @@ label{
   });
 
   var Tipo = getParameterByName('Tipo');
+
+  if(Tipo == 1){
+
+    $('#btn-guardar').show();
+    $('#btn-editar').hide();
+    $('#btn-editar2').hide();
+    $('#btn-guardar2').hide();
+    $('#btn-liberar').hide();
+    $('#btn-clonar').hide();
+    
+  }
 
   if(Tipo == 2){
 

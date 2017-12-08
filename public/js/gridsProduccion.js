@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	var vista, ajuste, existe;
-	var idoperador, nombreoperador, orden, trabajo, proceso, maquina, diferencia=0, cantidadreal=0, cantreq=0, control, tiempodeejec=0, idinicio = 0,
+	var idoperador, nombreoperador, orden=0, trabajo, proceso, maquina, diferencia=0, cantidadreal=0, cantreq=0, control, tiempodeejec=0, idinicio = 0,
 	horainicio, horaregistro, centesimas = 0, segundos = 0, minutos = 0, horas = 0, acumulado=0, mermaacumulado=0, cantidadrep=0, 
 	diferenciaacum=0, cantidadmerma=0, diferenciamerma=0, idproceso=0, idmaquina=0; 
 	switch (window.location.pathname) {
@@ -26,270 +26,435 @@ $(document).ready(function(){
 		vista = ["Pegadora Lineal Grande", "Pegado Manual", "Pegadora Lineal Chica"];
 		break;        
 	}
-	$("#orden").focus();
+	$("#operador").focus();
 
-
+$(".panel").attr('disabled','disabled');
 
 //==================================== RANURADO ===============================================
 $("#ajustecaiman").click(function(){
-	$("#ajustecaiman").attr("disabled", true);
-	$("#ranurado").attr("disabled", false);
-	$("#impresion").attr("disabled", false);
-	idproceso = this.value;
-	proceso = "AJUSTE CAIMAN";
+	if( idinicio != 1 && orden == 0 )
+	{
+		$("#ajustecaiman").attr("disabled", false);
+	} else {	
+		$("#ajustecaiman").attr("disabled", true);
+		$("#ranurado").attr("disabled", false);
+		$("#impresion").attr("disabled", false);
+		idproceso = this.value;
+		proceso = "AJUSTE CAIMAN";
+	}
 });
 $("#ranurado").click(function(){
-	$("#ranurado").attr("disabled", true);
-	$('#ajustecaiman').attr("disabled", false);
-	$("#impresion").attr("disabled", false);
-	idproceso = this.value;
-	proceso = "RANURADO";
+	if( idinicio != 1 )
+	{
+		$("#ranurado").attr("disabled", false);
+	} else {	
+		$("#ranurado").attr("disabled", true);
+		$('#ajustecaiman').attr("disabled", false);
+		$("#impresion").attr("disabled", false);
+		idproceso = this.value;
+		proceso = "RANURADO";
+	}
 });
 $("#caiman").click(function(){
-	$('#caiman').attr("disabled", true);
-	idmaquina = this.value;
-	maquina = "CAIMAN";
+	if( idinicio != 1 )
+	{
+		$("#caiman").attr("disabled", false);
+	} else {	
+		$('#caiman').attr("disabled", true);
+		idmaquina = this.value;
+		maquina = "CAIMAN";
+	}	
 });
 //==================================== REFILADO ===============================================
 $("#ajusterefiladorarefilado").click(function(){
-	$("#ajusterefiladorarefilado").attr("disabled", true);
-	$("#ajusterefiladorarayado").attr("disabled", false);
-	$("#ajusterefiladorarefiladorayado").attr("disabled", false);
-	$("#ranurado").attr("disabled", false);
-	$("#impresion").attr("disabled", false);
-	idproceso = this.value;
-	proceso = "AJUSTE REFILADORA REFILADO";
+	if( idinicio != 1)
+	{
+		$("#ajusterefiladorarefilado").attr("disabled", false);
+	} else {	
+		$("#ajusterefiladorarefilado").attr("disabled", true);
+		$("#ajusterefiladorarayado").attr("disabled", false);
+		$("#ajusterefiladorarefiladorayado").attr("disabled", false);
+		$("#ranurado").attr("disabled", false);
+		$("#impresion").attr("disabled", false);
+		idproceso = this.value;
+		proceso = "AJUSTE REFILADORA REFILADO";
+	}
 });
 $("#ajusterefiladorarayado").click(function(){
-	$("#ajusterefiladorarayado").attr("disabled", true);
-	$("#ajusterefiladorarefilado").attr("disabled", false);
-	$("#ajusterefiladorarefiladorayado").attr("disabled", false);
-	$("#ranurado").attr("disabled", false);
-	$("#impresion").attr("disabled", false);
-	idproceso = this.value;
-	proceso = "AJUSTE REFILADORA RAYADO";
+	if( idinicio != 1 )
+	{
+		$("#ajusterefiladorarayado").attr("disabled", false);
+	} else {		
+		$("#ajusterefiladorarayado").attr("disabled", true);
+		$("#ajusterefiladorarefilado").attr("disabled", false);
+		$("#ajusterefiladorarefiladorayado").attr("disabled", false);
+		$("#ranurado").attr("disabled", false);
+		$("#impresion").attr("disabled", false);
+		idproceso = this.value;
+		proceso = "AJUSTE REFILADORA RAYADO";
+	}
 });
 $("#ajusterefiladorarefiladorayado").click(function(){
-	$("#ajusterefiladorarefiladorayado").attr("disabled", true);
-	$("#ajusterefiladorarefilado").attr("disabled", false);
-	$("#ajusterefiladorarayado").attr("disabled", false);	
-	$("#ranurado").attr("disabled", false);
-	$("#impresion").attr("disabled", false);
-	idproceso = this.value;
-	proceso = "AJUSTE REFILADORA RAYADO";
+	if( idinicio != 1 )
+	{
+		$("#ajusterefiladorarefiladorayado").attr("disabled", false);
+	} else {		
+		$("#ajusterefiladorarefiladorayado").attr("disabled", true);
+		$("#ajusterefiladorarefilado").attr("disabled", false);
+		$("#ajusterefiladorarayado").attr("disabled", false);	
+		$("#ranurado").attr("disabled", false);
+		$("#impresion").attr("disabled", false);
+		idproceso = this.value;
+		proceso = "AJUSTE REFILADORA RAYADO";
+	}
 });
 $("#refilado").click(function(){
-	$("#refilado").attr("disabled", true);
-	$('#ajuste').attr("disabled", false);
-	$("#rayado").attr("disabled", false);
-	$("#refiladorayado").attr("disabled", false); 
-	idproceso = this.value;
-	proceso = "REFILADO";
+	if( idinicio != 1 )
+	{
+		$("#refilado").attr("disabled", false);
+	} else {		
+		$("#refilado").attr("disabled", true);
+		$('#ajuste').attr("disabled", false);
+		$("#rayado").attr("disabled", false);
+		$("#refiladorayado").attr("disabled", false); 
+		idproceso = this.value;
+		proceso = "REFILADO";
+	}
 });
 $("#rayado").click(function(){
-	$("#rayado").attr("disabled", true);
-	$('#ajuste').attr("disabled", false);
-	$("#refilado").attr("disabled", false);
-	$("#refiladorayado").attr("disabled", false);
-	idproceso = this.value;
-	proceso = "RAYADO";
+	if( idinicio != 1 )
+	{
+		$("#rayado").attr("disabled", false);
+	} else {		
+		$("#rayado").attr("disabled", true);
+		$('#ajuste').attr("disabled", false);
+		$("#refilado").attr("disabled", false);
+		$("#refiladorayado").attr("disabled", false);
+		idproceso = this.value;
+		proceso = "RAYADO";
+	}
 });
 
 $("#refiladorayado").click(function(){
-	$("#refiladorayado").attr("disabled", true);
-	$("#rayado").attr("disabled", false);
-	$('#ajuste').attr("disabled", false);
-	$("#refilado").attr("disabled", false);
-	idproceso = this.value;
-	proceso = "REFILADO/RAYADO";
+	if( idinicio != 1 )
+	{
+		$("#refiladorayado").attr("disabled", false);
+	} else {	
+		$("#refiladorayado").attr("disabled", true);
+		$("#rayado").attr("disabled", false);
+		$('#ajuste').attr("disabled", false);
+		$("#refilado").attr("disabled", false);
+		idproceso = this.value;
+		proceso = "REFILADO/RAYADO";
+	}
 });            
 
 $("#refiladora").click(function(){
-	$('#refiladora').attr("disabled", true);
-	idmaquina = this.value;
-	maquina = "REFILADORA";
+	if( idinicio != 1 )
+	{
+		$("#rayado").attr("disabled", false);
+	} else {	
+		$('#refiladora').attr("disabled", true);
+		idmaquina = this.value;
+		maquina = "REFILADORA";
+	}
 });
 
 //==================================== FLEXORANURADO ==========================================
 $("#ajusteflexograficaimpresion").click(function(){
-	$("#ajusteflexograficaimpresion").attr("disabled", true);
-	$("#ajusteflexograficaranurado").attr("disabled", false);
-	$("#ranurado").attr("disabled", false);
-	$("#impresion").attr("disabled", false);
-	idproceso = this.value;
-	proceso = "AJUSTE FLEXOGRAFICA IMPRESION";
+	if( idinicio != 1 )
+	{
+		$("#ajusteflexograficaimpresion").attr("disabled", false);
+	} else {	
+		$("#ajusteflexograficaimpresion").attr("disabled", true);
+		$("#ajusteflexograficaranurado").attr("disabled", false);
+		$("#ranurado").attr("disabled", false);
+		$("#impresion").attr("disabled", false);
+		idproceso = this.value;
+		proceso = "AJUSTE FLEXOGRAFICA IMPRESION";
+	}
 });
 $("#ajusteflexograficaranurado").click(function(){
-	$("#ajusteflexograficaranurado").attr("disabled", true);
-	$("#ajusteflexograficaimpresion").attr("disabled", false);
-	$("#ranurado").attr("disabled", false);
-	$("#impresion").attr("disabled", false);
-	idproceso = this.value;
-	proceso = "AJUSTE FLEXOGRAFICA RANURADO";
+	if( idinicio != 1 )
+	{
+		$("#ajusteflexograficaranurado").attr("disabled", false);
+	} else {	
+		$("#ajusteflexograficaranurado").attr("disabled", true);
+		$("#ajusteflexograficaimpresion").attr("disabled", false);
+		$("#ranurado").attr("disabled", false);
+		$("#impresion").attr("disabled", false);
+		idproceso = this.value;
+		proceso = "AJUSTE FLEXOGRAFICA RANURADO";
+	}
 });
 $("#impresion").click(function(){
-	$("#impresion").attr("disabled", true);
-	$('#ajusteflexograficaimpresion').attr("disabled", false);
-	$("#ranurado").attr("disabled", false);
-	idproceso = this.value;
-	proceso = "IMPRESION";
+	if( idinicio != 1 )
+	{
+		$("#impresion").attr("disabled", false);
+	} else {	
+		$("#impresion").attr("disabled", true);
+		$('#ajusteflexograficaimpresion').attr("disabled", false);
+		$("#ranurado").attr("disabled", false);
+		idproceso = this.value;
+		proceso = "IMPRESION";
+	}
 });    
 
 $("#flexografica").click(function(){
-	$('#flexografica').attr("disabled", true);
-	idmaquina = this.value;
-	maquina = "FLEXOGRAFICA";
+	if( idinicio != 1 )
+	{
+		$("#flexografica").attr("disabled", false);
+	} else {	
+		$('#flexografica').attr("disabled", true);
+		idmaquina = this.value;
+		maquina = "FLEXOGRAFICA";
+	}
 });
 
 //==================================== PEGADO DE CORRUGADO ====================================
 $("#ajustepegadoracorrugados").click(function(){
-	$("#ajustepegadoracorrugados").attr("disabled", true);
-	$("#pegadocajas").attr("disabled", false);
-	idproceso = this.value;
-	proceso = "AJUSTE PEGADORA CORRUGADOS";
+	if( idinicio != 1 )
+	{
+		$("#ajustepegadoracorrugados").attr("disabled", false);
+	} else {	
+		$("#ajustepegadoracorrugados").attr("disabled", true);
+		$("#pegadocajas").attr("disabled", false);
+		idproceso = this.value;
+		proceso = "AJUSTE PEGADORA CORRUGADOS";
+	}
 });
 $("#pegadocajas").click(function(){
-	$("#pegadocajas").attr("disabled", true);
-	$('#ajustepegadoracorrugados').attr("disabled", false);
-	idproceso = this.value;
-	proceso = "PEGADO CAJAS";
+	if( idinicio != 1 )
+	{
+		$("#pegadocajas").attr("disabled", false);
+	} else {		
+		$("#pegadocajas").attr("disabled", true);
+		$('#ajustepegadoracorrugados').attr("disabled", false);
+		idproceso = this.value;
+		proceso = "PEGADO CAJAS";
+	}
 });
 
 $("#pegadoracorrugados").click(function(){
-	$("#pegadoracorrugados").attr("disabled", true);
-	idmaquina = this.value;
-	maquina = "PEGADORA CORRUGADOS";
+	if( idinicio != 1 )
+	{
+		$("#pegadoracorrugados").attr("disabled", false);
+	} else {	
+		$("#pegadoracorrugados").attr("disabled", true);
+		idmaquina = this.value;
+		maquina = "PEGADORA CORRUGADOS";
+	}
 });
 
 //==================================== EMPALMADO ==============================================  
 $("#ajusteempalmadora").click(function(){
-	$("#ajusteempalmadora").attr("disabled", true);
-	$("#pegadocajas").attr("disabled", false);
-	//idproceso = this.value;
-	proceso = "AJUSTE EMPALMADORA";
+	if( idinicio != 1 )
+	{
+		$("#ajusteempalmadora").attr("disabled", false);
+	} else {		
+		$("#ajusteempalmadora").attr("disabled", true);
+		$("#pegadocajas").attr("disabled", false);
+		//idproceso = this.value;
+		proceso = "AJUSTE EMPALMADORA";
+	}
 });
 
 $("#empalme").click(function(){
-	$("#empalme").attr("disabled", true);
-	$('#ajusteempalmadora').attr("disabled", false);
-	idproceso = this.value;
-	proceso = "EMPALME";
+	if( idinicio != 1 )
+	{
+		$("#empalme").attr("disabled", false);
+	} else {	
+		$("#empalme").attr("disabled", true);
+		$('#ajusteempalmadora').attr("disabled", false);
+		idproceso = this.value;
+		proceso = "EMPALME";
+	}
 });
 
 $("#empalmadoraautomatica").click(function(){
-	$("#empalmadoraautomatica").attr("disabled", true);
-	$("#empalmadorasemiautomatica").attr("disabled", false);
-	idmaquina = this.value;
-	maquina = "EMPALMADORA AUTOMATICA";
+	if( idinicio != 1 )
+	{
+		$("#empalmadoraautomatica").attr("disabled", false);
+	} else {		
+		$("#empalmadoraautomatica").attr("disabled", true);
+		$("#empalmadorasemiautomatica").attr("disabled", false);
+		idmaquina = this.value;
+		maquina = "EMPALMADORA AUTOMATICA";
+	}
 });
 
 $("#empalmadorasemiautomatica").click(function(){
-	$("#empalmadorasemiautomatica").attr("disabled", true);
-	$("#empalmadoraautomatica").attr("disabled", false);
-	idmaquina = this.value;
-	maquina = "EMPALMADORA SEMIAUTOMATICA";
+	if( idinicio != 1 )
+	{
+		$("#empalmadorasemiautomatica").attr("disabled", false);
+	} else {	
+		$("#empalmadorasemiautomatica").attr("disabled", true);
+		$("#empalmadoraautomatica").attr("disabled", false);
+		idmaquina = this.value;
+		maquina = "EMPALMADORA SEMIAUTOMATICA";
+	}
 });
 
 //==================================== SUAJADO ================================================  
 $("#ajustesuajadora").click(function(){
-	$("#ajustesuajadora").attr("disabled", true);
-	$("#pegadocajas").attr("disabled", false);
-	//idproceso = this.value;
-	proceso = "AJUSTE SUAJADORA";
+	if( idinicio != 1 )
+	{
+		$("#ajustesuajadora").attr("disabled", false);
+	} else {	
+		$("#ajustesuajadora").attr("disabled", true);
+		$("#pegadocajas").attr("disabled", false);
+		//idproceso = this.value;
+		proceso = "AJUSTE SUAJADORA";
+	}
 });
 
 $("#suajado").click(function(){
-	$("#suajado").attr("disabled", true);
-	$('#ajustesuajadora').attr("disabled", false);
-	idproceso = this.value;
-	proceso = "SUAJADO";
+	if( idinicio != 1 )
+	{
+		$("#suajado").attr("disabled", false);
+	} else {	
+		$("#suajado").attr("disabled", true);
+		$('#ajustesuajadora').attr("disabled", false);
+		idproceso = this.value;
+		proceso = "SUAJADO";
+	}	
 });
 
 $("#suajadoraautomatica").click(function(){
-	$("#suajadoraautomatica").attr("disabled", true);
-	$('#suajadoraquijada1').attr("disabled", false);
-	$('#suajadoraquijada2').attr("disabled", false);
-	$('#suajadoraplana').attr("disabled", false);
-	$('#suajadoraderodillo').attr("disabled", false);
-	idmaquina = this.value;
-	maquina = "SUAJADORA AUTOMATICA";
+	if( idinicio != 1 )
+	{
+		$("#suajadoraautomatica").attr("disabled", false);
+	} else {	
+		$("#suajadoraautomatica").attr("disabled", true);
+		$('#suajadoraquijada1').attr("disabled", false);
+		$('#suajadoraquijada2').attr("disabled", false);
+		$('#suajadoraplana').attr("disabled", false);
+		$('#suajadoraderodillo').attr("disabled", false);
+		idmaquina = this.value;
+		maquina = "SUAJADORA AUTOMATICA";
+	}
 });
 
 $("#suajadoraquijada1").click(function(){
-	$('#suajadoraquijada1').attr("disabled", true);
-	$("#suajadoraautomatica").attr("disabled", false);
-	$('#suajadoraquijada2').attr("disabled", false);
-	$('#suajadoraplana').attr("disabled", false);
-	$('#suajadoraderodillo').attr("disabled", false);
-	idmaquina = this.value;
-	maquina = "SUAJADORA QUIJADA 1";
+	if( idinicio != 1 )
+	{
+		$("#suajadoraquijada1").attr("disabled", false);
+	} else {	
+		$('#suajadoraquijada1').attr("disabled", true);
+		$("#suajadoraautomatica").attr("disabled", false);
+		$('#suajadoraquijada2').attr("disabled", false);
+		$('#suajadoraplana').attr("disabled", false);
+		$('#suajadoraderodillo').attr("disabled", false);
+		idmaquina = this.value;
+		maquina = "SUAJADORA QUIJADA 1";
+	}
 });
 
 $("#suajadoraquijada2").click(function(){
-	$('#suajadoraquijada2').attr("disabled", true);
-	$("#suajadoraautomatica").attr("disabled", false);
-	$('#suajadoraquijada1').attr("disabled", false);
-	$('#suajadoraplana').attr("disabled", false);
-	$('#suajadoraderodillo').attr("disabled", false);
-	idmaquina = this.value;
-	maquina = "SUAJADORA QUIJADA 2";
+	if( idinicio != 1 )
+	{
+		$("#suajadoraquijada2").attr("disabled", false);
+	} else {	
+		$('#suajadoraquijada2').attr("disabled", true);
+		$("#suajadoraautomatica").attr("disabled", false);
+		$('#suajadoraquijada1').attr("disabled", false);
+		$('#suajadoraplana').attr("disabled", false);
+		$('#suajadoraderodillo').attr("disabled", false);
+		idmaquina = this.value;
+		maquina = "SUAJADORA QUIJADA 2";
+	}
 });
 
 $("#suajadoraplana").click(function(){
-	$('#suajadoraplana').attr("disabled", true);
-	$("#suajadoraautomatica").attr("disabled", false);
-	$('#suajadoraquijada1').attr("disabled", false);
-	$('#suajadoraquijada2').attr("disabled", false);
-	$('#suajadoraderodillo').attr("disabled", false);
-	idmaquina = this.value;
-	maquina = "SUAJADORA PLANA";
+	if( idinicio != 1 )
+	{
+		$("#suajadoraplana").attr("disabled", false);
+	} else {	
+		$('#suajadoraplana').attr("disabled", true);
+		$("#suajadoraautomatica").attr("disabled", false);
+		$('#suajadoraquijada1').attr("disabled", false);
+		$('#suajadoraquijada2').attr("disabled", false);
+		$('#suajadoraderodillo').attr("disabled", false);
+		idmaquina = this.value;
+		maquina = "SUAJADORA PLANA";
+	}
 });      
 
 $("#suajadoraderodillo").click(function(){
-	$('#suajadoraderodillo').attr("disabled", true);
-	$("#suajadoraautomatica").attr("disabled", false);
-	$('#suajadoraquijada1').attr("disabled", false);
-	$('#suajadoraquijada2').attr("disabled", false);
-	idmaquina = this.value;
-	maquina = "SUAJADORA DE RODILLO";
+	if( idinicio != 1 )
+	{
+		$("#suajadoraderodillo").attr("disabled", false);
+	} else {		
+		$('#suajadoraderodillo').attr("disabled", true);
+		$("#suajadoraautomatica").attr("disabled", false);
+		$('#suajadoraquijada1').attr("disabled", false);
+		$('#suajadoraquijada2').attr("disabled", false);
+		idmaquina = this.value;
+		maquina = "SUAJADORA DE RODILLO";
+	}
 }); 
 //==================================== PEGADO ====================================   
 $("#ajustepegadora").click(function(){
-	$("#ajustepegadora").attr("disabled", true);
-	$("#pegado").attr("disabled", false);
-	$('#pegadomanual').attr("disabled", false);
-	//idproceso = this.value;
-	proceso = "AJUSTE PEGADORA";
+	if( idinicio != 1 )
+	{
+		$("#ajustepegadora").attr("disabled", false);
+	} else {	
+		$("#ajustepegadora").attr("disabled", true);
+		$("#pegado").attr("disabled", false);
+		$('#pegadomanual').attr("disabled", false);
+		//idproceso = this.value;
+		proceso = "AJUSTE PEGADORA";
+	}
 });
 
 $("#pegado").click(function(){
-	$("#pegado").attr("disabled", true);
-	$('#ajustepegadora').attr("disabled", false);
-	$('#pegadomanual').attr("disabled", false);
-	idproceso = this.value;
-	proceso = "PEGADO";
+	if( idinicio != 1 )
+	{
+		$("#pegado").attr("disabled", false);
+	} else {		
+		$("#pegado").attr("disabled", true);
+		$('#ajustepegadora').attr("disabled", false);
+		$('#pegadomanual').attr("disabled", false);
+		idproceso = this.value;
+		proceso = "PEGADO";
+	}
 });
 
 $("#pegadomanual").click(function(){
-	$('#pegadomanual').attr("disabled", true);
-	$('#ajustepegadora').attr("disabled", false);
-	$('#pegado').attr("disabled", false);
-	idproceso = this.value;
-	proceso = "PEGADO MANUAL";
+	if( idinicio != 1 )
+	{
+		$("#pegadomanual").attr("disabled", false);
+	} else {	
+		$('#pegadomanual').attr("disabled", true);
+		$('#ajustepegadora').attr("disabled", false);
+		$('#pegado').attr("disabled", false);
+		idproceso = this.value;
+		proceso = "PEGADO MANUAL";
+	}
 });
 
 $("#pegadoralinealgrande").click(function(){
-	$('#pegadoralinealgrande').attr("disabled", true);
-	$('#pegadoralinealchica').attr("disabled", false);
-	idmaquina = this.value;
-	maquina = "PEGADORA LINEAL GRANDE";
+	if( idinicio != 1 )
+	{
+		$("#pegadoralinealgrande").attr("disabled", false);
+	} else {	
+		$('#pegadoralinealgrande').attr("disabled", true);
+		$('#pegadoralinealchica').attr("disabled", false);
+		idmaquina = this.value;
+		maquina = "PEGADORA LINEAL GRANDE";
+	}
 });
 
 $("#pegadoralinealchica").click(function(){
-	$('#pegadoralinealchica').attr("disabled", true);
-	$('#pegadoralinealgrande').attr("disabled", false);
-	idmaquina = this.value;
-	maquina = "PEGADORA LINEAL CHICA";
+	if( idinicio != 1 )
+	{
+		$("#pegadoralinealchica").attr("disabled", false);
+	} else {	
+		$('#pegadoralinealchica').attr("disabled", true);
+		$('#pegadoralinealgrande').attr("disabled", false);
+		idmaquina = this.value;
+		maquina = "PEGADORA LINEAL CHICA";
+	}
 });
 
 //==================================== EN TODAS LAS VISTAS ====================================
@@ -395,7 +560,7 @@ $('#enProceso tbody').on( 'click', 'tr', function () {
       inicio();
 
   }else{        
-  	swal("Ouch","Algo sucedio","error");  
+  	swal("Error","","error");  
   }
 },'json'); 
 
@@ -467,7 +632,7 @@ var enPendiente = $('#enPendiente').DataTable({
 							$("#" + proceso.toLowerCase().replace('/', '').replace(/ /gi,'') + "").attr("disabled", true);                                     
 
 						}else{        
-							swal("Ouch","Algo sucedio","error");  
+							swal("Error","","error");  
 						}
 					},'json'); 
 			/*}
@@ -478,18 +643,19 @@ var enPendiente = $('#enPendiente').DataTable({
 //}
 
 $("#ajuste").click(function(){
-	$("#ajuste").attr("disabled", true);
-	$("#ranurado").attr("disabled", false);
-	$("#refilado").attr("disabled", false);
-	$("#rayado").attr("disabled", false);
-	$("#refiladorayado").attr("disabled", false);
-	$("#impresion").attr("disabled", false);	
-	$("#pegadoCajas").attr("disabled", false);
-	$("#empalme").attr("disabled", false);
-	$("#suajado").attr("disabled", false);
-	$("#pegado").attr("disabled", false);	
-	idproceso = this.value;
-	proceso = "Ajuste";
+
+		$("#ajuste").attr("disabled", true);
+		$("#ranurado").attr("disabled", false);
+		$("#refilado").attr("disabled", false);
+		$("#rayado").attr("disabled", false);
+		$("#refiladorayado").attr("disabled", false);
+		$("#impresion").attr("disabled", false);	
+		$("#pegadoCajas").attr("disabled", false);
+		$("#empalme").attr("disabled", false);
+		$("#suajado").attr("disabled", false);
+		$("#pegado").attr("disabled", false);	
+		idproceso = this.value;
+		proceso = "Ajuste";	
 });
 
 $("#operador").change(function(){
@@ -504,7 +670,7 @@ $("#operador").change(function(){
 				idoperador = result.data[0].usuario;
 				$("#nombreoperador").val(nombreoperador);
 			}else{        
-				swal("Ouch","Algo sucedio","error");  
+				swal("Error","","error");  
 			}
 		},'json'); 	
 
@@ -512,7 +678,7 @@ $("#operador").change(function(){
 
 $("#inicio").click(function(){
 	if( ($("#orden").val() == "") && ($("#operador").val() == "" ) || ($("#orden").val() == "") || ($("#operador").val() == "" ) ){
-		swal("Oops","Completa todos los campos","error");
+		swal("Alto","Completa todos los campos","warning");
 	} else {
 		//iniciarProceso(orden,trabajo,idmaquina,maquina,idproceso,proceso,operador,nombreoperador);
 		validaAjustes();	
@@ -542,7 +708,8 @@ $("#inicio").click(function(){
 										$("#inicio").attr("disabled", true);
 										$("#orden").attr("disabled", true);
 										$("#operador").attr("disabled", true);
-										swal("Correcto","success");
+										$("#inicio").attr("disabled",true);
+										//swal("Correcto","success");
 										idinicio = 1;
 										var strDate = new Date();
 										horainicio = strDate.getFullYear() + "-" + (strDate.getMonth()+1) + "-" + strDate.getDate() + " " + strDate.getHours() + ":" + strDate.getMinutes() + ":" + strDate.getSeconds();
@@ -570,7 +737,7 @@ $("#parar").click(function(){
 
 	if( idinicio != 1 )
 	{
-		swal("Oops","No puedes parar si el proceso no ha iniciado","error");
+		swal("Alto","No puedes parar si el proceso no ha iniciado","warning");
 	} else {
 		parar();
 		//obtenerAcumulados(orden);
@@ -656,7 +823,7 @@ $("#guardar").click(function(){
 							$.post('reportarproceso', {orden:orden,tiempodeejec:tiempodeejec,cantidadok:cantidadok,cantidadmerma:cantidadmerma,notas:notas,maquina:maquina,proceso:proceso},
 								function(result){
 									if (result.validacion == true) {
-										swal("Correcto","success");
+										//swal("Correcto","success");
 										generarMembrete();
 										limpiar();
 										reinicio();
@@ -678,12 +845,12 @@ $("#cancelar").click(function(){
 
 $("#enPendiente tbody").on("click","button[type='button'].btn-preview", function()
 { 
-	alert("Presionaste");
+	alert("aqui va el preview de la orden de produccion");
 });
 
 $("#enProceso tbody").on("click","button[type='button'].btn-preview", function()
 { 
-	alert("hola mundo");
+	alert("aqui va el preview de la orden de produccion");
 });  
 
 //==================================== FUNCIONES ====================================
@@ -758,47 +925,38 @@ function validaAjustes()
 {
 	if( (proceso == "AJUSTE EMPALMADORA") && (maquina =="EMPALMADORA AUTOMATICA")  )
 	{
-		alert(proceso + "AUTOMATICA");
 		idproceso = 18;
 	} else 
 	if( (proceso == "AJUSTE EMPALMADORA") && (maquina =="EMPALMADORA SEMIAUTOMATICA")  )
 	{
-		alert(proceso + "SEMIAUTOMATICA");
 		idproceso = 19;
 	} else 
 	if( (proceso == "AJUSTE SUAJADORA") && (maquina =="SUAJADORA AUTOMATICA")  )
 	{
-		alert(proceso + "AUTOMATICA");
 		idproceso = 20;
 	} else 
 	if( (proceso == "AJUSTE SUAJADORA") && (maquina =="SUAJADORA QUIJADA 1")  )
 	{
-		alert(proceso + "QUIJADA 1");
 		idproceso = 21;
 	} else 
 	if( (proceso == "AJUSTE SUAJADORA") && (maquina =="SUAJADORA QUIJADA 2")  )
 	{
-		alert(proceso + "QUIJADA 2");
 		idproceso = 22;
 	} else 
 	if( (proceso == "AJUSTE SUAJADORA") && (maquina =="SUAJADORA PLANA")  )
 	{
-		alert(proceso + "SUAJADORA PLANA");
 		idproceso = 25;
 	} else 
 	if( (proceso == "AJUSTE SUAJADORA") && (maquina =="SUAJADORA DE RODILLO")  )
 	{
-		alert(proceso + "SUAJADORA DE RODILLO");
 		idproceso = 27;
 	} else 
 	if( (proceso == "AJUSTE PEGADORA") && (maquina =="PEGADORA LINEAL GRANDE")  )
 	{
-		alert(proceso + "LINEAL GRANDE");
 		idproceso = 23;
 	} else
 	if( (proceso == "AJUSTE PEGADORA") && (maquina =="PEGADORA LINEAL CHICA")  )
 	{
-		alert(proceso + "LINEAL CHICA");
 		idproceso = 24;
 	}		
 }

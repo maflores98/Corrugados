@@ -3,6 +3,16 @@
 class KardexController extends Zend_Controller_Action
 {
 
+	public function init()
+	{
+		$auth = Zend_Auth::getInstance(); 
+		if (!$auth->hasIdentity())
+		{ 
+			$this->_redirect('login'); 
+		}
+		
+	}
+	
 	public function showAction(){
 		
 		$this->view->titulo="** Kardex **";
@@ -81,10 +91,10 @@ class KardexController extends Zend_Controller_Action
 		$this->_helper->layout->disableLayout();
 		$this->_helper->viewRenderer->setNoRender();
 
-		$id_articulo = $_POST['id_articulo'];
+		$material = $_POST['Material'];
 
-		$movimientos = new Application_Model_DbTable_Kardex();
-		$movimiento = $movimientos->getMovimientos($id_articulo);
+		$movimientos = new Application_Model_DbTable_vDetalleKardex();
+		$movimiento = $movimientos->getMovimientos($material);
 
 		echo Zend_Json::encode($movimiento);
 

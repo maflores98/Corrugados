@@ -170,11 +170,11 @@ $(document).ready(function(){
 			var data = table.row($(this).parents("tr")).data();
 			titulo = data.Descripcion;
 
-			id_articulo = $(this).data("id");
+			//id_articulo = $(this).data("id");
 
 			$.ajax({
 				dataType: "json",
-				data: {"id_articulo": id_articulo},
+				data: {"Material": titulo},
 				url: 'getmovimientos',
 				type:  'post',
 				success: function(data){
@@ -196,15 +196,20 @@ $(document).ready(function(){
 							dom: "ftri",
 							"columns":[
 							{
-								data:"id_kardex",
-								width:"15%"
+								data:"material",
+								width:"25%"
 							},
 							{
-								data:"id_articulo"
+								data:"movimiento"
 							},
 							{
-								data:"tipomovimiento",
-								width:"15%"
+								data:"tipomovimiento"
+							},
+							{
+								data:"estatus"
+							},
+							{
+								data:"usuario"
 							},
 							{
 								data:"cantidad",
@@ -213,6 +218,9 @@ $(document).ready(function(){
 							{
 								data: "unidad",
 								width:"10%"
+							},
+							{
+								data:"fecha"
 							}
 							],
 							"columnDefs": [
@@ -222,7 +230,7 @@ $(document).ready(function(){
 							},
 							{
 								"className": "dt-right",
-								"targets": [3]
+								"targets": [5]
 							}
 							]
 						});
@@ -231,6 +239,7 @@ $(document).ready(function(){
 
 						return false;
 					}
+
 					swal(
 						'¡Atención!',
 						'No existen movimientos',

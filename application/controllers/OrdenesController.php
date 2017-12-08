@@ -2,6 +2,15 @@
 
 class OrdenesController extends Zend_Controller_Action
 {
+	public function init()
+	{
+		$auth = Zend_Auth::getInstance(); 
+		if (!$auth->hasIdentity())
+		{ 
+			$this->_redirect('login'); 
+		}
+		
+	}
 
 	public function showAction(){
 		
@@ -18,12 +27,14 @@ class OrdenesController extends Zend_Controller_Action
 			'id_ordenproduccion' => $_POST['id_ordenproduccion'],
 			'id_ordenmaterial' => $_POST['id_ordenmaterial'],
 			'id_cliente' => $_POST['id_cliente'],
+			'id_usuario' => $_POST['id_usuario'],
 			'id_ordencompra' => $_POST['id_ordencompra'],
 			'fecha_emision' => $_POST['fecha_emision'],
 			'nombre_trabajo' => $_POST['nombre_trabajo'],
 			'id_cotizacion' => $_POST['id_cotizacion'],
 			'fecha_requeridaentrega' => $_POST['fecha_requeridaentrega'],
 			'id_estatusorden' => 1,
+			'tipo_orden' => $_POST['tipo_orden'],
 			'notas' => $_POST['notas']
 
 		);

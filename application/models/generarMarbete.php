@@ -11,7 +11,7 @@ $idorden = $_GET['orden'];
 $response = new stdClass();
 $impMarbete = array();
 
-$sql="SELECT id_orden,nombre_trabajo,nombre_maquina,nombre_proceso FROM detalle_procesos WHERE id_orden = $idorden";
+$sql="SELECT id_orden,nombre_trabajo,nombre_maquina,nombre_proceso FROM procesos_pendientes WHERE id_orden = $idorden";
 $stmt=mysql_query($sql);
 $rows= mysql_num_rows($stmt);
 $fields = mysql_num_fields($stmt);

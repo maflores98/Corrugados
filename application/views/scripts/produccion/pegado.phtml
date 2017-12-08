@@ -1,11 +1,14 @@
 <div class="row">
+  <div class="col-md-12"><h1><?php  echo $this->titulo; echo @$this->nombreCliente?></h1></div>
+</div>
+<div class="row">
   <div class="col-md-12 padding-right-15">          
     <form>
       <div class="row">
         <div class="col-md-1">
           <div class="form-group">
             <label for="orden" class="control-label">Orden</label>
-            <input type="text" class="form-control" id="orden" required>
+            <input type="text" class="form-control" id="orden" readonly>
           </div>
         </div>
         <div class="col-md-5">
@@ -202,13 +205,13 @@
                   <div class="col-md-12">
                     <div class="form-group">
                       <label for="cantidadrep" class="control-label">Cantidad Ok</label>
-                      <input type="text" class="form-control" id="cantidadrep">
+                      <input type="text" class="form-control" id="cantidadrep" val="0">
                     </div>
                   </div>              
                   <div class="col-md-12">
                     <div class="form-group">
                       <label for="cantmerma" class="control-label">Cantidad Merma</label>
-                      <input type="text" class="form-control" id="cantmerma">
+                      <input type="text" class="form-control" id="cantmerma" val="0">
                     </div>
                   </div>              
                   <div class="col-md-12">

@@ -13,32 +13,33 @@ class IndexController extends Zend_Controller_Action
         
     }
 
-    public function indexAction()
-    {
-            $front =Zend_Controller_Front :: getInstance ();  
-            $baseUrl = $front -> getBaseUrl ();
-            $this->view->titulo="**Clientes**";
-            $this->view->grid="Gridclientes";
-            $this->view->gridDirecciones="gridDirecciones";
-            $this->view->guardarCliente="Clientes/guardar";
-            $this->view->actualizaCliente="Clientes/actualiza";
-            $this->view->actualizaDir="Clientes/actualizadir";
-            $this->view->tituloModal="Nuevo Cliente";
-            $this->view->nomForm="clientesG";
-            $this->view->identificador="cliente";
-            $this->view->redireccionar=$baseUrl."/index";
-            $this->view->urlGrid=$baseUrl."/Clientes/consultar";
-            $this->view->consultaCliente=$baseUrl."/Clientes/consultacliente";
-            $this->view->baseUrl=$baseUrl."/index";
-            $this->view->consultaDireccion=$baseUrl."/Clientes/consultadireccion";
-            $this->view->urlDireccion=$baseUrl."/Clientes/todasdireccion";
+    public function indexAction(){
 
-            
-            $this->renderScript("index/index.phtml");
 
     }
+
+    public function clientesAction(){
+        $front =Zend_Controller_Front :: getInstance ();  
+        $baseUrl = $front -> getBaseUrl ();
+        $this->view->titulo="**Clientes**";
+        $this->view->grid="Gridclientes";
+        $this->view->gridDirecciones="gridDirecciones";
+        $this->view->guardarCliente="Clientes/guardar";
+        $this->view->actualizaCliente="Clientes/actualiza";
+        $this->view->actualizaDir="Clientes/actualizadir";
+        $this->view->tituloModal="Nuevo Cliente";
+        $this->view->nomForm="clientesG";
+        $this->view->identificador="cliente";
+        $this->view->redireccionar=$baseUrl."/index";
+        $this->view->urlGrid=$baseUrl."/Clientes/consultar";
+        $this->view->consultaCliente=$baseUrl."/Clientes/consultacliente";
+        $this->view->baseUrl=$baseUrl."/index";
+        $this->view->consultaDireccion=$baseUrl."/Clientes/consultadireccion";
+        $this->view->urlDireccion=$baseUrl."/Clientes/todasdireccion";
+        $this->renderScript("index/clientes.phtml");
+    }
     public function altasAction(){
-        
+
     }
     public function proveedoresAction(){
         $front =Zend_Controller_Front :: getInstance ();  
@@ -55,10 +56,10 @@ class IndexController extends Zend_Controller_Action
         $this->view->urlGrid=$baseUrl."/Proveedores/consultar";
         $this->view->consultaCliente=$baseUrl."/Proveedores/consultaproveedor";
         $this->view->consultaDireccion=$baseUrl."/Proveedores/consultadireccion";
-        $this->renderScript("index/index.phtml");
+        $this->renderScript("index/proveedores.phtml");
     }
 
-     public function articulosAction(){
+    public function articulosAction(){
         $front =Zend_Controller_Front :: getInstance ();  
         $baseUrl = $front -> getBaseUrl ();
         $this->view->titulo="**Articulos**";
@@ -87,7 +88,7 @@ class IndexController extends Zend_Controller_Action
         $this->renderScript("index/materiales.phtml");
     }
 
-     public function maquinasAction(){
+    public function maquinasAction(){
         $front =Zend_Controller_Front :: getInstance ();  
         $baseUrl = $front -> getBaseUrl ();
         $this->view->titulo="**Maquinas**";
@@ -101,10 +102,10 @@ class IndexController extends Zend_Controller_Action
         $this->renderScript("index/index.phtml");
     }
     public function consultarAction(){
-      
 
 
-      
+
+
     }
 
     public function usuarioAction(){
@@ -121,7 +122,7 @@ class IndexController extends Zend_Controller_Action
         $this->view->urlGrid=$baseUrl."/Usuarios/consultar";
         $this->view->consultaarticulo=$baseUrl."/Usuarios/consultaarticulo";
         $this->renderScript("index/usuarios.phtml");
-      
+
     }
 
 
@@ -193,77 +194,77 @@ class IndexController extends Zend_Controller_Action
 
         include '../library/Zend/Cache/Backend/WinCache.php';
 
-            $frontendOptions = array(
-               'lifetime' => null,
-               'automatic_serialization' => true
-            );
-            $backendOptions = array(
-                'cache_dir' => 'temp/'
-            );
-            $cache = Zend_Cache::factory('Core', 'File', $frontendOptions, $backendOptions);
+        $frontendOptions = array(
+           'lifetime' => null,
+           'automatic_serialization' => true
+       );
+        $backendOptions = array(
+            'cache_dir' => 'temp/'
+        );
+        $cache = Zend_Cache::factory('Core', 'File', $frontendOptions, $backendOptions);
 
             //$idCompara =$_GET['tabla'];
-            $id='rs';
-
-           
+        $id='rs';
 
 
-            echo $id;
+
+
+        echo $id;
            //eliminar la variable de caché
             //$cache->remove($id);
-             
-            
+
+
             //echo $start_time =microtime(true);
 
            // echo $cache->load($id);
 
-            if(!($data =$cache->load($id)))
+        if(!($data =$cache->load($id)))
+        {
+            echo "Sin Cache<br />";
+            mysql_connect('localhost', 'root', '');
+            mysql_select_db('viveros');
+            $query = "select * from clientes";
+            $rs = mysql_query($query);
+            $data = array();
+            while($row = mysql_fetch_assoc($rs))
             {
-                echo "Sin Cache<br />";
-                mysql_connect('localhost', 'root', '');
-                mysql_select_db('viveros');
-                $query = "select * from clientes";
-                $rs = mysql_query($query);
-                $data = array();
-                while($row = mysql_fetch_assoc($rs))
-                {
-                    $data[] = $row;
-                }
-                $cache->save($data);
+                $data[] = $row;
             }
-            else
-            {
-                    $data = $cache->load($id);
-                    echo "Corriendo con Cache<br />";
-            }
-            
+            $cache->save($data);
+        }
+        else
+        {
+            $data = $cache->load($id);
+            echo "Corriendo con Cache<br />";
+        }
 
-            print_r($data);
+
+        print_r($data);
           //  echo sprintf('%01.4f', microtime(true) – $start_time);
 
 
-                }
+    }
 
-         public function cachedosAction(){
+    public function cachedosAction(){
 
         $this->_helper->layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender();
 
         include '../library/Zend/Cache/Backend/WinCache.php';
 
-            $frontendOptions = array(
-               'lifetime' => 1000,
-               'automatic_serialization' => true
-            );
-            $backendOptions = array(
-                'cache_dir' => 'temp/'
-            );
-            $cache = Zend_Cache::factory('Core', 'File', $frontendOptions, $backendOptions);
+        $frontendOptions = array(
+           'lifetime' => 1000,
+           'automatic_serialization' => true
+       );
+        $backendOptions = array(
+            'cache_dir' => 'temp/'
+        );
+        $cache = Zend_Cache::factory('Core', 'File', $frontendOptions, $backendOptions);
 
             //$idCompara =$_GET['tabla'];
-            $id='rm';
+        $id='rm';
             //$cache->remove($id);
-           
+
 
 
            /*
@@ -280,40 +281,40 @@ $cache->clean(Zend_Cache::CLEANING_MODE_ALL);
            */
 
 
-            echo $id;
+echo $id;
            //eliminar la variable de caché
             //$cache->remove($id);
-             
-            
+
+
             //echo $start_time =microtime(true);
 
            // echo $cache->load($id);
 
-            if(!($data =$cache->load($id)))
-            {
-                echo "Sin Cache<br />";
-                mysql_connect('localhost', 'root', '');
-                mysql_select_db('viveros');
-                $query = "select * from ordenes";
-                $rs = mysql_query($query);
-                $data = array();
-                while($row = mysql_fetch_assoc($rs))
-                {
-                    $data[] = $row;
-                }
-                $cache->save($data);
-            }
-            else
-            {
-                    $data = $cache->load($id);
-                    echo "Corriendo con Cache<br />";
-            }
-            
+if(!($data =$cache->load($id)))
+{
+    echo "Sin Cache<br />";
+    mysql_connect('localhost', 'root', '');
+    mysql_select_db('viveros');
+    $query = "select * from ordenes";
+    $rs = mysql_query($query);
+    $data = array();
+    while($row = mysql_fetch_assoc($rs))
+    {
+        $data[] = $row;
+    }
+    $cache->save($data);
+}
+else
+{
+    $data = $cache->load($id);
+    echo "Corriendo con Cache<br />";
+}
 
-            print_r($data);
+
+print_r($data);
           //  echo sprintf('%01.4f', microtime(true) – $start_time);
 
 
-                } 
+} 
 
 }

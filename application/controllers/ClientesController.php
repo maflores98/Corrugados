@@ -11,16 +11,6 @@ class ClientesController extends Zend_Controller_Action
             $this->_redirect('login'); 
         }
     }
-
-    public function indexAction()
-    {
-
-      //$model = new Application_Model_DbTable_Menu();
-      //$crearmenu  = new Zend_Session_Namespace('crearmenu');
-      //$crearmenu->menu = $model->Buscar();
-
-
-    }
     
     public function consultarAction(){
 

@@ -1,0 +1,1011 @@
+<!--style type="text/css">
+tfoot input {
+        width: 100%;
+        padding: 1px;
+        box-sizing: border-box;
+
+    }
+
+    thead{
+
+      background-color: #000000;
+      color:#fff;
+      height: 2px !important;
+    }
+    #reporteador_length{
+      margin-left: 300px;
+    }
+    #menu{
+
+      width: 300px;
+      height: 100px;
+      background-color: black;
+    }
+    div#<?php //echo $this->grid;  ?>_filter.dataTables_filter{
+   // display: none !important;
+   background-color: #fff !important;
+   color: #fff !important;
+   z-index: -1!important;
+   margin-top: -300px;
+}
+</style-->
+<style>
+.modal-dialog {
+  width: 60%;
+}  
+</style>
+
+<script type="text/javascript">
+  var Id;
+  $(document).ready(function() {
+    MostrarGrid(false);
+    $("#msj-conf-datos-cliente").hide();
+    $("#msj-conf-datos-cliente-actu").hide();
+    $("#msj-conf-datos-dir-actu").hide();
+    $("#msj-conf-datos-dir").hide();
+    $("#msj-conf-datos-dir-pro").hide();
+    $("#msj-conf-datos-prov-actu").hide();
+    $( ".buttons-excel" ).hide();
+
+     //ocultar boton de actualizar
+     $("#aCliente").hide();
+     $("#aClienteDir").hide();
+     $("#aClientePro").hide();
+     $("#aProveedorDir").hide();
+     $("#"+sessionStorage.getItem("valor")+"l").addClass("active");
+     function MostrarGrid(valor){
+      $('#<?php echo $this->grid;  ?>').DataTable({
+        "ajax": {
+          "url": "<?php echo $this->urlGrid;?>?valor="+ sessionStorage.getItem("valor")
+        },
+        scrollY: "300px",
+        scrollCollapse: true,
+        paging: false,
+        "language": {
+          "lengthMenu": "Mostrar _MENU_ registros por página",
+          "search": "Buscar:",
+          "zeroRecords": "No existe el registro",
+          "info": "Viendo  _TOTAL_ de _MAX_ registros.",
+          "infoEmpty": "Viendo  _TOTAL_ de _MAX_ registros.",
+          "infoFiltered": "",
+          "paginate": {
+            "first":      "Inicio",
+            "last":       "Último",
+            "next":       "Siguiente",
+            "previous":   "Anterior"
+          }
+        },
+                //"lengthMenu": [[10, 20, -1], [10, 20, "Todo"]],
+
+                dom: '<lfpti>',
+                buttons: [
+                'excel'
+                ]
+     //"lengthMenu": [[10, 25, 50,100,200,500,1000 -1], [10, 25, 50,100,200,500,1000, "All"]]
+
+   });
+
+      var table = $('#<?php echo $this->grid;  ?>').DataTable();
+
+      $( "#btn-excel" ).on( "click", function() {
+        $( ".buttons-excel" ).trigger( "click" );
+      });
+
+      $('#<?php echo $this->grid;  ?> tbody').on( 'click', 'tr', function () {
+
+
+
+        if ( $(this).hasClass('selected') ) {
+          $(this).removeClass('selected');
+        }
+        else {
+          table.$('tr.selected').removeClass('selected');
+          $(this).addClass('selected');
+
+          Id = $(this).find('td').eq(0).html();
+          $("#id").val(Id);
+          OrdenID=$("#id").val();
+          //  alert(Id);
+          $("#"+Id).click(function(data){
+
+            <?php  if($this->identificador=="cliente"){ ?>
+              window.location='index/consultadireccionescliente?cliente='+Id;
+
+               <?php }else{ ?> //poner el baseurl
+                window.location='../index/consultadireccionesproveedor?proveedor='+Id;
+
+                <?php } ?>
+                      // alert($(this).attr("id"));
+                      return false;
+                    });
+
+
+
+        }
+
+      });
+
+
+
+
+
+
+
+
+
+
+
+        //editar
+        $("#cancelar").click(function(){
+          $('#<?php echo $this->nomForm;?>')[0].reset();
+          window.location="<?php echo $this->baseUrl; ?>";
+        });
+         //configurar modal de direcciones 
+
+
+
+         $("#editarCliente").click(function(){
+
+
+
+           // alert(Id);
+           $("#aCliente").show();
+           $("#gCliente").hide();
+           $("#aClienteDir").show();
+           $("#gClienteDir").hide();
+           $("#aClientePro").show();
+           $("#gProveedor").hide();
+           $("#gProveedorDir").hide();
+           $("#aProveedorDir").show();
+
+           var title = "Editar Cliente";
+           $("#myModal .modal-title").text( title );
+
+
+
+            //return false;
+            if(Id != ""){
+
+             $.post("<?php echo $this->consultaCliente; ?>",{idCliente:Id},
+              function(data){
+                $("#id_cliente").val(data.datos[0].id_cliente);
+                $("#id_clienteDir").val(data.datos[0].id_cliente);
+                $("#id_ProvDir").val(data.datos[0].id_cliente);
+                $("#id_clienteProDir").val(data.datos[0].id_cliente);
+
+                $("#idroveedor").val(data.datos[0].id_cliente);
+                $("#rcomercial").val(data.datos[0].rcomercial);
+                $("#rfc").val(data.datos[0].rfc);
+                $("#telefono").val(data.datos[0].telefono);
+                $("#pagweb").val(data.datos[0].pagweb);
+                $("#id_categoria").val(data.datos[0].id_categoria);
+                $("#id_estatus").val(data.datos[0].id_estatus);
+                $("#condpago").val(data.datos[0].condpago);
+                $("#diasrevision").val(data.datos[0].diasrevision);
+                $("#contacto1").val(data.datos[0].contacto1);
+                $("#mailcont1").val(data.datos[0].mailcont1);
+                $("#refcont1").val(data.datos[0].refcont1);
+                $("#contacto2").val(data.datos[0].contacto2);
+                $("#mailcont2").val(data.datos[0].mailcont2);
+                $("#refcont2").val(data.datos[0].refcont2);
+                $("#Contacto3").val(data.datos[0].contacto3);
+                $("#mailcont3").val(data.datos[0].mailcont3);
+                $("#refcont3").val(data.datos[0].refcont3);
+                $("#refcont3").val(data.datos[0].refcont3);
+                $("#id_vendedor").val(data.datos[0].id_vendedor);
+
+                  //consultar la dirección ligada al cliente
+                  $.post("<?php echo $this->consultaDireccion; ?>",{idCliente:Id},
+                    function(data){
+
+                      $("#id_tipodireccion").val(data.datos[0].id_tipodireccion);
+                      $("#estatusDir").val(data.datos[0].id_estatus);
+                      $("#calle").val(data.datos[0].calle);
+                      $("#colonia").val(data.datos[0].colonia);
+                      $("#ciudad").val(data.datos[0].ciudad);
+                      $("#municipio").val(data.datos[0].municipio);
+                      $("#estado").val(data.datos[0].estado);
+                      $("#cp").val(data.datos[0].cp);
+                      $("#nota").val(data.datos[0].nota);
+
+
+                    },'json');
+
+                  $("#btnNuevaOrden").trigger("click");
+                },'json'
+
+                );
+
+
+           }
+           
+
+         });
+
+      //boton de suspender
+      $("#suspender").click(function(){
+
+        alert("suspender a " + Id);
+
+      });
+
+    }
+
+    $("#buscadorGeneral").change(function(){
+        //alert("hola");
+        $("[aria-controls='<?php echo $this->grid; ?>']").val($("#buscadorGeneral").val());
+        $('#<?php echo $this->grid; ?>_filter input').attr("placeholder", "BUSCAR");
+        $('#<?php echo $this->grid; ?>_filter input').addClass("text-uppercase");
+        $('#<?php echo $this->grid; ?>_filter input').focus();
+      });
+
+    $(".pagination li a").click(function(){
+     sessionStorage.setItem("valor", $(this).attr("id"));
+     window.location='<?php echo $this->redireccionar; ?>';
+     $('#<?php echo $this->grid;  ?>').dataTable()._fnAjaxUpdate();
+
+   });
+
+
+     //funcionalidades para guardar
+     $("#gCliente").click(function(){
+      var clientes=$("#<?php echo $this->nomForm;?>").serialize();
+       // alert(clientes);
+       //return false;
+       $.post("<?php echo $this->guardarCliente; ?>",clientes,
+        function(data){
+
+         $('#<?php echo $this->grid;  ?>').dataTable()._fnAjaxUpdate();
+         $("#id_clienteDir").val(data.idCliente);
+         $("#msj-conf-datos-cliente").show();
+          // $('#myModal').modal('toggle');//cerramos el modal despues de agregar dirección
+          // $('#<?php echo $this->nomForm; ?>')[0].reset();
+
+        },'json'
+
+        );
+       return false;
+
+     });
+     $("#gProveedor").click(function(){
+      var clientes=$("#<?php echo $this->nomForm; ?>").serialize();
+        //alert(clientes);
+        //return false;
+        $.post("<?php echo $this->guardarCliente; ?>",clientes,
+          function(data){
+
+           $('#<?php echo $this->grid;  ?>').dataTable()._fnAjaxUpdate();
+           $("#msj-conf-datos-cliente").show();
+           $("#id_clienteProDir").val(data.proveedor);
+           //$('#myModal').modal('toggle');
+           //$('#<?php echo $this->nomForm; ?>')[0].reset();
+
+         },'json'
+
+         );
+
+        return false;
+
+      });
+     $("#gClienteDir").click(function(){
+      var clientes=$("#<?php echo $this->nomForm; ?>DirC").serialize();
+       // alert(clientes);
+        //return false;
+        $.post("Clientes/guardardireccion",clientes,
+          function(data){
+
+           $('#<?php echo $this->grid;  ?>').dataTable()._fnAjaxUpdate();
+           //$('#myModal').modal('toggle');
+           //$('#<?php echo $this->nomForm; ?>')[0].reset();
+          // $("#<?php echo $this->nomForm; ?>DirC")[0].reset();
+          $("#msj-conf-datos-dir").show();
+
+        },'json'
+
+        );
+
+        return false;
+
+      });
+     $("#gProveedorDir").click(function(){
+      var clientes=$("#<?php echo $this->nomForm; ?>DirP").serialize();
+        //alert(clientes);
+        //return false;
+        $.post("../Proveedores/guardardireccion",clientes,
+          function(data){
+
+           $('#<?php echo $this->grid;  ?>').dataTable()._fnAjaxUpdate();
+          // $('#myModal').modal('toggle');
+          // $('#<?php echo $this->nomForm; ?>')[0].reset();
+          $("#msj-conf-datos-dir-pro").show();
+
+        },'json'
+
+        );
+
+        return false;
+
+      });
+
+     $("#aCliente").click(function(){
+       // alert("preparar para actulizar");
+       var clientes=$("#<?php echo $this->nomForm;?>").serialize();
+
+       $.post("<?php echo $this->actualizaCliente; ?>",clientes,
+        function(data){
+
+         $('#<?php echo $this->grid;  ?>').dataTable()._fnAjaxUpdate();
+         $("#id_clienteDir").val($("#id_cliente").val());
+
+         $("#msj-conf-datos-cliente-actu").show();
+
+          // $('#myModal').modal('toggle');//cerramos el modal despues de agregar dirección
+          // $('#<?php echo $this->nomForm; ?>')[0].reset();
+
+        },'json'
+
+        );
+       return false;
+
+
+     });
+     $("#aClienteDir").click(function(){
+       // alert("preparar para actulizar");
+       var clientes=$("#<?php echo $this->nomForm;?>DirC").serialize();
+       // alert(clientes);
+       //return false;
+       $.post("<?php echo $this->actualizaDir; ?>",clientes,
+        function(data){
+
+         $('#<?php echo $this->grid;  ?>').dataTable()._fnAjaxUpdate();
+           //$("#id_clienteDir").val(data.idCliente);
+           $("#msj-conf-datos-dir-actu").show();
+
+          // $('#myModal').modal('toggle');//cerramos el modal despues de agregar dirección
+          // $('#<?php echo $this->nomForm; ?>')[0].reset();
+
+        },'json'
+
+        );
+       return false;
+
+
+     });
+     $("#aClientePro").click(function(){
+       // alert("preparar para actulizar");
+       var clientes=$("#<?php echo $this->nomForm;?>").serialize();
+
+       $.post("<?php echo $this->actualizaCliente; ?>",clientes,
+        function(data){
+
+         $('#<?php echo $this->grid;  ?>').dataTable()._fnAjaxUpdate();
+         $("#id_clienteDir").val($("#id_cliente").val());
+
+         $("#msj-conf-datos-cliente-actu").show();
+
+          // $('#myModal').modal('toggle');//cerramos el modal despues de agregar dirección
+          // $('#<?php echo $this->nomForm; ?>')[0].reset();
+
+        },'json'
+
+        );
+       return false;
+
+
+     });
+     $("#aProveedorDir").click(function(){
+       // alert("preparar para actulizar");
+       var clientes=$("#<?php echo $this->nomForm;?>DirP").serialize();
+
+       $.post("<?php echo $this->actualizaDir; ?>",clientes,
+        function(data){
+
+         $('#<?php echo $this->grid;  ?>').dataTable()._fnAjaxUpdate();
+          // $("#id_clienteDir").val($("#id_cliente").val());
+           //alert("ddddwdw");
+           $("#msj-conf-datos-prov-actu").show();
+
+          // $('#myModal').modal('toggle');//cerramos el modal despues de agregar dirección
+          // $('#<?php echo $this->nomForm; ?>')[0].reset();
+
+        },'json'
+
+        );
+       return false;
+
+
+     });
+
+     
+
+
+
+    /*  $("#btn-direccion").click(function(){
+          $("#btn-datos-cliente").trigger("click");
+        });*/
+
+         //permisos de usuarios , dato de la base de datos
+
+         sessionStorage.setItem("actualizar","true");
+         sessionStorage.setItem("eliminar","true");
+         sessionStorage.setItem("suspender","true");
+         sessionStorage.setItem("nuevo","true");
+         sessionStorage.setItem("buscar","true");
+         sessionStorage.setItem("botonesExportar","true");
+
+
+         if(sessionStorage.getItem("actualizar")=="false"){
+          $("#editarCliente").attr("disabled",true);
+        }
+        if(sessionStorage.getItem("nuevo")=="false"){
+          $("#btnNuevaOrden").attr("disabled",true);
+        }
+        if(sessionStorage.getItem("suspender")=="false"){
+          $("#suspender").attr("disabled",true);
+        }
+        if(sessionStorage.getItem("buscar")=="false"){
+          $("li").addClass('disabled');
+        }
+        if(sessionStorage.getItem("botonesExportar")=="false"){
+          $(".dt-buttons a").addClass('disabled');
+        }
+
+
+
+
+
+
+
+
+      });
+
+
+
+
+    </script>
+
+
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" id="btnNuevaOrden"> <span class="glyphicon glyphicon-plus-sign"></span>Nuevo</button>
+    <button class="btn btn-primary" id='editarCliente'><span class="glyphicon glyphicon-pencil"></span>Editar</button>
+    <button class="btn btn-primary" id='suspender'><span class="glyphicon glyphicon-hourglass"></span>Suspender</button>
+    <button class="btn btn-primary" id='btn-excel'>Exportar a Excel</button>
+
+<!--ul class="pagination ">
+
+   <li id='al' ><a href="#" id='a'>A</a></li>
+   <li id="bl"><a href="#" id='b'>B</a></li>
+   <li id="cl"><a href="#" id='c'>C</a></li>
+   <li id="dl"><a href="#" id='d'>D</a></li>
+   <li id="el"><a href="#" id='e'>E</a></li>
+   <li id="fl"><a href="#" id='f'>F</a></li>
+   <li id="gl"><a href="#" id='g'>G</a></li>
+   <li id="hl"><a href="#" id='h'>H</a></li>
+   <li id="il"><a href="#" id='i'>I</a></li>
+   <li id="jl"><a href="#" id='j'>J</a></li>
+   <li id="kl"><a href="#" id='k'>K</a></li>
+   <li id="ll"><a href="#" id='l'>L</a></li>
+   <li id="ml"><a href="#" id='m'>M</a></li>
+   <li id="nl"><a href="#" id='n'>N</a></li>
+   <li id="ol"><a href="#" id='o'>O</a></li>
+   <li id="pl"><a href="#" id='p'>P</a></li>
+   <li id="ql"><a href="#" id='q'>Q</a></li>
+   <li id="rl"><a href="#" id='r'>R</a></li>
+   <li id="sl"><a href="#" id='s'>S</a></li>
+   <li id="tl"><a href="#" id='t'>T</a></li>
+   <li id="ul"><a href="#" id='u'>U</a></li>
+   <li id="vl"><a href="#" id='v'>V</a></li>
+   <li id="wl"><a href="#" id='w'>W</a></li>
+   <li id="xl"><a href="#" id='x'>X</a></li>
+   <li id="yl"><a href="#" id='y'>Y</a></li>
+   <li id="zl"><a href="#" id='z'>Z</a></li>
+   <li id="nulll"><a href="#" id='null'>Todos</a></li>
+ </ul-->
+
+
+ <table id="<?php echo $this->grid; ?>" class="table display cell-border" cellspacing="0" width="100%">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>rComercial</th>
+      <th>Rfc</th>
+      <th>Teléfono</th>
+      <th>Pag.Web</th>
+      <th>Estatus</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="bdy-grid">
+  </tbody>
+</table>
+
+<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" style="color:#deb887;"><?php echo $this->tituloModal; ?></h4>
+      </div>
+      <div class="modal-body">
+           <!--button type="button" class="btn btn-info" data-toggle="collapse" data-target="#datosCliente" id="btn-datos-cliente">Datos Generales de <?php echo $this->identificador; ?></button>
+            <!--button type="button" class="btn btn-info" data-toggle="collapse" data-target="#datosDireccion" id="btn-direccion">Dirección de <?php echo $this->identificador; ?></button-->
+
+            
+            <?php  if($this->identificador=="cliente"){ ?>
+            <form  name="<?php echo $this->nomForm;?>" id="<?php echo $this->nomForm;?>" class="form-inline" method="POST">
+              <input type="hidden" id="id_cliente" name="id_cliente"></input>
+              <table class="table display cell-border">
+                <tbody>
+                  <tr>
+                    <td class="td_right">Razón Comercial:</td>
+                    <td colspan="3">
+                      <input id="rcomercial" class="form-control" name="rcomercial" type="text" value="" required>
+                    </td>
+                    <td class="td_right">Rfc:</td>
+                    <td colspan="3">
+                      <input id="rfc" class="form-control" name="rfc" type="text" value="" required>
+                    </td>
+                  </tr>
+
+                  <tr>
+                   <td class="td_right">Teléfono:</td>
+                   <td colspan="3">
+                    <input id="telefono" class="form-control" name="telefono" type="text" value="" required>
+                  </td>
+                  <td class="td_right">Pag. Web:</td>
+                  <td colspan="3">
+                    <input id="pagweb" class="form-control" name="pagweb" type="text" value="" required>
+                  </td>
+                  <td class="td_right">Categoría:</td>
+                  <td colspan="3">
+                    <select id='id_categoria' class="form-control" name="id_categoria" type="text" value="" required>
+                      <option value="">Seleccionar..</option>
+                      <option value="1">cat1</option>
+                      <option value="2">cat2</option>
+                      <option value="3">cat3</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                 <td class="td_right">Estatus:</td>
+                 <td colspan="3">
+                  <select id='id_estatus' class="form-control" name="id_estatus" type="text" value="" required>
+                    <option value="">Seleccionar..</option>
+                    <option value="1">Activo</option>
+                    <option value="2">Inactivo</option>
+                    <option value="3">Suspendido</option>
+                  </select>
+                </td>
+                <td class="td_right">Codición de Pago:</td>
+                <td colspan="3">
+                 <input id="condpago" class="form-control" name="condpago" type="text" value="" required>
+               </td>
+               <td class="td_right">Días de revisión:</td>
+               <td colspan="3">
+                 <input id="diasrevision" class="form-control" name="diasrevision" type="text" value="" required>
+               </td>
+             </tr>
+             <tr>
+              <td class="td_right">Contacto1:</td>
+              <td colspan="3">
+               <input id="contacto1" class="form-control" name="contacto1" type="text" value="" required>
+             </td>
+             <td class="td_right">Mail Contacto1:</td>
+             <td colspan="3">
+               <input id="mailcont1" class="form-control" name="mailcont1" type="text" value="" required>
+             </td>
+             <td class="td_right">RefContacto1:</td>
+             <td colspan="3">
+               <input id="refcont1" class="form-control" name="refcont1" type="text" value="" required>
+             </td>
+           </tr>
+           <tr>
+             <td class="td_right">Contacto2:</td>
+             <td colspan="3">
+               <input id="contacto2" class="form-control" name="contacto2" type="text" value="" required>
+             </td>
+             <td class="td_right">Mail Contacto2:</td>
+             <td colspan="3">
+               <input id="mailcont2" class="form-control" name="mailcont2" type="text" value="" required>
+             </td>
+             <td class="td_right">Ref Contacto2:</td>
+             <td colspan="3">
+               <input id="refcont2" class="form-control" name="refcont2" type="text" value="" required>
+             </td>
+           </tr>
+           <tr>
+            <td class="td_right">Contacto3:</td>
+            <td colspan="3">
+             <input id="Contacto3" class="form-control" name="Contacto3" type="text" value="" required>
+           </td>
+           <td class="td_right">Mail Contacto3:</td>
+           <td colspan="3">
+             <input id="mailcont3" class="form-control" name="mailcont3" type="text" value="" required>
+           </td>
+           <td class="td_right">Ref Contacto3:</td>
+           <td colspan="3">
+             <input id="refcont3" class="form-control" name="refcont3" type="text" value="" required>
+           </td>
+         </tr>
+         <tr>
+          <td class="td_right">Vendedor:</td>
+          <td colspan="3">
+            <select id='id_vendedor' class="form-control" name="id_vendedor" type="text" value="" required>
+              <option value="">Seleccionar..</option>
+              <option value="1">agente1</option>
+              <option value="2">agente2</option>
+              <option value="3">agente3</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="12">
+           <button type="submit" class="btn btn-success" data-dismiss="modal" id='aCliente' style="float: right;"> <span class="glyphicon glyphicon-refresh"></span></span>Actualizar</button>
+           <button type="submit" class="btn btn-success" data-dismiss="modal" id='gCliente' style="float: right;"> <span class="glyphicon glyphicon-ok"></span>Guardar</button>
+         </td>
+       </tr>
+     </tbody>
+   </table>
+   <div class="alert alert-success" id='msj-conf-datos-cliente' style="font-size:24px !important;">
+    <strong>Aviso!</strong> Datos de cliente guardados con éxito, agrega una dirección.
+  </div>
+  <div class="alert alert-success" id='msj-conf-datos-cliente-actu' style="font-size:24px !important;">
+    <strong>Aviso!</strong> Datos de cliente actualizados con éxito.
+  </div>
+</form>
+<!--agregar direccion-->
+
+
+
+<!--fin de agregar dirección-->
+<?php } ?>
+
+
+
+<!--formulario para proveedores-->
+<?php  if($this->identificador=="proveedor"){ ?>
+
+<form  name="<?php echo $this->nomForm;?>" id="<?php echo $this->nomForm;?>" class="form-inline" method="POST">
+ <input type="hidden" id="id_ProvDir" name="id_proveedores"></input>
+ <table class="table display cell-border">
+  <tbody>
+
+   <tr>
+    <td class="td_right">Razón Comercial:</td>
+    <td colspan="3">
+      <input id="rcomercial" class="form-control" name="rcomercial" type="text" value="" required>
+    </td>
+    <td class="td_right">Rfc:</td>
+    <td colspan="3">
+      <input id="rfc" class="form-control" name="rfc" type="text" value="" required>
+    </td>
+  </tr>
+
+  <tr>
+   <td class="td_right">Teléfono:</td>
+   <td colspan="3">
+    <input id="telefono" class="form-control" name="telefono" type="text" value="" required>
+  </td>
+  <td class="td_right">Pag. Web:</td>
+  <td colspan="3">
+    <input id="pagweb" class="form-control" name="pagweb" type="text" value="" required>
+  </td>
+  <td class="td_right">Categoría:</td>
+  <td colspan="3">
+    <select id='id_categoria' class="form-control" name="id_categoria" type="text" value="" required>
+      <option value="">Seleccionar..</option>
+      <option value="1">cat1</option>
+      <option value="2">cat2</option>
+      <option value="3">cat3</option>
+    </select>
+  </td>
+</tr>
+<tr>
+ <td class="td_right">Estatus:</td>
+ <td colspan="3">
+  <select id='id_estatus' class="form-control" name="id_estatus" type="text" value="" required>
+    <option value="">Seleccionar..</option>
+    <option value="1">Activo</option>
+    <option value="2">Inactivo</option>
+    <option value="3">Suspendido</option>
+  </select>
+</td>
+<td class="td_right">Codición de Pago:</td>
+<td colspan="3">
+ <input id="condpago" class="form-control" name="condpago" type="text" value="" required>
+</td>
+<td class="td_right">Días de revisión:</td>
+<td colspan="3">
+ <input id="diasrevision" class="form-control" name="diasrevision" type="text" value="" required>
+</td>
+</tr>
+<tr>
+  <td class="td_right">Contacto1:</td>
+  <td colspan="3">
+   <input id="contacto1" class="form-control" name="contacto1" type="text" value="" required>
+ </td>
+ <td class="td_right">Mail Contacto1:</td>
+ <td colspan="3">
+   <input id="mailcont1" class="form-control" name="mailcont1" type="text" value="" required>
+ </td>
+ <td class="td_right">RefContacto1:</td>
+ <td colspan="3">
+   <input id="refcont1" class="form-control" name="refcont1" type="text" value="" required>
+ </td>
+</tr>
+<tr>
+ <td class="td_right">Contacto2:</td>
+ <td colspan="3">
+   <input id="contacto2" class="form-control" name="contacto2" type="text" value="" required>
+ </td>
+ <td class="td_right">Mail Contacto2:</td>
+ <td colspan="3">
+   <input id="mailcont2" class="form-control" name="mailcont2" type="text" value="" required>
+ </td>
+ <td class="td_right">Ref Contacto2:</td>
+ <td colspan="3">
+   <input id="refcont2" class="form-control" name="refcont2" type="text" value="" required>
+ </td>
+</tr>
+<tr>
+  <td class="td_right">Contacto3:</td>
+  <td colspan="3">
+   <input id="Contacto3" class="form-control" name="Contacto3" type="text" value="" required>
+ </td>
+ <td class="td_right">Mail Contacto3:</td>
+ <td colspan="3">
+   <input id="mailcont3" class="form-control" name="mailcont3" type="text" value="" required>
+ </td>
+ <td class="td_right">Ref Contacto3:</td>
+ <td colspan="3">
+   <input id="refcont3" class="form-control" name="refcont3" type="text" value="" required>
+ </td>
+</tr>
+<tr>
+  <tr>
+    <td colspan="12">
+      <button type="submit" class="btn btn-success" data-dismiss="modal" id='aClientePro' style="float: right;"> <span class="glyphicon glyphicon-refresh"></span>Actualizar</button>
+      <button type="submit" class="btn btn-success" data-dismiss="modal" id='gProveedor' style="float: right;"> <span class="glyphicon glyphicon-ok"></span>Guardar</button>
+    </td>
+  </tr>
+</tbody>
+</table>
+<div class="alert alert-success" id='msj-conf-datos-cliente' style="font-size:24px !important;">
+  <strong>Aviso!</strong> Datos de Proveedor guardados con éxito, agrega una dirección.
+</div>
+<div class="alert alert-success" id='msj-conf-datos-cliente-actu' style="font-size:24px !important;">
+  <strong>Aviso!</strong> Datos de Proveedor actualizados con éxito.
+</div>
+</form>
+
+<?php } ?>
+
+<!--fin de formulario de proveedores-->
+
+
+<!-- direcciones de cliente-->
+
+<div id="datosDireccion" class="collapse">
+ <h1 style="font-size: 24px;color: blue;font-weight: bold;">Dirección</h1>
+
+ <?php  if($this->identificador=="cliente"){ ?>
+ <form  name="<?php echo $this->nomForm;?>" id="<?php echo $this->nomForm;?>DirC" class="form-inline" method="POST">
+   <input type="hidden" id="id_clienteDir" name="id_cliente"></input>
+   <table class="table display-cellborder">
+    <tbody>
+      <tr>
+        <td class="td_right">Tipo Dirección:</td>
+        <td colspan="3">
+          <select id='id_tipodireccion' class="form-control" name="id_tipodireccion" type="text" value="" required>
+            <option value="">Seleccionar..</option>
+            <option value="1">dir1</option>
+            <option value="2">dir2</option>
+            <option value="3">dir3</option>
+          </select>
+        </td>
+        <td class="td_right">Estatus:</td>
+        <td colspan="3">
+         <select id='estatusDir' class="form-control" name="id_estatus" type="text" value="" required>
+          <option value="">Seleccionar..</option>
+          <option value="1">Activo</option>
+          <option value="2">Inactivo</option>
+          <option value="3">Suspendido</option>
+        </select>
+      </td>
+      <td class="td_right">Calle:</td>
+      <td colspan="3">
+        <input id="calle" class="form-control" name="calle" type="text" value="" required>
+      </td>
+    </tr>
+    <tr>
+      <td class="td_right">Colonia:</td>
+      <td colspan="3">
+        <input id="colonia" class="form-control" name="colonia" type="text" value="" required>
+      </td>
+      <td class="td_right">Ciudad:</td>
+      <td colspan="3">
+        <input id="ciudad" class="form-control" name="ciudad" type="text" value="" required>
+      </td>
+      <td class="td_right">Municipio:</td>
+      <td colspan="3">
+        <input id="municipio" class="form-control" name="municipio" type="text" value="" required>
+      </td>
+    </tr>
+    <tr>
+      <td class="td_right">Estado:</td>
+      <td colspan="3">
+        <input id="estado" class="form-control" name="estado" type="text" value="" required>
+      </td>
+      <td class="td_right">Cp:</td>
+      <td colspan="3">
+        <input id="cp" class="form-control" name="cp" type="text" value="" required>
+      </td>
+      <td class="td_right">Nota:</td>
+      <td colspan="3">
+       <textarea id="nota" class="form-control" name="nota" required rows="4" cols="50"></textarea>
+     </td>
+   </tr>
+   <tr>
+    <td colspan="12">
+      <button type="submit" class="btn btn-success" data-dismiss="modal" id='aClienteDir' style="float: right;"> <span class="glyphicon glyphicon-refresh"></span>Actualizar</button>
+      <button type="submit" class="btn btn-success" data-dismiss="modal" id='gClienteDir' style="float: right;"> <span class="glyphicon glyphicon-ok"></span>Guardar</button>
+    </td>
+  </tr>
+</tbody>
+</table>
+</form>
+<div class="alert alert-success" id='msj-conf-datos-dir-actu' style="font-size:24px !important;">
+  <strong>Aviso!</strong> Dirección actualizada con éxito.
+</div>
+<div class="alert alert-success" id='msj-conf-datos-dir' style="font-size:24px !important;">
+  <strong>Aviso!</strong> Dirección Guardada con éxito.
+
+</div>
+<!-- js para tabla de direcciones-->
+<script type="text/javascript">
+  $(document).ready(function(){
+
+
+
+  });
+
+
+
+</script>
+
+
+
+
+
+
+<!-- tabla de direcciones  -->
+<table id="<?php echo $this->gridDirecciones; ?>" class="table display cell-border" cellspacing="0" width="100%">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>id_tipodireccion</th>
+      <th>id_estatus</th>
+      <th>calle</th>
+      <th>colonia</th>
+      <th>ciudad</th>
+      <th>municipio</th>
+      <th>estado</th>
+      <th>cp</th>
+      <th>nota</th>
+    </tr>
+  </thead>
+  <tbody id="bdy-grid">
+  </tbody>
+</table>
+
+
+
+
+
+
+<!-- fin de direcciones -->
+<?php  }?>
+
+<?php  if($this->identificador=="proveedor"){ ?>
+<form  name="<?php echo $this->nomForm;?>" id="<?php echo $this->nomForm;?>DirP" class="form-inline" method="POST">
+
+ <input type="hidden" id="id_clienteProDir" name="id_proveedor"></input>
+ <table class="table display cell-border">
+  <tbody>
+    <tr>
+      <td class="td_right">Tipo Dirección:</td>
+      <td colspan="3">
+        <select id='id_tipodireccion' class="form-control" name="id_tipodireccion" type="text" value="" required>
+          <option value="">Seleccionar..</option>
+          <option value="1">dir1</option>
+          <option value="2">dir2</option>
+          <option value="3">dir3</option>
+        </select>
+      </td>
+      <td class="td_right">Estatus:</td>
+      <td colspan="3">
+       <select id='id_estatus' class="form-control" name="id_estatus" type="text" value="" required>
+        <option value="">Seleccionar..</option>
+        <option value="1">Activo</option>
+        <option value="2">Inactivo</option>
+        <option value="3">Suspendido</option>
+      </select>
+    </td>
+    <td class="td_right">Calle:</td>
+    <td colspan="3">
+      <input id="calle" class="form-control" name="calle" type="text" value="" required>
+    </td>
+  </tr>
+  <tr>
+    <td class="td_right">Colonia:</td>
+    <td colspan="3">
+      <input id="colonia" class="form-control" name="colonia" type="text" value="" required>
+    </td>
+    <td class="td_right">Ciudad:</td>
+    <td colspan="3">
+      <input id="ciudad" class="form-control" name="ciudad" type="text" value="" required>
+    </td>
+    <td class="td_right">Municipio:</td>
+    <td colspan="3">
+      <input id="municipio" class="form-control" name="municipio" type="text" value="" required>
+    </td>
+  </tr>
+  <tr>
+    <td class="td_right">Estado:</td>
+    <td colspan="3">
+      <input id="estado" class="form-control" name="estado" type="text" value="" required>
+    </td>
+    <td class="td_right">Cp:</td>
+    <td colspan="3">
+      <input id="cp" class="form-control" name="cp" type="text" value="" required>
+    </td>
+    <td class="td_right">Nota:</td>
+    <td colspan="3">
+      <textarea id="nota" class="form-control" name="nota" required rows="4" cols="50"></textarea>
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="12">
+      <button type="submit" class="btn btn-success" data-dismiss="modal" id='aProveedorDir' style="float: right;"> <span class="glyphicon glyphicon-refresh"></span>Actualizar</button>
+      <button type="submit" class="btn btn-success" data-dismiss="modal" id='gProveedorDir' style="float: right;"> <span class="glyphicon glyphicon-ok"></span>Guardar</button>
+
+
+
+
+
+    </td>
+  </tr>
+</tbody>
+</table>
+<div class="alert alert-success" id='msj-conf-datos-prov-actu' style="font-size:24px !important;">
+  <strong>Aviso!</strong> Dirección actualizada con éxito.
+</div>
+<div class="alert alert-success" id='msj-conf-datos-dir-pro' style="font-size:24px !important;">
+  <strong>Aviso!</strong> Dirección Guardada con éxito.
+</div>
+
+
+
+</form>
+
+<?php } ?>
+
+
+
+</div>
+
+<!--fin de direcciones de cliente-->
+
+<!--direcciones de proveedores -->
+
+<!--fin de direcciones de proveedores -->
+</div>
+<div class="modal-footer">
+ <button type="submit" class="btn btn-default" data-dismiss="modal" id="cancelar"><span class="glyphicon glyphicon-remove"></span>Cerrar</button>
+</div>
+</div>
+
+</div>
+</div>

@@ -56,6 +56,7 @@ class OrdenesController extends Zend_Controller_Action
 			'med_ancho' => $_POST['med_ancho'],
 			'tipo_impresion' => $_POST['tipo_impresion'],
 			'num_tintas' => $_POST['num_tintas'],
+			'sel_color' => $_POST['sel_color'],
 			'largo_tinta1' => $_POST['largo_tinta1'],
 			'ancho_tinta1' => $_POST['ancho_tinta1'],
 			'largo_tinta2' => $_POST['largo_tinta2'],

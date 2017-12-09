@@ -371,7 +371,7 @@ label{
 <div class="col-md-1">
 
  <span class="help-block helper">Med. req</span>
- <input type="text" class="form-control input-sm" id="med_requerido">
+ <input type="text" class="form-control input-sm" id="med_requerido" readonly>
 
 </div>
 
@@ -485,9 +485,29 @@ label{
 
      </div>
 
+     <div class="form-horizontal">
+
+      <div class="form-group">
+
+        <label for="carton" class="col-md-3 control-label">Carton:</label>
+
+        <div class="col-md-9">
+
+          <select class="form-control input-sm" id="carton" name="carton">
+
+           <option value="null" selected>SELECCIONAR</option>
+
+         </select>
+
+       </div>
+
+     </div>
+
    </div>
 
  </div>
+
+</div>
 
 </div>
 
@@ -892,6 +912,11 @@ label{
 
         </div>
 
+        <div class="checkbox">
+          <label><input type="checkbox" value="1" name="sel_color" id="sel_color">Sel. Color</label>
+
+        </div>
+
       </div>
 
 
@@ -907,7 +932,7 @@ label{
           <option value="3">3</option>
           <option value="4">4</option>
         </select>
-
+        
       </div>
 
       <div class="col-md-2">
@@ -917,7 +942,7 @@ label{
           <span class="lbl-side">(1)</span>
           <input type="text" class="form-control input-sm" id="largo_tinta1" name="largo_tinta1">
         </div>
-        
+
         <br>
 
         <span class="help-block helper">Ancho</span>
@@ -934,7 +959,7 @@ label{
         </div>
 
         <br>
-        
+
         <span class="help-block helper">Ancho</span>
         <input type="text" class="form-control input-sm" id="ancho_tinta2" name="ancho_tinta2" >              
 
@@ -949,7 +974,7 @@ label{
         </div>
 
         <br>
-        
+
         <span class="help-block helper">Ancho</span>
         <input type="text" class="form-control input-sm" id="ancho_tinta3" name="ancho_tinta3" >              
 
@@ -964,7 +989,7 @@ label{
         </div>
 
         <br>
-        
+
         <span class="help-block helper">Ancho</span>
         <input type="text" class="form-control input-sm" id="ancho_tinta4" name="ancho_tinta4" >              
 
@@ -1921,6 +1946,14 @@ $('#btn-liberar').click(function(){
 
 
 
+});
+
+$( 'input[id="med_largo"]' ).keyup(function() {
+  $( 'input[id="med_requerido"]' ).val($( 'input[id="med_largo"]' ).val()+"x"+$( 'input[id="med_ancho"]' ).val())
+});
+
+$( 'input[id="med_ancho"]' ).keyup(function() {
+  $( 'input[id="med_requerido"]' ).val($( 'input[id="med_largo"]' ).val()+"x"+$( 'input[id="med_ancho"]' ).val())
 });
 
 $("#btn-editar").click(function(){

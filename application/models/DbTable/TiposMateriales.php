@@ -15,9 +15,7 @@ class Application_Model_DbTable_TiposMateriales extends Zend_Db_Table_Abstract
         $datos = $this->fetchAll(
             $this->select()
             ->where('id_estatus = ?', '1')
-            ->where('id_tipomaterial = ?', '1')
-            ->orWhere('id_tipomaterial = ?', '2')
-            ->orWhere('id_tipomaterial = ?', '3')
+            ->where('clasificacion = ?', '1')
         );
 
         }
@@ -27,8 +25,7 @@ class Application_Model_DbTable_TiposMateriales extends Zend_Db_Table_Abstract
         $datos = $this->fetchAll(
             $this->select()
             ->where('id_estatus = ?', '1')
-            ->where('id_tipomaterial = ?', '4')
-            ->orWhere('id_tipomaterial = ?', '5')
+            ->where('clasificacion = ?', '2')
 
         );
 

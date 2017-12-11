@@ -31,7 +31,7 @@ tfoot input {
 </style-->
 <style>
 .modal-dialog {
-  width: 60%;
+  width: 70%;
 }  
 </style>
 
@@ -464,7 +464,9 @@ tfoot input {
 
     </script>
 
-
+<div class="row">
+  <div class="col-md-12"><h1><?php  echo $this->titulo; echo @$this->nombreCliente?></h1></div>
+</div>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" id="btnNuevaOrden"> <span class="glyphicon glyphicon-plus-sign"></span>Nuevo</button>
     <button class="btn btn-primary" id='editarCliente'><span class="glyphicon glyphicon-pencil"></span>Editar</button>
     <button class="btn btn-primary" id='suspender'><span class="glyphicon glyphicon-hourglass"></span>Suspender</button>
@@ -505,12 +507,12 @@ tfoot input {
  <table id="<?php echo $this->grid; ?>" class="table display cell-border" cellspacing="0" width="100%">
   <thead>
     <tr>
-      <th>Id</th>
-      <th>rComercial</th>
-      <th>Rfc</th>
-      <th>Teléfono</th>
-      <th>Pag.Web</th>
-      <th>Estatus</th>
+      <th>ID</th>
+      <th>RCOMERCIAL</th>
+      <th>RFC</th>
+      <th>TELÉFONO</th>
+      <th>PAG.WEB</th>
+      <th>ESTATUS</th>
       <th></th>
     </tr>
   </thead>

@@ -751,6 +751,10 @@ $("#parar").click(function(){
 						cantreq = result.data[0].cantidadreq; 	
 						$("#cantidadreq").val(cantreq);						
 					}
+					else
+					{
+						$("#cantidadreq").val("0");												
+					}
 				},'json');
 		}
 
@@ -769,6 +773,10 @@ $("#parar").click(function(){
 						$("#acumuladorep").val(acumulado);
 						mermaacumulado = result.data[0].acumuladomerma;
 						$("#acumerma").val(mermaacumulado);
+					}
+					else
+					{
+						$("#acumuladorep").val("0");						
 					}
 				},'json'); 
 

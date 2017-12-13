@@ -32,7 +32,7 @@ $(".panel").attr('disabled','disabled');
 
 //==================================== RANURADO ===============================================
 $("#ajustecaiman").click(function(){
-	if( idinicio != 1 && orden == 0 )
+	if( idinicio != 1 && orden == 0)
 	{
 		$("#ajustecaiman").attr("disabled", false);
 	} else {	
@@ -601,7 +601,6 @@ var enPendiente = $('#enPendiente').DataTable({
 		//orden = $(this).find('td').eq(0).html();
 		orden = $(this).find('button').data('fila');
 		//alert(orden);
-		generarMembrete();
 //extraerDatosEnPendiente(orden);
 
 /*$.post('consultarexisteajuste', {orden,ajuste},
@@ -874,10 +873,6 @@ function inicio () {
 }
 function parar () {
 	clearInterval(control);
-	if (horas < 10) { horas = "0"+horas }
-	if (minutos < 10) { minutos = "0"+minutos }
-	if (segundos < 10) { segundos = "0"+segundos }
-
 	tiempodeejec = horas + ":" + minutos + ":" + segundos;
 
 }

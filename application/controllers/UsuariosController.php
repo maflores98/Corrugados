@@ -28,8 +28,8 @@ class UsuariosController extends Zend_Controller_Action
         $this->_helper->viewRenderer->setNoRender();
         $model=new Application_Model_Usuarios();
         //$letra=$_REQUEST['valor'];
-        $letra=($_REQUEST['valor'] != 'null') ? $_REQUEST['valor'] : ''; 
-        $usuarios=$model->consultar($letra);
+        //$letra=($_REQUEST['valor'] != 'null') ? $_REQUEST['valor'] : ''; 
+        $usuarios=$model->consultar();
 
 
         $datos=array();
@@ -37,7 +37,7 @@ class UsuariosController extends Zend_Controller_Action
 
         foreach ($usuarios as $valor) {
 
-$datos[]=array($valor['Id_usuario'],$valor['Usuario'],$valor['Password'],$valor['Correo'],$valor['Nombre'],$valor['Id_estatus'],$valor['Id_tipousuario']);
+$datos[]=array($valor['id_usuario'],$valor['usuario'],$valor['password'],$valor['correo'],$valor['nombre'],$valor['id_estatus'],$valor['id_tipo_usuario']);
         }
 
         

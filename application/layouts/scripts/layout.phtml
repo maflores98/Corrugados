@@ -107,6 +107,8 @@
 $front =Zend_Controller_Front :: getInstance ();  
 $baseUrl = $front -> getBaseUrl (); 
 ?>
+
+<?php $menu = Zend_Auth::getInstance()->getIdentity();?>
 <main>
   <div class="container-fluid">
     <div class="row">
@@ -128,44 +130,80 @@ $baseUrl = $front -> getBaseUrl ();
                   <li><a href="#!">Estatus de Ordenes</a></li>
                   <!--li><a href="#">Imprimir</a></li-->
                 </ul>
+                <?php if($menu->mnuproduccion == 1) { ?>
                 <li data-toggle="collapse" data-target="#produccion" class="collapsed">
                   <a href="#"><i class="fa fa-cog fa-lg"></i> Producción<span class="arrow"></span></a>
                 </li>
                 <ul class="sub-menu collapse" id="produccion">
+                  <?php if($menu->mnuproduccion_caiman == 1) { ?>
                   <li><a href="<?php echo $baseUrl;?>/produccion/ranurado">Ranurado</a></li>
+                  <?php } ?>
+                  <?php if($menu->mnuproduccion_refiladora == 1) { ?>
                   <li><a href="<?php echo $baseUrl;?>/produccion/refilado">Refilado</a></li>
-                  <li><a href="<?php echo $baseUrl;?>/produccion/flexoranurado">Flexo Ranurado</a></li>  
-                  <li><a href="<?php echo $baseUrl;?>/produccion/pegadodecorrugado">Pegado de Corrugado</a></li>  
+                  <?php } ?>
+                  <?php if($menu->mnuproduccion_flexografica == 1) { ?>
+                  <li><a href="<?php echo $baseUrl;?>/produccion/flexoranurado">Flexo Ranurado</a></li>
+                  <?php } ?>
+                  <?php if($menu->mnuproduccion_pegadoracorrugados == 1) { ?>  
+                  <li><a href="<?php echo $baseUrl;?>/produccion/pegadodecorrugado">Pegado de Corrugado</a></li>
+                  <?php } ?>
+                  <?php if($menu->mnuproduccion_empalme == 1) { ?>  
                   <li><a href="<?php echo $baseUrl;?>/produccion/empalmado">Empalmado</a></li>
-                  <li><a href="<?php echo $baseUrl;?>/produccion/suajado">Suajado</a></li>  
-                  <li><a href="<?php echo $baseUrl;?>/produccion/pegado">Pegado</a></li>                                           
+                  <?php } ?>
+                  <?php if($menu->mnuproduccion_suajado == 1) { ?>
+                  <li><a href="<?php echo $baseUrl;?>/produccion/suajado">Suajado</a></li>
+                  <?php } ?>
+                  <?php if($menu->mnuproduccion_pegadolineal == 1) { ?>  
+                  <li><a href="<?php echo $baseUrl;?>/produccion/pegado">Pegado</a></li>
+                  <?php } ?>                   
                 </ul>
+                <?php } ?>
+                <?php if($menu->mnualmacen == 1) { ?>                
                 <li data-toggle="collapse" data-target="#almacen" class="collapsed">
                   <a href="#"><i class="fa fa-dropbox fa-lg"></i> Almacen</a><span class="arrow"></span>
                 </li>
                 <ul class="sub-menu collapse" id="almacen">
+                  <?php if($menu->mnualmacen_kardex == 1) { ?>
                   <li><a href="<?php echo $baseUrl;?>/Kardex/show">Kardex</a></li>
+                  <?php } ?>
+                  <?php if($menu->mnualmacen_ordencompra == 1) { ?>
                   <li><a href="#!">Orden de compra</a></li>
+                  <?php } ?>
                 </ul>
+                <?php } ?>
+                <?php if($menu->mnuventas == 1) { ?>
                 <li data-toggle="collapse" class="collapsed"><!--data-target="#service"-->
                   <a href="#!"><i class="glyphicon glyphicon-usd"></i>Cotizador<span class="arrow"></span></a>
                 </li>  
-                <ul class="sub-menu collapse" id="service">
+                <ul class="sub-menu collapse" id="service">                                    
                   <li><a href="<?php echo $baseUrl;?>/Cotizador">Orden de producción</a></li>
+                  <?php if($menu->mnuventas_cotizaciones_maquilas == 1) { ?>
                   <li><a href="<?php echo $baseUrl;?>/cotizador/maquilas">Cotizador de Maqulias</a></li>
+                  <?php } ?>
                   <li>Imprimir</li>
                 </ul>
+                <?php } ?>
+                <?php if($menu->mnucatalogos == 1) { ?>                              
                 <li data-toggle="collapse" data-target="#service2" class="collapsed">
                   <a href="#"><i class="fa fa-globe fa-lg"></i>Catálogos<span class="arrow"></span></a>
-                </li>  
+                </li>                  
                 <ul class="sub-menu collapse" id="service2">
+                  <?php if($menu->mnucatalogos_clientes == 1) { ?>                  
                   <li><a href="<?php echo $baseUrl;?>/index/clientes">Clientes</a></li>
+                  <?php } ?>
+                  <?php if($menu->mnucatalogos_proveedores == 1) { ?>                                    
                   <li><a href="<?php echo $baseUrl;?>/index/proveedores">Proveedores</a></li>
+                  <?php } ?> 
                   <!--li><a href="<?php echo $baseUrl;?>/index/articulos">Artículos</a></li-->
+                  <?php if($menu->mnucatalogos_materiales == 1) { ?>
                   <li><a href="<?php echo $baseUrl;?>/index/materiales">Materiales</a></li>
+                  <?php } ?>
                   <!--li><a href="<?php //echo $baseUrl;?>/index/maquinas">Máquinas</a></li-->
+                  <?php if($menu->mnucatalogos_usuarios == 1) { ?>
                   <li><a href="<?php echo $baseUrl;?>/index/usuario">Usuarios</a></li>
+                  <?php } ?>
                 </ul>
+                <?php } ?>                
                 <li>
                   <a href="<?php echo $baseUrl;?>/Login/salir">
                     <i class="glyphicon glyphicon-log-out"></i>Salir

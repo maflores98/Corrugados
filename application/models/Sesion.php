@@ -2,7 +2,7 @@
 
 class Application_Model_Sesion extends Zend_Db_Table_Abstract
 {
-                const IDENTITY_NOT_FOUND = "El usuario no existe en el sistema";
+    const IDENTITY_NOT_FOUND = "El usuario no existe en el sistema";
     const CREDENTIAL_INVALID = "Password incorrecto";
     const IDENTITY_AMBIGUOUS = "Indentidad de usuario es ambigua";
     const UNCATEGORIZED = "Error por razones desconocidas";
@@ -12,7 +12,7 @@ class Application_Model_Sesion extends Zend_Db_Table_Abstract
         $dbAdapter = Zend_Db_Table_Abstract::getDefaultAdapter();
         $authAdapter = new Zend_Auth_Adapter_DbTable($dbAdapter);
         $authAdapter
-            ->setTableName('usuarios')
+            ->setTableName('v_control_login')
             ->setIdentityColumn('usuario')
             ->setCredentialColumn('password')
             ->setIdentity($user)

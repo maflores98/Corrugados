@@ -28,8 +28,8 @@ class MaterialesController extends Zend_Controller_Action
         $this->_helper->viewRenderer->setNoRender();
         $model=new Application_Model_DbTable_Materiales();
         //$letra=$_REQUEST['valor'];
-        $letra=($_REQUEST['valor'] != 'null') ? $_REQUEST['valor'] : ''; 
-        $clientes=$model->consultar($letra);
+        //$letra=($_REQUEST['valor'] != 'null') ? $_REQUEST['valor'] : ''; 
+        $clientes=$model->consultar();
 
        // print_r($clientes);
         $datos=array();
@@ -51,7 +51,9 @@ class MaterialesController extends Zend_Controller_Action
 
 
         foreach ($clientes as $valor) {
-        $datos[]=array($valor['id_material'],$valor['clave'],$valor['descripcion'],$valor['id_proveedor'],$valor['id_categoria'],"$".$valor['costo'],$valor['unidad'],$valor['id_estatus']);
+        $datos[]=array($valor['id_material'],$valor['agrupador'],$valor['clave'],$valor['descripcion'],$valor['medida'],
+            $valor['flauta'],$valor['especificacion'],$valor['id_categoria'],$valor['id_tipomaterial'],$valor['costo'],
+            $valor['unidad'],$valor['id_estatus']);
         }
 
         $response->data=$datos;
@@ -63,13 +65,13 @@ class MaterialesController extends Zend_Controller_Action
       
     }
 
-    public function consultamaterialAction(){
+    public function consultarmaterialAction(){
         $this->_helper->layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender();
         $model=new Application_Model_DbTable_Materiales();
         $post=$this->getRequest()->getPost();
 
-        $material=$model->consultarMaterial($post['id_material']);
+        $material=$model->consultarmaterial($post['id_material']);
 
         $datos=array();
         $response=new stdClass();

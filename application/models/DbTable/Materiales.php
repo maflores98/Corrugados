@@ -5,12 +5,12 @@ class Application_Model_DbTable_Materiales extends Zend_Db_Table_Abstract
     protected $_name = 'materiales';
     protected $_primary='id_material';
     
-    public function consultar($letra)
+    public function consultar()
     {
         $db = Zend_Db_Table_Abstract::getDefaultAdapter();
         $select = $db->select()
         ->from ("materiales")
-        ->where("descripcion LIKE '$letra%'")
+        //->where("descripcion LIKE '$letra%'")
         ->order('id_material DESC');
         $sql = $db->query($select);
         
@@ -18,7 +18,7 @@ class Application_Model_DbTable_Materiales extends Zend_Db_Table_Abstract
 
     }
     
-    public function consultarMaterial($id){
+    public function consultarmaterial($id){
         $db = Zend_Db_Table_Abstract::getDefaultAdapter();
         $select = $db->select()
         ->from ("materiales")

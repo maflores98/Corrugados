@@ -874,6 +874,10 @@ function inicio () {
 }
 function parar () {
 	clearInterval(control);
+	if (horas < 10) { horas = "0"+horas }
+	if (minutos < 10) { minutos = "0"+minutos }
+	if (segundos < 10) { segundos = "0"+segundos }
+
 	tiempodeejec = horas + ":" + minutos + ":" + segundos;
 
 }

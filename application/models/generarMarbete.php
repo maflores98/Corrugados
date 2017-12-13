@@ -7,19 +7,19 @@ require_once('../../public/pdf/fpdf/fpdf.php');
 require_once('../../public/pdf/fpdi/src/autoload.php');	
 require "conexion.php";
 
-$idorden = $_GET['orden'];
-$response = new stdClass();
-$impMarbete = array();
+//$idorden = $_GET['orden'];
+//$response = new stdClass();
+//$impMarbete = array();
 
-$sql="SELECT id_orden,nombre_trabajo,nombre_maquina,nombre_proceso FROM procesos_pendientes WHERE id_orden = $idorden";
-$stmt=mysql_query($sql);
-$rows= mysql_num_rows($stmt);
-$fields = mysql_num_fields($stmt);
+//$sql="SELECT id_ordenproduccion,cliente,nombre_trabajo,cant_requerida,tipo_envio FROM v_orden_impresa WHERE id_ordenproduccion = $idorden";
+//$stmt=mysql_query($sql);
+//$rows= mysql_num_rows($stmt);
+//$fields = mysql_num_fields($stmt);
 
-	while($row = mysql_fetch_array($stmt, MYSQL_ASSOC))
-	{
+	//while($row = mysql_fetch_array($stmt, MYSQL_ASSOC))
+	//{
 
-		$impMarbete[] = $row;	
+		//$impMarbete[] = $row;	
 
 	
 
@@ -40,19 +40,20 @@ $fields = mysql_num_fields($stmt);
 		$pdf->SetFont('Arial','B','20');
 		$pdf->SetTextColor(0, 0, 0);
 		$pdf->SetXY(145, 36);
-		$pdf->Write(0, $impMarbete[0]["id_orden"]);
+		//$pdf->Write(0, $impMarbete[0]["id_ordenproduccion"]);
 
 		//Trabajo
 		$pdf->SetFont('Arial','B','20');
 		$pdf->SetTextColor(0, 0, 0);
 		$pdf->SetXY(27, 65);
-		$pdf->Write(0, $impMarbete[0]["nombre_trabajo"]);
+		//$pdf->Write(0, $impMarbete[0]["nombre_trabajo"]);
 
 		//Cliente
 		$pdf->SetFont('Arial','B','20');
 		$pdf->SetTextColor(0, 0, 0);
 		$pdf->SetXY(27, 93);
-		$pdf->Write(0, 'Cliente');
+		//$pdf->Write(0, $impMarbete[0]["cliente"]);
+
 
 		//Proceso 1
 		$pdf->SetFont('Arial','B','12');
@@ -60,11 +61,23 @@ $fields = mysql_num_fields($stmt);
 		$pdf->SetXY(23, 132);
 		$pdf->Write(0, "Refilado");
 
+		//Maquina 1
+		$pdf->SetFont('Arial','B','12');
+		$pdf->SetTextColor(0, 0, 0);
+		$pdf->SetXY(50, 132);
+		$pdf->Write(0, "x");		
+
 		//Proceso 2
 		$pdf->SetFont('Arial','B','12');
 		$pdf->SetTextColor(0, 0, 0);
 		$pdf->SetXY(23, 141);
 		$pdf->Write(0, "Rayado");
+
+		//Maquina 2
+		$pdf->SetFont('Arial','B','12');
+		$pdf->SetTextColor(0, 0, 0);
+		$pdf->SetXY(50, 141);
+		$pdf->Write(0, "x");		
 
 		//Proceso 3
 		$pdf->SetFont('Arial','B','12');
@@ -72,11 +85,23 @@ $fields = mysql_num_fields($stmt);
 		$pdf->SetXY(23, 151);
 		$pdf->Write(0, utf8_decode("Impresión"));
 
+		//Maquina 3
+		$pdf->SetFont('Arial','B','12');
+		$pdf->SetTextColor(0, 0, 0);
+		$pdf->SetXY(50, 151);
+		$pdf->Write(0, "x");		
+
 		//Proceso 4
 		$pdf->SetFont('Arial','B','12');
 		$pdf->SetTextColor(0, 0, 0);
 		$pdf->SetXY(23, 160);
 		$pdf->Write(0, "Ranuradao");
+
+		//Maquina 4
+		$pdf->SetFont('Arial','B','12');
+		$pdf->SetTextColor(0, 0, 0);
+		$pdf->SetXY(50, 160);
+		$pdf->Write(0, "x");		
 
 		//Proceso 5
 		$pdf->SetFont('Arial','B','12');
@@ -84,11 +109,23 @@ $fields = mysql_num_fields($stmt);
 		$pdf->SetXY(23, 169);
 		$pdf->Write(0, "Suajado");
 
+		//Maquina 5
+		$pdf->SetFont('Arial','B','12');
+		$pdf->SetTextColor(0, 0, 0);
+		$pdf->SetXY(50, 169);
+		$pdf->Write(0, "x");		
+
 		//Proceso 6
 		$pdf->SetFont('Arial','B','12');
 		$pdf->SetTextColor(0, 0, 0);
 		$pdf->SetXY(23, 179);
 		$pdf->Write(0, "Pegado");
+
+		//Maquina 6
+		$pdf->SetFont('Arial','B','12');
+		$pdf->SetTextColor(0, 0, 0);
+		$pdf->SetXY(50, 179);
+		$pdf->Write(0, "x");		
 
 		//Proceso 7
 		$pdf->SetFont('Arial','B','12');
@@ -96,30 +133,37 @@ $fields = mysql_num_fields($stmt);
 		$pdf->SetXY(23, 188);
 		$pdf->Write(0, "Grapado");
 
+		//Maquina 7
+		$pdf->SetFont('Arial','B','12');
+		$pdf->SetTextColor(0, 0, 0);
+		$pdf->SetXY(50, 188);
+		$pdf->Write(0, "x");		
+
 		//Proceso 8
 		$pdf->SetFont('Arial','B','12');
 		$pdf->SetTextColor(0, 0, 0);
 		$pdf->SetXY(23, 198);
 		$pdf->Write(0, "Empalme");
 
-		//Maquina 1
-		//$pdf->SetFont('Arial','B','12');
-		//$pdf->SetTextColor(0, 0, 0);
-		//$pdf->SetXY(50, 132);
-		//$pdf->Write(0, $impMarbete[0]["nombre_maquina"]);	
+		//Maquina 8
+		$pdf->SetFont('Arial','B','12');
+		$pdf->SetTextColor(0, 0, 0);
+		$pdf->SetXY(50, 198);
+		$pdf->Write(0, "x");		
 
-		//Proceso 2
-		//$pdf->SetFont('Arial','B','12');
-		//$pdf->SetTextColor(0, 0, 0);
-		//$pdf->SetXY(23, 141);
-		//$pdf->Write(0, $impMarbete[$i]["nombre_proceso"]);
+		//Cantidad requerida
+		$pdf->SetFont('Arial','B','20');
+		$pdf->SetTextColor(0, 0, 0);
+		$pdf->SetXY(54, 242);
+		$pdf->Write(0, "1500");
 
-		//Maquina 2
-		//$pdf->SetFont('Arial','B','12');
-		//$pdf->SetTextColor(0, 0, 0);
-		//$pdf->SetXY(50, 141);
-		//$pdf->Write(0, $impMarbete[$i]["nombre_maquina"]);
+		//Metodo de envio
+		$pdf->SetFont('Arial','B','20');
+		$pdf->SetTextColor(0, 0, 0);
+		$pdf->SetXY(136, 242);
+		$pdf->Write(0, "Mensajeria");		
+
 		$pdf->Output();
-	}
+	//}
 
 ?>

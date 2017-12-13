@@ -2,15 +2,15 @@
 class Application_Model_Usuarios extends Zend_Db_Table_Abstract
 {
     protected $_name = 'usuarios';
-    protected $_primary='Id_usuario';
+    protected $_primary='id_usuario';
     
-    public function consultar($letra)
+    public function consultar()
     {
         $db = Zend_Db_Table_Abstract::getDefaultAdapter();
         $select = $db->select()
             ->from ("usuarios")
-            ->where("Nombre LIKE '$letra%'")
-            ->order('Id_usuario DESC');
+            //->where("Nombre LIKE '$letra%'")
+            ->order('id_usuario DESC');
         $sql = $db->query($select);
         
         return  $row = $sql->fetchAll();

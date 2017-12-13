@@ -14,10 +14,10 @@
 
     
     $("#"+sessionStorage.getItem("valor")+"l").addClass("active");
-    function MostrarGrid(valor){
+    function MostrarGrid(){
       $('#<?php echo $this->grid;  ?>').DataTable({
         "ajax": {
-          "url": "<?php echo $this->urlGrid;?>?valor="+ sessionStorage.getItem("valor")
+          "url": "<?php echo $this->urlGrid;?>"
         },
 
         "language": {
@@ -78,7 +78,7 @@
             //return false;
             if(Id != ""){
 
-             $.post("<?php echo $this->consultaMaterial; ?>",{id_material:Id},
+             $.post("<?php echo $this->consultarmaterial; ?>",{id_material:Id},
               function(data){
 
                 $("#id_material").val(data.datos[0].id_material);
@@ -212,14 +212,17 @@
       <thead>
         <tr>
           <th>ID</th>
+          <th>AGRUPADOR</th>
           <th>CLAVE</th>
           <th>DESCRIPCIÓN</th>
-          <th>ID_PROVEEDOR</th>
+          <th>MEDIDA</th>
+          <th>FLAUTA</th>
+          <th>ESPECIFICACION</th>      
           <th>ID_CATEGORIA</th>
+          <th>ID_TIPO_MAT</th>
           <th>COSTO</th>
           <th>UNIDAD</th>
-          <th>ESTATUS</th>
-          
+          <th>ESTATUS</th>          
         </tr>
       </thead>
       <tbody id="bdy-grid">

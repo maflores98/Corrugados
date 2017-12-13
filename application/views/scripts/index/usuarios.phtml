@@ -13,10 +13,10 @@
     $( ".buttons-excel" ).hide();
     
     $("#"+sessionStorage.getItem("valor")+"l").addClass("active");
-    function MostrarGrid(valor){
+    function MostrarGrid(){
       $('#<?php echo $this->grid;  ?>').DataTable({
         "ajax": {
-          "url": "<?php echo $this->urlGrid;?>?valor="+ sessionStorage.getItem("valor")
+          "url": "<?php echo $this->urlGrid;?>"
         },
 
         "language": {

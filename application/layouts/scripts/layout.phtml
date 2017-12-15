@@ -48,41 +48,41 @@
 
   <script type="text/javascript">
 
-    $(document).ready(function()
+  $(document).ready(function()
+  {
+
+    localStorage.user = "<?php $usuario = Zend_Auth::getInstance()->getIdentity(); echo $usuario->id_usuario; ?>";
+
+    var errores = sessionStorage.getItem("id");
+
+    if(errores!="")
     {
+      $("#notificaciones").html("Consulta exitosa");
+    }
+    else
+    {
+      $("#notificaciones").html("Error de consulta");
+    }
 
-      localStorage.user = "<?php $usuario = Zend_Auth::getInstance()->getIdentity(); echo $usuario->id_usuario; ?>";
-
-      var errores = sessionStorage.getItem("id");
-
-      if(errores!="")
+    function mueveReloj(){
+      momentoActual = new Date();
+      hora = momentoActual.getHours();
+      minuto = momentoActual.getMinutes();
+      segundo = momentoActual.getSeconds();
+      if(segundo<10)
       {
-        $("#notificaciones").html("Consulta exitosa");
+        segundo="0"+segundo;
       }
-      else
+      if(minuto<10)
       {
-        $("#notificaciones").html("Error de consulta");
+        minuto="0"+minuto;
       }
+      horaImprimible = hora + " : " + minuto + " : " + segundo;
+      $("#hora").html(horaImprimible);
+    }
+    setInterval (function() {mueveReloj();}, 500);
 
-      function mueveReloj(){
-        momentoActual = new Date();
-        hora = momentoActual.getHours();
-        minuto = momentoActual.getMinutes();
-        segundo = momentoActual.getSeconds();
-        if(segundo<10)
-        {
-          segundo="0"+segundo;
-        }
-        if(minuto<10)
-        {
-          minuto="0"+minuto;
-        }
-        horaImprimible = hora + " : " + minuto + " : " + segundo;
-        $("#hora").html(horaImprimible);
-      }
-      setInterval (function() {mueveReloj();}, 500);
-
-    });
+  });
   </script>
 </head>
 <body>
@@ -119,6 +119,7 @@ $baseUrl = $front -> getBaseUrl ();
             <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
             <div class="menu-list">
               <ul id="menu-content" class="menu-content collapse out">
+                <?php if($menu->mnuproduccion_ordenproduccion == 1) { ?>                
                 <li  data-toggle="collapse" data-target="#products" class="collapsed">
                   <a href="#"><i class="glyphicon glyphicon-list-alt"></i> Ordenes<span class="arrow"></span></a>
                 </li>
@@ -130,6 +131,7 @@ $baseUrl = $front -> getBaseUrl ();
                   <li><a href="#!">Estatus de Ordenes</a></li>
                   <!--li><a href="#">Imprimir</a></li-->
                 </ul>
+                <?php } ?>
                 <?php if($menu->mnuproduccion == 1) { ?>
                 <li data-toggle="collapse" data-target="#produccion" class="collapsed">
                   <a href="#"><i class="fa fa-cog fa-lg"></i> Producción<span class="arrow"></span></a>
@@ -184,25 +186,25 @@ $baseUrl = $front -> getBaseUrl ();
                 </ul>
                 <?php } ?>
                 <?php if($menu->mnucatalogos == 1) { ?>                              
-                <li data-toggle="collapse" data-target="#service2" class="collapsed">
-                  <a href="#"><i class="fa fa-globe fa-lg"></i>Catálogos<span class="arrow"></span></a>
-                </li>                  
-                <ul class="sub-menu collapse" id="service2">
-                  <?php if($menu->mnucatalogos_clientes == 1) { ?>                  
-                  <li><a href="<?php echo $baseUrl;?>/index/clientes">Clientes</a></li>
-                  <?php } ?>
-                  <?php if($menu->mnucatalogos_proveedores == 1) { ?>                                    
-                  <li><a href="<?php echo $baseUrl;?>/index/proveedores">Proveedores</a></li>
-                  <?php } ?> 
-                  <!--li><a href="<?php echo $baseUrl;?>/index/articulos">Artículos</a></li-->
-                  <?php if($menu->mnucatalogos_materiales == 1) { ?>
-                  <li><a href="<?php echo $baseUrl;?>/index/materiales">Materiales</a></li>
-                  <?php } ?>
-                  <!--li><a href="<?php //echo $baseUrl;?>/index/maquinas">Máquinas</a></li-->
-                  <?php if($menu->mnucatalogos_usuarios == 1) { ?>
-                  <li><a href="<?php echo $baseUrl;?>/index/usuario">Usuarios</a></li>
-                  <?php } ?>
-                </ul>
+                  <li data-toggle="collapse" data-target="#service2" class="collapsed">
+                    <a href="#"><i class="fa fa-globe fa-lg"></i>Catálogos<span class="arrow"></span></a>
+                  </li>                  
+                  <ul class="sub-menu collapse" id="service2">
+                    <?php if($menu->mnucatalogos_clientes == 1) { ?>                  
+                    <li><a href="<?php echo $baseUrl;?>/index/clientes">Clientes</a></li>
+                    <?php } ?>
+                    <?php if($menu->mnucatalogos_proveedores == 1) { ?>                                    
+                    <li><a href="<?php echo $baseUrl;?>/index/proveedores">Proveedores</a></li>
+                    <?php } ?> 
+                    <!--li><a href="<?php echo $baseUrl;?>/index/articulos">Artículos</a></li-->
+                    <?php if($menu->mnucatalogos_materiales == 1) { ?>
+                    <li><a href="<?php echo $baseUrl;?>/index/materiales">Materiales</a></li>
+                    <?php } ?>
+                    <!--li><a href="<?php //echo $baseUrl;?>/index/maquinas">Máquinas</a></li-->
+                    <?php if($menu->mnucatalogos_usuarios == 1) { ?>
+                    <li><a href="<?php echo $baseUrl;?>/index/usuario">Usuarios</a></li>
+                    <?php } ?>
+                  </ul>
                 <?php } ?>                
                 <li>
                   <a href="<?php echo $baseUrl;?>/Login/salir">

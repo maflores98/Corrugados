@@ -44,7 +44,7 @@ $("#ajustecaiman").click(function(){
 	}
 });
 $("#ranurado").click(function(){
-	if( idinicio != 1 )
+	if( idinicio != 1 && orden == 0 )
 	{
 		$("#ranurado").attr("disabled", false);
 	} else {	
@@ -56,7 +56,7 @@ $("#ranurado").click(function(){
 	}
 });
 $("#caiman").click(function(){
-	if( idinicio != 1 )
+	if( idinicio != 1 && orden == 0 )
 	{
 		$("#caiman").attr("disabled", false);
 	} else {	
@@ -67,7 +67,7 @@ $("#caiman").click(function(){
 });
 //==================================== REFILADO ===============================================
 $("#ajusterefiladorarefilado").click(function(){
-	if( idinicio != 1)
+	if( idinicio != 1 && orden == 0)
 	{
 		$("#ajusterefiladorarefilado").attr("disabled", false);
 	} else {	
@@ -81,7 +81,7 @@ $("#ajusterefiladorarefilado").click(function(){
 	}
 });
 $("#ajusterefiladorarayado").click(function(){
-	if( idinicio != 1 )
+	if( idinicio != 1 && orden == 0 )
 	{
 		$("#ajusterefiladorarayado").attr("disabled", false);
 	} else {		
@@ -95,7 +95,7 @@ $("#ajusterefiladorarayado").click(function(){
 	}
 });
 $("#ajusterefiladorarefiladorayado").click(function(){
-	if( idinicio != 1 )
+	if( idinicio != 1 && orden == 0 )
 	{
 		$("#ajusterefiladorarefiladorayado").attr("disabled", false);
 	} else {		
@@ -109,7 +109,7 @@ $("#ajusterefiladorarefiladorayado").click(function(){
 	}
 });
 $("#refilado").click(function(){
-	if( idinicio != 1 )
+	if( idinicio != 1 && orden == 0 )
 	{
 		$("#refilado").attr("disabled", false);
 	} else {		
@@ -122,7 +122,7 @@ $("#refilado").click(function(){
 	}
 });
 $("#rayado").click(function(){
-	if( idinicio != 1 )
+	if( idinicio != 1 && orden == 0 )
 	{
 		$("#rayado").attr("disabled", false);
 	} else {		
@@ -136,7 +136,7 @@ $("#rayado").click(function(){
 });
 
 $("#refiladorayado").click(function(){
-	if( idinicio != 1 )
+	if( idinicio != 1 && orden == 0 )
 	{
 		$("#refiladorayado").attr("disabled", false);
 	} else {	
@@ -150,7 +150,7 @@ $("#refiladorayado").click(function(){
 });            
 
 $("#refiladora").click(function(){
-	if( idinicio != 1 )
+	if( idinicio != 1 && orden == 0 )
 	{
 		$("#rayado").attr("disabled", false);
 	} else {	
@@ -162,7 +162,7 @@ $("#refiladora").click(function(){
 
 //==================================== FLEXORANURADO ==========================================
 $("#ajusteflexograficaimpresion").click(function(){
-	if( idinicio != 1 )
+	if( idinicio != 1 && orden == 0 )
 	{
 		$("#ajusteflexograficaimpresion").attr("disabled", false);
 	} else {	
@@ -175,7 +175,7 @@ $("#ajusteflexograficaimpresion").click(function(){
 	}
 });
 $("#ajusteflexograficaranurado").click(function(){
-	if( idinicio != 1 )
+	if( idinicio != 1 && orden == 0 )
 	{
 		$("#ajusteflexograficaranurado").attr("disabled", false);
 	} else {	
@@ -188,7 +188,7 @@ $("#ajusteflexograficaranurado").click(function(){
 	}
 });
 $("#impresion").click(function(){
-	if( idinicio != 1 )
+	if( idinicio != 1 && orden == 0 )
 	{
 		$("#impresion").attr("disabled", false);
 	} else {	
@@ -201,7 +201,7 @@ $("#impresion").click(function(){
 });    
 
 $("#flexografica").click(function(){
-	if( idinicio != 1 )
+	if( idinicio != 1 && orden == 0 )
 	{
 		$("#flexografica").attr("disabled", false);
 	} else {	
@@ -213,7 +213,7 @@ $("#flexografica").click(function(){
 
 //==================================== PEGADO DE CORRUGADO ====================================
 $("#ajustepegadoracorrugados").click(function(){
-	if( idinicio != 1 )
+	if( idinicio != 1 && orden == 0 )
 	{
 		$("#ajustepegadoracorrugados").attr("disabled", false);
 	} else {	
@@ -224,7 +224,7 @@ $("#ajustepegadoracorrugados").click(function(){
 	}
 });
 $("#pegadocajas").click(function(){
-	if( idinicio != 1 )
+	if( idinicio != 1 && orden == 0 )
 	{
 		$("#pegadocajas").attr("disabled", false);
 	} else {		
@@ -236,7 +236,7 @@ $("#pegadocajas").click(function(){
 });
 
 $("#pegadoracorrugados").click(function(){
-	if( idinicio != 1 )
+	if( idinicio != 1 && orden == 0 )
 	{
 		$("#pegadoracorrugados").attr("disabled", false);
 	} else {	
@@ -248,7 +248,7 @@ $("#pegadoracorrugados").click(function(){
 
 //==================================== EMPALMADO ==============================================  
 $("#ajusteempalmadora").click(function(){
-	if( idinicio != 1 )
+	if( idinicio != 1 && orden == 0 )
 	{
 		$("#ajusteempalmadora").attr("disabled", false);
 	} else {		
@@ -260,7 +260,7 @@ $("#ajusteempalmadora").click(function(){
 });
 
 $("#empalme").click(function(){
-	if( idinicio != 1 )
+	if( idinicio != 1 && orden == 0 )
 	{
 		$("#empalme").attr("disabled", false);
 	} else {	
@@ -272,7 +272,7 @@ $("#empalme").click(function(){
 });
 
 $("#empalmadoraautomatica").click(function(){
-	if( idinicio != 1 )
+	if( idinicio != 1 && orden == 0 )
 	{
 		$("#empalmadoraautomatica").attr("disabled", false);
 	} else {		
@@ -284,7 +284,7 @@ $("#empalmadoraautomatica").click(function(){
 });
 
 $("#empalmadorasemiautomatica").click(function(){
-	if( idinicio != 1 )
+	if( idinicio != 1 && orden == 0 )
 	{
 		$("#empalmadorasemiautomatica").attr("disabled", false);
 	} else {	
@@ -297,19 +297,19 @@ $("#empalmadorasemiautomatica").click(function(){
 
 //==================================== SUAJADO ================================================  
 $("#ajustesuajadora").click(function(){
-	if( idinicio != 1 )
+	if( idinicio != 1 && orden == 0 )
 	{
 		$("#ajustesuajadora").attr("disabled", false);
 	} else {	
 		$("#ajustesuajadora").attr("disabled", true);
-		$("#pegadocajas").attr("disabled", false);
-		//idproceso = this.value;
+		$("#suajado").attr("disabled", false);
+		idproceso = this.value;
 		proceso = "AJUSTE SUAJADORA";
 	}
 });
 
 $("#suajado").click(function(){
-	if( idinicio != 1 )
+	if( idinicio != 1 && orden == 0 )
 	{
 		$("#suajado").attr("disabled", false);
 	} else {	
@@ -321,7 +321,7 @@ $("#suajado").click(function(){
 });
 
 $("#suajadoraautomatica").click(function(){
-	if( idinicio != 1 )
+	if( idinicio != 1 && orden == 0 )
 	{
 		$("#suajadoraautomatica").attr("disabled", false);
 	} else {	
@@ -336,7 +336,7 @@ $("#suajadoraautomatica").click(function(){
 });
 
 $("#suajadoraquijada1").click(function(){
-	if( idinicio != 1 )
+	if( idinicio != 1 && orden == 0 )
 	{
 		$("#suajadoraquijada1").attr("disabled", false);
 	} else {	
@@ -351,7 +351,7 @@ $("#suajadoraquijada1").click(function(){
 });
 
 $("#suajadoraquijada2").click(function(){
-	if( idinicio != 1 )
+	if( idinicio != 1 && orden == 0 )
 	{
 		$("#suajadoraquijada2").attr("disabled", false);
 	} else {	
@@ -366,7 +366,7 @@ $("#suajadoraquijada2").click(function(){
 });
 
 $("#suajadoraplana").click(function(){
-	if( idinicio != 1 )
+	if( idinicio != 1 && orden == 0 )
 	{
 		$("#suajadoraplana").attr("disabled", false);
 	} else {	
@@ -381,7 +381,7 @@ $("#suajadoraplana").click(function(){
 });      
 
 $("#suajadoraderodillo").click(function(){
-	if( idinicio != 1 )
+	if( idinicio != 1 && orden == 0 )
 	{
 		$("#suajadoraderodillo").attr("disabled", false);
 	} else {		
@@ -395,7 +395,7 @@ $("#suajadoraderodillo").click(function(){
 }); 
 //==================================== PEGADO ====================================   
 $("#ajustepegadora").click(function(){
-	if( idinicio != 1 )
+	if( idinicio != 1 && orden == 0 )
 	{
 		$("#ajustepegadora").attr("disabled", false);
 	} else {	
@@ -408,7 +408,7 @@ $("#ajustepegadora").click(function(){
 });
 
 $("#pegado").click(function(){
-	if( idinicio != 1 )
+	if( idinicio != 1 && orden == 0 )
 	{
 		$("#pegado").attr("disabled", false);
 	} else {		
@@ -421,7 +421,7 @@ $("#pegado").click(function(){
 });
 
 $("#pegadomanual").click(function(){
-	if( idinicio != 1 )
+	if( idinicio != 1 && orden == 0 )
 	{
 		$("#pegadomanual").attr("disabled", false);
 	} else {	
@@ -434,7 +434,7 @@ $("#pegadomanual").click(function(){
 });
 
 $("#pegadoralinealgrande").click(function(){
-	if( idinicio != 1 )
+	if( idinicio != 1 && orden == 0 )
 	{
 		$("#pegadoralinealgrande").attr("disabled", false);
 	} else {	
@@ -446,7 +446,7 @@ $("#pegadoralinealgrande").click(function(){
 });
 
 $("#pegadoralinealchica").click(function(){
-	if( idinicio != 1 )
+	if( idinicio != 1 && orden == 0 )
 	{
 		$("#pegadoralinealchica").attr("disabled", false);
 	} else {	
@@ -734,7 +734,7 @@ $("#inicio").click(function(){
 
 $("#parar").click(function(){
 
-	if( idinicio != 1 )
+	if( idinicio != 1 && orden == 0 )
 	{
 		swal("Alto","No puedes parar si el proceso no ha iniciado","warning");
 	} else {

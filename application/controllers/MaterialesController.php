@@ -28,8 +28,8 @@ class MaterialesController extends Zend_Controller_Action
         $this->_helper->viewRenderer->setNoRender();
         $model=new Application_Model_DbTable_Materiales();
         //$letra=$_REQUEST['valor'];
-        //$letra=($_REQUEST['valor'] != 'null') ? $_REQUEST['valor'] : ''; 
-        $clientes=$model->consultar();
+        $letra=($_REQUEST['valor'] != 'null') ? $_REQUEST['valor'] : '';   
+        $clientes=$model->consultar($letra);
 
        // print_r($clientes);
         $datos=array();
@@ -51,11 +51,9 @@ class MaterialesController extends Zend_Controller_Action
 
 
         foreach ($clientes as $valor) {
-        $datos[]=array($valor['id_material'],$valor['agrupador'],$valor['clave'],$valor['descripcion'],$valor['medida'],
-            $valor['flauta'],$valor['especificacion'],$valor['id_categoria'],$valor['id_tipomaterial'],$valor['costo'],
-            $valor['unidad'],$valor['id_estatus']);
+        $datos[]=array($valor['id_material'],$valor['clave'],$valor['descripcion'],$valor['id_cli-prov'],$valor['id_categoria'],"$".$valor['costo'],$valor['unidad'],$valor['id_estatus']);
         }
-
+        
         $response->data=$datos;
         echo json_encode($response);
 
@@ -65,13 +63,13 @@ class MaterialesController extends Zend_Controller_Action
       
     }
 
-    public function consultarmaterialAction(){
+    public function consultamaterialAction(){
         $this->_helper->layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender();
         $model=new Application_Model_DbTable_Materiales();
         $post=$this->getRequest()->getPost();
 
-        $material=$model->consultarmaterial($post['id_material']);
+        $material=$model->consultarMaterial($post['id_material']);
 
         $datos=array();
         $response=new stdClass();
@@ -81,7 +79,7 @@ class MaterialesController extends Zend_Controller_Action
             "id_material"=>$valor['id_material'],
             "clave"=>$valor['clave'],
             "descripcion"=>$valor['descripcion'],
-            "id_proveedor"=>$valor['id_proveedor'],
+            "id_proveedor"=>$valor['id_cli-prov'],
             "id_categoria"=>$valor['id_categoria'],
             "costo"=>"$".$valor['costo'],
             "unidad"=>$valor['unidad'],

@@ -52,7 +52,7 @@ class Application_Model_DbTable_DetalleProcesos extends Zend_Db_Table_Abstract
 		//$where = array("nombre_maquina" => $maquina, "nombre_proceso" => $proceso);
 		$where[] = "id_orden = '$idorden'";
 		$where[] = "nombre_maquina = '$maquina'";
-		$where[] = "nombre_proceso = '$proceso'";
+		//$where[] = "nombre_proceso = '$proceso'";
 		$update = $this->update(array(
 			"fechahora_fin"=>$fechafin,
 			"cantidad_ok"=>$cantidadok,

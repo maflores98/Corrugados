@@ -142,7 +142,7 @@ class ProduccionController extends Zend_Controller_Action
 		$idmaquina = $_POST['idmaquina'];
 		$maquina = $_POST['maquina'];
 		$idproceso = $_POST['idproceso'];
-		$proceso = $_POST['proceso'];
+		$proceso = $_POST['proceso'];	
 		$id_operador = $_POST['idoperador'];
 		$nombre_operador = $_POST['nombreoperador'];
 		$fechainicio = new Zend_Db_Expr('NOW()');

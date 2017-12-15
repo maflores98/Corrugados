@@ -59,7 +59,7 @@ class Application_Model_DbTable_ProcesosPendientes extends Zend_Db_Table_Abstrac
 
    $select = $this->select();
    $select->where("nombre_maquina = ?",$maquina);
-   $select->where("nombre_proceso = ?",$proceso);
+   //$select->where("nombre_proceso = ?",$proceso);
                               //$consulta = $select->__toString();
                               //echo $consulta;
                               //exit();                               
@@ -88,7 +88,7 @@ class Application_Model_DbTable_ProcesosPendientes extends Zend_Db_Table_Abstrac
  {
    $where = array();
    $where[] = $this->getAdapter()->quoteInto('nombre_maquina = ?', $maquina);
-   $where[] = $this->getAdapter()->quoteInto('nombre_proceso = ?', $proceso);
+   //$where[] = $this->getAdapter()->quoteInto('nombre_proceso = ?', $proceso);
    $delete = $this->delete($where);                                                          
                                //$delete->where("id_orden = ?", $orden);
                                //$delete = $this->delete(where('id_orden = ?',$orden));

@@ -76,7 +76,7 @@ class Application_Model_DbTable_CapturaProcesos extends Zend_Db_Table_Abstract
 		//$where = "proceso = $proceso";
 		$where[] = "id_orden = '$id_orden'";
 		$where[] = "nombre_maquina = '$maquina'";
-		$where[] = "nombre_proceso = '$proceso'";
+		//$where[] = "nombre_proceso = '$proceso'";
 		$update = $this->update(array(
 									"id_maquina"=>$idmaquina,			
 									"nombre_maquina"=>$maquina,
@@ -98,7 +98,7 @@ class Application_Model_DbTable_CapturaProcesos extends Zend_Db_Table_Abstract
 
 		$select = $this->select();
 		$select->where("nombre_maquina = ?",$maquina);
-		$select->where("nombre_proceso = ?",$proceso);		
+		//$select->where("nombre_proceso = ?",$proceso);		
 		$response=new stdClass();
 		$rows = $this->fetchAll($select);
 
@@ -127,7 +127,7 @@ class Application_Model_DbTable_CapturaProcesos extends Zend_Db_Table_Abstract
 	{
 		$where = array();
         $where[] = $this->getAdapter()->quoteInto('nombre_maquina = ?', $maquina);	
-        $where[] = $this->getAdapter()->quoteInto('nombre_proceso = ?', $proceso);		
+        //$where[] = $this->getAdapter()->quoteInto('nombre_proceso = ?', $proceso);		
 		$delete = $this->delete($where);
 		//$delete->where("id_orden =?", $orden);		
 		//$delete = $this->delete(where('id_orden = ?',$orden));

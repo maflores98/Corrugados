@@ -641,7 +641,7 @@ var enPendiente = $('#enPendiente').DataTable({
 });
 //}
 
-$("#ajuste").click(function(){
+/*$("#ajuste").click(function(){
 
 		$("#ajuste").attr("disabled", true);
 		$("#ranurado").attr("disabled", false);
@@ -655,7 +655,7 @@ $("#ajuste").click(function(){
 		$("#pegado").attr("disabled", false);	
 		idproceso = this.value;
 		proceso = "Ajuste";	
-});
+});*/
 
 $("#operador").change(function(){
 	idoperador = $("#operador").val();	
@@ -733,7 +733,7 @@ $("#inicio").click(function(){
 });
 
 $("#parar").click(function(){
-
+alert(proceso.substr(0,6));
 	if( idinicio != 1 && orden == 0 )
 	{
 		swal("Alto","No puedes parar si el proceso no ha iniciado","warning");
@@ -756,14 +756,6 @@ $("#parar").click(function(){
 					}
 				},'json');
 		}
-
-		if( proceso == ajuste ){
-			$("#cantidadrep").val("1");
-			$("#cantidadrep").attr("disabled", true);
-			$("#cantmerma").val("0");
-			$("#cantmerma").attr("disabled", true);				
-		} else {
-
 			$.post('consultaracumulados', {orden:orden},
 				function(result){
 					if(result.data.length>0)
@@ -777,7 +769,24 @@ $("#parar").click(function(){
 					{
 						$("#acumuladorep").val("0");						
 					}
-				},'json'); 
+				},'json');		
+
+		if( (proceso.substr(0,6) == 'AJUSTE') )			
+		{
+			$('#myModal').modal('show');			
+			$("#ordenrep").val(orden);
+			$("#trabajorep").val(trabajo);
+			$("#cantidadreq").val(cantreq);			
+			$("#tiemporep").val(tiempodeejec);	
+			$("#procesorep").val(proceso);
+			$("#maquinarep").val(maquina);								
+			$("#cantidadrep").val("1");
+			$("#cantidadrep").attr("disabled", true);
+			$("#cantmerma").val("0");
+			$("#cantmerma").attr("disabled", true);		
+			$("#acumuladorep").val(acumulado);
+			$("#acumerma").val(mermaacumulado);								
+		} else {
 
 			$('#myModal').modal('show');
 			$("#parar").attr("disabled", true);
@@ -790,6 +799,8 @@ $("#parar").click(function(){
 			$("#acumerma").attr("disabled", true);		
 			$("#procesorep").val(proceso);
 			$("#maquinarep").val(maquina);
+			$("#acumuladorep").val(acumulado);
+			$("#acumerma").val(mermaacumulado);			
 		}
 	}
 });

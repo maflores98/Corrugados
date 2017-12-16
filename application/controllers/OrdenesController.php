@@ -1,5 +1,7 @@
 <?php
 
+
+
 class OrdenesController extends Zend_Controller_Action
 {
 	public function init()
@@ -244,6 +246,34 @@ class OrdenesController extends Zend_Controller_Action
 
 	}
 
+	public function selmatcorrugadosAction(){
+
+		$this->_helper->layout->disableLayout();
+		$this->_helper->viewRenderer->setNoRender();
+
+		$idMaterial = $_POST['Material'];
+
+		$ListaMateriales = new Application_Model_DbTable_vClasifCartones();
+		$Materiales = $ListaMateriales->consultar($idMaterial);
+
+		echo Zend_Json::encode($Materiales);
+
+	}
+
+	public function seltamcorrugadosAction(){
+
+		$this->_helper->layout->disableLayout();
+		$this->_helper->viewRenderer->setNoRender();
+
+		$descripcion = $_POST['Descripcion'];
+
+		$ListaMateriales = new Application_Model_DbTable_Materiales();
+		$Materiales = $ListaMateriales->consultadescripcion($descripcion);
+
+		echo Zend_Json::encode($Materiales);
+
+	}
+
 	public function consultaractivasAction(){
 		$this->_helper->layout->disableLayout();
 		$this->_helper->viewRenderer->setNoRender();
@@ -407,6 +437,12 @@ class OrdenesController extends Zend_Controller_Action
 		$orden = $OrdenProd->updateOrden($datos, $OrdProduccion, $Id);
 
 		echo Zend_Json::encode($orden);
+
+	}
+
+	public function orderpdfAction(){
+
+		echo "Hola";
 
 	}
 

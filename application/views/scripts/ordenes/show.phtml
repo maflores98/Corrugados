@@ -1350,38 +1350,52 @@ $('select[name="tipo_material"]').change(function(){
 
   if($('input[id="mat-corrugados"]:radio').is(':checked')){
 
-          $.ajax({
-    dataType: "json",
-    url: 'selmatcorrugados',
-    type: "POST",
-    data: {Material : texto},
-    success: function(data){
-      $('select[name="carton"]').html('<option value="null">SELECCIONAR</option>');
-      $('select[name="carton"]').append(data);
-
-      $('select[name="carton"]').change(function(){
-
-        alert("sel_tamcarton");
-
-      });
-
-    }
-  });
+    $.ajax({
+      dataType: "json",
+      url: 'selmatcorrugados',
+      type: "POST",
+      data: {Material : texto},
+      success: function(data){
+        $('select[name="carton"]').html('<option value="null">SELECCIONAR</option>');
+        $('select[name="carton"]').append(data);
+      }
+    });
 
   }
 
-  if($('input[id="mat-kaples"]:radio').is(':checked')){
+  $('select[name="carton"]').change(function(){
+
+    if($('input[id="mat-corrugados"]:radio').is(':checked')){
+
+      var descripcion = $('select[name="carton"] option:selected').text();
 
       $.ajax({
-    dataType: "json",
-    url: 'selmaterial',
-    type: "POST",
-    data: {Material : value},
-    success: function(data){
-      $('select[name="carton"]').html('<option value="null">SELECCIONAR</option>');
-      $('select[name="carton"]').append(data);
+        dataType: "json",
+        url: 'seltamcorrugados',
+        type: "POST",
+        data: {Descripcion : descripcion},
+        success: function(data2){
+          $('select[name="tam-carton"]').html('<option value="null">SELECCIONAR</option>');
+          $('select[name="tam-carton"]').append(data2);
+
+        }
+      });
     }
+
   });
+
+  if($('input[id="mat-kaples"]:radio').is(':checked')){
+
+    $.ajax({
+      dataType: "json",
+      url: 'selmaterial',
+      type: "POST",
+      data: {Material : value},
+      success: function(data){
+        $('select[name="carton"]').html('<option value="null">SELECCIONAR</option>');
+        $('select[name="carton"]').append(data);
+      }
+    });
 
   }
 
@@ -1461,6 +1475,7 @@ $('input[name="selector_material"]:radio').click(function(){
     success: function(data){
       $('select[name="tipo_material"]').html('<option value="null">SELECCIONAR</option>');
       $('select[name="carton"]').html('<option value="null">SELECCIONAR</option>');
+      $('select[name="tam-carton"]').html('<option value="null">SELECCIONAR</option>');
       $('select[name="tipo_material"]').append(data);
     }
   });

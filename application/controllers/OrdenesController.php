@@ -1,5 +1,7 @@
 <?php
 
+
+
 class OrdenesController extends Zend_Controller_Action
 {
 	public function init()
@@ -407,6 +409,12 @@ class OrdenesController extends Zend_Controller_Action
 		$orden = $OrdenProd->updateOrden($datos, $OrdProduccion, $Id);
 
 		echo Zend_Json::encode($orden);
+
+	}
+
+	public function orderpdfAction(){
+
+		echo "Hola";
 
 	}
 

@@ -246,6 +246,20 @@ class OrdenesController extends Zend_Controller_Action
 
 	}
 
+		public function selmatcorrugadosAction(){
+
+		$this->_helper->layout->disableLayout();
+		$this->_helper->viewRenderer->setNoRender();
+
+		$idMaterial = $_POST['Material'];
+
+		$ListaMateriales = new Application_Model_DbTable_vClasifCartones();
+		$Materiales = $ListaMateriales->consultar($idMaterial);
+
+		echo Zend_Json::encode($Materiales);
+
+	}
+
 	public function consultaractivasAction(){
 		$this->_helper->layout->disableLayout();
 		$this->_helper->viewRenderer->setNoRender();

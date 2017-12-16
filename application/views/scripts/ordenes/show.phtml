@@ -489,11 +489,11 @@ label{
 
       <div class="form-group">
 
-        <label for="carton" class="col-md-3 control-label">Carton:</label>
+        <label for="carton" class="col-md-3 control-label">Tamaño:</label>
 
         <div class="col-md-9">
 
-          <select class="form-control input-sm" id="carton" name="carton">
+          <select class="form-control input-sm" id="tam-carton" name="tam-carton">
 
            <option value="null" selected>SELECCIONAR</option>
 
@@ -1346,7 +1346,33 @@ $('select[name="tipo_material"]').change(function(){
 
   var value = $('select[name="tipo_material"] option:selected').val();
 
-  $.ajax({
+  var texto = $('select[name="tipo_material"] option:selected').text();
+
+  if($('input[id="mat-corrugados"]:radio').is(':checked')){
+
+          $.ajax({
+    dataType: "json",
+    url: 'selmatcorrugados',
+    type: "POST",
+    data: {Material : texto},
+    success: function(data){
+      $('select[name="carton"]').html('<option value="null">SELECCIONAR</option>');
+      $('select[name="carton"]').append(data);
+
+      $('select[name="carton"]').change(function(){
+
+        alert("sel_tamcarton");
+
+      });
+
+    }
+  });
+
+  }
+
+  if($('input[id="mat-kaples"]:radio').is(':checked')){
+
+      $.ajax({
     dataType: "json",
     url: 'selmaterial',
     type: "POST",
@@ -1356,6 +1382,10 @@ $('select[name="tipo_material"]').change(function(){
       $('select[name="carton"]').append(data);
     }
   });
+
+  }
+
+
 })
 
 $('select[name="articulo"]').change(function(){

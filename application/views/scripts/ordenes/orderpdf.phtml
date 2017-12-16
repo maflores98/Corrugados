@@ -1,0 +1,130 @@
+<?php
+
+require('Zend/FPDF/fpdf.php');
+
+$Titulo="Bienvenido";
+$FechaRegistro="HOla";
+$NombreEmpresa="HOla";
+$Domicilio="HOla";
+$NombreContacto="HOla";
+$TelefonoContacto="HOla";
+$Prioridad="";
+$Detalles="";
+$NombreUsuario="";
+$FechaEntrega="";
+$HoraEntrega="";
+
+class PDF extends FPDF{
+
+			   //Tabla simple
+	function Tabla1($Titulo, $FechaRegistro, $NombreEmpresa, $Domicilio, $NombreContacto, $TelefonoContacto, $Prioridad, $Detalles, $NombreUsuario, $FechaEntrega, $HoraEntrega)
+	{
+		$this->SetFont('Helvetica','B', 10);
+		$this->Cell(90,5,"TRABAJO:",0,0,'L');
+		$this->Cell(10);
+		$this->Cell(90,5,"CLIENTE:",0,0,'L');
+		$this->Ln();
+		$this->Cell(90,7,"$Titulo",1,0,'L');
+		$this->Cell(10);
+		$this->Cell(90,7,"$FechaRegistro",1,0,'L');
+		$this->Ln();
+		//DATOS DE LA EMPRESA
+		$this->Cell(63.3,7,"Med. Caja", 0, 0, 'C');
+		$this->Line(13,54,70,54);
+		$this->Cell(63.3,7,"Med. Carton", 0, 0, 'C');
+		$this->Line(82,54,129,54);
+		$this->Cell(63.3,7,"Cantidad (pzas)", 0, 0, 'C');
+		$this->Line(140,54,198,54);
+		$this->Ln();
+		$this->Cell(21.1,7,"Frente",0,0,'C');
+		$this->Cell(21.1,7,"Fondo",0,0,'C');
+		$this->Cell(21.1,7,"Altura",0,0,'C');
+		$this->Cell(31.5,7,"Largo",0,0,'C');
+		$this->Cell(31.5,7,"Ancho",0,0,'C');
+		$this->Cell(30,7,"Requeridas",0,0,'C');
+		$this->Cell(30,7,"Con merma",0,0,'R');
+		$this->Ln();
+		$this->Cell(3);
+		$this->Cell(17,7,"Frente",1,0,'C');
+		$this->Cell(3);
+		$this->Cell(17,7,"Fondo",1,0,'C');
+		$this->Cell(3);
+		$this->Cell(17,7,"Altura",1,0,'C');
+		$this->Cell(12);
+		$this->Cell(22,7,"Largo",1,0,'C');
+		$this->Cell(3);
+		$this->Cell(22,7,"Ancho",1,0,'C');
+		$this->Cell(11);
+		$this->Cell(28,7,"Requeridas",1,0,'C');
+		$this->Cell(3);
+		$this->Cell(27,7,"Con merma",1,0,'C');
+		$this->Ln();
+		
+		
+
+		$this->Cell(0, 10,'DESTINO', 0, 0,'C');
+		$this->Ln(15);
+		$this->Cell(25, 6,'EMPRESA:', 0, 0);
+		$this->MultiCell(0, 6, "$NombreEmpresa", 0);
+		$this->Ln();
+		$this->Cell(25, 6,'DIRECCION:', 0, 0);
+		$this->MultiCell(0, 6, "$Domicilio", 0);
+		$this->Ln();
+		$this->Cell(25, 6,'CONTACTO:', 0, 0);
+		$this->MultiCell(0, 6, "$NombreContacto", 0);
+		$this->Ln();
+		$this->Cell(25, 6,'TELEFONO:', 0, 0);
+		$this->Cell(75,6,"$TelefonoContacto",0,0);
+		$this->Cell(0,6,"PRIORIDAD: $Prioridad",0,0,'R');
+		$this->Ln(12);
+		$this->Cell(35, 6,'INSTRUCCIONES:', 0, 0);
+		$this->MultiCell(0, 6, "$Detalles", 0);
+		$this->Ln(12);
+
+		//INFORMACION GENERAL
+		$this->Cell(0, 10,'INFORMACION DE ENTREGA', 0, 0,'C');
+		$this->Ln(15);
+		$this->Cell(140,6,"SOLICITA: $NombreUsuario", 0);
+		$this->Cell(30,6,"[   ] Entregado", 0);
+		$this->Ln();
+		$this->Cell(140,6,"FECHA DE ENTREGA: $FechaEntrega", 0);
+		$this->Cell(30,6,"[   ] No entregado", 0);
+		$this->Ln();
+		$this->Cell(140,6,"HORA DE ENTREGA: $HoraEntrega", 0);
+		$this->Cell(30,6,"[   ] Cancelado", 0);
+		$this->Ln(15);
+		$this->Cell(0, 6,"NOTAS:", 0);
+		$this->Ln(10);
+		$this->Cell(0, 0, "", 1);
+		$this->Ln(6);
+		$this->Cell(0, 0, "", 1);
+		$this->Ln(6);
+		$this->Cell(0, 0, "", 1);
+		$this->Ln(6);
+		$this->Cell(0, 0, "", 1);
+		$this->Ln(15);
+		$this->Cell(95,7,'_____________________________',0,0,'C');
+		$this->Cell(95,7,'_____________________________',0,0,'C');
+		$this->Ln();
+		$this->Cell(95,7,"FIRMA DEL AGENTE",0,0,'C');
+		$this->Cell(95,7,"DESTINATARIO",0,0,'C');
+	}
+
+}
+
+$pdf=new PDF();
+
+$pdf->AliasNbPages();
+//Primera página
+$pdf->AddPage();
+$pdf->SetY(35);
+//$pdf->AddPage();
+
+$pdf->Tabla1($Titulo, $FechaRegistro, $NombreEmpresa, $Domicilio, $NombreContacto, $TelefonoContacto, $Prioridad, $Detalles,
+	$Detalles, $NombreUsuario, $FechaEntrega, $HoraEntrega);
+
+/*/Segunda página
+$pdf->AddPage();
+$pdf->SetY(65);
+$pdf->TablaColores($header);*/
+$pdf->Output();

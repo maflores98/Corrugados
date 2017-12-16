@@ -28,6 +28,8 @@ class Application_Model_DbTable_Clientes extends Zend_Db_Table_Abstract
 
     }
 
+
+
     public function guardar($datos)
     {
         return $this->insert($datos);
@@ -37,23 +39,6 @@ class Application_Model_DbTable_Clientes extends Zend_Db_Table_Abstract
       //$datos=array("Id_stComponente"=>20, "Fecha_Inicio"=>date("Y-m-d H:i:S"));
       $where = "id_cliente=$id";
       return $this->update($datos, $where);
-    }
-
-    public function listaclientes(){
-
-        $rows = $this->fetchAll(
-        $this->select('id_cliente', 'rcomercial')
-        );
-
-        $option = "<option value=''>SELECCIONAR";
-
-        foreach ($rows as $row) {
-
-            $option.= "<option value=".$row['id_cliente'].">".$row['rcomercial'];
-         
-        }
-
-        return $option;
     }
     
     

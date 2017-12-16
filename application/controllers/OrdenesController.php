@@ -441,7 +441,6 @@ class OrdenesController extends Zend_Controller_Action
 	public function orderpdfAction(){
 
 		$this->_helper->layout()->disableLayout();
-		
 
 	}
 

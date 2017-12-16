@@ -1,8 +1,10 @@
 <?php
 
+$url = $this->baseUrl();
+
 require('Zend/FPDF/fpdf.php');
 
-$Titulo="Bienvenido";
+$Titulo="PRUEBA DE ORDEN DE PRODUCCION";
 $FechaRegistro="HOla";
 $NombreEmpresa="HOla";
 $Domicilio="HOla";
@@ -17,26 +19,26 @@ $HoraEntrega="";
 class PDF extends FPDF{
 
 			   //Tabla simple
-	function Tabla1($Titulo, $FechaRegistro, $NombreEmpresa, $Domicilio, $NombreContacto, $TelefonoContacto, $Prioridad, $Detalles, $NombreUsuario, $FechaEntrega, $HoraEntrega)
+	function Tabla1($url, $Titulo, $FechaRegistro, $NombreEmpresa, $Domicilio, $NombreContacto, $TelefonoContacto, $Prioridad, $Detalles, $NombreUsuario, $FechaEntrega, $HoraEntrega)
 	{
 		$this->SetFont('Helvetica','B', 10);
-		$this->Cell(90,5,"TRABAJO:",0,0,'L');
+		$this->Cell(90,6,"TRABAJO:",0,0,'L');
 		$this->Cell(10);
-		$this->Cell(90,5,"CLIENTE:",0,0,'L');
+		$this->Cell(90,6,"CLIENTE:",0,0,'L');
 		$this->Ln();
-		$this->Cell(90,7,"$Titulo",1,0,'L');
+		$this->Cell(90,6,"$Titulo",1,0,'C');
 		$this->Cell(10);
-		$this->Cell(90,7,"$FechaRegistro",1,0,'L');
+		$this->Cell(90,6,"Litoprocess SA. de C.V.",1,0,'C');
 		$this->Ln();
 		//DATOS DE LA EMPRESA
-		$this->Cell(63.3,7,"Med. Caja", 0, 0, 'C');
-		$this->Line(13,54,70,54);
-		$this->Cell(63.3,7,"Med. Carton", 0, 0, 'C');
-		$this->Line(82,54,129,54);
-		$this->Cell(63.3,7,"Cantidad (pzas)", 0, 0, 'C');
-		$this->Line(140,54,198,54);
+		$this->Cell(63.3,6,"Med. Caja", 0, 0, 'C');
+		$this->Line(10,53,75,53);
+		$this->Cell(63.3,6,"Med. Carton", 0, 0, 'C');
+		$this->Line(82,53,129,53);
+		$this->Cell(63.3,6,"Cantidad (pzas)", 0, 0, 'C');
+		$this->Line(137,53,200,53);
 		$this->Ln();
-		$this->Cell(21.1,7,"Frente",0,0,'C');
+		$this->Cell(20,7,"Frente",0,0,'C');
 		$this->Cell(21.1,7,"Fondo",0,0,'C');
 		$this->Cell(21.1,7,"Altura",0,0,'C');
 		$this->Cell(31.5,7,"Largo",0,0,'C');
@@ -44,70 +46,156 @@ class PDF extends FPDF{
 		$this->Cell(30,7,"Requeridas",0,0,'C');
 		$this->Cell(30,7,"Con merma",0,0,'R');
 		$this->Ln();
-		$this->Cell(3);
-		$this->Cell(17,7,"Frente",1,0,'C');
-		$this->Cell(3);
-		$this->Cell(17,7,"Fondo",1,0,'C');
-		$this->Cell(3);
-		$this->Cell(17,7,"Altura",1,0,'C');
-		$this->Cell(12);
+		$this->Cell(19,7,"Frente",1,0,'C');
+		$this->Cell(4);
+		$this->Cell(19,7,"Fondo",1,0,'C');
+		$this->Cell(4);
+		$this->Cell(19,7,"Altura",1,0,'C');
+		$this->Cell(7);
 		$this->Cell(22,7,"Largo",1,0,'C');
 		$this->Cell(3);
 		$this->Cell(22,7,"Ancho",1,0,'C');
-		$this->Cell(11);
-		$this->Cell(28,7,"Requeridas",1,0,'C');
+		$this->Cell(9);
+		$this->Cell(29,7,"Requeridas",1,0,'C');
 		$this->Cell(3);
-		$this->Cell(27,7,"Con merma",1,0,'C');
-		$this->Ln();
-		
-		
-
-		$this->Cell(0, 10,'DESTINO', 0, 0,'C');
-		$this->Ln(15);
-		$this->Cell(25, 6,'EMPRESA:', 0, 0);
-		$this->MultiCell(0, 6, "$NombreEmpresa", 0);
-		$this->Ln();
-		$this->Cell(25, 6,'DIRECCION:', 0, 0);
-		$this->MultiCell(0, 6, "$Domicilio", 0);
-		$this->Ln();
-		$this->Cell(25, 6,'CONTACTO:', 0, 0);
-		$this->MultiCell(0, 6, "$NombreContacto", 0);
-		$this->Ln();
-		$this->Cell(25, 6,'TELEFONO:', 0, 0);
-		$this->Cell(75,6,"$TelefonoContacto",0,0);
-		$this->Cell(0,6,"PRIORIDAD: $Prioridad",0,0,'R');
-		$this->Ln(12);
-		$this->Cell(35, 6,'INSTRUCCIONES:', 0, 0);
-		$this->MultiCell(0, 6, "$Detalles", 0);
-		$this->Ln(12);
-
-		//INFORMACION GENERAL
-		$this->Cell(0, 10,'INFORMACION DE ENTREGA', 0, 0,'C');
-		$this->Ln(15);
-		$this->Cell(140,6,"SOLICITA: $NombreUsuario", 0);
-		$this->Cell(30,6,"[   ] Entregado", 0);
-		$this->Ln();
-		$this->Cell(140,6,"FECHA DE ENTREGA: $FechaEntrega", 0);
-		$this->Cell(30,6,"[   ] No entregado", 0);
-		$this->Ln();
-		$this->Cell(140,6,"HORA DE ENTREGA: $HoraEntrega", 0);
-		$this->Cell(30,6,"[   ] Cancelado", 0);
-		$this->Ln(15);
-		$this->Cell(0, 6,"NOTAS:", 0);
+		$this->Cell(0,7,"Con merma",1,0,'C');
 		$this->Ln(10);
-		$this->Cell(0, 0, "", 1);
-		$this->Ln(6);
-		$this->Cell(0, 0, "", 1);
-		$this->Ln(6);
-		$this->Cell(0, 0, "", 1);
-		$this->Ln(6);
-		$this->Cell(0, 0, "", 1);
-		$this->Ln(15);
-		$this->Cell(95,7,'_____________________________',0,0,'C');
-		$this->Cell(95,7,'_____________________________',0,0,'C');
+		$this->Cell(20,7,"Articulo",0,0,'L');
+		$this->Cell(70,7,"Con merma",1,0,'C');
+		$this->Cell(10);
+		$this->Cell(20,7,"Producto",0,0,'L');
+		$this->Cell(70,7,"Con merma",1,0,'C');
+		$this->Ln(10);
+		$this->Cell(0, 7,'Material', 1, 0,'C');
 		$this->Ln();
-		$this->Cell(95,7,"FIRMA DEL AGENTE",0,0,'C');
-		$this->Cell(95,7,"DESTINATARIO",0,0,'C');
+		$this->Cell(20, 7,'Material', 0, 0,'L');
+		$this->Cell(107);
+		$this->Cell(30, 7,'50 x 20', 0, 0,'C');
+		$this->Ln();
+		$this->Cell(90, 7,'Material', 1, 0,'C');
+		$this->Ln();
+		$this->Cell(20, 7,'Tipo', 0, 0,'L');
+		$this->Ln();
+		$this->Cell(90, 7,'tipo_material', 1, 0,'C');
+		$this->Cell(70);
+		$this->Image('http://localhost/Corrugados/library/Zend/FPDF/carton.PNG',120,92,65);
+		$this->Cell(30, 7,'50 x 20', 0, 0,'R');
+		$this->Ln();
+		$this->Cell(20, 7,'Laminas', 0, 0,'L');
+		$this->Ln();
+		$this->Cell(90, 7,'laminas', 1, 0,'C');
+		$this->Ln(21);
+		$this->Cell(90, 6,'Procesos', 1, 0,'C');
+		$this->Cell(10);
+		$this->Cell(90, 6,'Suajado', 1, 0,'C');
+		$this->Ln();
+		$this->Cell(20, 6,'Refilado', 1, 0,'C');
+		$this->Cell(70, 6,'Refilado', 1, 0,'C');
+		$this->Cell(10);
+		$this->Cell(30, 6,'Med Lineal', 1, 0,'C');
+		$this->Cell(30, 6,'Cito', 1, 0,'C');
+		$this->Cell(30, 6,'Desbarbe', 1, 0,'C');
+		$this->Ln();
+		$this->Cell(20, 6,'Rayado', 1, 0,'C');
+		$this->Cell(70, 6,'Rayado', 1, 0,'C');
+		$this->Cell(10);
+		$this->Cell(30, 6,'Med Lineal', 1, 0,'C');
+		$this->Cell(30, 6,'Cito', 1, 0,'C');
+		$this->Cell(30, 6,'Desbarbe', 1, 0,'C');
+		$this->Ln();
+		$this->Cell(20, 6,'Impresion', 1, 0,'C');
+		$this->Cell(70, 6,'Impresion', 1, 0,'C');
+		$this->Ln();
+		$this->Cell(20, 6,'Ranurado', 1, 0,'C');
+		$this->Cell(70, 6,'Ranurado', 1, 0,'C');
+		$this->Cell(10);
+		$this->Cell(90, 6,'Pegado', 1, 0,'C');
+		$this->Ln();
+		$this->Cell(20, 6,'Suajado', 1, 0,'C');
+		$this->Cell(70, 6,'Suajado', 1, 0,'C');
+		$this->Cell(10);
+		$this->Cell(30, 6,'Predoblado', 1, 0,'C');
+		$this->Cell(30, 6,'Cve. Pagamento', 1, 0,'C');
+		$this->Cell(30, 6,'Pegar con', 1, 0,'C');
+		$this->Ln();
+		$this->Cell(20, 6,'Pegado', 1, 0,'C');
+		$this->Cell(70, 6,'Pegado', 1, 0,'C');
+		$this->Cell(10);
+		$this->Cell(30, 6,'Predoblado', 1, 0,'C');
+		$this->Cell(30, 6,'Cve. Pagamento', 1, 0,'C');
+		$this->Cell(30, 6,'Pegar con', 1, 0,'C');
+		$this->Ln();
+		$this->Cell(20, 6,'Grapado', 1, 0,'C');
+		$this->Cell(70, 6,'Grapado', 1, 0,'C');
+		$this->Ln();
+		$this->Cell(20, 6,'Empalme', 1, 0,'C');
+		$this->Cell(70, 6,'Empalme', 1, 0,'C');
+		$this->Cell(10);
+		$this->Cell(90, 6,'Empaque', 1, 0,'C');
+		$this->Ln();
+		$this->Cell(100);
+		$this->Cell(25, 6,'Lijas', 1, 0,'C');
+		$this->Cell(20, 6,'Envio', 1, 0,'C');
+		$this->Cell(25, 6,'Tarima', 1, 0,'C');
+		$this->Cell(20, 6,'Envio', 1, 0,'C');
+		$this->Ln();
+		$this->Cell(90, 6,'Impresion', 1, 0,'C');
+		$this->Cell(10);
+		$this->Cell(25, 6,'Fajillas', 1, 0,'C');
+		$this->Cell(20, 6,'Envio', 1, 0,'C');
+		$this->Cell(45, 6,'', 1, 0,'C');
+		$this->Ln();
+		$this->Cell(20, 6,'Tinta 1', 1, 0,'C');
+		$this->Cell(35, 6,'Envio', 1, 0,'C');
+		$this->Cell(35, 6,'Envio', 1, 0,'C');
+		$this->Cell(10);
+		$this->Cell(25, 6,'Granel', 1, 0,'C');
+		$this->Cell(20, 6,'Envio', 1, 0,'C');
+		$this->Cell(25, 6,'Esquineros', 1, 0,'C');
+		$this->Cell(20, 6,'Envio', 1, 0,'C');
+		$this->Ln();
+		$this->Cell(20, 6,'Tinta 2', 1, 0,'C');
+		$this->Cell(35, 6,'Envio', 1, 0,'C');
+		$this->Cell(35, 6,'Envio', 1, 0,'C');
+		$this->Cell(10);
+		$this->Cell(25, 6,'PzasXpaq.', 1, 0,'C');
+		$this->Cell(20, 6,'Envio', 1, 0,'C');
+		$this->Cell(25, 6,'Emplayado', 1, 0,'C');
+		$this->Cell(20, 6,'Envio', 1, 0,'C');
+		$this->Ln();
+		$this->Cell(20, 6,'Tinta 3', 1, 0,'C');
+		$this->Cell(35, 6,'Envio', 1, 0,'C');
+		$this->Cell(35, 6,'Envio', 1, 0,'C');
+		$this->Cell(10);
+		$this->Cell(25, 6,'PzasXcorr.', 1, 0,'C');
+		$this->Cell(20, 6,'Envio', 1, 0,'C');
+		$this->Cell(25, 6,'Flajado', 1, 0,'C');
+		$this->Cell(20, 6,'Envio', 1, 0,'C');
+		$this->Ln();
+		$this->Cell(20, 6,'Tinta 4', 1, 0,'C');
+		$this->Cell(35, 6,'Envio', 1, 0,'C');
+		$this->Cell(35, 6,'Envio', 1, 0,'C');
+		$this->Ln();
+		$this->Cell(20, 6,'Sel Color', 1, 0,'C');
+		$this->Cell(70, 6,'Envio', 1, 0,'C');
+		$this->Cell(10);
+		$this->Cell(90, 6,'Envio', 1, 0,'C');
+		$this->Ln();
+		$this->Cell(100);
+		$this->Cell(30, 6,'Tipo de envio', 1, 0,'C');
+		$this->Cell(60, 6,'Tipo', 1, 0,'C');
+		$this->Ln();
+		$this->Cell(90, 6,'Grapado', 1, 0,'C');
+		$this->Cell(10);
+		$this->Cell(30, 6,'Entrega', 1, 0,'C');
+		$this->Cell(60, 6,'tipo_entrega', 1, 0,'C');
+		$this->Ln();
+		$this->Cell(30, 6,'No. Grapas', 1, 0,'C');
+		$this->Cell(60, 6,'num_grapas', 1, 0,'C');
+		$this->Ln(10);
+		$this->MultiCell(0, 6, "Notas", 1);
+		$this->Ln();
+
 	}
 
 }
@@ -120,7 +208,7 @@ $pdf->AddPage();
 $pdf->SetY(35);
 //$pdf->AddPage();
 
-$pdf->Tabla1($Titulo, $FechaRegistro, $NombreEmpresa, $Domicilio, $NombreContacto, $TelefonoContacto, $Prioridad, $Detalles,
+$pdf->Tabla1($url, $Titulo, $FechaRegistro, $NombreEmpresa, $Domicilio, $NombreContacto, $TelefonoContacto, $Prioridad, $Detalles,
 	$Detalles, $NombreUsuario, $FechaEntrega, $HoraEntrega);
 
 /*/Segunda página

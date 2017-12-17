@@ -1348,8 +1348,6 @@ $('select[name="tipo_material"]').change(function(){
 
   var texto = $('select[name="tipo_material"] option:selected').text();
 
-  if($('input[id="mat-corrugados"]:radio').is(':checked')){
-
     $.ajax({
       dataType: "json",
       url: 'selmatcorrugados',
@@ -1361,11 +1359,9 @@ $('select[name="tipo_material"]').change(function(){
       }
     });
 
-  }
+ 
 
   $('select[name="carton"]').change(function(){
-
-    if($('input[id="mat-corrugados"]:radio').is(':checked')){
 
       var descripcion = $('select[name="carton"] option:selected').text();
 
@@ -1380,24 +1376,11 @@ $('select[name="tipo_material"]').change(function(){
 
         }
       });
-    }
+  
 
   });
 
-  if($('input[id="mat-kaples"]:radio').is(':checked')){
 
-    $.ajax({
-      dataType: "json",
-      url: 'selmaterial',
-      type: "POST",
-      data: {Material : value},
-      success: function(data){
-        $('select[name="carton"]').html('<option value="null">SELECCIONAR</option>');
-        $('select[name="carton"]').append(data);
-      }
-    });
-
-  }
 
 
 })
@@ -1424,8 +1407,6 @@ $( "#btn-guardar" ).click(function() {
   var user = localStorage.user;
 
   var ordenProduccion = $("#OrdenProduccion").serialize() + "&id_usuario="+user+"&tipo_orden=MANUAL";
-
-  alert(ordenProduccion);
 
   $.ajax({
 

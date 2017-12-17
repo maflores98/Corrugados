@@ -1,7 +1,5 @@
 <?php
 
-
-
 class OrdenesController extends Zend_Controller_Action
 {
 	public function init()
@@ -442,7 +440,7 @@ class OrdenesController extends Zend_Controller_Action
 
 	public function orderpdfAction(){
 
-		echo "Hola";
+		$this->_helper->layout()->disableLayout();
 
 	}
 

@@ -2,31 +2,130 @@
 
 require('Zend/FPDF/fpdf.php');
 
-$Titulo=utf8_decode($this->bar);
-$FechaRegistro="HOla";
-$NombreEmpresa="HOla";
-$Domicilio="HOla";
-$NombreContacto="HOla";
-$TelefonoContacto="HOla";
-$Prioridad="";
-$Detalles="";
-$NombreUsuario="";
-$FechaEntrega="";
-$HoraEntrega="";
+$Titulo = $this->data->nombre_trabajo;
+$id_cotizacion = $this->data->id_cotizacion;
+$id_cliente = $this->data->id_cliente;
+$cliente = $this->data->cliente;
+$usuario = $this->data->usuario;
+$id_ordencompra = $this->data->id_ordencompra;
+$id_ordenmaterial = $this->data->id_ordenmaterial;
+$nombre_trabajo = $this->data->nombre_trabajo;
+$fecha_emision = $this->data->fecha_emision;
+$fecha_entrega = $this->data->fecha_entrega;
+$tipo_orden = $this->data->tipo_orden;
+$notas = $this->data->notas;
+$cant_requerida = $this->data->cant_requerida;
+$cant_cmerma = $this->data->cant_cmerma;
+$med_frente = $this->data->med_frente;
+$med_fondo = $this->data->med_fondo;
+$med_alto = $this->data->med_alto;
+$med_largo = $this->data->med_largo;
+$med_ancho = $this->data->med_ancho;
+$articulo = $this->data->articulo;
+$producto = $this->data->producto;
+$carton = $this->data->carton;
+$tipo_material = $this->data->tipo_material;
+$laminas = $this->data->laminas;
+$maq_impresion = $this->data->maq_impresion;
+$num_tintas = $this->data->num_tintas;
+$largo_tinta1 = $this->data->largo_tinta1;
+$largo_tinta2 = $this->data->largo_tinta2;
+$largo_tinta3 = $this->data->largo_tinta3;
+$largo_tinta4 = $this->data->largo_tinta4;
+$ancho_tinta1 = $this->data->ancho_tinta1;
+$ancho_tinta2 = $this->data->ancho_tinta2;
+$ancho_tinta3 = $this->data->ancho_tinta3;
+$ancho_tinta4 = $this->data->ancho_tinta4;
+$maq_suajado = $this->data->maq_suajado;
+$med_suaje = $this->data->med_suaje;
+$med_cito = $this->data->med_cito;
+$tipo_desbarbe = $this->data->tipo_desbarbe;
+$maq_pegado = $this->data->maq_pegado;
+$num_grapas = $this->data->num_grapas;
+$maq_ranurado = $this->data->maq_ranurado;
+$maq_refilado = $this->data->maq_refilado;
+$maq_rayado = $this->data->maq_rayado;
+$maq_empalme = $this->data->maq_empalme;
+$num_ligas = $this->data->num_ligas;
+$num_fajillas = $this->data->num_fajillas;
+$cant_granel = $this->data->cant_granel;
+$cant_xpaquete = $this->data->cant_xpaquete;
+$cant_xcorrugado = $this->data->cant_xcorrugado;
+$cant_xtarima = $this->data->cant_xtarima;
+$esquineros = $this->data->esquineros;
+$emplayado = $this->data->emplayado;
+$flejado = $this->data->flejado;
+$tipo_envio = $this->data->tipo_envio;
+$tipo_entrega = $this->data->tipo_entrega;
+
 
 class PDF extends FPDF{
 
 			   //Tabla simple
-	function Tabla1($Titulo, $FechaRegistro, $NombreEmpresa, $Domicilio, $NombreContacto, $TelefonoContacto, $Prioridad, $Detalles, $NombreUsuario, $FechaEntrega, $HoraEntrega)
-	{
+	function Tabla1(
+		$id_cotizacion,
+		$id_cliente,
+		$cliente,
+		$usuario,
+		$id_ordencompra,
+		$id_ordenmaterial,
+		$nombre_trabajo,
+		$fecha_emision,
+		$fecha_entrega,
+		$tipo_orden,
+		$notas,
+		$cant_requerida,
+		$cant_cmerma,
+		$med_frente,
+		$med_fondo,
+		$med_alto,
+		$med_largo,
+		$med_ancho,
+		$articulo,
+		$producto,
+		$carton,
+		$tipo_material,
+		$laminas,
+		$maq_impresion,
+		$num_tintas,
+		$largo_tinta1,
+		$largo_tinta2,
+		$largo_tinta3,
+		$largo_tinta4,
+		$ancho_tinta1,
+		$ancho_tinta2,
+		$ancho_tinta3,
+		$ancho_tinta4,
+		$maq_suajado,
+		$med_suaje,
+		$med_cito,
+		$tipo_desbarbe,
+		$maq_pegado,
+		$num_grapas,
+		$maq_ranurado,
+		$maq_refilado,
+		$maq_rayado,
+		$maq_empalme,
+		$num_ligas,
+		$num_fajillas,
+		$cant_granel,
+		$cant_xpaquete,
+		$cant_xcorrugado,
+		$cant_xtarima,
+		$esquineros,
+		$emplayado,
+		$flejado,
+		$tipo_envio,
+		$tipo_entrega){
+
 		$this->SetFont('Helvetica','B', 10);
 		$this->Cell(90,6,"Trabajo:",0,0,'L');
 		$this->Cell(10);
 		$this->Cell(90,6,"Cliente:",0,0,'L');
 		$this->Ln();
-		$this->Cell(90,6,"$Titulo",1,0,'C');
+		$this->Cell(90,6,"$nombre_trabajo",1,0,'C');
 		$this->Cell(10);
-		$this->Cell(90,6,"Litoprocess SA. de C.V.",1,0,'C');
+		$this->Cell(90,6,"$cliente",1,0,'C');
 		$this->Ln();
 		//DATOS DE LA EMPRESA
 		$this->Cell(63.3,6,"Med. Caja", 0, 0, 'C');
@@ -201,16 +300,64 @@ class PDF extends FPDF{
 $pdf=new PDF();
 
 $pdf->AliasNbPages();
-//Primera página
 $pdf->AddPage();
 $pdf->SetY(35);
-//$pdf->AddPage();
 
-$pdf->Tabla1($Titulo, $FechaRegistro, $NombreEmpresa, $Domicilio, $NombreContacto, $TelefonoContacto, $Prioridad, $Detalles,
-	$Detalles, $NombreUsuario, $FechaEntrega, $HoraEntrega);
+$pdf->Tabla1(
+	$id_cotizacion,
+	$id_cliente,
+	$cliente,
+	$usuario,
+	$id_ordencompra,
+	$id_ordenmaterial,
+	$nombre_trabajo,
+	$fecha_emision,
+	$fecha_entrega,
+	$tipo_orden,
+	$notas,
+	$cant_requerida,
+	$cant_cmerma,
+	$med_frente,
+	$med_fondo,
+	$med_alto,
+	$med_largo,
+	$med_ancho,
+	$articulo,
+	$producto,
+	$carton,
+	$tipo_material,
+	$laminas,
+	$maq_impresion,
+	$num_tintas,
+	$largo_tinta1,
+	$largo_tinta2,
+	$largo_tinta3,
+	$largo_tinta4,
+	$ancho_tinta1,
+	$ancho_tinta2,
+	$ancho_tinta3,
+	$ancho_tinta4,
+	$maq_suajado,
+	$med_suaje,
+	$med_cito,
+	$tipo_desbarbe,
+	$maq_pegado,
+	$num_grapas,
+	$maq_ranurado,
+	$maq_refilado,
+	$maq_rayado,
+	$maq_empalme,
+	$num_ligas,
+	$num_fajillas,
+	$cant_granel,
+	$cant_xpaquete,
+	$cant_xcorrugado,
+	$cant_xtarima,
+	$esquineros,
+	$emplayado,
+	$flejado,
+	$tipo_envio,
+	$tipo_entrega
+);
 
-/*/Segunda página
-$pdf->AddPage();
-$pdf->SetY(65);
-$pdf->TablaColores($header);*/
 $pdf->Output();

@@ -1,10 +1,8 @@
 <?php
 
-$url = $this->baseUrl();
-
 require('Zend/FPDF/fpdf.php');
 
-$Titulo="PRUEBA DE ORDEN DE PRODUCCION";
+$Titulo=utf8_decode($this->bar);
 $FechaRegistro="HOla";
 $NombreEmpresa="HOla";
 $Domicilio="HOla";
@@ -19,12 +17,12 @@ $HoraEntrega="";
 class PDF extends FPDF{
 
 			   //Tabla simple
-	function Tabla1($url, $Titulo, $FechaRegistro, $NombreEmpresa, $Domicilio, $NombreContacto, $TelefonoContacto, $Prioridad, $Detalles, $NombreUsuario, $FechaEntrega, $HoraEntrega)
+	function Tabla1($Titulo, $FechaRegistro, $NombreEmpresa, $Domicilio, $NombreContacto, $TelefonoContacto, $Prioridad, $Detalles, $NombreUsuario, $FechaEntrega, $HoraEntrega)
 	{
 		$this->SetFont('Helvetica','B', 10);
-		$this->Cell(90,6,"TRABAJO:",0,0,'L');
+		$this->Cell(90,6,"Trabajo:",0,0,'L');
 		$this->Cell(10);
-		$this->Cell(90,6,"CLIENTE:",0,0,'L');
+		$this->Cell(90,6,"Cliente:",0,0,'L');
 		$this->Ln();
 		$this->Cell(90,6,"$Titulo",1,0,'C');
 		$this->Cell(10);
@@ -208,7 +206,7 @@ $pdf->AddPage();
 $pdf->SetY(35);
 //$pdf->AddPage();
 
-$pdf->Tabla1($url, $Titulo, $FechaRegistro, $NombreEmpresa, $Domicilio, $NombreContacto, $TelefonoContacto, $Prioridad, $Detalles,
+$pdf->Tabla1($Titulo, $FechaRegistro, $NombreEmpresa, $Domicilio, $NombreContacto, $TelefonoContacto, $Prioridad, $Detalles,
 	$Detalles, $NombreUsuario, $FechaEntrega, $HoraEntrega);
 
 /*/Segunda página

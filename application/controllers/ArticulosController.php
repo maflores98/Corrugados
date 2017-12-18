@@ -37,14 +37,14 @@ class ArticulosController extends Zend_Controller_Action
 
         foreach ($clientes as $valor) {
 
-$datos[]=array($valor['id_articulo'],$valor['clave'],$valor['descripcion'],$valor['id_categoria'],$valor['costo'],$valor['margen'],"$".$valor['precio'],"$".$valor['precio_anterior'],$valor['unidad'],$valor['id_estatus']);
+            $datos[]=array($valor['id_articulo'],$valor['clave'],$valor['descripcion'],$valor['id_categoria'],$valor['costo'],$valor['margen'],"$".$valor['precio'],"$".$valor['precio_anterior'],$valor['unidad'],$valor['id_estatus']);
         }
 
         
         $response->data=$datos;
         echo json_encode($response);
 
-      
+        
     }
 
     public function consultaarticuloAction(){
@@ -59,7 +59,7 @@ $datos[]=array($valor['id_articulo'],$valor['clave'],$valor['descripcion'],$valo
         $response=new stdClass();
 
         foreach ($clientes as $valor) {
-         $datos[]=array(
+           $datos[]=array(
             "id_articulo"=>$valor['id_articulo'],
             "clave"=>$valor['clave'],
             "descripcion"=>$valor['descripcion'],
@@ -71,139 +71,139 @@ $datos[]=array($valor['id_articulo'],$valor['clave'],$valor['descripcion'],$valo
             "unidad"=>$valor['unidad'],
             "id_estatus"=>$valor['id_estatus']
 
-            );
-        }
+        );
+       }
 
-        
-        $response->datos=$datos;
-        echo json_encode($response);
+       
+       $response->datos=$datos;
+       echo json_encode($response);
 
-    }
+   }
 
-    public function consultadireccionAction(){
-        $this->_helper->layout->disableLayout();
-        $this->_helper->viewRenderer->setNoRender();
-        $model=new Application_Model_DbTable_direccionesClientes();
-        $post=$this->getRequest()->getPost();
+   public function consultadireccionAction(){
+    $this->_helper->layout->disableLayout();
+    $this->_helper->viewRenderer->setNoRender();
+    $model=new Application_Model_DbTable_direccionesClientes();
+    $post=$this->getRequest()->getPost();
 
-        $clientes=$model->consultarDireccion($post['idCliente']);
+    $clientes=$model->consultarDireccion($post['idCliente']);
 
-        $datos=array();
-        $response=new stdClass();
+    $datos=array();
+    $response=new stdClass();
 
-        foreach ($clientes as $valor) {
-         $datos[]=array(
-            "id_direccion"=>$valor['id_direccion'],
-            "id_tipodireccion"=>$valor['id_tipodireccion'],
-            "estatusDir"=>$valor['id_estatus'],
-            "calle"=>$valor['calle'],
-            "colonia"=>$valor['colonia'],
-            "ciudad"=>$valor['ciudad'],
-            "municipio"=>$valor['municipio'],
-            "estado"=>$valor['estado'],
-            "cp"=>$valor['cp'],
-            "nota"=>$valor['nota']
-
-
-            );
-        }
-         $response->datos=$datos;
-        echo json_encode($response);
-
-        
-    }
+    foreach ($clientes as $valor) {
+       $datos[]=array(
+        "id_direccion"=>$valor['id_direccion'],
+        "id_tipodireccion"=>$valor['id_tipodireccion'],
+        "estatusDir"=>$valor['id_estatus'],
+        "calle"=>$valor['calle'],
+        "colonia"=>$valor['colonia'],
+        "ciudad"=>$valor['ciudad'],
+        "municipio"=>$valor['municipio'],
+        "estado"=>$valor['estado'],
+        "cp"=>$valor['cp'],
+        "nota"=>$valor['nota']
 
 
-    public function guardarAction(){
+    );
+   }
+   $response->datos=$datos;
+   echo json_encode($response);
 
-        $this->_helper->layout->disableLayout();
-        $this->_helper->viewRenderer->setNoRender();
-        $datos=$this->getRequest()->getPost();
-
-
-        
-        $model=new Application_Model_DbTable_Articulos();
-        $clientes=$model->guardar($datos);
-        $response=new stdClass();
-        $response->idCliente=$clientes;
-        $response->insert="true";
-
-        echo json_encode($response);
+   
+}
 
 
-    }
-    public function actualizaAction(){
+public function guardarAction(){
 
-        $this->_helper->layout->disableLayout();
-        $this->_helper->viewRenderer->setNoRender();
-        $datos=$this->getRequest()->getPost();
-        $id=$datos['id_articulo'];
+    $this->_helper->layout->disableLayout();
+    $this->_helper->viewRenderer->setNoRender();
+    $datos=$this->getRequest()->getPost();
 
-        $model=new Application_Model_DbTable_Articulos();
-        $clientes=$model->actualizar($datos,$id);
 
-      
-        $response=new stdClass();
+    
+    $model=new Application_Model_DbTable_Articulos();
+    $clientes=$model->guardar($datos);
+    $response=new stdClass();
+    $response->idCliente=$clientes;
+    $response->insert="true";
+
+    echo json_encode($response);
+
+
+}
+public function actualizaAction(){
+
+    $this->_helper->layout->disableLayout();
+    $this->_helper->viewRenderer->setNoRender();
+    $datos=$this->getRequest()->getPost();
+    $id=$datos['id_articulo'];
+
+    $model=new Application_Model_DbTable_Articulos();
+    $clientes=$model->actualizar($datos,$id);
+
+    
+    $response=new stdClass();
         //$response->idCliente=$clientes;
-        $response->insert="true";
+    $response->insert="true";
 
-        echo json_encode($response);
+    echo json_encode($response);
 
 
-    }
+}
 
-    public function actualizadirAction(){
+public function actualizadirAction(){
 
-        $this->_helper->layout->disableLayout();
-        $this->_helper->viewRenderer->setNoRender();
-        $datos=$this->getRequest()->getPost();
+    $this->_helper->layout->disableLayout();
+    $this->_helper->viewRenderer->setNoRender();
+    $datos=$this->getRequest()->getPost();
 
-        
+    
 
-        $id=$datos['id_cliente'];
+    $id=$datos['id_cliente'];
 
-        $model=new Application_Model_DbTable_direccionesClientes();
+    $model=new Application_Model_DbTable_direccionesClientes();
         //consultar si existe dirección
-        $existe=$model->consultarDireccion($id);
-        if(count($existe)>0){
-             $clientes=$model->actualizar($datos,$id);
-        }
-        else{
-           
-            $clientes=$model->guardar($datos);
-        }
-       
-      
+    $existe=$model->consultarDireccion($id);
+    if(count($existe)>0){
+       $clientes=$model->actualizar($datos,$id);
+   }
+   else{
+     
+    $clientes=$model->guardar($datos);
+}
 
-      
-        $response=new stdClass();
+
+
+
+$response=new stdClass();
        // $response->idCliente=$clientes;
-        $response->insert="true";
+$response->insert="true";
 
-        echo json_encode($response);
+echo json_encode($response);
 
-    }
-     public function guardardireccionAction(){
+}
+public function guardardireccionAction(){
 
-        $this->_helper->layout->disableLayout();
-        $this->_helper->viewRenderer->setNoRender();
-       
-        $datos=$this->getRequest()->getPost();
-        $model=new Application_Model_DbTable_direccionesClientes();
-        $clientes=$model->guardar($datos);
+    $this->_helper->layout->disableLayout();
+    $this->_helper->viewRenderer->setNoRender();
+    
+    $datos=$this->getRequest()->getPost();
+    $model=new Application_Model_DbTable_direccionesClientes();
+    $clientes=$model->guardar($datos);
 
 
-        echo json_encode("true");
+    echo json_encode("true");
 
         //print_r($datos);
 
 
-    }
+}
 
-   
 
-    
-   
-    
+
+
+
+
 
 }

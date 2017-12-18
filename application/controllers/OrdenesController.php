@@ -442,6 +442,45 @@ class OrdenesController extends Zend_Controller_Action
 
 		$this->_helper->layout()->disableLayout();
 
+		$id = $_POST['Id'];
+
+		$OrdenProd = new Application_Model_DbTable_DetalleOrdenProduccion();
+		$orden = $OrdenProd->updateOrden($datos, $OrdProduccion, $Id);
+
+		$this->view->bar = "";
+		$this->view->bar = "";
+		$this->view->bar = "";
+		$this->view->bar = "";
+		$this->view->bar = "";
+		$this->view->bar = "";
+		$this->view->bar = "";
+		$this->view->bar = "";
+		$this->view->bar = "";
+		$this->view->bar = "";
+		$this->view->bar = "";
+		$this->view->bar = "";
+		$this->view->bar = "";
+		$this->view->bar = "";
+		$this->view->bar = "";
+		$this->view->bar = "";
+		$this->view->bar = "";
+		$this->view->bar = "";
+		$this->view->bar = "";
+		$this->view->bar = "";
+		$this->view->bar = "";
+		$this->view->bar = "";
+		$this->view->bar = "";
+		$this->view->bar = "";
+		$this->view->bar = "";
+		$this->view->bar = "";
+		$this->view->bar = "";
+		$this->view->bar = "";
+		$this->view->bar = "";
+		$this->view->bar = "";
+		$this->view->bar = "";
+		$this->view->bar = "";
+		$this->view->bar = "";
+
 	}
 
 

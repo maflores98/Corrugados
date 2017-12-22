@@ -198,6 +198,10 @@ class PDF extends FPDF{
 		$this->Cell(0, 7,"Material", 1, 0,'C',true);
 		$this->SetFont('Helvetica','', 9);
 		$this->Ln();
+		$this->Cell(90, 7,"Material", 0, 0,'L');
+		$this->Cell(10);
+		$this->Cell(90, 7,"Suajado", 0, 0,'C');
+		$this->Ln();
 		$this->Cell(20, 7,"Material", 0, 0,'L');
 		$this->Cell(112);
 		$this->Cell(30, 7,"$med_largo", 0, 0,'C');

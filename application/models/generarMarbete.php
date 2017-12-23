@@ -36,6 +36,11 @@ $fields = mysql_num_fields($stmt);
 
 		// now write some text above the imported page
 
+		$pdf->SetFont('Arial','B','22');
+		$pdf->SetTextColor(0, 0, 0);
+		$pdf->SetXY(50, 16);
+		$pdf->Write(0, "MARBETE DE PRODUCCION");
+
 		//No. Orden
 		$pdf->SetFont('Arial','B','20');
 		$pdf->SetTextColor(0, 0, 0);

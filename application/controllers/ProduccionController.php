@@ -190,7 +190,7 @@ class ProduccionController extends Zend_Controller_Action
 		$proceso = $_POST['proceso'];
 		$cantidadok = $_POST['cantidadok'];
 		$cantidadmerma = $_POST['cantidadmerma'];
-		$tiempo = $_POST['tiempodeejec'];
+		$tiempo = $_POST['tiemporep'];
 		$notas = $_POST['notas'];
 		$fechafin = new Zend_Db_Expr('NOW()');
 
@@ -266,7 +266,7 @@ class ProduccionController extends Zend_Controller_Action
 		$cantreq = $_POST['cantreq'];
 		$cantidadok = $_POST['cantidadok'];
 		$cantidadmerma = $_POST['cantidadmerma'];
-		$tiempo = $_POST['tiempodeejec'];
+		$tiempo = $_POST['tiemporep'];
 		$notas = $_POST['notas'];
 		$fechafin = new Zend_Db_Expr('NOW()');
 
@@ -275,32 +275,19 @@ class ProduccionController extends Zend_Controller_Action
 		echo Zend_Json::encode($reportar);
 	}	
 
-	public function actualizaroperadorAction(){
-
-		$this->_helper->layout->disableLayout();
-		$this->_helper->viewRenderer->setNoRender();		
-
-		$id_orden = $_POST['orden'];
-		$proceso = $_POST['proceso'];
-		$id_operador = $_POST['idoperador'];
-		$nombre_operador = $_POST['nombreoperador'];
-
-		$actualiza = new Application_Model_DbTable_CapturaProcesos();
-		$actualizar = $actualiza->actualizaroperador($id_orden,$proceso,$id_operador,$nombre_operador);
-		echo Zend_Json::encode($actualizar);
-	}
-
 	public function actualizarfechainicioAction(){
 
 		$this->_helper->layout->disableLayout();
 		$this->_helper->viewRenderer->setNoRender();		
 
 		$id_orden = $_POST['orden'];
+		$idoperador = $_POST['idoperador'];
+		$nombreoperador = $_POST['nombreoperador'];
 		//$proceso = $_POST['proceso'];
 		$fechainicio = new Zend_Db_Expr('NOW()');
 
 		$actualiza = new Application_Model_DbTable_CapturaProcesos();
-		$actualizar = $actualiza->actualizarfechainicio($id_orden,$fechainicio);
+		$actualizar = $actualiza->actualizarfechainicio($id_orden,$idoperador,$nombreoperador,$fechainicio);
 		echo Zend_Json::encode($actualizar);
 	}	
 

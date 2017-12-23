@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	var vista, ajuste, existe;
-	var idoperador, nombreoperador, orden=0, trabajo, proceso, maquina, diferencia=0, cantidadreal=0, cantreq=0, control, tiempodeejec=0, idinicio = 0,
+	var idoperador, nombreoperador, orden=0, trabajo, proceso, maquina, diferencia=0, cantidadreal=0, cantreq=0, control, tiempodeejec=0, tiemporep=0, idinicio = 0,
 	horainicio, horaregistro, centesimas = 0, segundos = 0, minutos = 0, horas = 0, acumulado=0, mermaacumulado=0, cantidadrep=0, 
 	diferenciaacum=0, cantidadmerma=0, diferenciamerma=0, idproceso=0, idmaquina=0; 
 	switch (window.location.pathname) {
@@ -578,7 +578,6 @@ $('#enProceso tbody').on( 'click', 'tr', function () {
 					      maquina = result.data[0].maquina;
 					      idproceso = result.data[0].id_proceso;
 					      proceso = result.data[0].proceso;
-					      alert(proceso);
 					      idoperador = result.data[0].operador;
 					      nombreoperador = result.data[0].nombreoperador;
 					      horainicio = result.data[0].horainicio;
@@ -902,36 +901,24 @@ $("#inicio").click(function()
 						function(data)
 						{
 							if (data.validacion == true) 
-							{
-								$.post('actualizaroperador', {orden:orden,proceso:proceso,idoperador:idoperador,nombreoperador:nombreoperador},
-									function(data)
+							{							
+								$.post('eliminarprocesoenpendiente', {maquina:maquina,proceso:proceso},
+									function(result)
 									{
-										if (data.validacion == true) 
-										{								
-											$.post('eliminarprocesoenpendiente', {maquina:maquina,proceso:proceso},
-												function(result)
-												{
-													if (result.validacion == true) 
-													{
-														inicio();
-														$("#inicio").attr("disabled", true);
-														$("#orden").attr("disabled", true);
-														$("#operador").attr("disabled", true);
-														$("#inicio").attr("disabled",true);
-														//swal("Correcto","success");
-														idinicio = 1;
-														var strDate = new Date();
-														horainicio = strDate.getFullYear() + "-" + (strDate.getMonth()+1) + "-" + strDate.getDate() + " " + strDate.getHours() + ":" + strDate.getMinutes() + ":" + strDate.getSeconds();
-														$("#horainicio").val(horainicio);
-														enProceso.ajax.reload();
-														enPendiente.ajax.reload();
-													}
-													else
-													{        
-													swal("Error","error");  
-													}         
-												},'json'
-											);
+										if (result.validacion == true) 
+										{
+											inicio();
+											$("#inicio").attr("disabled", true);
+											$("#orden").attr("disabled", true);
+											$("#operador").attr("disabled", true);
+											$("#inicio").attr("disabled",true);
+											//swal("Correcto","success");
+											idinicio = 1;
+											var strDate = new Date();
+											horainicio = strDate.getFullYear() + "-" + (strDate.getMonth()+1) + "-" + strDate.getDate() + " " + strDate.getHours() + ":" + strDate.getMinutes() + ":" + strDate.getSeconds();
+											$("#horainicio").val(horainicio);
+											enProceso.ajax.reload();
+											enPendiente.ajax.reload();
 										}
 										else
 										{        
@@ -1016,7 +1003,7 @@ $("#inicio").click(function()
 });
 
 $("#parar").click(function(){
-alert(proceso.substr(0,6));
+//alert(proceso.substr(0,6));
 	if( idinicio != 1 && orden == 0 )
 	{
 		swal("Alto","No puedes parar si el proceso no ha iniciado","");
@@ -1077,8 +1064,10 @@ alert(proceso.substr(0,6));
 			$("#trabajorep").val(trabajo);
 			$("#tiemporep").val(tiempodeejec);
 			$("#cantidadreq").val(cantreq);
-			$("#cantidadreq").attr("disabled", false);
-			$("#acumuladorep").attr("disabled", false);
+			$("#cantidadrep").attr("disabled",false);
+			$("#cantmerma").attr("disabled",false);
+			$("#cantidadreq").attr("disabled", true);
+			$("#acumuladorep").attr("disabled", true);
 			$("#acumerma").attr("disabled", true);		
 			$("#procesorep").val(proceso);
 			$("#maquinarep").val(maquina);
@@ -1122,14 +1111,14 @@ $("#guardar").click(function()
 				cantreq:cantreq,
 				cantidadok:cantidadok,
 				cantidadmerma:cantidadmerma,
-				tiempodeejec:tiempodeejec,
+				tiemporep:tiemporep,
 				notas:notas
 			},
 			function(data)
 			{
 				if (data.validacion==true) 
 				{
-					$.post('actualizarfechainicio', {orden:orden},
+					$.post('actualizarfechainicio', {orden:orden,idoperador:idoperador,nombreoperador:nombreoperador},
 						function(result)
 						{				
 							$('#myModal').modal('hide');
@@ -1226,7 +1215,7 @@ $("#guardar").click(function()
 						function(result){
 							if (result.validacion == true) 
 							{
-								$.post('reportarproceso', {orden:orden,tiempodeejec:tiempodeejec,cantidadok:cantidadok,cantidadmerma:cantidadmerma,notas:notas,maquina:maquina,proceso:proceso},
+								$.post('reportarproceso', {orden:orden,tiemporep:tiemporep,cantidadok:cantidadok,cantidadmerma:cantidadmerma,notas:notas,maquina:maquina,proceso:proceso},
 									function(result)
 									{
 										if (result.validacion == true) 
@@ -1254,12 +1243,14 @@ $("#cancelar").click(function(){
 
 $("#enPendiente tbody").on("click","button[type='button'].btn-preview", function()
 { 
-	alert("aqui va el preview de la orden de produccion");
+	id=$(".btn-preview").val();
+	window.open("http://localhost/Corrugados/public/ordenes/orderpdf?Id="+id, '_blank');
 });
 
 $("#enProceso tbody").on("click","button[type='button'].btn-preview", function()
 { 
-	alert("aqui va el preview de la orden de produccion");
+	id=$(".btn-preview").val();
+	window.open("http://localhost/Corrugados/public/ordenes/orderpdf?Id="+id, '_blank');
 });  
 
 //==================================== FUNCIONES ====================================
@@ -1276,6 +1267,7 @@ function inicio () {
 function parar () {
 	clearInterval(control);
 	tiempodeejec = horas + ":" + minutos + ":" + segundos;
+	tiemporep = horas + (minutos/ 60);
 
 }
 function reinicio () {

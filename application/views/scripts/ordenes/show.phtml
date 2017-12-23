@@ -1468,7 +1468,6 @@ $('input[name="selector_material"]:radio').click(function(){
 $('#btn-liberar').click(function(){
 
 
-
  if($('input[name="maquina_suajado"]:radio').is(':checked')){
 
 
@@ -1969,7 +1968,8 @@ $('#btn-liberar').click(function(){
   'Se ha liberado la orden',
   'success'
   );
-
+orden=  $('.num_folio').text();
+generarMembrete(orden);  
 
 
 });
@@ -2028,5 +2028,11 @@ $("#btn-editar2").click(function(){
 $("#btn-salir").click(function(){
   window.location.href = "activas";      
 });
+
+function generarMembrete()
+{
+  //$.post('../../application/models/generarMarbete.php', {orden:orden});
+  window.open("../../application/models/generarMarbete.php?orden=" + orden,'_blank');
+}
 
 </script>

@@ -222,6 +222,86 @@ class ProduccionController extends Zend_Controller_Action
 		$eliminar = $elimina->eliminarprocesoenpendiente($maquina,$proceso);
 
 		echo Zend_Json::encode($eliminar);
-
 	}
+
+	public function iniciarajusteAction(){
+
+		$this->_helper->layout->disableLayout();
+		$this->_helper->viewRenderer->setNoRender();		
+
+		$id_orden = $_POST['orden'];
+		$nombre_trabajo = $_POST['trabajo'];
+		$idmaquina = $_POST['idmaquina'];
+		$maquina = $_POST['maquina'];
+		$idproceso = $_POST['idproceso'];
+		$proceso = $_POST['proceso'];	
+		$id_operador = $_POST['idoperador'];
+		$nombre_operador = $_POST['nombreoperador'];
+		$fechainicio = new Zend_Db_Expr('NOW()');
+
+
+		$rep = new Application_Model_DbTable_DetalleProcesos();
+		$repajuste = $rep->iniciarajuste($id_orden,$nombre_trabajo,$idmaquina,$maquina,$idproceso,$proceso,$id_operador,$nombre_operador,$fechainicio);
+		echo Zend_Json::encode($repajuste);
+	}
+
+	public function existeajusteAction(){		
+		$this->_helper->layout->disableLayout();
+		$this->_helper->viewRenderer->setNoRender();
+
+		$id_orden = $_POST['orden'];
+		$consulta = new Application_Model_DbTable_DetalleProcesos();
+		$consultar = $consulta->existeajuste($id_orden);
+
+		echo Zend_Json::encode($consultar);
+	}
+
+	public function reportarajusteAction(){
+
+		$this->_helper->layout->disableLayout();
+		$this->_helper->viewRenderer->setNoRender();
+
+		$idorden = $_POST['orden'];
+		$proceso = $_POST['proceso'];
+		$cantreq = $_POST['cantreq'];
+		$cantidadok = $_POST['cantidadok'];
+		$cantidadmerma = $_POST['cantidadmerma'];
+		$tiempo = $_POST['tiempodeejec'];
+		$notas = $_POST['notas'];
+		$fechafin = new Zend_Db_Expr('NOW()');
+
+		$reporta = new Application_Model_DbTable_DetalleProcesos();
+		$reportar = $reporta->reportarajuste($idorden,$proceso,$cantreq,$cantidadok,$cantidadmerma,$tiempo,$notas,$fechafin);
+		echo Zend_Json::encode($reportar);
+	}	
+
+	public function actualizaroperadorAction(){
+
+		$this->_helper->layout->disableLayout();
+		$this->_helper->viewRenderer->setNoRender();		
+
+		$id_orden = $_POST['orden'];
+		$proceso = $_POST['proceso'];
+		$id_operador = $_POST['idoperador'];
+		$nombre_operador = $_POST['nombreoperador'];
+
+		$actualiza = new Application_Model_DbTable_CapturaProcesos();
+		$actualizar = $actualiza->actualizaroperador($id_orden,$proceso,$id_operador,$nombre_operador);
+		echo Zend_Json::encode($actualizar);
+	}
+
+	public function actualizarfechainicioAction(){
+
+		$this->_helper->layout->disableLayout();
+		$this->_helper->viewRenderer->setNoRender();		
+
+		$id_orden = $_POST['orden'];
+		//$proceso = $_POST['proceso'];
+		$fechainicio = new Zend_Db_Expr('NOW()');
+
+		$actualiza = new Application_Model_DbTable_CapturaProcesos();
+		$actualizar = $actualiza->actualizarfechainicio($id_orden,$fechainicio);
+		echo Zend_Json::encode($actualizar);
+	}	
+
 }

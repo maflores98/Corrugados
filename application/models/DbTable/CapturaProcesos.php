@@ -137,25 +137,7 @@ class Application_Model_DbTable_CapturaProcesos extends Zend_Db_Table_Abstract
 		return $response;
 	}
 
-	public function actualizaroperador($id_orden,$proceso,$id_operador,$nombre_operador)
-	{		
-		//$where = array("nombre_maquina" => $maquina, "nombre_proceso" => $proceso);
-		//$where = "proceso = $proceso";
-		$where[] = "id_orden = '$id_orden'";
-		$where[] = "nombre_proceso = '$proceso'";
-		//$where[] = "nombre_proceso = '$proceso'";
-		$update = $this->update(array(								
-									"id_operador"=>$id_operador,
-									"nombre_operador"=>$nombre_operador,
-									), $where);		
-		//$update->where("id_orden = ?",$id_orden);
-		//die($select->__toString());
-		$response = new stdClass();
-		$response->validacion = true;
-		return $response;
-	}	
-
-	public function actualizarfechainicio($id_orden,$fechainicio)
+	public function actualizarfechainicio($id_orden,$idoperador,$nombreoperador,$fechainicio)
 	{		
 		//$where = array("nombre_maquina" => $maquina, "nombre_proceso" => $proceso);
 		//$where = "proceso = $proceso";
@@ -163,7 +145,9 @@ class Application_Model_DbTable_CapturaProcesos extends Zend_Db_Table_Abstract
 		//$where[] = "nombre_proceso = '$proceso'";
 		//$where[] = "nombre_proceso = '$proceso'";
 		$update = $this->update(array(
-			"fechahora_inicio"=>$fechainicio
+			"fechahora_inicio"=>$fechainicio,
+			"id_operador"=>$idoperador,
+			"nombre_operador"=>$nombreoperador		
 			), $where);		
 		//$update->where("id_orden = ?",$id_orden);
 		//die($select->__toString());

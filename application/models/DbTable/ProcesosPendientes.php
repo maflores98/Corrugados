@@ -18,7 +18,7 @@ class Application_Model_DbTable_ProcesosPendientes extends Zend_Db_Table_Abstrac
    foreach ($rows as $row) {
 
      $enproceso[] = array(
-      "id"=>"<button id='". $row["id_orden"] . "' data-fila='". $row["id_orden"] . "' type='button' class='btn  btn-preview btn-primary'>". $row["id_orden"] . "</button>",
+      "id"=>"<button  id='". $row["id_orden"] . "' value='". $row["id_orden"] . "' data-fila='". $row["id_orden"] . "' type='button' class='btn  btn-preview btn-primary'>". $row["id_orden"] . "</button>",
       "trabajo" => $row['nombre_trabajo'],
       "cantreq" => $row['cant_requerida'],
       "trabajo" => $row['nombre_trabajo']                                   

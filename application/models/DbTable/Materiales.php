@@ -64,5 +64,34 @@ class Application_Model_DbTable_Materiales extends Zend_Db_Table_Abstract
       return $this->update($datos, $where);
   }
 
+  public function getallArticulo(){
+
+    $select = $this->select()->where('id_estatus = 1');
+
+    $result = $this->fetchAll($select);
+
+    $UTF8 = new Application_Model_Utf8EncodeArray();
+    $result = $UTF8->encode($result);
+
+    $response = new stdClass();
+
+    $data = "";
+
+    foreach ($result as $row) {
+
+        $clave = $row['clave'];
+        $id_material = $row['id_material'];
+
+
+        $data .= "<option value='".$id_material."' data-clave='".$clave."' data-id='".$id_material."'>".$row['descripcion'];          
+    }
+
+    $response = $data;
+
+    return $data;
+
+    
+}
+
 
 }

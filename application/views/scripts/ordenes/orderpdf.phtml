@@ -14,8 +14,8 @@ class PDF extends FPDF{
 		//Carton
 		$this->Image('http://localhost/Corrugados/library/Zend/FPDF/logo.PNG',9,9,45);
 		$this->Image('http://localhost/Corrugados/library/Zend/FPDF/carton.PNG',30,120,50);
-		$this->Text(52.5, 119, "$data->med_largo");
-		$this->Text(82, 136, "$data->med_ancho");
+		$this->Text(52.5, 119, "$data->med_largo cm");
+		$this->Text(82, 136, "$data->med_ancho cm");
 		//Fin carton
 
 		$this->SetFont('Helvetica','', 9);

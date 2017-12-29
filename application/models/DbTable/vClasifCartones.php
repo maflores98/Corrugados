@@ -21,7 +21,7 @@ class Application_Model_DbTable_vClasifCartones extends Zend_Db_Table_Abstract{
 
         foreach ($tiposcorrugados as $row) {
 
-            $data .= '<option value="'.$row['Descripcion'].'">'.$row['Descripcion'].'</option>';          
+            $data .= '<option value="'.$row['Id'].'">'.$row['Descripcion'].'</option>';          
         }
 
         $response = $data;

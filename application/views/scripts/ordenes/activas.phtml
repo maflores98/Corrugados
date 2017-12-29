@@ -2,7 +2,7 @@
 	<div class="col-md-9">
 		<button id="nuevaOrden" class="btn btn-primary">Nueva</button>
 		<button id="btn-recuperar" class="btn btn-primary">Recuperar</button>
-		<button id="btn-imprimir" class="btn btn-primary">Imprimir</button>
+		<a class="btn btn-primary" href="http://localhost/Corrugados/public/ordenes/orderpdf?Id=16" role="button" id="btn-imprimir" target="FormatoPDF">Imprimir</a>
 	</div>	
 	<div class="col-md-3"><h1><?php  echo $this->titulo; echo @$this->nombreCliente?></h1></div>
 </div>
@@ -77,11 +77,9 @@
 
 		});
 
-		$("#btn-imprimir").click(function(){
+		$("a[id='btn-imprimir']").attr('href', 'orderpdf?Id='+id);
 
-			window.open("http://localhost/Corrugados/public/ordenes/orderpdf?Id="+id, '_blank');
-
-		});
+		return false;
 
 	});
 

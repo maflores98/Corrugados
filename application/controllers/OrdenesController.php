@@ -242,7 +242,7 @@
 
 		}
 
-		public function selmaterialAction(){
+		/*public function selmaterialAction(){
 
 			$this->_helper->layout->disableLayout();
 			$this->_helper->viewRenderer->setNoRender();
@@ -254,7 +254,7 @@
 
 			echo Zend_Json::encode($Materiales);
 
-		}
+		}*/
 
 		public function selmatcorrugadosAction(){
 

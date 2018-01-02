@@ -26,6 +26,7 @@
   $this->headScript()->appendFile($this->baseUrl('js/grids.js'), 'text/javascript');
   $this->headScript()->appendFile($this->baseUrl('js/guardarClientes.js'), 'text/javascript');
   $this->headScript()->appendFile($this->baseUrl('js/gridsProduccion.js'), 'text/javascript');
+  $this->headScript()->appendFile($this->baseUrl('js/gridsCatalogos.js'), 'text/javascript');
 
   $this->headTitle()->append('Miapp/Corrugados');
   echo $this->headMeta();
@@ -191,18 +192,22 @@ $baseUrl = $front -> getBaseUrl ();
                   </li>                  
                   <ul class="sub-menu collapse" id="service2">
                     <?php if($menu->mnucatalogos_clientes == 1) { ?>                  
-                    <li><a href="<?php echo $baseUrl;?>/index/clientes">Clientes</a></li>
+                    <!--li><a href="<?php //echo $baseUrl;?>/index/clientes">Clientes</a></li-->
+                    <li><a href="<?php echo $baseUrl;?>/catalogos/clientes">Clientes</a></li>
                     <?php } ?>
                     <?php if($menu->mnucatalogos_proveedores == 1) { ?>                                    
-                    <li><a href="<?php echo $baseUrl;?>/index/proveedores">Proveedores</a></li>
+                    <!--li><a href="<?php //echo $baseUrl;?>/index/proveedores">Proveedores</a></li-->
+                    <li><a href="<?php echo $baseUrl;?>/catalogos/proveedores">Proveedores</a></li>
                     <?php } ?> 
-                    <!--li><a href="<?php echo $baseUrl;?>/index/articulos">Artículos</a></li-->
+                    <!--li><a href="<?php //echo $baseUrl;?>/index/articulos">Artículos</a></li-->
                     <?php if($menu->mnucatalogos_materiales == 1) { ?>
-                    <li><a href="<?php echo $baseUrl;?>/index/materiales">Materiales</a></li>
+                    <!--li><a href="<?php //echo $baseUrl;?>/index/materiales">Materiales</a></li-->
+                    <li><a href="<?php echo $baseUrl;?>/catalogos/materiales">Materiales</a></li>
                     <?php } ?>
                     <!--li><a href="<?php //echo $baseUrl;?>/index/maquinas">Máquinas</a></li-->
                     <?php if($menu->mnucatalogos_usuarios == 1) { ?>
-                    <li><a href="<?php echo $baseUrl;?>/index/usuario">Usuarios</a></li>
+                    <!--li><a href="<?php //echo $baseUrl;?>/index/usuario">Usuarios</a></li-->
+                    <li><a href="<?php echo $baseUrl;?>/catalogos/usuarios">Usuarios</a></li>
                     <?php } ?>
                   </ul>
                 <?php } ?>                

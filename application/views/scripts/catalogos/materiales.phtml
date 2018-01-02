@@ -1,0 +1,119 @@
+<style>
+.modal-dialog {
+  width: 70%;
+}  
+
+.modal-clientes{
+  font-size: 12px;
+  //width: 80%;
+  //height: 25px;
+}
+</style>
+<div class="row">  
+<div class="col-md-8">
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#detalleModal" id="btnnuevoproveedor">Nuevo</button>
+  <!--button class="btn btn-primary" id='editarCliente'><span class="glyphicon glyphicon-pencil"></span>Editar</button>
+   <button class="btn btn-primary" id='suspender'><span class="glyphicon glyphicon-hourglass"></span>Suspender</button-->
+   <button class="btn btn-primary" id='excel-materiales'>Exportar a Excel</button>
+ </div>
+<div class="col-md-4"><h1><?php  echo $this->titulo; echo @$this->nombreCliente?></h1></div>
+</div> 
+
+<div class="row">
+<div class="col-md-12">
+<table id="catMateriales" class="compact cell-border" cellspacing="0" width="100%">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Clave</th>
+      <th>Descripción</th>
+      <th>Id_Proveedor</th>
+      <th>Id_Categoria</th>
+      <th>Costo</th>
+      <th>Unidad</th>
+      <th>Estatus</th>
+      <th>Detalle</th>
+    </tr>
+  </thead>
+
+  <tbody id="bdy-grid">
+  </tbody>
+</table>
+</div>
+</div>
+
+    <!-- Modal  Reporte -->
+    <div class="modal fade" id="detalleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Detalle Materiales</h4>
+          </div>
+          <div class="modal-body">
+            <form id="frmactualizarmaterial" method="POST" action="extraerproveedor" style="font-size:10px;">
+              <div class="row">
+                <!--div class="col-md-12"-->
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="clave" class="control-label">Calve</label>
+                      <input type="text" class="form-control modal-clientes" id="clave" name="clave">
+                    </div>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="form-group">
+                      <label for="descripcion" class="control-label">Descripción</label>
+                      <textarea class="form-control" id="descripcion" name="descripcion" rows="3"></textarea>
+                    </div>
+                  </div>
+                    <div class="form-group col-md-4">
+                      <label for="proveedor">Proveedor</label>
+                      <select class="form-control" id="proveedor" name="proveedor">
+                        <option value="0" selected disabled>Elige</option>
+                        <option value="1">proveedor 1</option>
+                        <option value="2">proveedor 2</option>
+                        <option value="3">proveedor 3</option>
+                      </select>
+                    </div>                   
+                    <div class="form-group col-md-4">
+                      <label for="categoria">Categoria</label>
+                      <select class="form-control" id="categoria" name="categoria">
+                        <option value="0" selected disabled>Elige</option>
+                        <option value="1">Categoria 1</option>
+                        <option value="2">Categoria 2</option>
+                        <option value="3">Categoria 3</option>
+                      </select>
+                    </div>  
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="costo" class="control-label">Costo</label>
+                      <input type="text" class="form-control modal-clientes" id="costo" name="costo">
+                    </div>
+                  </div>   
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="unidad" class="control-label">Unidad</label>
+                      <input type="text" class="form-control modal-clientes" id="unidad" name="unidad">
+                    </div>
+                  </div>
+                    <div class="form-group col-md-4">
+                      <label for="estatus">Estatus</label>
+                      <select class="form-control" id="estatus" name="estatus">
+                        <option value="0" selected disabled>Elige</option>
+                        <option value="1">Estatus 1</option>
+                        <option value="2">Estatus 2</option>
+                        <option value="3">Estatus 3</option>
+                      </select>
+                    </div>                                                       
+                <!--/div-->                                                                      
+              </div>         
+            </form>        
+          </div>
+          <div class="modal-footer">
+            <button id="cancelar" type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            <button id="nuevomaterial" type="submit" class="btn btn-primary">Nuevo</button>
+            <button id="actualizarmaterial" type="button" class="btn btn-primary">Actualizar</button>
+          </div>
+        </div>
+      </div>
+    </div>

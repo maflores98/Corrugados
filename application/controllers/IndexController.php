@@ -15,26 +15,27 @@ class IndexController extends Zend_Controller_Action
 
     public function indexAction()
     {
-            $front =Zend_Controller_Front :: getInstance ();  
-            $baseUrl = $front -> getBaseUrl ();
-            $this->view->titulo="**Clientes**";
-            $this->view->grid="Gridclientes";
-            $this->view->gridDirecciones="gridDirecciones";
-            $this->view->guardarCliente="Clientes/guardar";
-            $this->view->actualizaCliente="Clientes/actualiza";
-            $this->view->actualizaDir="Clientes/actualizadir";
-            $this->view->tituloModal="Nuevo Cliente";
-            $this->view->nomForm="clientesG";
-            $this->view->identificador="cliente";
-            $this->view->redireccionar=$baseUrl."/index";
-            $this->view->urlGrid=$baseUrl."/Clientes/consultar";
-            $this->view->consultaCliente=$baseUrl."/Clientes/consultacliente";
-            $this->view->baseUrl=$baseUrl."/index";
-            $this->view->consultaDireccion=$baseUrl."/Clientes/consultadireccion";
-            $this->view->urlDireccion=$baseUrl."/Clientes/todasdireccion";
+        /*$front =Zend_Controller_Front :: getInstance ();  
+        $baseUrl = $front -> getBaseUrl ();
+        $this->view->titulo="**Clientes**";
+        $this->view->grid="Gridclientes";
+        $this->view->gridDirecciones="gridDirecciones";
+        $this->view->guardarCliente="Clientes/guardar";
+        $this->view->actualizaCliente="Clientes/actualiza";
+        $this->view->actualizaDir="Clientes/actualizadir";
+        $this->view->tituloModal="Nuevo Cliente";
+        $this->view->nomForm="clientesG";
+        $this->view->identificador="cliente";
+        $this->view->redireccionar=$baseUrl."/index";
+        $this->view->urlGrid=$baseUrl."/Clientes/consultar";
+        $this->view->consultaCliente=$baseUrl."/Clientes/consultacliente";
+        $this->view->baseUrl=$baseUrl."/index";
+        $this->view->consultaDireccion=$baseUrl."/Clientes/consultadireccion";
+        $this->view->urlDireccion=$baseUrl."/Clientes/todasdireccion";
+        
+        $this->renderScript("index/index.phtml");*/
 
-            
-            $this->renderScript("index/index.phtml");        
+        $this->view->titulo="** Bienvenido **";                    
     }
 
     public function altasAction(){

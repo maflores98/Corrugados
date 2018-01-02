@@ -11,17 +11,17 @@
 </style>
 <div class="row">  
 <div class="col-md-8">
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#detalleModal" id="btnnuevocliente">Nuevo</button>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#detalleModal" id="btnnuevoproveedor">Nuevo</button>
   <!--button class="btn btn-primary" id='editarCliente'><span class="glyphicon glyphicon-pencil"></span>Editar</button>
    <button class="btn btn-primary" id='suspender'><span class="glyphicon glyphicon-hourglass"></span>Suspender</button-->
-   <button class="btn btn-primary" id='excel-clientes'>Exportar a Excel</button>
+   <button class="btn btn-primary" id='excel-proveedores'>Exportar a Excel</button>
  </div>
 <div class="col-md-4"><h1><?php  echo $this->titulo; echo @$this->nombreCliente?></h1></div>
 </div> 
 
 <div class="row">
 <div class="col-md-12">
-<table id="catClientes" class="compact cell-border" cellspacing="0" width="100%">
+<table id="catProveedores" class="compact cell-border" cellspacing="0" width="100%">
   <thead>
     <tr>
       <th>Id</th>
@@ -46,16 +46,17 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">Detalle Clientes</h4>
+            <h4 class="modal-title" id="myModalLabel">Detalle Proveedores</h4>
           </div>
           <div class="modal-body">
-            <form id="actualizarcliente" method="POST" action="extraercliente" style="font-size:10px;">
-              <div class="row">
+            <form id="frmactualizarproveedor" method="POST" action="extraerproveedor" style="font-size:10px;">
+              <!--div class="row"-->
                 <!--div class="col-md-12"-->
+                <div class="row">
                   <div class="col-md-4">
                     <div class="form-group">
                       <label for="rcomercial" class="control-label">Razón Comercial</label>
-                      <input type="text" class="form-control modal-clientes" id="rcomercial" name="rcomercial">
+                      <input type="text" class="form-control modal-clientes" id="rcomercial" name="rcomercial" required>
                     </div>
                   </div>
                   <div class="col-md-2">
@@ -67,7 +68,7 @@
                   <div class="col-md-2">
                     <div class="form-group">
                       <label for="telefono" class="control-label">Telefono</label>
-                      <input type="text" class="form-control modal-clientes" id="telefono" name="telefono">
+                      <input type="number" class="form-control modal-clientes" id="telefono" name="telefono">
                     </div>
                   </div>
                   <div class="col-md-4">
@@ -75,12 +76,50 @@
                       <label for="pagweb" class="control-label">Pag.Web</label>
                       <input type="text" class="form-control modal-clientes" id="pagweb" name="pagweb">
                     </div>
-                  </div>                                                                                 
-                <!--/div-->
-                <!--div class="col-md-12"-->
+                  </div>    
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="calle" class="control-label">Calle</label>
+                      <input type="text" class="form-control modal-clientes" id="calle" name="calle">
+                    </div>
+                  </div>        
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="colonia" class="control-label">Colonia</label>
+                      <input type="text" class="form-control modal-clientes" id="colonia" name="colonia">
+                    </div>
+                  </div>  
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="municipio" class="control-label">Municipio</label>
+                      <input type="text" class="form-control modal-clientes" id="municipio" name="municipio">
+                    </div>
+                  </div>                    
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="ciudad" class="control-label">Ciudad</label>
+                      <input type="text" class="form-control modal-clientes" id="ciudad" name="ciudad">
+                    </div>
+                  </div>   
+                  <div class="col-md-2">
+                    <div class="form-group">
+                      <label for="estado" class="control-label">Estado</label>
+                      <input type="text" class="form-control modal-clientes" id="estado" name="estado">
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="form-group">
+                      <label for="cp" class="control-label">C.P</label>
+                      <input type="number" class="form-control modal-clientes" id="cp" name="cp">
+                    </div>
+                  </div> 
+                  </div>             
+                  <!--/div-->
+                  <!--div class="col-md-12"-->
+                  <div class="row">
                     <div class="form-group col-md-4">
                       <label for="categoria">Categoria</label>
-                      <select class="form-control" id="categoria" name="categoria">
+                      <select class="form-control" id="categoria" name="categoria" required>
                         <option value="0" selected disabled>Elige</option>
                         <option value="1">Categoria 1</option>
                         <option value="2">Categoria 2</option>
@@ -89,7 +128,7 @@
                     </div>
                     <div class="form-group col-md-4">
                       <label for="estatus">Estatus</label>
-                      <select class="form-control" id="estatus" name="estatus">
+                      <select class="form-control" id="estatus" name="estatus" required>
                         <option value="0" selected disabled>Elige</option>
                         <option value="1">Activo</option>
                         <option value="2">Inactivo</option>
@@ -99,31 +138,31 @@
                   <div class="col-md-2">
                     <div class="form-group">
                       <label for="cpago" class="control-label">Condición de pago</label>
-                      <input type="text" class="form-control modal-clientes" id="cpago" name="cpago">
+                      <input type="number" class="form-control modal-clientes" id="cpago" name="cpago">
                     </div>
                   </div>              
                   <div class="col-md-2">
                     <div class="form-group">
                       <label for="drevision" class="control-label">Días de revisión</label>
-                      <input type="text" class="form-control modal-clientes" id="drevision" name="drevision">
+                      <input type="number" class="form-control modal-clientes" id="drevision" name="drevision">
                     </div>
                   </div>              
                   <div class="col-md-4">
                     <div class="form-group">
                       <label for="contacto1" class="control-label">Contacto 1:</label>
-                      <input type="text" class="form-control modal-clientes" id="contacto1" name="contacto1">
+                      <input type="text" class="form-control modal-clientes" id="contacto1" name="contacto1" required>
                     </div>
                   </div>  
                   <div class="col-md-2">
                     <div class="form-group">
                       <label for="mobilcontacto1" class="control-label">Email:</label>
-                      <input type="text" class="form-control modal-clientes" id="mailcontacto1" name="mailcontacto1">
+                      <input type="email" class="form-control modal-clientes" id="mailcontacto1" name="mailcontacto1" required>
                     </div>
                   </div> 
                   <div class="col-md-4">
                     <div class="form-group">
                       <label for="referencia1" class="control-label">Referencia:</label>
-                      <input type="text" class="form-control modal-clientes" id="referencia1" name="referencia1">
+                      <input type="text" class="form-control modal-clientes" id="referencia1" name="referencia1" required>
                     </div>
                   </div> 
 
@@ -136,7 +175,7 @@
                   <div class="col-md-2">
                     <div class="form-group">
                       <label for="mailcontacto2" class="control-label">Email:</label>
-                      <input type="text" class="form-control modal-clientes" id="mailcontacto2" name="mailcontacto2">
+                      <input type="email" class="form-control modal-clientes" id="mailcontacto2" name="mailcontacto2">
                     </div>
                   </div> 
                   <div class="col-md-4">
@@ -155,7 +194,7 @@
                   <div class="col-md-2">
                     <div class="form-group">
                       <label for="mailcontacto3" class="control-label">Email:</label>
-                      <input type="text" class="form-control modal-clientes" id="mailcontacto3" name="mailcontacto3">
+                      <input type="email" class="form-control modal-clientes" id="mailcontacto3" name="mailcontacto3">
                     </div>
                   </div> 
                   <div class="col-md-4">
@@ -163,25 +202,16 @@
                       <label for="referencia3" class="control-label">Referencia:</label>
                       <input type="text" class="form-control modal-clientes" id="referencia3" name="referencia3">
                     </div>
-                  </div>                                
-
-                    <div class="form-group col-md-4">
-                      <label for="vendedor">Vendedor</label>
-                      <select class="form-control" id="vendedor" name="vendedor">
-                        <option value="0" selected disabled>Elige</option>
-                        <option value="1">Activo</option>
-                        <option value="2">Inactivo</option>
-                        <option value="3">Suspendido</option>
-                      </select>
-                    </div>
+                  </div>
+                </div>
                 <!--/div-->                                                                      
-              </div>         
+              <!--/div-->         
             </form>        
           </div>
           <div class="modal-footer">
             <button id="cancelar" type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-            <button id="nuevocliente" type="button" class="btn btn-primary">Nuevo</button>
-            <button id="actualizarcliente" type="button" class="btn btn-primary">Actualizar</button>
+            <button id="nuevoproveedor" type="submit" class="btn btn-primary">Nuevo</button>
+            <button id="actualizarproveedor" type="button" class="btn btn-primary">Actualizar</button>
           </div>
         </div>
       </div>

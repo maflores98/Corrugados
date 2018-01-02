@@ -114,4 +114,17 @@ class Application_Model_DbTable_DetalleProcesos extends Zend_Db_Table_Abstract
 		return $response;
 	}		
 
+	public function copiarfecharegistroadetalleprocesos($copiarfecharegistro,$maquina,$id_orden)
+	{
+		$where[] = "id_orden = '$id_orden'";
+		$where[] = "nombre_maquina = '$maquina'";
+
+		$update = $this->update(array(
+			"fechahora_registro"=>$copiarfecharegistro[0]["fechahora_registro"]
+			), $where);				
+		$response = new stdClass();
+		$response->validacion = true;
+		return $response;
+	}	
+
 }

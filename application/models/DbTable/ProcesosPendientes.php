@@ -97,6 +97,32 @@ class Application_Model_DbTable_ProcesosPendientes extends Zend_Db_Table_Abstrac
    $response->validacion = true;
    return $response;
  }
+
+ public function copiarfecharegistrodependiente($maquina,$proceso,$id_orden)
+ {
+
+   $select = $this->select();
+    $select->where("id_orden = ?",$id_orden);
+   $select->where("nombre_maquina = ?",$maquina);
+   //$select->where("nombre_proceso = ?",$proceso);
+                              //$consulta = $select->__toString();
+                              //echo $consulta;
+                              //exit();                               
+   $response=new stdClass();
+   $rows = $this->fetchAll($select);
+
+   $copiar = array();
+   foreach ($rows as $row) {
+
+     $copiar[] = array(
+      //"id_orden"=>$row["id_orden"],
+      //"nombre_maquina"=>$row["nombre_maquina"],
+       "fechahora_registro"=>$row["fechahora_registro"]
+       );
+   }
+
+   return $copiar;
+ }   
  
  public function addSuajado($datos){
 

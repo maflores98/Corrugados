@@ -173,10 +173,11 @@ class ProduccionController extends Zend_Controller_Action
 		$this->_helper->layout->disableLayout();
 		$this->_helper->viewRenderer->setNoRender();
 
-		$id_orden = $_POST['orden'];	
+		$id_orden = $_POST['orden'];
+		$vista = $_POST['vista'];	
 
 		$consulta = new Application_Model_DbTable_vAcumulados();
-		$consultar = $consulta->consultaracumulados($id_orden);
+		$consultar = $consulta->consultaracumulados($id_orden,$vista);
 		echo Zend_Json::encode($consultar);       	
 	}
 
@@ -289,6 +290,22 @@ class ProduccionController extends Zend_Controller_Action
 		$actualiza = new Application_Model_DbTable_CapturaProcesos();
 		$actualizar = $actualiza->actualizarfechainicio($id_orden,$idoperador,$nombreoperador,$fechainicio);
 		echo Zend_Json::encode($actualizar);
+	}	
+
+	public function copiarfecharegistroadetalleAction(){
+		$this->_helper->layout->disableLayout();
+		$this->_helper->viewRenderer->setNoRender();		
+		$maquina = $_POST['maquina'];
+		$proceso = $_POST['proceso'];
+		$id_orden = $_POST['orden'];
+
+		$copiarfecha = new Application_Model_DbTable_ProcesosPendientes();
+		$copiarfecharegistro = $copiarfecha->copiarfecharegistrodependiente($maquina,$proceso,$id_orden);
+		
+		$copiaadetalle = new Application_Model_DbTable_DetalleProcesos();
+		$copiaradetalle = $copiaadetalle->copiarfecharegistroadetalleprocesos($copiarfecharegistro,$maquina,$id_orden);	
+
+		echo Zend_Json::encode($copiaradetalle);	
 	}	
 
 }

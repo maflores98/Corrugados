@@ -93,5 +93,97 @@ class Application_Model_DbTable_Materiales extends Zend_Db_Table_Abstract
     
 }
 
+  //////////////////////////////////////////////////////////////////////////////
+  ///                                                                        ///
+  ///                                 SERGIO                                 ///
+  ///                                                                        ///
+  //////////////////////////////////////////////////////////////////////////////
+  
+      public function consultarmateriales()
+      {
+       $select = $this->select();
+       $response=new stdClass();
+       $rows = $this->fetchAll($select);
+                            //$consulta = $select->__toString();
+                            //echo $consulta;
+                            //exit();
+       $materiales = array();
+       foreach ($rows as $row) {
+
+         $materiales[] = array(
+         "id_material"=>$row["id_material"],
+          "clave"=>$row["clave"],
+          "descripcion" => $row['descripcion'],
+          "id_cli-prov" => $row['id_cli-prov'],
+          "id_categoria" => $row['id_categoria'],
+          "costo" => $row['costo'], 
+          "unidad" => $row['unidad'],
+          "id_estatus" => $row['id_estatus'],                 
+          "detalle"=>"<a class='btn btn-default btn-xs btn-detalles' data-id='".$row['id_material']."'> <span class='glyphicon glyphicon-plus'></a>"                            
+          );
+       }
+       $response->data = $materiales;
+       return $response;
+     }
+
+      public function extraermaterial($idmaterial)
+      {
+       $select = $this->select();
+       $select->where("id_material = ?", $idmaterial);
+       $response=new stdClass();
+       $rows = $this->fetchAll($select)->toArray();
+                            //$consulta = $select->__toString();
+                            //echo $consulta;
+                            //exit();
+       $material = array();
+       foreach ($rows as $row) {
+         $material[] = array(
+        "clave"=>$row["clave"],
+        "descripcion"=>$row["descripcion"],
+        "id_cliprov" => $row['id_cli-prov'],
+        "id_categoria" => $row['id_categoria'],
+        "costo" => $row['costo'],
+        "unidad" => $row['unidad'],
+        "id_estatus" => $row['id_estatus']     
+          );
+       }
+
+       $response->data = $material;
+       return $rows[0];
+     }     
+
+    public function actualizarmaterial($id_material, $clave, $descripcion, $proveedor, $categoria, $costo, $unidad, $estatus)
+    {
+        $where[] = "id_material = '$id_material'";
+        $update = $this->update(array(
+            "clave" => $clave, 
+            "descripcion" => $descripcion, 
+            "id_cli-prov" => $proveedor, 
+            "id_categoria" => $categoria,
+            "costo" => $costo,
+            "unidad" => $unidad,
+            "id_estatus" => $estatus
+        ), $where);
+
+        $response = new stdClass();
+        $response->validacion = true;
+        return $response;
+    }
+
+    public function insertarmaterial($clave, $descripcion, $proveedor, $categoria, $costo, $unidad, $estatus)
+    {
+        $insert = $this->insert(array(
+            "clave" => $clave, 
+            "descripcion" => $descripcion, 
+            "id_cli-prov" => $proveedor, 
+            "id_categoria" => $categoria,
+            "costo" => $costo,
+            "unidad" => $unidad,
+            "id_estatus" => $estatus
+            ));
+        $response = new stdClass();
+        $response->validacion = true;
+        return $response;
+    }
 
 }

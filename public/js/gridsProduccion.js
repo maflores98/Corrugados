@@ -896,34 +896,46 @@ $("#inicio").click(function()
 			function(data)
 			{
 				if (data.validacion==true) 
-				{	
-					$.post('copiarprocesoacaptura', {maquina:maquina,proceso:proceso},
+				{
+					$.post('copiarfecharegistroadetalle', {maquina:maquina,proceso:proceso,orden:orden},
 						function(data)
 						{
 							if (data.validacion == true) 
-							{							
-								$.post('eliminarprocesoenpendiente', {maquina:maquina,proceso:proceso},
-									function(result)
+							{
+								$.post('copiarprocesoacaptura', {maquina:maquina,proceso:proceso},
+									function(data)
 									{
-										if (result.validacion == true) 
+										if (data.validacion == true) 
 										{
-											inicio();
-											$("#inicio").attr("disabled", true);
-											$("#orden").attr("disabled", true);
-											$("#operador").attr("disabled", true);
-											$("#inicio").attr("disabled",true);
-											//swal("Correcto","success");
-											idinicio = 1;
-											var strDate = new Date();
-											horainicio = strDate.getFullYear() + "-" + (strDate.getMonth()+1) + "-" + strDate.getDate() + " " + strDate.getHours() + ":" + strDate.getMinutes() + ":" + strDate.getSeconds();
-											$("#horainicio").val(horainicio);
-											enProceso.ajax.reload();
-											enPendiente.ajax.reload();
+											$.post('eliminarprocesoenpendiente', {maquina:maquina,proceso:proceso},
+												function(result)
+												{
+													if (result.validacion == true) 
+													{
+														inicio();
+														$("#inicio").attr("disabled", true);
+														$("#orden").attr("disabled", true);
+														$("#operador").attr("disabled", true);
+														$("#inicio").attr("disabled",true);
+														//swal("Correcto","success");
+														idinicio = 1;
+														var strDate = new Date();
+														horainicio = strDate.getFullYear() + "-" + (strDate.getMonth()+1) + "-" + strDate.getDate() + " " + strDate.getHours() + ":" + strDate.getMinutes() + ":" + strDate.getSeconds();
+														$("#horainicio").val(horainicio);
+														enProceso.ajax.reload();
+														enPendiente.ajax.reload();
+													}
+													else
+													{        
+													swal("Error","error");  
+													}         
+												},'json'
+											);																	
 										}
 										else
 										{        
-										swal("Error","error");  
-										}         
+											swal("Error","error");  
+										}  		
 									},'json'
 								);
 							}
@@ -932,7 +944,7 @@ $("#inicio").click(function()
 								swal("Error","error");  
 							}  		
 						},'json'
-					);																													
+					);																																			
 				}
 				else
 				{        
@@ -1026,7 +1038,7 @@ $("#parar").click(function(){
 					}
 				},'json');
 		}
-			$.post('consultaracumulados', {orden:orden},
+			$.post('consultaracumulados', {orden:orden,vista:vista},
 				function(result){
 					if(result.data.length>0)
 					{

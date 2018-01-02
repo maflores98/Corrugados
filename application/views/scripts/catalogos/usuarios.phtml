@@ -1,0 +1,109 @@
+<style>
+.modal-dialog {
+  width: 70%;
+}  
+
+.modal-clientes{
+  font-size: 12px;
+  //width: 80%;
+  //height: 25px;
+}
+</style>
+<div class="row">  
+<div class="col-md-8">
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#detalleModal" id="btnnuevousuario">Nuevo</button>
+  <!--button class="btn btn-primary" id='editarCliente'><span class="glyphicon glyphicon-pencil"></span>Editar</button>
+   <button class="btn btn-primary" id='suspender'><span class="glyphicon glyphicon-hourglass"></span>Suspender</button-->
+   <button class="btn btn-primary" id='excel-usuarios'>Exportar a Excel</button>
+ </div>
+<div class="col-md-4"><h1><?php  echo $this->titulo; echo @$this->nombreCliente?></h1></div>
+</div> 
+
+<div class="row">
+<div class="col-md-12">
+<table id="catUsuarios" class="compact cell-border" cellspacing="0" width="100%">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Usuario </th>
+      <th>Password</th>
+      <th>Correo</th>
+      <th>Nombre</th>
+      <th>Id_Estatus</th>
+      <th>Id_Tipo_Usuario</th>
+      <th>Detalle</th>
+    </tr>
+  </thead>
+
+  <tbody id="bdy-grid">
+  </tbody>
+</table>
+</div>
+</div>
+
+    <!-- Modal  Reporte -->
+    <div class="modal fade" id="detalleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Detalle Usuarios</h4>
+          </div>
+          <div class="modal-body">
+            <form id="frmactualizarusuario" method="POST" action="extraerproveedor" style="font-size:10px;">
+              <div class="row">
+                <!--div class="col-md-12"-->
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="usuario" class="control-label">Usuario</label>
+                      <input type="text" class="form-control modal-clientes" id="usuario" name="usuario">
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="nombre" class="control-label">Nombre</label>
+                      <input type="text" class="form-control modal-clientes" id="nombre" name="nombre">
+                    </div>
+                  </div>    
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="correo" class="control-label">correo</label>
+                      <input type="email" class="form-control modal-clientes" id="correo" name="correo">
+                    </div>
+                  </div> 
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="password" class="control-label">Password</label>
+                      <input type="text" class="form-control modal-clientes" id="password" name="password">
+                    </div>
+                  </div>                                                                 
+                    <div class="form-group col-md-4">
+                      <label for="tipousuario">Tipo Usuario</label>
+                      <select class="form-control" id="tipousuario" name="tipousuario">
+                        <option value="0" selected disabled>Elige</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                      </select>
+                    </div>                   
+                    <div class="form-group col-md-4">
+                      <label for="estatus">Estatus</label>
+                      <select class="form-control" id="estatus" name="estatus">
+                        <option value="0" selected disabled>Elige</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                      </select>
+                    </div>                                                        
+                <!--/div-->                                                                      
+              </div>         
+            </form>        
+          </div>
+          <div class="modal-footer">
+            <button id="cancelar" type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            <button id="nuevousuario" type="submit" class="btn btn-primary">Nuevo</button>
+            <button id="actualizarusuario" type="button" class="btn btn-primary">Actualizar</button>
+          </div>
+        </div>
+      </div>
+    </div>

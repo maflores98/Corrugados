@@ -4,6 +4,36 @@ var idcliente, idproveedor, idmaterial,idusuario;
 ///////////////////////////////////////////////////////
 ///						CLIENTES					///
 ///////////////////////////////////////////////////////	
+        $.ajax({
+          dataType: "json",
+          url: 'llenarcombocategorias',
+          type: "POST",
+          success: function(data){
+            $('select[name="categoria"]').html('<option value="0" selected>ELIGE</option>');
+            $('select[name="categoria"]').append(data);
+          }
+        });
+
+        $.ajax({
+          dataType: "json",
+          url: 'llenarcombotiposestatus',
+          type: "POST",
+          success: function(data){
+            $('select[name="estatus"]').html('<option value="0" selected>ELIGE</option>');
+            $('select[name="estatus"]').append(data);
+          }
+        });      
+
+        $.ajax({
+          dataType: "json",
+          url: 'llenarcombovendedores',
+          type: "POST",
+          success: function(data){
+            $('select[name="vendedor"]').html('<option value="0" selected>ELIGE</option>');
+            $('select[name="vendedor"]').append(data);
+          }
+        });
+
 	var catClientes = $('#catClientes').DataTable({
 		ajax:{
 			url: 'consultarclientes'
@@ -74,7 +104,7 @@ var idcliente, idproveedor, idmaterial,idusuario;
 	});
 
 	$("#actualizarcliente").click(function(){
-		var cadena = $("#actualizarcliente").serialize()+'&id_cliente='+idcliente;
+		var cadena = $("#frmactualizarcliente").serialize()+'&id_cliente='+idcliente;
 		console.log(cadena);
 		$.post('actualizarcliente', cadena,
 			function(result)
@@ -87,8 +117,8 @@ var idcliente, idproveedor, idmaterial,idusuario;
 	});
 
 	$("#btnnuevocliente").click(function(){
-		$("#actualizar").hide();
-		$("#nuevo").show();
+		$("#actualizarcliente").hide();
+		$("#nuevocliente").show();
 		$("#rcomercial").val("");
 		$("#rfc").val("");	
 		$("#telefono").val("");
@@ -111,7 +141,7 @@ var idcliente, idproveedor, idmaterial,idusuario;
 	});
 
 	$("#nuevocliente").click(function(){
-		var cadena = $("#actualizarcliente").serialize();
+		var cadena = $("#frmactualizarcliente").serialize();
 		console.log(cadena);
 		$.post('insertarcliente', cadena,
 			function(result)
@@ -126,6 +156,17 @@ var idcliente, idproveedor, idmaterial,idusuario;
 ///////////////////////////////////////////////////////
 ///						PROVEEDORES					///
 ///////////////////////////////////////////////////////	
+
+        $.ajax({
+          dataType: "json",
+          url: 'llenarcomboproveedores',
+          type: "POST",
+          success: function(data){
+            $('select[name="proveedor"]').html('<option value="0" selected>ELIGE</option>');
+            $('select[name="proveedor"]').append(data);
+          }
+        });
+
 	var catProveedores = $('#catProveedores').DataTable({
 		ajax:{
 			url: 'consultarproveedores'
@@ -260,6 +301,17 @@ var idcliente, idproveedor, idmaterial,idusuario;
 ///////////////////////////////////////////////////////
 ///						MATERIALES					///
 ///////////////////////////////////////////////////////	
+
+        $.ajax({
+          dataType: "json",
+          url: 'llenarcombocategoriasmateriales',
+          type: "POST",
+          success: function(data){
+            $('select[name="categoriamateriales"]').html('<option value="0" selected>ELIGE</option>');
+            $('select[name="categoriamateriales"]').append(data);
+          }
+        });
+
 	var catMateriales = $('#catMateriales').DataTable({
 		ajax:{
 			url: 'consultarmateriales'
@@ -306,7 +358,7 @@ var idcliente, idproveedor, idmaterial,idusuario;
 		$.post('extraermaterial', {idmaterial:idmaterial},
 			function(result)
 			{
-			console.log(result.rcomercial);				
+			console.log(result.id_cliprov);				
 					$("#clave").val(result.clave);
 					$("#descripcion").val(result.descripcion);	
 					$("#proveedor").val(result.id_cliprov);
@@ -345,7 +397,7 @@ var idcliente, idproveedor, idmaterial,idusuario;
 		$("select[id=estatus]").val("0");
 	});
 
-	$("#nuevoproveedor").click(function(){
+	$("#nuevomaterial").click(function(){
 		var cadena = $("#frmactualizarmaterial").serialize();
 		console.log(cadena);
 		$.post('insertarmaterial', cadena,
@@ -361,6 +413,17 @@ var idcliente, idproveedor, idmaterial,idusuario;
 ///////////////////////////////////////////////////////
 ///						USUARIOS					///
 ///////////////////////////////////////////////////////	
+
+        $.ajax({
+          dataType: "json",
+          url: 'llenarcombousuarios',
+          type: "POST",
+          success: function(data){
+            $('select[name="tipousuario"]').html('<option value="0" selected>ELIGE</option>');
+            $('select[name="tipousuario"]').append(data);           
+          }
+        });
+
 	var catUsuarios = $('#catUsuarios').DataTable({
 		ajax:{
 			url: 'consultarusuarios'

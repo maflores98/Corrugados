@@ -5,6 +5,23 @@ class Application_Model_DbTable_Usuarios extends Zend_Db_Table_Abstract
     protected $_name = 'usuarios';
     protected $_primary='id_usuario';
   
+      public function llenarcombousuarios()
+      {
+        $db = Zend_Db_Table_Abstract::getDefaultAdapter();
+        $select = $db ->select()
+        ->from('tipos_usuario');
+        $sql = $db->query($select);
+        $rows = $sql->fetchAll();
+
+       $data = "";
+       foreach ($rows as $row) {        
+           $data .= '<option value="'.$row['id_tipousuario'].'" data-descripcion="'.$row['descripcion'].'">'.$row['descripcion'].'</option>';                            
+       }
+
+        $response = $data;
+        return $data;
+    }
+
       public function consultarusuarios()
       {
        $select = $this->select();

@@ -84,6 +84,10 @@ label{
   color: red;
 }
 
+.helper-left{
+  padding-left: 0px;
+}
+
 </style>
 
 
@@ -788,146 +792,115 @@ label{
 
 </div>
 
-
-
 <div class="row">
-
- <div class="col-md-6">
-
+  <div class="col-md-12">
    <div class="panel panel-default">
 
-    <h4 class="bs-titulo"><span>Envío</span></h4>
+    <h4 class="bs-titulo"><span>Entrega</span></h4>
 
     <div class="panel-body">
 
-      <label class="radio-inline"><input type="radio" id="domicilio" name="tipo_envio" value="DOMICILIO">A domicilio</label>
-      <label class="radio-inline"><input type="radio" id="cliente" name="tipo_envio" value="CLIENTE RECOGE">Cliente recoge</label>
+      <div class="row">
+
+        <div class="col-md-6">
+
+          <label class="radio-inline"><input type="radio" id="ent-total" name="tipo_entrega" value="TOTAL">Total</label>
+
+        </div>
+
+        <div class="col-md-6">
+
+          <label class="radio-inline"><input type="radio" id="ent-parcial" name="tipo_entrega" value="PARCIAL">Parcial</label>
+
+        </div>
+
+      </div>
+      <br>
+      <br>
+      <div class="row">
+        <div class="col-md-3">
+          <span class="help-block helper">Parcial 1</span>
+          <input type="text" class="form-control input-sm " id="cant_parc1" name="cant_parc1" >
+        </div>
+        <div class="col-md-3 helper-left">
+          <span class="help-block helper">Fecha</span>
+          <input type="date" class="form-control input-sm" id="fecparc1" name="fecparc1" >
+        </div>
+        <div class="col-md-3">
+          <span class="help-block helper">Parcial 5</span>
+          <input type="text" class="form-control input-sm" id="cant_parc5" name="cant_parc5" >
+        </div>
+        <div class="col-md-3 helper-left">
+          <span class="help-block helper">Fecha</span>
+          <input type="date" class="form-control input-sm" id="fecparc5" name="fecparc5" >
+        </div>
+      </div>
+      <br>
+      <br>
+      <div class="row">
+        <div class="col-md-3">
+          <span class="help-block helper">Parcial 2</span>
+          <input type="text" class="form-control input-sm" id="cant_parc2" name="cant_parc2" >
+        </div>
+        <div class="col-md-3 helper-left">
+          <span class="help-block helper">Fecha</span>
+          <input type="date" class="form-control input-sm" id="fecparc2" name="fecparc2" >
+        </div>
+        <div class="col-md-3">
+          <span class="help-block helper">Parcial 6</span>
+          <input type="text" class="form-control input-sm" id="cant_parc6" name="cant_parc6" >
+        </div>
+        <div class="col-md-3 helper-left">
+          <span class="help-block helper">Fecha</span>
+          <input type="date" class="form-control input-sm" id="fecparc6" name="fecparc6" >
+        </div>
+      </div>
+      <br>
+      <br>
+      <div class="row">
+        <div class="col-md-3">
+          <span class="help-block helper">Parcial 3</span>
+          <input type="text" class="form-control input-sm" id="cant_parc3" name="cant_parc3" >
+        </div>
+        <div class="col-md-3 helper-left">
+          <span class="help-block helper">Fecha</span>
+          <input type="date" class="form-control input-sm" id="fecparc3" name="fecparc3" >
+        </div>
+        <div class="col-md-3">
+          <span class="help-block helper">Parcial 7</span>
+          <input type="text" class="form-control input-sm" id="cant_parc7" name="cant_parc7" >
+        </div>
+        <div class="col-md-3 helper-left">
+          <span class="help-block helper">Fecha</span>
+          <input type="date" class="form-control input-sm" id="fecparc7" name="fecparc7" >
+        </div>
+      </div>
+      <br>
+      <br>
+      <div class="row">
+        <div class="col-md-3">
+          <span class="help-block helper">Parcial 4</span>
+          <input type="text" class="form-control input-sm" id="cant_parc4" name="cant_parc4" >
+        </div>
+        <div class="col-md-3 helper-left">
+          <span class="help-block helper">Fecha</span>
+          <input type="date" class="form-control input-sm" id="fecparc4" name="fecparc4" >
+        </div>
+        <div class="col-md-3">
+          <span class="help-block helper">Parcial 8</span>
+          <input type="text" class="form-control input-sm" id="cant_parc8" name="cant_parc8" >
+        </div>
+        <div class="col-md-3 helper-left">
+          <span class="help-block helper">Fecha</span>
+          <input type="date" class="form-control input-sm" id="fecparc8" name="fecparc8" >
+        </div>
+      </div>
 
     </div>
 
   </div>
 
 </div>
-
-<div class="col-md-6">
-
- <div class="panel panel-default">
-
-  <h4 class="bs-titulo"><span>Entrega</span></h4>
-
-  <div class="panel-body">
-
-    <div class="row">
-      <div class="col-md-6">
-
-        <label class="radio-inline"><input type="radio" id="ent-total" name="tipo_entrega" value="TOTAL">Total</label>
-
-      </div>
-
-      <div class="col-md-6">
-
-        <label class="radio-inline"><input type="radio" id="ent-parcial" name="tipo_entrega" value="PARCIAL">Parcial</label>
-
-      </div>
-
-    </div>
-
-    <br>
-    <br>
-    <div class="row">
-
-      <div class="col-md-6">
-
-        <span class="help-block helper">Parcial 1</span>
-
-        <input type="text" class="form-control input-sm" id="cant_parc1" name="cant_parc1" >
-
-      </div>
-
-      <div class="col-md-6">
-
-        <span class="help-block helper">Parcial 2</span>
-
-        <input type="text" class="form-control input-sm" id="cant_parc2" name="cant_parc2" >
-
-      </div>
-
-    </div>
-
-    <br>
-
-    <div class="row">
-
-      <div class="col-md-6">
-
-        <span class="help-block helper">Parcial 3</span>
-
-        <input type="text" class="form-control input-sm" id="cant_parc3" name="cant_parc3" >
-
-      </div>
-
-      <div class="col-md-6">
-
-        <span class="help-block helper">Parcial 4</span>
-
-        <input type="text" class="form-control input-sm" id="cant_parc4" name="cant_parc4" >
-
-      </div>
-
-    </div>
-
-    <br>
-
-    <div class="row">
-
-      <div class="col-md-6">
-
-        <span class="help-block helper">Parcial 5</span>
-
-        <input type="text" class="form-control input-sm" id="cant_parc5" name="cant_parc5" >
-
-      </div>
-
-      <div class="col-md-6">
-
-        <span class="help-block helper">Parcial 6</span>
-
-        <input type="text" class="form-control input-sm" id="cant_parc6" name="cant_parc6" >
-
-      </div>
-
-    </div>
-
-    <br>
-
-    <div class="row">
-
-      <div class="col-md-6">
-
-        <span class="help-block helper">Parcial 7</span>
-
-        <input type="text" class="form-control input-sm" id="cant_parc7" name="cant_parc7" >
-
-      </div>
-
-      <div class="col-md-6">
-
-        <span class="help-block helper">Parcial 8</span>
-
-        <input type="text" class="form-control input-sm" id="cant_parc8" name="cant_parc8" >
-
-      </div>
-
-    </div>
-
-
-
-  </div>
-
-</div>
-
-</div>
-
 </div>
 
 </div>
@@ -1188,6 +1161,29 @@ label{
   </div>
 
 </div>
+
+</div>
+
+<div class="row">
+
+  <div class="col-md-12">
+
+    <div class="panel panel-default">
+
+      <h4 class="bs-titulo"><span>Envío</span></h4>
+
+      <div class="panel-body">
+        <div class="col-md-6">
+          <label class="radio-inline"><input type="radio" id="domicilio" name="tipo_envio" value="DOMICILIO">A domicilio</label>
+        </div>
+        <div class="col-md-6">
+          <label class="radio-inline"><input type="radio" id="cliente" name="tipo_envio" value="CLIENTE RECOGE">Cliente recoge</label>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
 
 </div>
 

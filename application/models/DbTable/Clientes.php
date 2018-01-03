@@ -61,7 +61,54 @@ class Application_Model_DbTable_Clientes extends Zend_Db_Table_Abstract
   ///                                 SERGIO                                 ///
   ///                                                                        ///
   //////////////////////////////////////////////////////////////////////////////
-  
+      public function llenarcombocategorias(){
+        $db = Zend_Db_Table_Abstract::getDefaultAdapter();
+        $select = $db ->select()
+        ->from('tipos_clientes');
+        $sql = $db->query($select);
+        $rows = $sql->fetchAll();
+        
+       $data = "";
+       foreach ($rows as $row) {
+           $data .= '<option value="'.$row['id_tipocliente'].'" data-descripcion="'.$row['descripcion'].'">'.$row['descripcion'].'</option>';                            
+       }
+
+        $response = $data;
+        return $data;
+    }   
+
+    public function llenarcombotiposestatus(){
+        $db = Zend_Db_Table_Abstract::getDefaultAdapter();
+        $select = $db ->select()
+        ->from('tipos_estatus');
+        $sql = $db->query($select);
+        $rows = $sql->fetchAll();
+
+       $data = "";
+       foreach ($rows as $row) {        
+           $data .= '<option value="'.$row['id_estatus'].'" data-descripcion="'.$row['descripcion'].'">'.$row['descripcion'].'</option>';                            
+       }
+
+        $response = $data;
+        return $data;
+    }
+
+    public function llenarcombovendedores(){
+        $db = Zend_Db_Table_Abstract::getDefaultAdapter();
+        $select = $db ->select()
+        ->from('vendedores');
+        $sql = $db->query($select);
+        $rows = $sql->fetchAll();
+        
+       $data = "";
+       foreach ($rows as $row) {        
+           $data .= '<option value="'.$row['id_vendedor'].'" data-descripcion="'.$row['nombre'].'">'.$row['nombre'].'</option>';                            
+       }
+
+        $response = $data;
+        return $data;
+    }    
+
       public function consultarclientes()
       {
        $select = $this->select();

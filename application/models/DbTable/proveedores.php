@@ -47,6 +47,24 @@ class Application_Model_DbTable_Proveedores extends Zend_Db_Table_Abstract
   ///                                                                        ///
   //////////////////////////////////////////////////////////////////////////////
   
+      public function llenarcomboproveedores()
+      {
+        $select = $this->select();
+        $response=new stdClass();
+        $rows = $this->fetchAll($select);
+        //$consulta = $select->__toString();
+        //echo $consulta;
+        //exit();
+        $data = "";
+        foreach ($rows as $row)
+        {
+          $data .= '<option value="'.$row['id_proveedores'].'" data-descripcion="'.$row['rcomercial'].'">'.$row['rcomercial'].'</option>';                            
+        }
+
+        $response = $data;
+        return $data;
+      }  
+
       public function consultarproveedores()
       {
        $select = $this->select();

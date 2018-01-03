@@ -99,6 +99,22 @@ class Application_Model_DbTable_Materiales extends Zend_Db_Table_Abstract
   ///                                                                        ///
   //////////////////////////////////////////////////////////////////////////////
   
+      public function llenarcombocategoriasmateriales(){
+        $db = Zend_Db_Table_Abstract::getDefaultAdapter();
+        $select = $db ->select()
+        ->from('categorias_materiales');
+        $sql = $db->query($select);
+        $rows = $sql->fetchAll();
+        
+       $data = "";
+       foreach ($rows as $row) {
+           $data .= '<option value="'.$row['id_categoria'].'" data-descripcion="'.$row['descripcion'].'">'.$row['descripcion'].'</option>';                            
+       }
+
+        $response = $data;
+        return $data;
+    } 
+
       public function consultarmateriales()
       {
        $select = $this->select();

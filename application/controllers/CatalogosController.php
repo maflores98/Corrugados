@@ -21,6 +21,39 @@ class CatalogosController extends Zend_Controller_Action{
 		$this->view->titulo="** Clientes **";
 	}
 
+    public function llenarcombocategoriasAction()
+    {
+		$this->_helper->layout->disableLayout();
+		$this->_helper->viewRenderer->setNoRender();
+
+		$consulta = new Application_Model_DbTable_Clientes();
+		$consultar = $consulta->llenarcombocategorias();
+
+		echo Zend_Json::encode($consultar);	    	
+    }
+
+    public function llenarcombotiposestatusAction()
+    {
+		$this->_helper->layout->disableLayout();
+		$this->_helper->viewRenderer->setNoRender();
+
+		$consulta = new Application_Model_DbTable_Clientes();
+		$consultar = $consulta->llenarcombotiposestatus();
+
+		echo Zend_Json::encode($consultar);	    	
+    }
+
+    public function llenarcombovendedoresAction()
+    {
+		$this->_helper->layout->disableLayout();
+		$this->_helper->viewRenderer->setNoRender();
+
+		$consulta = new Application_Model_DbTable_Clientes();
+		$consultar = $consulta->llenarcombovendedores();
+
+		echo Zend_Json::encode($consultar);	    	
+    }    
+
 	public function consultarclientesAction(){
 		$this->_helper->layout->disableLayout();
 		$this->_helper->viewRenderer->setNoRender();
@@ -103,7 +136,7 @@ class CatalogosController extends Zend_Controller_Action{
 													$contacto1, $mailcontacto1, $referencia1, $contacto2, $mailcontacto2, $referencia2, $contacto3,
 													$mailcontacto3, $referencia3,$vendedor);
 		echo Zend_Json::encode($insertar);
-	}
+	}	
 
 ///////////////////////////////////////////////////////
 ///						PROVEEDORES					///
@@ -113,6 +146,17 @@ class CatalogosController extends Zend_Controller_Action{
 		
 		$this->view->titulo="** Proveedores **";
 	}
+
+    public function llenarcomboproveedoresAction()
+    {
+		$this->_helper->layout->disableLayout();
+		$this->_helper->viewRenderer->setNoRender();
+
+		$consulta = new Application_Model_DbTable_proveedores();
+		$consultar = $consulta->llenarcomboproveedores();
+
+		echo Zend_Json::encode($consultar);	    	
+    }	
 
 	public function consultarproveedoresAction(){
 		$this->_helper->layout->disableLayout();
@@ -216,6 +260,17 @@ class CatalogosController extends Zend_Controller_Action{
 		
 		$this->view->titulo="** Materiales **";
 	}
+
+    public function llenarcombocategoriasmaterialesAction()
+    {
+		$this->_helper->layout->disableLayout();
+		$this->_helper->viewRenderer->setNoRender();
+
+		$consulta = new Application_Model_DbTable_Materiales();
+		$consultar = $consulta->llenarcombocategoriasMateriales();
+
+		echo Zend_Json::encode($consultar);	    	
+    }
 
 	public function consultarmaterialesAction(){
 		$this->_helper->layout->disableLayout();

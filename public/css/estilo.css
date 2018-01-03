@@ -207,6 +207,7 @@ footer {
 	height: 30px;
 	color: #e1ffff;
 	padding: 5px 0 5px 0;
+	z-index: 500;
 }
 
 /* enable absolute positioning */

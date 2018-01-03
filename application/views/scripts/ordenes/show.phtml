@@ -377,7 +377,7 @@ label{
 
 <div class="row">
 
- <div class="col-md-4">
+ <div class="col-md-5">
 
    <div class="form-horizontal">
 
@@ -417,7 +417,7 @@ label{
 
 </div>
 
-<div class="col-md-8">
+<div class="col-md-7">
 
  <div class="panel panel-default">
 
@@ -425,7 +425,7 @@ label{
 
    <div class="panel-body bs-body">
 
-     <div class="col-md-5">
+     <div class="col-md-3">
 
       <div class="radio">
 
@@ -441,7 +441,7 @@ label{
 
     </div>
 
-    <div class="col-md-7" style="margin-top: 10px;">
+    <div class="col-md-9" style="margin-top: 10px;">
 
       <div class="form-horizontal">
 
@@ -1096,70 +1096,71 @@ label{
 
  <div class="panel-body" style="margin-top: 10px;">
 
-   <div class="form-inline">
-
-    <div class="form-group">
-
+  <div class="row" style="margin-bottom: 30px;">
+    <div class="col-md-3">
+      <span class="help-block helper">Flejado</span>
+      <div class="input-group">
+        <span class="input-group-addon">
+          <input type="checkbox" name="flejado" id="flejado" value="1">
+        </span>
+        <input type="text" class="form-control" placeholder="0" name="cant_flejado" id="cant_flejado">
+      </div>
+    </div>
+    <div class="col-md-3">
       <span class="help-block helper">Ligas</span>
-
-      <input type="text" class="form-control input-sm bs-sm" id="num_ligas" placeholder="0" name="num_ligas">
-
+      <div class="input-group">
+        <span class="input-group-addon">
+          <input type="checkbox" aria-label="...">
+        </span>
+        <input type="text" class="form-control" aria-label="..." placeholder="0" name="num_ligas" id="num_ligas">
+      </div>
     </div>
-
-    <div class="form-group">
-
-      <span class="help-block helper">Fajillas</span>
-
-      <input type="text" class="form-control input-sm bs-sm" id="num_fajillas" placeholder="0" name="num_fajillas">
-
+    <div class="col-md-3">
+      <span class="help-block helper">Corrugado</span>
+      <div class="input-group">
+        <span class="input-group-addon">
+          <input type="checkbox" aria-label="..." name="corrugado" id="corrugado" value="1">
+        </span>
+        <input type="text" class="form-control" aria-label="..." placeholder="0" name="cant_xcorrugado" id="cant_xcorrugado">
+      </div>
     </div>
-
-    <div class="form-group">
-
-      <span class="help-block helper">Granel</span>
-
-      <input type="text" class="form-control input-sm bs-sm" id="cant_granel" placeholder="0" name="cant_granel">
-
+    <div class="col-md-3">
+      <span class="help-block helper">Fajilla</span>
+      <div class="input-group">
+        <span class="input-group-addon">
+          <input type="checkbox" aria-label="..." name="fajillas" id="fajillas" value="1">
+        </span>
+        <input type="text" class="form-control" aria-label="..." placeholder="0" name="num_fajillas" id="num_fajillas">
+      </div>
     </div>
-
-    <div class="form-group">
-
-      <span class="help-block helper">C. x Paquete</span>
-
-      <input type="text" class="form-control input-sm bs-md" id="cant_xpaquete" placeholder="0" name="cant_xpaquete">
-
-    </div>
-
-    <div class="form-group">
-
-      <span class="help-block helper">C. x corrug</span>
-
-      <input type="text" class="form-control input-sm bs-md" id="cant_xcorrugado" placeholder="0" name="cant_xcorrugado">
-
-    </div>
-
-    <div class="form-group">
-
+  </div>
+  <div class="row">
+    <div class="col-md-3">
       <span class="help-block helper">Tarima</span>
-
-      <input type="text" class="form-control input-sm bs-sm" id="cant_xtarima" placeholder="0" name="cant_xtarima">
-
+      <div class="input-group">
+        <span class="input-group-addon">
+          <input type="checkbox" aria-label="..." name="tarima" id="tarima" value="1">
+        </span>
+        <input type="text" class="form-control" aria-label="..." placeholder="0" name="cant_xtarima" id="cant_xtarima">
+      </div>
     </div>
+    <div class="col-md-3">
+      <span class="help-block helper">Paquetes</span>
+      <div class="input-group">
+        <span class="input-group-addon">
+          <input type="checkbox" aria-label="..." name="paquetes" value="1">
+        </span>
+        <input type="text" class="form-control" aria-label="..." placeholder="0" name="cant_xpaquete" id="cant_xpaquete">
+      </div>
+    </div>
+    <div class="col-md-6 helper-left">
+      <label class="checkbox-inline" style="font-size: .85em; line-height: 18px;"><input type="checkbox" id="esquineros" name="esquineros" value="1">Esquineros</label>
 
+      <label class="checkbox-inline" style="font-size: .85em; line-height: 18px;"><input type="checkbox" id="emplayado" name="emplayado" value="1">Emplayado</label>
+
+      <label class="checkbox-inline" style="font-size: .85em; line-height: 18px;"><input type="checkbox" id="flejado" name="flejado" value="1">Flejado</label>
+    </div>
   </div>
-
-  <div style="margin-top: 10px;">
-    <center>
-
-      <label class="checkbox-inline"><input type="checkbox" id="esquineros" name="esquineros" value="1">Esquineros</label>
-
-      <label class="checkbox-inline"><input type="checkbox" id="emplayado" name="emplayado" value="1">Emplayado</label>
-
-      <label class="checkbox-inline"><input type="checkbox" id="flejado" name="flejado" value="1">Flejado</label>
-
-    </center>
-  </div>
-
 </div>
 
 </div>

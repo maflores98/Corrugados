@@ -275,10 +275,10 @@
 			$this->_helper->layout->disableLayout();
 			$this->_helper->viewRenderer->setNoRender();
 
-			$descripcion = $_POST['Descripcion'];
+			$id = $_POST['Id'];
 
 			$ListaMateriales = new Application_Model_DbTable_Materiales();
-			$Materiales = $ListaMateriales->consultadescripcion($descripcion);
+			$Materiales = $ListaMateriales->consultadescripcion($id);
 
 			echo Zend_Json::encode($Materiales);
 

@@ -333,13 +333,13 @@ label{
 
      <label class="radio-inline">
 
-      <input type="radio" id="caja" name="tipo_medida" value="option1"> M. Caja
+      <input type="radio" id="mcaja" name="tipo_medida" value="option1"> M. Caja
 
     </label>
 
     <label class="radio-inline">
 
-      <input type="radio" id="carton" name="tipo_medida" value="option2"> M. Carton
+      <input type="radio" id="mcarton" name="tipo_medida" value="option2"> M. Carton
 
     </label>
 
@@ -487,7 +487,7 @@ label{
 
       <div class="form-group">
 
-        <label for="carton" class="col-md-3 control-label">Tamaño:</label>
+        <label for="tam-carton" class="col-md-3 control-label">Tamaño:</label>
 
         <div class="col-md-9">
 
@@ -1110,7 +1110,7 @@ label{
       <span class="help-block helper">Ligas</span>
       <div class="input-group">
         <span class="input-group-addon">
-          <input type="checkbox" aria-label="...">
+          <input type="checkbox" name="ligas" id="ligas" value="1">
         </span>
         <input type="text" class="form-control" aria-label="..." placeholder="0" name="num_ligas" id="num_ligas">
       </div>
@@ -1119,7 +1119,7 @@ label{
       <span class="help-block helper">Corrugado</span>
       <div class="input-group">
         <span class="input-group-addon">
-          <input type="checkbox" aria-label="..." name="corrugado" id="corrugado" value="1">
+          <input type="checkbox" name="corrugado" id="corrugado" value="1">
         </span>
         <input type="text" class="form-control" aria-label="..." placeholder="0" name="cant_xcorrugado" id="cant_xcorrugado">
       </div>
@@ -1128,7 +1128,7 @@ label{
       <span class="help-block helper">Fajilla</span>
       <div class="input-group">
         <span class="input-group-addon">
-          <input type="checkbox" aria-label="..." name="fajillas" id="fajillas" value="1">
+          <input type="checkbox" name="fajillas" id="fajillas" value="1">
         </span>
         <input type="text" class="form-control" aria-label="..." placeholder="0" name="num_fajillas" id="num_fajillas">
       </div>
@@ -1157,8 +1157,6 @@ label{
       <label class="checkbox-inline" style="font-size: .85em; line-height: 18px;"><input type="checkbox" id="esquineros" name="esquineros" value="1">Esquineros</label>
 
       <label class="checkbox-inline" style="font-size: .85em; line-height: 18px;"><input type="checkbox" id="emplayado" name="emplayado" value="1">Emplayado</label>
-
-      <label class="checkbox-inline" style="font-size: .85em; line-height: 18px;"><input type="checkbox" id="flejado" name="flejado" value="1">Flejado</label>
     </div>
   </div>
 </div>
@@ -1341,7 +1339,7 @@ label{
         $('input[name="tipo_medida"][value="'+response['tipo_medida']+'"]').prop("checked",true);
         $('input[name="med_largo"]').val(response['med_largo']);
         $('input[name="med_ancho"]').val(response['med_ancho']);
-        $('input[name="med_requerido"]').val(response['med_requerido']);
+        $('input[id="med_requerido"]').val(response['med_largo'] + " x " + response['med_ancho']);
         $('select[name="articulo"]>option').removeAttr("selected");
         $('select[name="articulo"]>option[value="'+response['articulo']+'"]').attr("selected", true);
 
@@ -1368,7 +1366,6 @@ label{
           data: {'tipoMaterial' : response['selector_material']},
           success: function(data){
             $('select[name="tipo_material"]').html('<option value="null">SELECCIONAR</option>');
-            $('select[name="carton"]').html('<option value="null">SELECCIONAR</option>');
             $('select[name="tipo_material"]').append(data);
 
             $('select[name="tipo_material"]>option').removeAttr("selected");
@@ -1376,15 +1373,32 @@ label{
 
             $.ajax({
               dataType: "json",
-              url: 'selmaterial',
+              url: 'selmatcorrugados',
               type: "POST",
               data: {Material : response['tipo_material']},
               success: function(data){
+
                 $('select[name="carton"]').html('<option value="null">SELECCIONAR</option>');
                 $('select[name="carton"]').append(data);
 
                 $('select[name="carton"]>option').removeAttr("selected");
                 $('select[name="carton"]>option[value="'+response['carton']+'"]').attr("selected", true);
+
+                $.ajax({
+                  dataType: "json",
+                  url: 'seltamcorrugados',
+                  type: "POST",
+                  data: {Id : response['carton']},
+                  success: function(data){
+
+                    $('select[name="tam-carton"]').html('<option value="null">SELECCIONAR</option>');
+                    $('select[name="tam-carton"]').append(data);
+
+                    $('select[name="tam-carton"]>option').removeAttr("selected");
+                    $('select[name="tam-carton"]>option[value="'+response['carton']+'"]').attr("selected", true);
+
+                  }
+                });
 
               }
             });
@@ -1400,7 +1414,7 @@ label{
         $('input[name="predoblado"][value="'+response['predoblado']+'"]').prop("checked",true);
         $('input[name="clave_pegamento"]').val(response['clave_pegamento']);
         $('input[name="pegado_con"][value="'+response['pegado_con']+'"]').prop("checked",true);
-        $('input[name="grapado"][value="'+response['grapado']+'"]').prop("checked",true);
+        $('input[name="grapado"]').prop("checked",true);
         $('input[name="num_grapas"]').val(response['num_grapas']);
         $('input[name="tipo_envio"][value="'+response['tipo_envio']+'"]').prop("checked",true);
         $('input[name="tipo_entrega"][value="'+response['tipo_entrega']+'"]').prop("checked",true);
@@ -1408,25 +1422,37 @@ label{
         $('input[name="proceso_refilado"][value="'+response['proceso_refilado']+'"]').prop("checked",true);
         $('input[name="maquina_empalme"][value="'+response['maquina_empalme']+'"]').prop("checked",true);
         $('input[name="tipo_impresion"][value="'+response['tipo_impresion']+'"]').prop("checked",true);
+        $('input[name="sel_color"][value="'+response['sel_color']+'"]').prop("checked",true);
         $('select[name="num_tintas"]>option').removeAttr("selected");
         $('select[name="num_tintas"]>option[value="'+response['num_tintas']+'"]').attr("selected", true);
         $('input[name="largo_tinta1"]').val(response['largo_tinta1']);
         $('input[name="ancho_tinta1"]').val(response['ancho_tinta1']);
+        $('input[name="color_tinta1"]').val(response['color_tinta1']);
         $('input[name="largo_tinta2"]').val(response['largo_tinta2']);
         $('input[name="ancho_tinta2"]').val(response['ancho_tinta2']);
+        $('input[name="color_tinta2"]').val(response['color_tinta2']);
         $('input[name="largo_tinta3"]').val(response['largo_tinta3']);
         $('input[name="ancho_tinta3"]').val(response['ancho_tinta3']);
+        $('input[name="color_tinta3"]').val(response['color_tinta3']);
         $('input[name="largo_tinta4"]').val(response['largo_tinta4']);
         $('input[name="ancho_tinta4"]').val(response['ancho_tinta4']);
+        $('input[name="color_tinta4"]').val(response['color_tinta4']);
+        $('input[name="flejado"][value="'+response['flejado']+'"]').prop("checked",true);
+        $('input[name="cant_flejado"]').val(response['cant_flejado']);
+        $('input[name="ligas"][value="'+response['ligas']+'"]').prop("checked",true);
         $('input[name="num_ligas"]').val(response['num_ligas']);
-        $('input[name="num_fajillas"]').val(response['num_fajillas']);
-        $('input[name="cant_granel"]').val(response['cant_granel']);
-        $('input[name="cant_xpaquete"]').val(response['cant_xpaquete']);
+        $('input[name="corrugado"][value="'+response['corrugado']+'"]').prop("checked",true);
         $('input[name="cant_xcorrugado"]').val(response['cant_xcorrugado']);
+        $('input[name="fajillas"][value="'+response['fajillas']+'"]').prop("checked",true);
+        $('input[name="num_fajillas"]').val(response['num_fajillas']);
+        $('input[name="tarima"][value="'+response['tarima']+'"]').prop("checked",true);
         $('input[name="cant_xtarima"]').val(response['cant_xtarima']);
+        $('input[name="paquetes"][value="'+response['paquetes']+'"]').prop("checked",true);
+        $('input[name="cant_xpaquete"]').val(response['cant_xpaquete']);
+        $('input[name="cant_granel"]').val(response['cant_granel']);
         $('input[name="esquineros"][value="'+response['esquineros']+'"]').prop("checked",true);
         $('input[name="emplayado"][value="'+response['emplayado']+'"]').prop("checked",true);
-        $('input[name="flejado"][value="'+response['flejado']+'"]').prop("checked",true);
+        
 
       }
     });
@@ -1476,13 +1502,13 @@ $('select[name="tipo_material"]').change(function(){
 
   $('select[name="carton"]').change(function(){
 
-    var descripcion = $('select[name="carton"] option:selected').text();
+    var id = $('select[name="carton"] option:selected').val();
 
     $.ajax({
       dataType: "json",
       url: 'seltamcorrugados',
       type: "POST",
-      data: {Descripcion : descripcion},
+      data: {Descripcion : id},
       success: function(data2){
         $('select[name="tam-carton"]').html('<option value="null">SELECCIONAR</option>');
         $('select[name="tam-carton"]').append(data2);

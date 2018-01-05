@@ -40,7 +40,7 @@ class Application_Model_DbTable_TiposMateriales extends Zend_Db_Table_Abstract
 
         foreach ($tiposMovi as $row) {
 
-            $data .= '<option value="'.$row['id_tipomaterial'].'" data-descripcion="'.$row['descripcion'].'">'.$row['descripcion'].'</option>';          
+            $data .= '<option value="'.$row['descripcion'].'" data-descripcion="'.$row['descripcion'].'">'.$row['descripcion'].'</option>';          
         }
 
         $response = $data;

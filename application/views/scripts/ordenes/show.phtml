@@ -267,17 +267,63 @@ label{
 
 <div class="row">
 
- <div class="col-md-3">
+  <!--div class="col-md-3">
+
+
+
+    <div class="form-horizontal">
+
+      <div class="form-group">
+
+        <label for="inputtext3" class="col-md-4 control-label">C. requerida</label>
+
+        <div class="col-md-2">
+
+          <input type="text" class="form-control input-sm" id="cant_requerida" name="cant_requerida">
+
+        </div>
+
+      </div>
+
+    </div>
+    <div class="form-horizontal">
+
+      <div class="form-group">
+
+        <label for="inputtext3" class="col-md-4 control-label">Merma</label>
+
+        <div class="col-md-2">
+
+          <input type="text" class="form-control input-sm" id="cant_requerida" name="cant_requerida">
+
+        </div>
+
+      </div>
+
+    </div>
+  </div -->
+
+  <div class="col-md-3">
 
    <div class="form-horizontal">
 
      <div class="form-group">
 
-       <label for="inputtext3" class="col-md-6 control-label">Cant. requerida</label>
+      <label class="col-sm-4 control-label">Cantidad:</label>
 
-       <div class="col-md-6">
+      <div class="col-sm-4">
+
+        <span class="help-block helper">Requerida</span>
 
         <input type="text" class="form-control input-sm" id="cant_requerida" name="cant_requerida">
+
+      </div>
+
+      <div class="col-sm-4 ">
+
+        <span class="help-block helper">Merma</span>
+
+        <input type="text" class="form-control input-sm" id="cant_cmerma" name="cant_cmerma" >
 
       </div>
 
@@ -293,7 +339,7 @@ label{
 
    <div class="form-group">
 
-     <label class="col-md-3 control-label">M. Final:</label>
+    <label class="col-sm-3 control-label">M. Final:</label>
 
      <div class="col-sm-3">
 
@@ -2113,6 +2159,44 @@ $("#btn-editar2").click(function(){
 $("#btn-salir").click(function(){
   window.location.href = "activas";      
 });
+
+
+
+$('input[id="mcarton"]').on('click', function() { 
+
+  if( $('input[id="mcarton"]').prop("checked") == true){
+
+    var frente = $('input[name="med_frente"]').val();
+    var fondo = $('input[name ="med_fondo"]').val();
+    var alto = $('input[id="med_alto"]').val();
+
+    if(frente != "" && fondo != "" && alto != ""){
+
+      var largo = (2*frente) + (2*fondo) + 4;
+      var ancho = alto * fondo;
+
+      $('input[id="med_largo"]').val(largo);
+
+      $('input[id="med_ancho"]').val(ancho);
+
+      $('input[id="med_requerido"]').val(largo + 'x' + ancho);  
+      
+    }else{
+
+     alert("Faltan datos de (M. Final)");
+     return false;
+
+   }
+   
+
+ }else{
+
+  alert("No Esta checkado");
+
+}
+});
+
+
 
 function generarMembrete()
 {

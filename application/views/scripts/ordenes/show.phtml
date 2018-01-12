@@ -2162,9 +2162,9 @@ $("#btn-salir").click(function(){
 
 
 
-$('input[id="mcarton"]').on('click', function() { 
+$('input[id="mcaja"]').on('click', function() { 
 
-  if( $('input[id="mcarton"]').prop("checked") == true){
+  if( $('input[id="mcaja"]').prop("checked") == true){
 
     var frente = $('input[name="med_frente"]').val();
     var fondo = $('input[name ="med_fondo"]').val();
@@ -2175,9 +2175,9 @@ $('input[id="mcarton"]').on('click', function() {
       var largo = (2*frente) + (2*fondo) + 4;
       var ancho = alto * fondo;
 
-      $('input[id="med_largo"]').val(largo);
+      $('input[id="med_largo"]').val(largo).attr('readonly', true);
 
-      $('input[id="med_ancho"]').val(ancho);
+      $('input[id="med_ancho"]').val(ancho).attr('readonly', true);
 
       $('input[id="med_requerido"]').val(largo + 'x' + ancho);  
       
@@ -2196,6 +2196,19 @@ $('input[id="mcarton"]').on('click', function() {
 }
 });
 
+$('input[id="mcarton"]').on('click', function() { 
+
+  if( $('input[id="mcarton"]').prop("checked") == true){
+
+      $('input[id="med_largo"]').val("").attr('readonly', false);
+
+      $('input[id="med_ancho"]').val("").attr('readonly', false);
+
+      $('input[id="med_requerido"]').val("");
+   
+
+ }
+});
 
 
 function generarMembrete()

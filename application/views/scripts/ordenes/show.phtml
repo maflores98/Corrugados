@@ -699,9 +699,9 @@ label{
 
            <div class="radio">
 
-             <label><input type="radio" id="pegado-cajas" name="tipo_pegado" value="4" data-maquina="PEGADORA CORRUGADOS" data-proceso="3">Pegadora de cajas</label>
+             <label><input type="radio" id="pegado-cajas" name="tipo_pegado" value="4" data-maquina="PEGADORA CORRUGADOS" data-proceso="3" data-cvepega = 'UNIVM  5298'>Pegadora de cajas</label>
 
-             <label><input type="radio" id="pegado-chica" name="tipo_pegado" value="12" data-maquina="PEGADORA LINEAL CHICA" data-proceso="2">Pegadora lineal chica</label>
+             <label><input type="radio" id="pegado-chica" name="tipo_pegado" value="12" data-maquina="PEGADORA LINEAL CHICA" data-proceso="2" data-cvepega = 'TILMEX 1126'>Pegadora lineal chica</label>
 
            </div>
 
@@ -713,9 +713,9 @@ label{
 
            <div class="radio">
 
-             <label><input type="radio" id="pegado-grande" name="tipo_pegado" value="11" data-maquina="PEGADORA LINEAL GRANDE" data-proceso="2">Pegadora lineal grande</label>
+             <label><input type="radio" id="pegado-grande" name="tipo_pegado" value="11" data-maquina="PEGADORA LINEAL GRANDE" data-proceso="2" data-cvepega = 'TILMEX 1129'>Pegadora lineal grande</label>
 
-             <label><input type="radio" id="pegado-manual" name="tipo_pegado" value="13" data-maquina="PEGADO MANUAL" data-proceso="2">Pegado Manual</label>
+             <label><input type="radio" id="pegado-manual" name="tipo_pegado" value="13" data-maquina="PEGADO MANUAL" data-proceso="2" data-cvepega = ''>Pegado Manual</label>
 
            </div>
 
@@ -979,11 +979,11 @@ label{
 
      <label>Proceso:&nbsp;&nbsp;</label>
 
-     <label class="radio-inline"><input type="radio" name="proceso_refilado" id="maq-refilado" value="2" data-maquina="REFILADORA" data-proceso="6">Refilado</label>
+     <label class="radio-inline"><input type="radio" name="proceso_refilado" id="maq-refilado" value="6" data-maquina="REFILADORA" data-proceso="6">Refilado</label>
 
-     <label class="radio-inline"><input type="radio" name="proceso_refilado" id="maq-rayado" value="2" data-maquina="REFILADORA" data-proceso="5">Rayado</label>
+     <label class="radio-inline"><input type="radio" name="proceso_refilado" id="maq-rayado" value="5" data-maquina="REFILADORA" data-proceso="5">Rayado</label>
 
-     <label class="radio-inline"><input type="radio" name="proceso_refilado" id="maq-refilado-rayado" value="2" data-maquina="REFILADORA" data-proceso="7">Refilado + Rayado</label>
+     <label class="radio-inline"><input type="radio" name="proceso_refilado" id="maq-refilado-rayado" value="7" data-maquina="REFILADORA" data-proceso="7">Refilado + Rayado</label>
 
    </div>
 
@@ -997,9 +997,9 @@ label{
 
      <label>Maquina:&nbsp;&nbsp;</label>
 
-     <label class="radio-inline"><input type="radio" id="maq-auto" name="maquina_empalme" value="5" data-maquina="EMPALMADORA AUTOMATICA" data-proceso="10">Automatica</label>
+     <label class="radio-inline"><input type="radio" id="maq-auto" name="maquina_empalme" value="5" data-maquina="EMPALMADORA AUTOMATICA" data-proceso="10" data-cvepega = 'UNIVM  5435'>Automatica</label>
 
-     <label class="radio-inline"><input type="radio" id="maq-semi" name="maquina_empalme" value="6" data-maquina="EMPALMADORA SEMIAUTOMATICA" data-proceso="10">Semi-automatica</label>
+     <label class="radio-inline"><input type="radio" id="maq-semi" name="maquina_empalme" value="6" data-maquina="EMPALMADORA SEMIAUTOMATICA" data-proceso="10" data-cvepega = 'UNIVM  5435'>Semi-automatica</label>
 
    </div>
 
@@ -2162,9 +2162,9 @@ $("#btn-salir").click(function(){
 
 
 
-$('input[id="mcarton"]').on('click', function() { 
+$('input[id="mcaja"]').on('click', function() { 
 
-  if( $('input[id="mcarton"]').prop("checked") == true){
+  if( $('input[id="mcaja"]').prop("checked") == true){
 
     var frente = $('input[name="med_frente"]').val();
     var fondo = $('input[name ="med_fondo"]').val();
@@ -2175,9 +2175,9 @@ $('input[id="mcarton"]').on('click', function() {
       var largo = (2*frente) + (2*fondo) + 4;
       var ancho = alto * fondo;
 
-      $('input[id="med_largo"]').val(largo);
+      $('input[id="med_largo"]').val(largo).attr('readonly', true);
 
-      $('input[id="med_ancho"]').val(ancho);
+      $('input[id="med_ancho"]').val(ancho).attr('readonly', true);
 
       $('input[id="med_requerido"]').val(largo + 'x' + ancho);  
       
@@ -2194,6 +2194,32 @@ $('input[id="mcarton"]').on('click', function() {
   alert("No Esta checkado");
 
 }
+});
+
+$('input[id="mcarton"]').on('click', function() { 
+
+  if( $('input[id="mcarton"]').prop("checked") == true){
+
+      $('input[id="med_largo"]').val("").attr('readonly', false);
+
+      $('input[id="med_ancho"]').val("").attr('readonly', false);
+
+      $('input[id="med_requerido"]').val("");
+   
+
+ }
+});
+
+$('input[name="tipo_pegado"]').on('click', function() { 
+
+  $('input[name = clave_pegamento]').val($('input:radio[name = tipo_pegado]:checked').data('cvepega'));
+
+});
+
+$('input[name="maquina_empalme"]').on('click', function() { 
+
+  $('input[name = clave_pegamento]').val($('input:radio[name = maquina_empalme]:checked').data('cvepega'));
+
 });
 
 

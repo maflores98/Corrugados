@@ -870,7 +870,7 @@ label{
         </div>
         <div class="col-md-3 helper-left">
           <span class="help-block helper">Fecha</span>
-          <input type="date" class="form-control input-sm" id="fecparc1" name="fecparc1" >
+          <input type="date" class="form-control input-sm" id="fec_parc1" name="fec_parc1" >
         </div>
         <div class="col-md-3">
           <span class="help-block helper">Parcial 5</span>
@@ -878,7 +878,7 @@ label{
         </div>
         <div class="col-md-3 helper-left">
           <span class="help-block helper">Fecha</span>
-          <input type="date" class="form-control input-sm" id="fecparc5" name="fecparc5" >
+          <input type="date" class="form-control input-sm" id="fec_parc5" name="fec_parc5" >
         </div>
       </div>
       <br>
@@ -890,7 +890,7 @@ label{
         </div>
         <div class="col-md-3 helper-left">
           <span class="help-block helper">Fecha</span>
-          <input type="date" class="form-control input-sm" id="fecparc2" name="fecparc2" >
+          <input type="date" class="form-control input-sm" id="fec_parc2" name="fec_parc2" >
         </div>
         <div class="col-md-3">
           <span class="help-block helper">Parcial 6</span>
@@ -898,7 +898,7 @@ label{
         </div>
         <div class="col-md-3 helper-left">
           <span class="help-block helper">Fecha</span>
-          <input type="date" class="form-control input-sm" id="fecparc6" name="fecparc6" >
+          <input type="date" class="form-control input-sm" id="fec_parc6" name="fec_parc6" >
         </div>
       </div>
       <br>
@@ -910,7 +910,7 @@ label{
         </div>
         <div class="col-md-3 helper-left">
           <span class="help-block helper">Fecha</span>
-          <input type="date" class="form-control input-sm" id="fecparc3" name="fecparc3" >
+          <input type="date" class="form-control input-sm" id="fec_parc3" name="fec_parc3" >
         </div>
         <div class="col-md-3">
           <span class="help-block helper">Parcial 7</span>
@@ -918,7 +918,7 @@ label{
         </div>
         <div class="col-md-3 helper-left">
           <span class="help-block helper">Fecha</span>
-          <input type="date" class="form-control input-sm" id="fecparc7" name="fecparc7" >
+          <input type="date" class="form-control input-sm" id="fec_parc7" name="fec_parc7" >
         </div>
       </div>
       <br>
@@ -930,7 +930,7 @@ label{
         </div>
         <div class="col-md-3 helper-left">
           <span class="help-block helper">Fecha</span>
-          <input type="date" class="form-control input-sm" id="fecparc4" name="fecparc4" >
+          <input type="date" class="form-control input-sm" id="fec_parc4" name="fec_parc4" >
         </div>
         <div class="col-md-3">
           <span class="help-block helper">Parcial 8</span>
@@ -938,7 +938,7 @@ label{
         </div>
         <div class="col-md-3 helper-left">
           <span class="help-block helper">Fecha</span>
-          <input type="date" class="form-control input-sm" id="fecparc8" name="fecparc8" >
+          <input type="date" class="form-control input-sm" id="fec_parc8" name="fec_parc8" >
         </div>
       </div>
 
@@ -1378,130 +1378,148 @@ label{
       data: {id_ordenproduccion: IdOrden},
       success: function (response) {
 
-        $('input[name="cant_requerida"]').val(response['cant_requerida']);
-        $('input[name="med_frente"]').val(response['med_frente']);
-        $('input[name="med_fondo"]').val(response['med_fondo']);
-        $('input[name="med_alto"]').val(response['med_alto']);
-        $('input[name="tipo_medida"][value="'+response['tipo_medida']+'"]').prop("checked",true);
-        $('input[name="med_largo"]').val(response['med_largo']);
-        $('input[name="med_ancho"]').val(response['med_ancho']);
-        $('input[id="med_requerido"]').val(response['med_largo'] + " x " + response['med_ancho']);
-        $('select[name="articulo"]>option').removeAttr("selected");
-        $('select[name="articulo"]>option[value="'+response['articulo']+'"]').attr("selected", true);
+       $('input[name="cant_requerida"]').val(response['cant_requerida']);
+       $('input[name="med_frente"]').val(response['med_frente']);
+       $('input[name="med_fondo"]').val(response['med_fondo']);
+       $('input[name="med_alto"]').val(response['med_alto']);
+       $('input[name="tipo_medida"][value="'+response['tipo_medida']+'"]').prop("checked",true);
+       $('input[name="med_largo"]').val(response['med_largo']);
+       $('input[name="med_ancho"]').val(response['med_ancho']);
+       $('input[id="med_requerido"]').val(response['med_largo'] + " x " + response['med_ancho']);
+       $('select[name="articulo"]>option').removeAttr("selected");
+       $('select[name="articulo"]>option[value="'+response['articulo']+'"]').attr("selected", true);
 
-        $.ajax({
-          dataType: "json",
-          url: 'selproducto',
-          type: "POST",
-          data: {Clasificacion : response['articulo']},
-          success: function(data){
-            $('select[name="tipo_producto"]').html('<option value="null">SELECCIONAR</option>');
-            $('select[name="tipo_producto"]').append(data);
+       $.ajax({
+        dataType: "json",
+        url: 'selproducto',
+        type: "POST",
+        data: {Clasificacion : response['articulo']},
+        success: function(data){
+          $('select[name="tipo_producto"]').html('<option value="null">SELECCIONAR</option>');
+          $('select[name="tipo_producto"]').append(data);
 
-            $('select[name="tipo_producto"]>option').removeAttr("selected");
-            $('select[name="tipo_producto"]>option[value="'+response['tipo_producto']+'"]').attr("selected", true);
-          }
-        });
+          $('select[name="tipo_producto"]>option').removeAttr("selected");
+          $('select[name="tipo_producto"]>option[value="'+response['tipo_producto']+'"]').attr("selected", true);
+        }
+      });
 
-        $('input[name="selector_material"][value="'+response['selector_material']+'"]').prop("checked",true);
+       $('input[name="selector_material"][value="'+response['selector_material']+'"]').prop("checked",true);
 
-        $.ajax({
-          dataType: "json",
-          url: 'tipomaterial',
-          type: "POST",
-          data: {'tipoMaterial' : response['selector_material']},
-          success: function(data){
-            $('select[name="tipo_material"]').html('<option value="null">SELECCIONAR</option>');
-            $('select[name="tipo_material"]').append(data);
+       $.ajax({
+        dataType: "json",
+        url: 'tipomaterial',
+        type: "POST",
+        data: {'tipoMaterial' : response['selector_material']},
+        success: function(data){
+          $('select[name="tipo_material"]').html('<option value="null">SELECCIONAR</option>');
+          $('select[name="tipo_material"]').append(data);
 
-            $('select[name="tipo_material"]>option').removeAttr("selected");
-            $('select[name="tipo_material"]>option[value="'+response['tipo_material']+'"]').attr("selected", true);
+          $('select[name="tipo_material"]>option').removeAttr("selected");
+          $('select[name="tipo_material"]>option[value="'+response['tipo_material']+'"]').attr("selected", true);
 
-            $.ajax({
-              dataType: "json",
-              url: 'selmatcorrugados',
-              type: "POST",
-              data: {Material : response['tipo_material']},
-              success: function(data){
+          $.ajax({
+            dataType: "json",
+            url: 'selmatcorrugados',
+            type: "POST",
+            data: {Material : response['tipo_material']},
+            success: function(data){
 
-                $('select[name="carton"]').html('<option value="null">SELECCIONAR</option>');
-                $('select[name="carton"]').append(data);
+              $('select[name="carton"]').html('<option value="null">SELECCIONAR</option>');
+              $('select[name="carton"]').append(data);
 
-                $('select[name="carton"]>option').removeAttr("selected");
-                $('select[name="carton"]>option[value="'+response['carton']+'"]').attr("selected", true);
+              $('select[name="carton"]>option').removeAttr("selected");
+              $('select[name="carton"]>option[value="'+response['carton']+'"]').attr("selected", true);
 
-                $.ajax({
-                  dataType: "json",
-                  url: 'seltamcorrugados',
-                  type: "POST",
-                  data: {Id : response['carton']},
-                  success: function(data){
+              $.ajax({
+                dataType: "json",
+                url: 'seltamcorrugados',
+                type: "POST",
+                data: {Id : response['carton']},
+                success: function(data){
 
-                    $('select[name="tam-carton"]').html('<option value="null">SELECCIONAR</option>');
-                    $('select[name="tam-carton"]').append(data);
+                  $('select[name="tam-carton"]').html('<option value="null">SELECCIONAR</option>');
+                  $('select[name="tam-carton"]').append(data);
 
-                    $('select[name="tam-carton"]>option').removeAttr("selected");
-                    $('select[name="tam-carton"]>option[value="'+response['carton']+'"]').attr("selected", true);
+                  $('select[name="tam-carton"]>option').removeAttr("selected");
+                  $('select[name="tam-carton"]>option[value="'+response['carton']+'"]').attr("selected", true);
 
-                  }
-                });
+                }
+              });
 
-              }
-            });
+            }
+          });
 
-          }
-        });
+        }
+      });
 
-        $('input[name="maquina_suajado"][value="'+response['maquina_suajado']+'"]').prop("checked",true);
-        $('input[name="med_suaje"]').val(response['med_suaje']);
-        $('input[name="med_cito"]').val(response['med_cito']);
-        $('input[name="tipo_desbarbe"]').val(response['tipo_desbarbe']);
-        $('input[name="tipo_pegado"][value="'+response['tipo_pegado']+'"]').prop("checked",true);
-        $('input[name="predoblado"][value="'+response['predoblado']+'"]').prop("checked",true);
-        $('input[name="clave_pegamento"]').val(response['clave_pegamento']);
-        $('input[name="pegado_con"][value="'+response['pegado_con']+'"]').prop("checked",true);
-        $('input[name="grapado"]').prop("checked",true);
-        $('input[name="num_grapas"]').val(response['num_grapas']);
-        $('input[name="tipo_envio"][value="'+response['tipo_envio']+'"]').prop("checked",true);
-        $('input[name="tipo_entrega"][value="'+response['tipo_entrega']+'"]').prop("checked",true);
-        $('input[name="maquina_ranurado"][value="'+response['maquina_ranurado']+'"]').prop("checked",true);
-        $('input[name="proceso_refilado"][value="'+response['proceso_refilado']+'"]').prop("checked",true);
-        $('input[name="maquina_empalme"][value="'+response['maquina_empalme']+'"]').prop("checked",true);
-        $('input[name="tipo_impresion"][value="'+response['tipo_impresion']+'"]').prop("checked",true);
-        $('input[name="sel_color"][value="'+response['sel_color']+'"]').prop("checked",true);
-        $('select[name="num_tintas"]>option').removeAttr("selected");
-        $('select[name="num_tintas"]>option[value="'+response['num_tintas']+'"]').attr("selected", true);
-        $('input[name="largo_tinta1"]').val(response['largo_tinta1']);
-        $('input[name="ancho_tinta1"]').val(response['ancho_tinta1']);
-        $('input[name="color_tinta1"]').val(response['color_tinta1']);
-        $('input[name="largo_tinta2"]').val(response['largo_tinta2']);
-        $('input[name="ancho_tinta2"]').val(response['ancho_tinta2']);
-        $('input[name="color_tinta2"]').val(response['color_tinta2']);
-        $('input[name="largo_tinta3"]').val(response['largo_tinta3']);
-        $('input[name="ancho_tinta3"]').val(response['ancho_tinta3']);
-        $('input[name="color_tinta3"]').val(response['color_tinta3']);
-        $('input[name="largo_tinta4"]').val(response['largo_tinta4']);
-        $('input[name="ancho_tinta4"]').val(response['ancho_tinta4']);
-        $('input[name="color_tinta4"]').val(response['color_tinta4']);
-        $('input[name="flejado"][value="'+response['flejado']+'"]').prop("checked",true);
-        $('input[name="cant_flejado"]').val(response['cant_flejado']);
-        $('input[name="ligas"][value="'+response['ligas']+'"]').prop("checked",true);
-        $('input[name="num_ligas"]').val(response['num_ligas']);
-        $('input[name="corrugado"][value="'+response['corrugado']+'"]').prop("checked",true);
-        $('input[name="cant_xcorrugado"]').val(response['cant_xcorrugado']);
-        $('input[name="fajillas"][value="'+response['fajillas']+'"]').prop("checked",true);
-        $('input[name="num_fajillas"]').val(response['num_fajillas']);
-        $('input[name="tarima"][value="'+response['tarima']+'"]').prop("checked",true);
-        $('input[name="cant_xtarima"]').val(response['cant_xtarima']);
-        $('input[name="paquetes"][value="'+response['paquetes']+'"]').prop("checked",true);
-        $('input[name="cant_xpaquete"]').val(response['cant_xpaquete']);
-        $('input[name="cant_granel"]').val(response['cant_granel']);
-        $('input[name="esquineros"][value="'+response['esquineros']+'"]').prop("checked",true);
-        $('input[name="emplayado"][value="'+response['emplayado']+'"]').prop("checked",true);
-        
+       $('input[name="maquina_suajado"][value="'+response['maquina_suajado']+'"]').prop("checked",true);
+       $('input[name="med_suaje"]').val(response['med_suaje']);
+       $('input[name="med_cito"]').val(response['med_cito']);
+       $('input[name="tipo_desbarbe"]').val(response['tipo_desbarbe']);
+       $('input[name="tipo_pegado"][value="'+response['tipo_pegado']+'"]').prop("checked",true);
+       $('input[name="predoblado"][value="'+response['predoblado']+'"]').prop("checked",true);
+       $('input[name="clave_pegamento"]').val(response['clave_pegamento']);
+       $('input[name="pegado_con"][value="'+response['pegado_con']+'"]').prop("checked",true);
+       $('input[name="grapado"]').prop("checked",true);
+       $('input[name="num_grapas"]').val(response['num_grapas']);
 
-      }
-    });
+       $('input[name="cant_parc1"]').val(response['cant_parc1']);
+       $('input[name="fec_parc1"]').val(response['fec_parc1']);
+       $('input[name="cant_parc2"]').val(response['cant_parc2']);
+       $('input[name="fec_parc2"]').val(response['fec_parc2']);
+       $('input[name="cant_parc3"]').val(response['cant_parc3']);
+       $('input[name="fec_parc3"]').val(response['fec_parc3']);
+       $('input[name="cant_parc4"]').val(response['cant_parc4']);
+       $('input[name="fec_parc4"]').val(response['fec_parc4']);
+       $('input[name="cant_parc5"]').val(response['cant_parc5']);
+       $('input[name="fec_parc5"]').val(response['fec_parc5']);
+       $('input[name="cant_parc6"]').val(response['cant_parc6']);
+       $('input[name="fec_parc6"]').val(response['fec_parc6']);
+       $('input[name="cant_parc7"]').val(response['cant_parc7']);
+       $('input[name="fec_parc7"]').val(response['fec_parc7']);
+       $('input[name="cant_parc8"]').val(response['cant_parc8']);
+       $('input[name="fec_parc8"]').val(response['fec_parc8']);
+
+       $('input[name="tipo_envio"][value="'+response['tipo_envio']+'"]').prop("checked",true);
+       $('input[name="tipo_entrega"][value="'+response['tipo_entrega']+'"]').prop("checked",true);
+       $('input[name="maquina_ranurado"][value="'+response['maquina_ranurado']+'"]').prop("checked",true);
+       $('input[name="proceso_refilado"][value="'+response['proceso_refilado']+'"]').prop("checked",true);
+       $('input[name="maquina_empalme"][value="'+response['maquina_empalme']+'"]').prop("checked",true);
+       $('input[name="tipo_impresion"][value="'+response['tipo_impresion']+'"]').prop("checked",true);
+       $('input[name="sel_color"][value="'+response['sel_color']+'"]').prop("checked",true);
+       $('select[name="num_tintas"]>option').removeAttr("selected");
+       $('select[name="num_tintas"]>option[value="'+response['num_tintas']+'"]').attr("selected", true);
+       $('input[name="largo_tinta1"]').val(response['largo_tinta1']);
+       $('input[name="ancho_tinta1"]').val(response['ancho_tinta1']);
+       $('input[name="color_tinta1"]').val(response['color_tinta1']);
+       $('input[name="largo_tinta2"]').val(response['largo_tinta2']);
+       $('input[name="ancho_tinta2"]').val(response['ancho_tinta2']);
+       $('input[name="color_tinta2"]').val(response['color_tinta2']);
+       $('input[name="largo_tinta3"]').val(response['largo_tinta3']);
+       $('input[name="ancho_tinta3"]').val(response['ancho_tinta3']);
+       $('input[name="color_tinta3"]').val(response['color_tinta3']);
+       $('input[name="largo_tinta4"]').val(response['largo_tinta4']);
+       $('input[name="ancho_tinta4"]').val(response['ancho_tinta4']);
+       $('input[name="color_tinta4"]').val(response['color_tinta4']);
+       $('input[name="flejado"][value="'+response['flejado']+'"]').prop("checked",true);
+       $('input[name="cant_flejado"]').val(response['cant_flejado']);
+       $('input[name="ligas"][value="'+response['ligas']+'"]').prop("checked",true);
+       $('input[name="num_ligas"]').val(response['num_ligas']);
+       $('input[name="corrugado"][value="'+response['corrugado']+'"]').prop("checked",true);
+       $('input[name="cant_xcorrugado"]').val(response['cant_xcorrugado']);
+       $('input[name="fajillas"][value="'+response['fajillas']+'"]').prop("checked",true);
+       $('input[name="num_fajillas"]').val(response['num_fajillas']);
+       $('input[name="tarima"][value="'+response['tarima']+'"]').prop("checked",true);
+       $('input[name="cant_xtarima"]').val(response['cant_xtarima']);
+       $('input[name="paquetes"][value="'+response['paquetes']+'"]').prop("checked",true);
+       $('input[name="cant_xpaquete"]').val(response['cant_xpaquete']);
+       $('input[name="cant_granel"]').val(response['cant_granel']);
+       $('input[name="esquineros"][value="'+response['esquineros']+'"]').prop("checked",true);
+       $('input[name="emplayado"][value="'+response['emplayado']+'"]').prop("checked",true);
+
+
+     }
+   });
 
 }
 

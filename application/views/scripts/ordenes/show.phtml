@@ -341,7 +341,7 @@ label{
 
     <label class="col-sm-3 control-label">M. Final:</label>
 
-    <div class="col-sm-3">
+     <div class="col-sm-3">
 
       <span class="help-block helper">Frente</span>
 
@@ -979,11 +979,11 @@ label{
 
      <label>Proceso:&nbsp;&nbsp;</label>
 
-     <label class="radio-inline"><input type="radio" name="proceso_refilado" id="maq-refilado" value="2" data-maquina="REFILADORA" data-proceso="6">Refilado</label>
+     <label class="radio-inline"><input type="radio" name="proceso_refilado" id="maq-refilado" value="6" data-maquina="REFILADORA" data-proceso="6">Refilado</label>
 
-     <label class="radio-inline"><input type="radio" name="proceso_refilado" id="maq-rayado" value="2" data-maquina="REFILADORA" data-proceso="5">Rayado</label>
+     <label class="radio-inline"><input type="radio" name="proceso_refilado" id="maq-rayado" value="5" data-maquina="REFILADORA" data-proceso="5">Rayado</label>
 
-     <label class="radio-inline"><input type="radio" name="proceso_refilado" id="maq-refilado-rayado" value="2" data-maquina="REFILADORA" data-proceso="7">Refilado + Rayado</label>
+     <label class="radio-inline"><input type="radio" name="proceso_refilado" id="maq-refilado-rayado" value="7" data-maquina="REFILADORA" data-proceso="7">Refilado + Rayado</label>
 
    </div>
 
@@ -2200,14 +2200,14 @@ $('input[id="mcarton"]').on('click', function() {
 
   if( $('input[id="mcarton"]').prop("checked") == true){
 
-    $('input[id="med_largo"]').val("").attr('readonly', false);
+      $('input[id="med_largo"]').val("").attr('readonly', false);
 
-    $('input[id="med_ancho"]').val("").attr('readonly', false);
+      $('input[id="med_ancho"]').val("").attr('readonly', false);
 
-    $('input[id="med_requerido"]').val("");
-    
+      $('input[id="med_requerido"]').val("");
+   
 
-  }
+ }
 });
 
 $('input[name="tipo_pegado"]').on('click', function() { 

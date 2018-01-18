@@ -870,7 +870,7 @@ label{
         </div>
         <div class="col-md-3 helper-left">
           <span class="help-block helper">Fecha</span>
-          <input type="date" class="form-control input-sm" id="fecparc1" name="fecparc1" >
+          <input type="date" class="form-control input-sm" id="fec_parc1" name="fec_parc1" >
         </div>
         <div class="col-md-3">
           <span class="help-block helper">Parcial 5</span>
@@ -878,7 +878,7 @@ label{
         </div>
         <div class="col-md-3 helper-left">
           <span class="help-block helper">Fecha</span>
-          <input type="date" class="form-control input-sm" id="fecparc5" name="fecparc5" >
+          <input type="date" class="form-control input-sm" id="fec_parc5" name="fec_parc5" >
         </div>
       </div>
       <br>
@@ -890,7 +890,7 @@ label{
         </div>
         <div class="col-md-3 helper-left">
           <span class="help-block helper">Fecha</span>
-          <input type="date" class="form-control input-sm" id="fecparc2" name="fecparc2" >
+          <input type="date" class="form-control input-sm" id="fec_parc2" name="fec_parc2" >
         </div>
         <div class="col-md-3">
           <span class="help-block helper">Parcial 6</span>
@@ -898,7 +898,7 @@ label{
         </div>
         <div class="col-md-3 helper-left">
           <span class="help-block helper">Fecha</span>
-          <input type="date" class="form-control input-sm" id="fecparc6" name="fecparc6" >
+          <input type="date" class="form-control input-sm" id="fec_parc6" name="fec_parc6" >
         </div>
       </div>
       <br>
@@ -918,7 +918,7 @@ label{
         </div>
         <div class="col-md-3 helper-left">
           <span class="help-block helper">Fecha</span>
-          <input type="date" class="form-control input-sm" id="fecparc7" name="fecparc7" >
+          <input type="date" class="form-control input-sm" id="fec_parc7" name="fec_parc7" >
         </div>
       </div>
       <br>
@@ -930,7 +930,7 @@ label{
         </div>
         <div class="col-md-3 helper-left">
           <span class="help-block helper">Fecha</span>
-          <input type="date" class="form-control input-sm" id="fecparc4" name="fecparc4" >
+          <input type="date" class="form-control input-sm" id="fec_parc4" name="fec_parc4" >
         </div>
         <div class="col-md-3">
           <span class="help-block helper">Parcial 8</span>
@@ -938,7 +938,7 @@ label{
         </div>
         <div class="col-md-3 helper-left">
           <span class="help-block helper">Fecha</span>
-          <input type="date" class="form-control input-sm" id="fecparc8" name="fecparc8" >
+          <input type="date" class="form-control input-sm" id="fec_parc8" name="fec_parc8" >
         </div>
       </div>
 
@@ -1464,6 +1464,24 @@ label{
         $('input[name="num_grapas"]').val(response['num_grapas']);
         $('input[name="tipo_envio"][value="'+response['tipo_envio']+'"]').prop("checked",true);
         $('input[name="tipo_entrega"][value="'+response['tipo_entrega']+'"]').prop("checked",true);
+
+        $('input[name="cant_parc1"]').val(response['cant_parc1']);
+        $('input[name="fec_parc1"]').val(response['fec_parc1']);
+        $('input[name="cant_parc2"]').val(response['cant_parc2']);
+        $('input[name="fec_parc2"]').val(response['fec_parc2']);
+        $('input[name="cant_parc3"]').val(response['cant_parc3']);
+        $('input[name="fec_parc3"]').val(response['fec_parc3']);
+        $('input[name="cant_parc4"]').val(response['cant_parc4']);
+        $('input[name="fec_parc4"]').val(response['fec_par4']);
+        $('input[name="cant_parc5"]').val(response['cant_parc5']);
+        $('input[name="fec_parc5"]').val(response['fec_parc5']);
+        $('input[name="cant_parc6"]').val(response['cant_parc6']);
+        $('input[name="fec_parc6"]').val(response['fec_parc6']);
+        $('input[name="cant_parc7"]').val(response['cant_parc7']);
+        $('input[name="fec_parc7"]').val(response['fec_parc7']);
+        $('input[name="cant_parc8"]').val(response['cant_parc8']);
+        $('input[name="fec_parc8"]').val(response['fec_parc8']);
+
         $('input[name="maquina_ranurado"][value="'+response['maquina_ranurado']+'"]').prop("checked",true);
         $('input[name="proceso_refilado"][value="'+response['proceso_refilado']+'"]').prop("checked",true);
         $('input[name="maquina_empalme"][value="'+response['maquina_empalme']+'"]').prop("checked",true);

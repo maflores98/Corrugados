@@ -51,17 +51,17 @@ class Application_Model_DbTable_DetalleOrdenProduccion extends Zend_Db_Table_Abs
 
     }
 
-    public function updateOrden($array, $OrdProduccion, $Id){
+    public function updateOrden($datos, $OrdProduccion){
 
-       $db = Zend_Db_Table_Abstract::getDefaultAdapter();
+        $Id = $datos['id_ordenproduccion'];
 
-       $where = $db->getAdapter()->quoteInto('id_ordenproduccion = ?', $Id);
+        $where = $this->getAdapter()->quoteInto('id_ordenproduccion = ?', $Id);
 
-       $db->update('$array', $where);
+        $this->update($datos, $where);
+        
+        $response = new stdClass();
+        $response->validacion = true;
+        return $response;
 
-       $response = new stdClass();
-       $response->validacion = true;
-       return $response;
-
-   }
+    }
 }

@@ -341,7 +341,7 @@ label{
 
     <label class="col-sm-3 control-label">M. Final:</label>
 
-     <div class="col-sm-3">
+    <div class="col-sm-3">
 
       <span class="help-block helper">Frente</span>
 
@@ -1332,6 +1332,7 @@ label{
     $('#btn-guardar').hide();
     $('#btn-editar2').hide();
     $('#btn-guardar2').hide();
+    $('#btn-clonar').hide();
 
     var IdOrden = getParameterByName('ID');
 
@@ -2148,7 +2149,8 @@ $("#btn-editar").click(function(){
 $("#btn-editar2").click(function(){
 
   var IdOrden = getParameterByName('ID');
-  var ordenProduccion = $("#OrdenProduccion").serialize();
+
+  var ordenProduccion = $("#OrdenProduccion").serialize() + "&id_ordenproduccion="+IdOrden;
 
   $.ajax({
 
@@ -2158,18 +2160,30 @@ $("#btn-editar2").click(function(){
    type:  'post',
    success: function(data){
      if(data.validacion){
-       swal(
 
+      $('#btn-guardar').hide();
+      $('#btn-editar2').hide();
+      $('#btn-guardar2').hide();
+      $('#btn-clonar').hide();
+      $('#btn-editar').show();
+
+      $('input').attr('readonly', true);
+      $('input:radio').attr('disabled', true);
+      $('input:checkbox').attr('disabled', true);
+      $('select').attr('disabled', true);
+      $('textarea').attr('readonly', true);
+
+      swal(
         '',
         'Se ha guardado la orden correctamente',
         'success'
 
         );
-     }
+    }
 
-   }
+  }
 
- });
+});
   
   
 });
@@ -2218,14 +2232,14 @@ $('input[id="mcarton"]').on('click', function() {
 
   if( $('input[id="mcarton"]').prop("checked") == true){
 
-      $('input[id="med_largo"]').val("").attr('readonly', false);
+    $('input[id="med_largo"]').val("").attr('readonly', false);
 
-      $('input[id="med_ancho"]').val("").attr('readonly', false);
+    $('input[id="med_ancho"]').val("").attr('readonly', false);
 
-      $('input[id="med_requerido"]').val("");
-   
+    $('input[id="med_requerido"]').val("");
 
- }
+
+  }
 });
 
 $('input[name="tipo_pegado"]').on('click', function() { 

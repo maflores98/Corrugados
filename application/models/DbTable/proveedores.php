@@ -58,7 +58,7 @@ class Application_Model_DbTable_Proveedores extends Zend_Db_Table_Abstract
         $data = "";
         foreach ($rows as $row)
         {
-          $data .= '<option value="'.$row['id_proveedores'].'" data-descripcion="'.$row['rcomercial'].'">'.$row['rcomercial'].'</option>';                            
+         $data .= '<option value="'.$row['id_proveedores'].'" data-descripcion="'.$row['rcomercial'].'">'.$row['rcomercial'].'</option>';                            
         }
 
         $response = $data;

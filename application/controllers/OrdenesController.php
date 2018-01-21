@@ -477,6 +477,17 @@ public function orderpdfAction(){
 	$this->view->data = $data;
 }
 
+		public function marbetepdfAction(){
+
+			$this->_helper->layout()->disableLayout();
+
+			$Id = $_GET['Id'];
+
+			$valores = new Application_Model_DbTable_vOrdenImpresa();
+			$data = $valores->consultar($Id);
+
+			$this->view->data = $data;
+		}
 
 
 }

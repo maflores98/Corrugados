@@ -458,24 +458,24 @@
 
 			);
 
-	$OrdenProd = new Application_Model_DbTable_DetalleOrdenProduccion();
-	$orden = $OrdenProd->updateOrden($datos, $OrdProduccion);
+			$OrdenProd = new Application_Model_DbTable_DetalleOrdenProduccion();
+			$orden = $OrdenProd->updateOrden($datos, $OrdProduccion);
 
-	echo Zend_Json::encode($orden);
+			echo Zend_Json::encode($orden);
 
-}
+		}
 
-public function orderpdfAction(){
+		public function orderpdfAction(){
 
-	$this->_helper->layout()->disableLayout();
+			$this->_helper->layout()->disableLayout();
 
-	$Id = $_GET['Id'];
+			$Id = $_GET['Id'];
 
-	$valores = new Application_Model_DbTable_vOrdenImpresa();
-	$data = $valores->consultar($Id);
+			$valores = new Application_Model_DbTable_vOrdenImpresa();
+			$data = $valores->consultar($Id);
 
-	$this->view->data = $data;
-}
+			$this->view->data = $data;
+		}
 
 		public function marbetepdfAction(){
 
@@ -489,5 +489,19 @@ public function orderpdfAction(){
 			$this->view->data = $data;
 		}
 
+		public function nombreproveedorAction(){
 
-}
+			$this->_helper->layout->disableLayout();
+			$this->_helper->viewRenderer->setNoRender();
+
+			$id = $_POST['id'];
+
+			$valores = new Application_Model_DbTable_proveedores();
+			$data = $valores->consultarProveedor($id);
+
+			echo Zend_Json::encode($data);		
+
+		}
+
+
+	}

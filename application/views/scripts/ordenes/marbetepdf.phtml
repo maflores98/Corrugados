@@ -1,0 +1,142 @@
+<?php
+
+require('Zend/FPDF/fpdf.php');
+
+$data = $this->data;
+
+class PDF extends FPDF{
+
+			   //Tabla simple
+	function Tabla1($data){
+
+		$this->Image('http://localhost/Corrugados/library/Zend/FPDF/logo.PNG',9,9,45);
+
+		$this->Cell(100);
+		$this->Ln(5);
+		$this->Cell(62);
+		$this->SetTextColor(255,255,255);
+		$this->SetFont('Helvetica','BI', 12);
+		$this->Cell(0, 8,"M A R B E T E   D E   P R O D U C C I O N", 1, 0,'C', true);
+		$this->SetTextColor(0,0,0);
+		$this->SetFont('Helvetica','B', 20);
+		$this->Ln(12);
+		$this->Cell(110);
+		$this->Cell(35, 15,"No.Orden", 0, 0,'R');
+		$this->Cell(45, 15,"$data->id_ordenproduccion", 1, 0,'C');		
+		$this->Ln(20);
+		$this->SetFont('Helvetica','B', 16);		
+		$this->Cell(40,8,"Trabajo:",0,0,'L');
+		$this->Ln();
+		$this->SetFont('Helvetica','', 18);		
+		$this->Cell(190,20,substr("$data->nombre_trabajo",0,50),1,0,'L');
+		$this->Ln();
+		$this->SetFont('Helvetica','B', 16);		
+		$this->Cell(40,8,"Cliente:",0,0,'L');
+		$this->Ln();
+		$this->SetFont('Helvetica','', 18);		
+		$this->Cell(190,20,substr("$data->cliente",0,50),1,0,'L');
+		$this->Ln(25);
+		$this->SetFont('Helvetica','', 16);		
+		$this->Cell(190,10,"Cantidad reportada",1,0,'C');
+		$this->Ln();		
+		$this->SetFont('Helvetica','B', 14);
+		$this->Cell(31.6,10,"Proceso",1,0,'C');				
+		$this->Cell(31.6,10,"Maquina",1,0,'C');
+		$this->Cell(31.6,10,"Buenos",1,0,'C');
+		$this->Cell(31.6,10,"Merma",1,0,'C');
+		$this->Cell(31.6,10,"Operador",1,0,'C');
+		$this->Cell(31.6,10,"Fecha/Hora",1,0,'C');
+		$this->Ln();
+		$this->SetFont('Helvetica','', 14);
+		$this->Cell(31.6,10,"Refilado",1,0,'C');	
+		$this->Cell(31.6,10,"",1,0,'C');
+		$this->Cell(31.6,10,"",1,0,'C');
+		$this->Cell(31.6,10,"",1,0,'C');
+		$this->Cell(31.6,10,"",1,0,'C');
+		$this->Cell(31.6,10,"",1,0,'C');		
+		$this->Ln();
+		$this->Cell(31.6,10,"Rayado",1,0,'C');			
+		$this->Cell(31.6,10,"",1,0,'C');
+		$this->Cell(31.6,10,"",1,0,'C');
+		$this->Cell(31.6,10,"",1,0,'C');
+		$this->Cell(31.6,10,"",1,0,'C');
+		$this->Cell(31.6,10,"",1,0,'C');
+		$this->Ln();
+		$this->Cell(31.6,10,"Impresion",1,0,'C');			
+		$this->Cell(31.6,10,"",1,0,'C');
+		$this->Cell(31.6,10,"",1,0,'C');
+		$this->Cell(31.6,10,"",1,0,'C');
+		$this->Cell(31.6,10,"",1,0,'C');
+		$this->Cell(31.6,10,"",1,0,'C');
+		$this->Ln();
+		$this->Cell(31.6,10,"Ranurado",1,0,'C');			
+		$this->Cell(31.6,10,"",1,0,'C');
+		$this->Cell(31.6,10,"",1,0,'C');
+		$this->Cell(31.6,10,"",1,0,'C');
+		$this->Cell(31.6,10,"",1,0,'C');
+		$this->Cell(31.6,10,"",1,0,'C');	
+		$this->Ln();
+		$this->Cell(31.6,10,"Suajado",1,0,'C');			
+		$this->Cell(31.6,10,"",1,0,'C');
+		$this->Cell(31.6,10,"",1,0,'C');
+		$this->Cell(31.6,10,"",1,0,'C');
+		$this->Cell(31.6,10,"",1,0,'C');
+		$this->Cell(31.6,10,"",1,0,'C');	
+		$this->Ln();
+		$this->Cell(31.6,10,"Pegado",1,0,'C');			
+		$this->Cell(31.6,10,"",1,0,'C');
+		$this->Cell(31.6,10,"",1,0,'C');
+		$this->Cell(31.6,10,"",1,0,'C');
+		$this->Cell(31.6,10,"",1,0,'C');
+		$this->Cell(31.6,10,"",1,0,'C');
+		$this->Ln();
+		$this->Cell(31.6,10,"Grapado",1,0,'C');			
+		$this->Cell(31.6,10,"",1,0,'C');
+		$this->Cell(31.6,10,"",1,0,'C');
+		$this->Cell(31.6,10,"",1,0,'C');
+		$this->Cell(31.6,10,"",1,0,'C');
+		$this->Cell(31.6,10,"",1,0,'C');
+		$this->Ln();
+		$this->Cell(31.6,10,"Empalme",1,0,'C');			
+		$this->Cell(31.6,10,"",1,0,'C');
+		$this->Cell(31.6,10,"",1,0,'C');
+		$this->Cell(31.6,10,"",1,0,'C');
+		$this->Cell(31.6,10,"",1,0,'C');
+		$this->Cell(31.6,10,"",1,0,'C');	
+		$this->Ln();
+		$this->Cell(31.6,10,"",1,0,'C');			
+		$this->Cell(31.6,10,"",1,0,'C');
+		$this->Cell(31.6,10,"",1,0,'C');
+		$this->Cell(31.6,10,"",1,0,'C');
+		$this->Cell(31.6,10,"",1,0,'C');
+		$this->Cell(31.6,10,"",1,0,'C');
+		$this->Ln();
+		$this->Cell(31.6,10,"",1,0,'C');			
+		$this->Cell(31.6,10,"",1,0,'C');
+		$this->Cell(31.6,10,"",1,0,'C');
+		$this->Cell(31.6,10,"",1,0,'C');
+		$this->Cell(31.6,10,"",1,0,'C');
+		$this->Cell(31.6,10,"",1,0,'C');		
+		$this->Ln(20);
+		$this->SetFont('Helvetica','B', 16);
+		$this->Cell(95,8,"Cantidad requerida",1,0,'L');			
+		$this->Cell(95,8,"Metodo de envio",1,0,'L');
+		$this->Ln();
+		$this->SetFont('Helvetica','', 16);
+		$this->Cell(95,20,"$data->cant_requerida",1,0,'C');			
+		$this->Cell(95,20,"$data->tipo_envio",1,0,'C');
+	}
+
+}
+
+$pdf=new PDF();
+
+$pdf->AliasNbPages();
+$pdf->AddPage();
+$pdf->SetY(10);
+$pdf->SetAutoPageBreak(true, 10);
+$pdf->Tabla1(
+	$data
+);
+
+$pdf->Output();

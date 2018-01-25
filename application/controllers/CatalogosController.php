@@ -302,7 +302,7 @@ class CatalogosController extends Zend_Controller_Action{
 		$clave = $_POST['clave'];
 		$descripcion = $_POST['descripcion'];
 		$proveedor = $_POST['proveedor'];
-		$categoria = $_POST['categoria'];
+		$categoria = $_POST['categoriamateriales'];
 		$costo = $_POST['costo'];
 		$unidad = $_POST['unidad'];
 		$estatus = $_POST['estatus'];		
@@ -320,7 +320,7 @@ class CatalogosController extends Zend_Controller_Action{
 		$clave = $_POST['clave'];
 		$descripcion = $_POST['descripcion'];
 		$proveedor = $_POST['proveedor'];
-		$categoria = $_POST['categoria'];
+		$categoria = $_POST['categoriamateriales'];
 		$costo = $_POST['costo'];
 		$unidad = $_POST['unidad'];
 		$estatus = $_POST['estatus'];
@@ -339,6 +339,17 @@ class CatalogosController extends Zend_Controller_Action{
 		
 		$this->view->titulo="** Usuarios **";
 	}
+
+    public function llenarcombousuariosAction()
+    {
+		$this->_helper->layout->disableLayout();
+		$this->_helper->viewRenderer->setNoRender();
+
+		$consulta = new Application_Model_DbTable_Usuarios();
+		$consultar = $consulta->llenarcombousuarios();
+
+		echo Zend_Json::encode($consultar);	    	
+    }	
 
 	public function consultarusuariosAction(){
 		$this->_helper->layout->disableLayout();

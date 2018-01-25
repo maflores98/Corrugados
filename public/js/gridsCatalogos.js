@@ -362,7 +362,7 @@ var idcliente, idproveedor, idmaterial,idusuario;
 					$("#clave").val(result.clave);
 					$("#descripcion").val(result.descripcion);	
 					$("#proveedor").val(result.id_cliprov);
-					$("#categoria").val(result.id_categoria);
+					$("#categoriamateriales").val(result.id_categoria);
 					$("#costo").val(result.costo);
 					$("#unidad").val(result.unidad);
 					$("#estatus").val(result.id_estatus);

@@ -22,7 +22,7 @@ class Application_Model_DbTable_ProcesosPendientes extends Zend_Db_Table_Abstrac
       "trabajo" => $row['nombre_trabajo'],
       "cantreq" => $row['cant_requerida'],
       "trabajo" => $row['nombre_trabajo']                                   
-      );
+    );
    }
    $response->data = $enproceso;
    return $response;
@@ -48,7 +48,7 @@ class Application_Model_DbTable_ProcesosPendientes extends Zend_Db_Table_Abstrac
        "id_proceso" => $row['id_proceso'],
        "cantidadreq" => $row['cant_requerida'],
        "horaregistro" => $row['fechahora_registro']
-       );                           
+     );                           
    }
    $response->data = $enproceso;
    return $response;
@@ -78,7 +78,7 @@ class Application_Model_DbTable_ProcesosPendientes extends Zend_Db_Table_Abstrac
        "nombre_proceso"=>$row["nombre_proceso"],
        "cant_requerida"=>$row["cant_requerida"],
        "fechahora_registro"=>$row["fechahora_registro"]
-       );
+     );
    }
 
    return $copiar;
@@ -102,7 +102,7 @@ class Application_Model_DbTable_ProcesosPendientes extends Zend_Db_Table_Abstrac
  {
 
    $select = $this->select();
-    $select->where("id_orden = ?",$id_orden);
+   $select->where("id_orden = ?",$id_orden);
    $select->where("nombre_maquina = ?",$maquina);
    //$select->where("nombre_proceso = ?",$proceso);
                               //$consulta = $select->__toString();
@@ -118,7 +118,7 @@ class Application_Model_DbTable_ProcesosPendientes extends Zend_Db_Table_Abstrac
       //"id_orden"=>$row["id_orden"],
       //"nombre_maquina"=>$row["nombre_maquina"],
        "fechahora_registro"=>$row["fechahora_registro"]
-       );
+     );
    }
 
    return $copiar;
@@ -186,9 +186,9 @@ class Application_Model_DbTable_ProcesosPendientes extends Zend_Db_Table_Abstrac
  
  public function addLibera($datos){
 
-   return $this->insert($datos);
+  return $this->insert($datos);
 
- }
- 
- 
+}
+
+
 }

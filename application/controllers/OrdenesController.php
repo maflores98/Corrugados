@@ -152,6 +152,11 @@
 			$OrdenProd = new Application_Model_DbTable_ProcesosPendientes();
 			$orden = $OrdenProd->addLibera($datos);
 
+			$id_orden = $datos['id_orden'];
+
+			$updateProd = new Application_Model_DbTable_OrdenesProduccion();
+			$update = $updateProd->updateEstatus($id_orden, 2);
+
 			echo Zend_Json::encode($orden);
 
 		}
@@ -500,8 +505,20 @@
 			$data = $valores->consultarProveedor($id);
 
 			echo Zend_Json::encode($data);		
-
 		}
 
+		public function seldireccionAction(){
+
+			$this->_helper->layout->disableLayout();
+			$this->_helper->viewRenderer->setNoRender();
+
+			$IdCliente = $_POST['idCliente'];
+
+			$ListaClientes = new Application_Model_DbTable_direccionesClientes();
+			$clientes = $ListaClientes->seldireccion($IdCliente);
+
+			echo Zend_Json::encode($clientes);
+
+		}
 
 	}

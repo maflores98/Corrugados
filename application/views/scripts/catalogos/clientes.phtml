@@ -1,4 +1,8 @@
-<?php $this->headScript()->appendFile($this->baseUrl('js/gridsCatalogos.js'), 'text/javascript');?>
+<?php 
+$this->headLink()->appendStylesheet('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css');
+$this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js','text/javascript');
+?>
+
 <style>
 .modal-dialog {
   width: 70%;
@@ -32,6 +36,7 @@
       <th>Pag.Web</th>
       <th>Estatus</th>
       <th>Detalle</th>
+      <th>Dirección</th>
     </tr>
   </thead>
 
@@ -41,7 +46,7 @@
 </div>
 </div>
 
-    <!-- Modal  Reporte -->
+    <!-- Modal  Detalle -->
     <div class="modal fade" id="detalleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -81,12 +86,12 @@
                 <!--div class="col-md-12"-->
                     <div class="form-group col-md-4">
                       <label for="categoria">Categoria</label>
-                      <select class="form-control" id="categoria" name="categoria" required>
+                      <select class="form-control" id="categoria" name="categoria" required>                       
                       </select>
                     </div>
                     <div class="form-group col-md-4">
                       <label for="estatus">Estatus</label>
-                      <select class="form-control" id="estatus" name="estatus" required>
+                      <select class="form-control" id="estatus" name="estatus">                               
                       </select>
                     </div>              
                   <div class="col-md-2">
@@ -175,3 +180,175 @@
         </div>
       </div>
     </div>
+
+    <script>
+var idcliente;  
+
+        $.ajax({
+          type: "GET",
+          url: 'llenarcombotiposestatus',          
+          dataType: "json",          
+          //async: false,
+          //type: "POST",
+          success: function(data){
+            $('select[name="estatus"]').append(data);
+          }
+        });
+
+        $.ajax({
+          type: "GET",
+          url: 'llenarcombocategorias',          
+          dataType: "json",          
+          //async: false,
+          //type: "POST",
+          success: function(data){
+            $('select[name="categoria"]').append(data);
+          }
+        });        
+
+        $.ajax({
+          type: "GET",
+          url: 'llenarcombovendedores',          
+          dataType: "json",          
+          //async: false,
+          //type: "POST",
+          success: function(data){
+            $('select[name="vendedor"]').append(data);
+          }
+        });       
+
+  var catClientes = $('#catClientes').DataTable({
+    ajax:{
+      url: 'consultarclientes'
+    },  
+    //"info" : false,
+    //"searching": false,
+    "paging":    false,
+    "scrollY":   '58vh',
+    //"scrollX": true 
+        dom: 'Blfrtip',
+          buttons: [
+            'excel'
+        ],      
+    "columns":[
+      {data:"id_cliente"},
+      {data:"rcomercial"},
+      {data:"rfc"},
+      {data:"telefono"},
+      {data:"pagweb"},
+      {data:"id_estatus"},
+      {data:"detalle"},
+      {data:"direccion"}
+    ],  
+    "columnDefs": [
+    {
+      "className": "dt-center",
+      "targets": [5,6,7]
+    },
+    ]         
+  }); 
+
+  $( ".buttons-excel" ).hide(); 
+      $( "#excel-clientes" ).on( "click", function() {
+        $( ".buttons-excel" ).trigger( "click" );
+      });   
+
+  $('#catClientes').on("click", "a.btn-detalles", function () 
+  {
+    $("#nuevocliente").hide();
+    $("#actualizarcliente").show();
+    var data = catClientes.row($(this).parents("tr")).data();
+    idcliente = data.id_cliente;        
+
+    $.post('extraercliente', {idcliente:idcliente},
+      function(result)
+      {
+      console.log(result);       
+          $("#rcomercial").val(result.rcomercial);
+          $("#rfc").val(result.rfc);  
+          $("#telefono").val(result["telefono"]);
+          $("#pagweb").val(result.pagweb);
+          //$("#categoria").val(result.categoria);
+          $('select[name="categoria"]>option').removeAttr("selected");
+          $('select[name="categoria"]>option[value="'+result.id_categoria+'"]').attr("selected", true);  
+          $('select[name="estatus"]>option').removeAttr("selected");
+          $('select[name="estatus"]>option[value="'+result.id_estatus+'"]').attr("selected", true);  
+          $("#cpago").val(result.condpago);
+          $("#drevision").val(result.diasrevision);
+          $("#contacto1").val(result.contacto1);
+          $("#mailcontacto1").val(result.mailcont1);
+          $("#referencia1").val(result.refcont1);
+          $("#contacto2").val(result.contacto2);
+          $("#mailcontacto2").val(result.mailcont2);
+          $("#referencia2").val(result.refcont2);
+          $("#contacto3").val(result.contacto3);
+          $("#mailcontacto3").val(result.mailcont3);
+          $("#referencia3").val(result.refcont3);
+          $('select[name="vendedor"]>option').removeAttr("selected");
+          $('select[name="vendedor"]>option[value="'+result.id_vendedor+'"]').attr("selected", true);           
+          $("#detalleModal").modal('show'); 
+      },'json'
+    );
+    
+  });
+
+  $("#actualizarcliente").click(function(){
+    var cadena = $("#frmactualizarcliente").serialize()+'&id_cliente='+idcliente;
+    console.log(cadena);
+    $.post('actualizarcliente', cadena,
+      function(result)
+      {
+        swal("Actualizado","success");
+        $("#detalleModal").modal('hide');
+        catClientes.ajax.reload();
+      },'json'
+    );
+  });
+
+  $("#btnnuevocliente").click(function(){
+    $("#actualizarcliente").hide();
+    $("#nuevocliente").show();
+    $("#rcomercial").val("");
+    $("#rfc").val("");  
+    $("#telefono").val("");
+    $("#pagweb").val("");
+    $("#categoria").val("");
+    $("select[id=categoria]").val("0");
+    $("select[id=estatus]").val("0");   
+    $("#estado").val("");
+    $("#drevision").val("");
+    $("#contacto1").val("");
+    $("#mailcontacto1").val("");
+    $("#referencia1").val("");
+    $("#contacto2").val("");
+    $("#mailcontacto2").val("");
+    $("#referencia2").val("");
+    $("#contacto3").val("");
+    $("#mailcontacto3").val("");
+    $("#referencia3").val("");
+    $("select[id=vendedor]").val("0");  
+  });
+
+  $("#nuevocliente").click(function(){
+    var cadena = $("#frmactualizarcliente").serialize();
+    console.log(cadena);
+    $.post('insertarcliente', cadena,
+      function(result)
+      {
+        swal("Se registro","success");
+        $("#detalleModal").modal('hide');
+        catClientes.ajax.reload();
+      },'json'
+    );    
+  }); 
+
+    $('#catClientes').on("click", "a.btn-direccioncliente", function () 
+    {
+    var data = catClientes.row($(this).parents("tr")).data();
+    idcliente = data.id_cliente;  
+    var nombrecliente =data.rcomercial;
+      window.location.href = "direccioncliente?ID="+idcliente+"&nombrecliente="+nombrecliente;
+
+    });
+
+</script>

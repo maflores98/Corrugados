@@ -1,0 +1,108 @@
+<div class="row">
+  <div class="col-md-12">
+    <h1><?php  echo $this->titulo; echo @$this->nombreCliente?></h1>
+  </div>
+</div>
+<form action="">
+  <div class="row">
+
+    <div class="col-md-9">
+
+      <div id="encabezado" class="row">
+
+        <div class="form-group">
+          <label for="inputtext3" class="col-md-2 control-label">Fecha registro:</label>
+          <div class="col-md-10">
+            <input type="date" class="form-control input-sm date-cls" id="fecha_emision" name="fecha_emision" value="<?php echo date("Y-m-d");?>" readonly>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputtext3" class="col-md-2 control-label">F. cotización:</label>
+          <div class="col-md-10">
+            <input type="text" class="form-control input-sm" id="id_cotizacion" name="id_cotizacion">
+          </div>
+        </div>  
+
+        <div class="form-group">
+          <label for="id_cliente" class="col-md-2 control-label">Cliente:</label>
+          <div class="col-md-10">
+            <select class="selectpicker form-control input-sm" id="id_cliente" name="id_cliente" data-live-search="true"></select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputtext3" class="col-md-2 control-label">Trabajo:</label>
+          <div class="col-md-10">
+            <input type="text" class="form-control input-sm" id="nombre_trabajo" name="nombre_trabajo">
+          </div>
+        </div>      
+
+      </div>
+      <br>
+      <div id="cuerpo" class="row">              
+        <div class="col-md-6">
+          <div class="row">
+            <div class="form-group col-md-12">
+              <input type="text" class="form-control" id="cant_requerida" name="cant_requerida" placeholder="Cantidad Requerida">
+            </div>
+
+            <div class="form-group col-md-6">
+              <input type="text" class="form-control" id="med_frente" name="med_frente" placeholder="Frente">
+            </div>
+
+            <div class="form-group col-md-6">
+              <input type="text" class="form-control" id="med_fondo" name="med_fondo" placeholder="Fondo">
+            </div>    
+
+            <div class="form-group col-md-6">
+              <input type="text" class="form-control" id="med_largo" name="med_largo" placeholder="Largo">
+            </div>           
+
+            <div class="form-group col-md-6">
+              <input type="text" class="form-control" id="med_ancho" name="med_ancho" placeholder="Ancho">
+            </div>             
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="row">
+            <div class="col-md-6">
+            <label class="radio-inline">
+              <input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">
+              "Con medidas de la caja"
+            </label>              
+            </div>
+            <div class="col-md-6">
+            <label class="radio-inline">
+              <input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">
+              "Con medidas del cartón"
+            </label>               
+            </div>                       
+          </div> 
+          <br>
+          <div class="row">
+            <div class="form-group col-md-6">
+              <input type="text" class="form-control" id="med_altura" name="med_altura" placeholder="Altura">
+            </div>  
+            <div class="form-group col-md-6">
+              <input type="text" class="form-control" id="m2" name="m2" placeholder="m2">
+            </div>  
+            <div class="form-group col-md-6">
+              <input type="text" class="form-control" id="total" name="total" placeholder="total">
+            </div>  
+            <div class="form-group col-md-6">
+              <input type="text" class="form-control" id="cmajuste" name="cmajuste" placeholder="cm de ajuste">
+            </div>                                 
+          </div>        
+        </div>
+      </div>
+
+
+    </div>
+
+    <div class="col-md-3">
+      aqui van los resultados
+    </div>
+
+  </div>
+</form>

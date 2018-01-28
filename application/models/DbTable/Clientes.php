@@ -68,6 +68,7 @@ class Application_Model_DbTable_Clientes extends Zend_Db_Table_Abstract
         $sql = $db->query($select);
         $rows = $sql->fetchAll();
         
+      $response = new stdClass();        
        $data = "";
        foreach ($rows as $row) {
            $data .= '<option value="'.$row['id_tipocliente'].'" data-descripcion="'.$row['descripcion'].'">'.$row['descripcion'].'</option>';                            
@@ -84,9 +85,10 @@ class Application_Model_DbTable_Clientes extends Zend_Db_Table_Abstract
         $sql = $db->query($select);
         $rows = $sql->fetchAll();
 
+      $response = new stdClass();
        $data = "";
        foreach ($rows as $row) {        
-           $data .= '<option value="'.$row['id_estatus'].'" data-descripcion="'.$row['descripcion'].'">'.$row['descripcion'].'</option>';                            
+           $data .= '<option value="'.$row['id_estatus'].'" data-descripcion="'.$row['descripcion'].'">'.$row['descripcion'].'</option>';                           
        }
 
         $response = $data;
@@ -127,7 +129,8 @@ class Application_Model_DbTable_Clientes extends Zend_Db_Table_Abstract
           "telefono" => $row['telefono'],
           "pagweb" => $row['pagweb'],
           "id_estatus" => $row['id_estatus'],       
-          "detalle"=>"<a class='btn btn-default btn-xs btn-detalles' data-id='".$row['id_cliente']."'> <span class='glyphicon glyphicon-plus'></a>"                            
+          "detalle"=>"<a class='btn btn-default btn-xs btn-detalles' data-id='".$row['id_cliente']."'> <span class='glyphicon glyphicon-pencil'></a>",
+          "direccion"=>"<a class='btn btn-default btn-xs btn-direccioncliente' data-id='".$row['id_cliente']."'> <span class='glyphicon glyphicon-road'></a>"
           );
        }
        $response->data = $clientes;
@@ -231,6 +234,112 @@ class Application_Model_DbTable_Clientes extends Zend_Db_Table_Abstract
         $response = new stdClass();
         $response->validacion = true;
         return $response;
-    }    
+    }        
+
+      public function consultardireccioncliente($id_cliente){
+        $db = Zend_Db_Table_Abstract::getDefaultAdapter();
+        $select = $db ->select()
+        ->from('direcciones_clientes')
+        ->where("id_cliente = '$id_cliente'");
+            //$consulta = $select->__toString();
+            //echo $consulta;
+            //exit();
+        $sql = $db->query($select);
+        $rows = $sql->fetchAll();
+        
+       $cliente = array();
+       foreach ($rows as $row) {
+        $cliente[] = array(
+        "id_direccion"=>$row["id_direccion"],
+        "calle"=>utf8_encode($row["calle"]),
+        "colonia" => utf8_encode($row['colonia']),
+        "ciudad" => utf8_encode($row['ciudad']),
+        "municipio" => utf8_encode($row['municipio']),
+        "estado"=>utf8_encode($row['estado']),
+        "cp" => $row['cp'],       
+        "estatus" => $row['id_estatus'],   
+        "nota"=> utf8_encode($row["nota"])
+        //"detalle" => "<a class='btn btn-default btn-xs btn-detalles' data-id='".$row['id_cliente']."'> <span class='glyphicon glyphicon-pencil'></a>",
+          );
+       }
+
+       $response = new stdClass();
+        $response->data = $cliente;
+        return $response; 
+     }  
+
+      public function extraerdireccioncliente($id_direccion){
+        $db = Zend_Db_Table_Abstract::getDefaultAdapter();
+        $select = $db ->select()
+        ->from('direcciones_clientes')
+        ->where("id_direccion = '$id_direccion'");
+            //$consulta = $select->__toString();
+            //echo $consulta;
+            //exit();
+        $sql = $db->query($select);
+        $rows = $sql->fetchAll();
+        
+       $cliente = array();
+       foreach ($rows as $row) {
+        $cliente[] = array(
+        "id_direccion"=>$row["id_direccion"],
+        "calle"=>utf8_encode($row["calle"]),
+        "colonia" => utf8_encode($row['colonia']),
+        "ciudad" => utf8_encode($row['ciudad']),
+        "municipio" => utf8_encode($row['municipio']),
+        "estado"=>utf8_encode($row['estado']),
+        "cp" => $row['cp'],       
+        "estatus" => $row['id_estatus'], 
+        "tipo_direccion"=> $row['id_tipodireccion']  ,
+        "nota"=> utf8_encode($row["nota"])
+          );
+       }
+
+       $response = new stdClass();
+        $response->data = $cliente;
+        return $response; 
+     }       
+
+    public function actualizardireccioncliente($id_direccion, $calle, $colonia, $ciudad, $municipio, $estado, $cp, $estatus, $nota)
+    {
+        $db = Zend_Db_Table_Abstract::getDefaultAdapter();      
+        $where[] = "id_direccion = '$id_direccion'";
+        $update = $db->update("direcciones_clientes", array(
+            "calle" => strtoupper(utf8_decode($calle)), 
+            "colonia" => strtoupper(utf8_decode($colonia)), 
+            "ciudad" => strtoupper(utf8_decode($ciudad)), 
+            "municipio" => strtoupper(utf8_decode($municipio)), 
+            "ciudad" => strtoupper(utf8_decode($ciudad)), 
+            "municipio" => strtoupper(utf8_decode($municipio)), 
+            "estado" => strtoupper(utf8_decode($estado)), 
+            "cp" => $cp, 
+            "id_estatus" => $estatus,
+            "nota" => strtoupper(utf8_decode($nota))
+        ), $where);
+
+        $response = new stdClass();
+        $response->validacion = true;
+        return $response;
+        echo $set;
+    }      
+
+    public function insertardireccioncliente($id_cliente, $calle, $colonia, $ciudad, $municipio, $estado, $cp, $estatus, $nota)
+    {
+        $db = Zend_Db_Table_Abstract::getDefaultAdapter();
+        $insert = $db->insert("direcciones_clientes", array(
+            "id_cliente" => $id_cliente,
+            "calle" => $calle, 
+            "colonia" => $colonia, 
+            "ciudad" => $ciudad, 
+            "municipio" => $municipio, 
+            "estado" => $estado, 
+            "cp" => $cp, 
+            "id_estatus" => $estatus,
+            "nota" => $nota
+          ));
+        $response = new stdClass();
+        $response->validacion = true;
+        return $response;
+    }      
 
 }

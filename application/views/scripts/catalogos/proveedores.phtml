@@ -1,10 +1,9 @@
-<?php $this->headScript()->appendFile($this->baseUrl('js/gridsCatalogos.js'), 'text/javascript');?>
 <style>
 .modal-dialog {
   width: 70%;
 }  
 
-.modal-clientes{
+.modal-proveedores{
   font-size: 12px;
   //width: 80%;
   //height: 25px;
@@ -13,11 +12,11 @@
 <div class="row">  
 <div class="col-md-8">
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#detalleModal" id="btnnuevoproveedor">Nuevo</button>
-  <!--button class="btn btn-primary" id='editarCliente'><span class="glyphicon glyphicon-pencil"></span>Editar</button>
+  <!--button class="btn btn-primary" id='editarproveedor'><span class="glyphicon glyphicon-pencil"></span>Editar</button>
    <button class="btn btn-primary" id='suspender'><span class="glyphicon glyphicon-hourglass"></span>Suspender</button-->
    <button class="btn btn-primary" id='excel-proveedores'>Exportar a Excel</button>
  </div>
-<div class="col-md-4"><h1><?php  echo $this->titulo; echo @$this->nombreCliente?></h1></div>
+<div class="col-md-4"><h1><?php  echo $this->titulo; echo @$this->nombreProveedor?></h1></div>
 </div> 
 
 <div class="row">
@@ -32,6 +31,7 @@
       <th>Pag.Web</th>
       <th>Estatus</th>
       <th>Detalle</th>
+      <th>Dirección</th>
     </tr>
   </thead>
 
@@ -41,7 +41,7 @@
 </div>
 </div>
 
-    <!-- Modal  Reporte -->
+    <!-- Modal  Detalle -->
     <div class="modal fade" id="detalleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -51,161 +51,280 @@
           </div>
           <div class="modal-body">
             <form id="frmactualizarproveedor" method="POST" action="extraerproveedor" style="font-size:10px;">
-              <!--div class="row"-->
+              <div class="row">
                 <!--div class="col-md-12"-->
-                <div class="row">
                   <div class="col-md-4">
                     <div class="form-group">
                       <label for="rcomercial" class="control-label">Razón Comercial</label>
-                      <input type="text" class="form-control modal-clientes" id="rcomercial" name="rcomercial" required>
+                      <input type="text" class="form-control modal-proveedores" id="rcomercial" name="rcomercial" required>
                     </div>
                   </div>
                   <div class="col-md-2">
                     <div class="form-group">
                       <label for="rfc" class="control-label">Rfc</label>
-                      <input type="text" class="form-control modal-clientes" id="rfc" name="rfc">
+                      <input type="text" class="form-control modal-proveedores" id="rfc" name="rfc" required>
                     </div>
                   </div>
                   <div class="col-md-2">
                     <div class="form-group">
                       <label for="telefono" class="control-label">Telefono</label>
-                      <input type="number" class="form-control modal-clientes" id="telefono" name="telefono">
+                      <input type="number" class="form-control modal-proveedores" id="telefono" name="telefono" required>
                     </div>
                   </div>
                   <div class="col-md-4">
                     <div class="form-group">
                       <label for="pagweb" class="control-label">Pag.Web</label>
-                      <input type="text" class="form-control modal-clientes" id="pagweb" name="pagweb">
+                      <input type="text" class="form-control modal-proveedores" id="pagweb" name="pagweb" required>
                     </div>
-                  </div>    
-                  <div class="col-md-4">
-                    <div class="form-group">
-                      <label for="calle" class="control-label">Calle</label>
-                      <input type="text" class="form-control modal-clientes" id="calle" name="calle">
-                    </div>
-                  </div>        
-                  <div class="col-md-4">
-                    <div class="form-group">
-                      <label for="colonia" class="control-label">Colonia</label>
-                      <input type="text" class="form-control modal-clientes" id="colonia" name="colonia">
-                    </div>
-                  </div>  
-                  <div class="col-md-4">
-                    <div class="form-group">
-                      <label for="municipio" class="control-label">Municipio</label>
-                      <input type="text" class="form-control modal-clientes" id="municipio" name="municipio">
-                    </div>
-                  </div>                    
-                  <div class="col-md-4">
-                    <div class="form-group">
-                      <label for="ciudad" class="control-label">Ciudad</label>
-                      <input type="text" class="form-control modal-clientes" id="ciudad" name="ciudad">
-                    </div>
-                  </div>   
-                  <div class="col-md-2">
-                    <div class="form-group">
-                      <label for="estado" class="control-label">Estado</label>
-                      <input type="text" class="form-control modal-clientes" id="estado" name="estado">
-                    </div>
-                  </div>
-                  <div class="col-md-2">
-                    <div class="form-group">
-                      <label for="cp" class="control-label">C.P</label>
-                      <input type="number" class="form-control modal-clientes" id="cp" name="cp">
-                    </div>
-                  </div> 
-                  </div>             
-                  <!--/div-->
-                  <!--div class="col-md-12"-->
-                  <div class="row">
+                  </div>                                                                                 
+                <!--/div-->
+                <!--div class="col-md-12"-->
                     <div class="form-group col-md-4">
                       <label for="categoria">Categoria</label>
-                      <select class="form-control" id="categoria" name="categoria" required>
+                      <select class="form-control" id="categoria" name="categoria" required>                         
                       </select>
                     </div>
                     <div class="form-group col-md-4">
                       <label for="estatus">Estatus</label>
-                      <select class="form-control" id="estatus" name="estatus" required>
+                      <select class="form-control" id="estatus" name="estatus" required>                       
                       </select>
                     </div>              
                   <div class="col-md-2">
                     <div class="form-group">
                       <label for="cpago" class="control-label">Condición de pago</label>
-                      <input type="number" class="form-control modal-clientes" id="cpago" name="cpago">
+                      <input type="number" class="form-control modal-proveedores" id="cpago" name="cpago" required>
                     </div>
                   </div>              
                   <div class="col-md-2">
                     <div class="form-group">
                       <label for="drevision" class="control-label">Días de revisión</label>
-                      <input type="number" class="form-control modal-clientes" id="drevision" name="drevision">
+                      <input type="number" class="form-control modal-proveedores" id="drevision" name="drevision" required>
                     </div>
                   </div>              
                   <div class="col-md-4">
                     <div class="form-group">
                       <label for="contacto1" class="control-label">Contacto 1:</label>
-                      <input type="text" class="form-control modal-clientes" id="contacto1" name="contacto1" required>
+                      <input type="text" class="form-control modal-proveedores" id="contacto1" name="contacto1" required>
                     </div>
                   </div>  
                   <div class="col-md-2">
                     <div class="form-group">
                       <label for="mobilcontacto1" class="control-label">Email:</label>
-                      <input type="email" class="form-control modal-clientes" id="mailcontacto1" name="mailcontacto1" required>
+                      <input type="text" class="form-control modal-proveedores" id="mailcontacto1" name="mailcontacto1" required>
                     </div>
                   </div> 
                   <div class="col-md-4">
                     <div class="form-group">
                       <label for="referencia1" class="control-label">Referencia:</label>
-                      <input type="text" class="form-control modal-clientes" id="referencia1" name="referencia1" required>
+                      <input type="text" class="form-control modal-proveedores" id="referencia1" name="referencia1" required>
                     </div>
                   </div> 
 
                   <div class="col-md-4">
                     <div class="form-group">
                       <label for="contacto2" class="control-label">Contacto 2:</label>
-                      <input type="text" class="form-control modal-clientes" id="contacto2" name="contacto2">
+                      <input type="text" class="form-control modal-proveedores" id="contacto2" name="contacto2" required>
                     </div>
                   </div>  
                   <div class="col-md-2">
                     <div class="form-group">
                       <label for="mailcontacto2" class="control-label">Email:</label>
-                      <input type="email" class="form-control modal-clientes" id="mailcontacto2" name="mailcontacto2">
+                      <input type="text" class="form-control modal-proveedores" id="mailcontacto2" name="mailcontacto2" required>
                     </div>
                   </div> 
                   <div class="col-md-4">
                     <div class="form-group">
                       <label for="referencia2" class="control-label">Referencia:</label>
-                      <input type="text" class="form-control modal-clientes" id="referencia2" name="referencia2">
+                      <input type="text" class="form-control modal-proveedores" id="referencia2" name="referencia2" required>
                     </div>
                   </div>    
 
                   <div class="col-md-4">
                     <div class="form-group">
                       <label for="contacto3" class="control-label">Contacto 3:</label>
-                      <input type="text" class="form-control modal-clientes" id="contacto3" name="contacto3">
+                      <input type="text" class="form-control modal-proveedores" id="contacto3" name="contacto3" required>
                     </div>
                   </div>  
                   <div class="col-md-2">
                     <div class="form-group">
                       <label for="mailcontacto3" class="control-label">Email:</label>
-                      <input type="email" class="form-control modal-clientes" id="mailcontacto3" name="mailcontacto3">
+                      <input type="text" class="form-control modal-proveedores" id="mailcontacto3" name="mailcontacto3" required>
                     </div>
                   </div> 
                   <div class="col-md-4">
                     <div class="form-group">
                       <label for="referencia3" class="control-label">Referencia:</label>
-                      <input type="text" class="form-control modal-clientes" id="referencia3" name="referencia3">
+                      <input type="text" class="form-control modal-proveedores" id="referencia3" name="referencia3" required>
                     </div>
-                  </div>
-                </div>
+                  </div>                                
                 <!--/div-->                                                                      
-              <!--/div-->         
+              </div>         
             </form>        
           </div>
           <div class="modal-footer">
             <button id="cancelar" type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-            <button id="nuevoproveedor" type="submit" class="btn btn-primary">Guardar</button>
+            <button id="nuevoproveedor" type="button" class="btn btn-primary">Guardar</button>
             <button id="actualizarproveedor" type="button" class="btn btn-primary">Actualizar</button>
           </div>
         </div>
       </div>
     </div>
+
+    <script>
+$(document).ready(function(){
+var idproveedor;  
+
+        $.ajax({
+          type: "GET",
+          url: 'llenarcombotiposestatus',          
+          dataType: "json",          
+          //async: false,
+          //type: "POST",
+          success: function(data){
+            $('select[name="estatus"]').append(data);
+          }
+        });
+
+        $.ajax({
+          type: "GET",
+          url: 'llenarcombocategorias',          
+          dataType: "json",          
+          //async: false,
+          //type: "POST",
+          success: function(data){
+            $('select[name="categoria"]').append(data);
+          }
+        });      
+
+  var catProveedores = $('#catProveedores').DataTable({
+    ajax:{
+      url: 'consultarproveedores'
+    },  
+    //"info" : false,
+    //"searching": false,
+    "paging":    false,
+    "scrollY":   '58vh',
+    //"scrollX": true 
+        dom: 'Blfrtip',
+          buttons: [
+            'excel'
+        ],      
+    "columns":[
+      {data:"id_proveedor"},
+      {data:"rcomercial"},
+      {data:"rfc"},
+      {data:"telefono"},
+      {data:"pagweb"},
+      {data:"id_estatus"},
+      {data:"detalle"},
+      {data:"direccion"}
+    ],  
+    "columnDefs": [
+    {
+      "className": "dt-center",
+      "targets": [5,6,7]
+    },
+    ]         
+  }); 
+
+  $( ".buttons-excel" ).hide(); 
+      $( "#excel-proveedores" ).on( "click", function() {
+        $( ".buttons-excel" ).trigger( "click" );
+      });   
+
+  $('#catProveedores').on("click", "a.btn-detalles", function () 
+  {
+    $("#nuevoproveedor").hide();
+    $("#actualizarproveedor").show();
+    var data = catProveedores.row($(this).parents("tr")).data();
+    idproveedor = data.id_proveedor;        
+
+    $.post('extraerproveedor', {idproveedor:idproveedor},
+      function(result)
+      {
+      console.log(result);       
+          $("#rcomercial").val(result.rcomercial);
+          $("#rfc").val(result.rfc);  
+          $("#telefono").val(result["telefono"]);
+          $("#pagweb").val(result.pagweb);
+          $('select[name="categoria"]>option').removeAttr("selected");
+          $('select[name="categoria"]>option[value="'+result.id_categoria+'"]').attr("selected", true);  
+          $('select[name="estatus"]>option').removeAttr("selected");
+          $('select[name="estatus"]>option[value="'+result.id_estatus+'"]').attr("selected", true);  
+          $("#cpago").val(result.condpago);
+          $("#drevision").val(result.diasrevision);
+          $("#contacto1").val(result.contacto1);
+          $("#mailcontacto1").val(result.mailcont1);
+          $("#referencia1").val(result.refcont1);
+          $("#contacto2").val(result.contacto2);
+          $("#mailcontacto2").val(result.mailcont2);
+          $("#referencia2").val(result.refcont2);
+          $("#contacto3").val(result.contacto3);
+          $("#mailcontacto3").val(result.mailcont3);
+          $("#referencia3").val(result.refcont3);
+          $("#detalleModal").modal('show'); 
+      },'json'
+    );
+    
+  });
+
+  $("#actualizarproveedor").click(function(){
+    var cadena = $("#frmactualizarproveedor").serialize()+'&id_proveedor='+idproveedor;
+    console.log(cadena);
+    $.post('actualizarproveedor', cadena,
+      function(result)
+      {
+        swal("Actualizado","success");
+        $("#detalleModal").modal('hide');
+        catProveedores.ajax.reload();
+      },'json'
+    );
+  });
+
+  $("#btnnuevoproveedor").click(function(){
+    $("#actualizarproveedor").hide();
+    $("#nuevoproveedor").show();
+    $("#rcomercial").val("");
+    $("#rfc").val("");  
+    $("#telefono").val("");
+    $("#pagweb").val("");
+    $("#categoria").val("");
+    $("select[id=categoria]").val("0");
+    $("select[id=estatus]").val("0");   
+    $("#estado").val("");
+    $("#drevision").val("");
+    $("#contacto1").val("");
+    $("#mailcontacto1").val("");
+    $("#referencia1").val("");
+    $("#contacto2").val("");
+    $("#mailcontacto2").val("");
+    $("#referencia2").val("");
+    $("#contacto3").val("");
+    $("#mailcontacto3").val("");
+    $("#referencia3").val("");
+  });
+
+  $("#nuevoproveedor").click(function(){
+    var cadena = $("#frmactualizarproveedor").serialize();
+    console.log(cadena);
+    $.post('insertarproveedor', cadena,
+      function(result)
+      {
+        swal("Se registro","success");
+        $("#detalleModal").modal('hide');
+        catProveedores.ajax.reload();
+      },'json'
+    );    
+  }); 
+
+    $('#catProveedores').on("click", "a.btn-direccionproveedor", function () 
+    {
+    var data = catProveedores.row($(this).parents("tr")).data();
+    idproveedor = data.id_proveedor;  
+    var nombreproveedor =data.rcomercial;
+      window.location.href = "direccionproveedor?ID="+idproveedor+"&nombreproveedor="+nombreproveedor;
+
+    });
+
+});
+</script>

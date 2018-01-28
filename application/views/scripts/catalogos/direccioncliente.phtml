@@ -1,0 +1,289 @@
+<style>
+.modal-dialog {
+	width: 70%;
+}  
+.dircli{
+	font-size: 1.5em;
+	color: red;
+}	
+</style>
+
+<div class="row">  
+	<div class="col-md-8">
+		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#detalleModal" id="btnnuevodireccion">Nuevo</button>
+		<button class="btn btn-primary" id='editardireccion'>Editar</button>
+		<!--button class="btn btn-primary" id='suspender'><span class="glyphicon glyphicon-hourglass"></span>Suspender</button-->
+		<button class="btn btn-primary" id='excel-dirclientes'>Exportar a Excel</button>
+	</div>
+	<div class="col-md-4"><h1><?php  echo $this->titulo; echo @$this->nombreCliente?></h1></div>
+</div> 
+
+<div class="row">
+	<div class="col-md-10">
+		<b><h5 name="cliente" id="cliente"></h5></b>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-12">
+		<table id="dirClientes" class="compact cell-border" cellspacing="0" width="100%">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Calle</th>
+					<th>Colonia</th>
+					<th>Ciudad</th>
+					<th>Municipio</th>
+					<th>Estado</th>
+					<th>CP</th>
+					<th>Estatus</th>
+					<th>Nota</th>
+				</tr>
+			</thead>
+
+			<tbody id="bdy-grid">
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<!-- Modal  Direcciones -->
+<div class="modal fade" id="detalledireccion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Direcciones Clientes</h4>
+			</div>
+			<div class="modal-body">
+				<form id="frmactualizardireccioncliente" method="POST" action="extraerdireccioncliente" style="font-size:10px;">
+					<div class="row">
+						<div class="col-md-1">
+							<div class="form-group">
+								<label for="idireccion" class="control-label">Id</label>
+								<input type="text" class="form-control modal-clientes" id="idireccion" name="idireccion" required>
+							</div>
+						</div>                                  
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="calle" class="control-label">Calle</label>
+								<input type="text" class="form-control modal-clientes" id="calle" name="calle" required>
+							</div>
+						</div>
+						<div class="col-md-5">
+							<div class="form-group">
+								<label for="colonia" class="control-label">Colonia</label>
+								<input type="text" class="form-control modal-clientes" id="colonia" name="colonia" required>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="ciudad" class="control-label">Ciudad</label>
+								<input type="text" class="form-control modal-clientes" id="ciudad" name="ciudad" required>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="municipio" class="control-label">Municipio</label>
+								<input type="text" class="form-control modal-clientes" id="municipio" name="municipio" required>
+							</div>
+						</div>                                                                                            
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="estado" class="control-label">Estado</label>
+								<input type="text" class="form-control modal-clientes" id="estado" name="estado" required>
+							</div>
+						</div>              
+						<div class="col-md-2">
+							<div class="form-group">
+								<label for="cp" class="control-label">Codigo postal</label>
+								<input type="number" class="form-control modal-clientes" id="cp" name="cp" required>
+							</div>
+						</div> 
+						<div class="form-group col-md-2">
+							<label for="estatus">Estatus</label>
+							<select class="form-control" id="estatus" name="estatus" required>
+							</select>
+						</div>
+						<div class="form-group col-md-2">
+							<label for="tipodireccion">Tipo de direccion</label>
+							<select class="form-control" id="tipodireccion" name="tipodireccion" required>
+							</select>
+						</div>                   
+						<div class="col-md-12">
+							<label for="notas">Notas</label>
+							<textarea class="form-control" id="notas" name="notas" rows="2"></textarea>
+						</div>                              
+
+					</div>         
+				</form>        
+			</div>
+			<div class="modal-footer">
+				<button id="cancelardireccion" type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+				<button id="nuevodireccioncliente" type="button" class="btn btn-primary">Guardar nuevo</button>
+				<button id="actualizardireccion" type="button" class="btn btn-primary">Guardar actualizado</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+
+var idireccion;
+
+function getParameterByName(name, url) {
+	if (!url) url = window.location.href;
+	name = name.replace(/[\[\]]/g, "\\$&");
+	var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+	results = regex.exec(url);
+	if (!results) return null;
+	if (!results[2]) return '';
+	return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+$.ajax({
+	dataType: "json",
+	url: 'llenarcombotiposestatus',
+	async: false,
+          //type: "POST",
+          success: function(data){
+          	$('select[name="estatus"]').append(data);
+          }
+      });   
+
+var idcliente = getParameterByName('ID');
+var cliente = getParameterByName('nombrecliente');
+
+$("#cliente").html('"' + cliente + '"');
+
+var dirClientes = $('#dirClientes').DataTable({
+	"paging":    false,
+	"scrollY":   '58vh',
+    //"scrollX": true 
+    //"info" : false,
+    //"searching": false,       
+    dom: 'Blfrtip',
+    buttons: [
+    'excel'
+    ], 	
+    ajax:{
+    	url: 'consultardireccioncliente',
+    	data: {idcliente:idcliente}
+    },     
+    "columns":[
+    {data:"id_direccion"},
+    {data:"calle"},
+    {data:"colonia"},
+    {data:"ciudad"},
+    {data:"municipio"},
+    {data:"estado"},
+    {data:"cp"},
+    {data:"estatus"},
+    {data:"nota"}
+    ],
+    "columnDefs": [
+    {
+    	"className": "dt-center",
+    	"targets": [6,7,8]
+    }
+    ]            
+}); 	
+
+$( ".buttons-excel" ).hide(); 
+$( "#excel-dircliente" ).on( "click", function() {
+	$( ".buttons-excel" ).trigger( "click" );
+});  
+
+$('#dirClientes tbody').on( 'click', 'tr', function () {
+	if ( $(this).hasClass('selected') ) {
+		$(this).removeClass('selected');
+		idireccion = 0;	
+	}
+	else {
+		dirClientes.$('tr.selected').removeClass('selected');
+		$(this).addClass('selected');
+		idireccion = $(this).find('td').eq(0).html();
+	}
+});       
+
+$('#editardireccion').click(function () {
+
+	if(idireccion == 0)
+	{
+		swal("No se ha seleccionado una direccion","error");
+	}
+	else
+	{
+	    //data = dirClientes.row($(this).parents("tr")).data();
+	    //idireccion= data.id_direccion;
+	    //$("#nuevodireccion").hide();
+	    $("#actualizardireccion").show();
+	    $("#nuevodireccioncliente").hide();
+	    $("#idcliente").attr("disabled", false);
+
+	    $.post('extraerdireccioncliente', {idireccion:idireccion},
+	    	function(result)
+	    	{
+	    		console.log(result);       
+	    		$("#idireccion").val(result.data[0].id_direccion);
+	    		$("#calle").val(result.data[0].calle);  
+	    		$("#colonia").val(result.data[0].colonia);
+	    		$("#ciudad").val(result.data[0].ciudad);  
+	    		$("#municipio").val(result.data[0].municipio);
+	    		$("#estado").val(result.data[0].estado);
+	    		$("#cp").val(result.data[0].cp);
+	    		$('select[name="estatus"]>option').removeAttr("selected");
+	    		$('select[name="estatus"]>option[value="'+result.data[0].estatus+'"]').attr("selected", true);  
+	    		$('select[name="tipodireccion"]>option').removeAttr("selected");
+	    		$('select[name="tipodireccion"]>option[value="'+result.data[0].tipo_direccion+'"]').attr("selected", true);
+	    		$("#notas").val(result.data[0].nota);
+	    		$("#detalledireccion").modal('show');
+	    	},'json'
+	    	);			
+	}    
+});  
+
+$("#actualizardireccion").click(function(){  	
+	var cadena = $("#frmactualizardireccioncliente").serialize()+'&id_direccion='+idireccion;
+	console.log(cadena);
+	$.post('actualizardireccioncliente', cadena,
+		function(result)
+		{
+			swal("Actualizado","success");
+			$("#detalledireccion").modal('hide');
+			dirClientes.ajax.reload();
+		},'json'
+		);
+});
+
+$("#btnnuevodireccion").click(function(){
+	$("#nuevodireccioncliente").show();
+	$("#actualizardireccion").hide();
+	$("#idcliente").attr("disabled", true);
+	$("#detalledireccion").modal('show');
+	$("#calle").val("");
+	$("#colonia").val("");  
+	$("#ciudad").val("");
+	$("#municipio").val("");
+	$("#estado").val("");
+	$("select[id=estatus]").val("0");
+	$("select[id=tipodireccion]").val("0");   
+	$("#cp").val("");
+	$("#notas").val(""); 
+});
+
+$("#nuevodireccioncliente").click(function(){
+	var cadena = $("#frmactualizardireccioncliente").serialize()+'&idcliente='+idcliente;
+	console.log(cadena);
+	$.post('insertardireccioncliente', cadena,
+		function(result)
+		{
+			swal("Se registro","success");
+			$("#detalledireccion").modal('hide');
+			dirClientes.ajax.reload();
+		},'json'
+		);   	
+});
+
+
+</script>

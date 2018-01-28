@@ -83,7 +83,8 @@ class Application_Model_DbTable_Proveedores extends Zend_Db_Table_Abstract
           "telefono" => $row['telefono'],
           "pagweb" => $row['pagweb'],
           "id_estatus" => $row['id_estatus'],       
-          "detalle"=>"<a class='btn btn-default btn-xs btn-detalles' data-id='".$row['id_proveedores']."'> <span class='glyphicon glyphicon-plus'></a>"                            
+          "detalle"=>"<a class='btn btn-default btn-xs btn-detalles' data-id='".$row['id_proveedores']."'> <span class='glyphicon glyphicon-pencil'></a>",
+          "direccion"=>"<a class='btn btn-default btn-xs btn-direccionproveedor' data-id='".$row['id_proveedores']."'> <span class='glyphicon glyphicon-road'></a>"
           );
        }
        $response->data = $proveedores;
@@ -203,5 +204,109 @@ class Application_Model_DbTable_Proveedores extends Zend_Db_Table_Abstract
         $response->validacion = true;
         return $response;
     }  
+
+      public function consultardireccionproveedor($id_proveedor){
+        $db = Zend_Db_Table_Abstract::getDefaultAdapter();
+        $select = $db ->select()
+        ->from('direcciones_proveedores')
+        ->where("id_proveedor = '$id_proveedor'");
+            //$consulta = $select->__toString();
+            //echo $consulta;
+            //exit();
+        $sql = $db->query($select);
+        $rows = $sql->fetchAll();
+        
+       $proveedor = array();
+       foreach ($rows as $row) {
+        $proveedor[] = array(
+        "id_direccion"=>$row["id_direccion"],
+        "calle"=>utf8_encode($row["calle"]),
+        "colonia" => utf8_encode($row['colonia']),
+        "ciudad" => utf8_encode($row['ciudad']),
+        "municipio" => utf8_encode($row['municipio']),
+        "estado"=>utf8_encode($row['estado']),
+        "cp" => $row['cp'],       
+        "estatus" => $row['id_estatus'],   
+        "nota"=> utf8_encode($row["nota"])
+        //"detalle" => "<a class='btn btn-default btn-xs btn-detalles' data-id='".$row['id_proveedor']."'> <span class='glyphicon glyphicon-pencil'></a>",
+          );
+       }
+
+       $response = new stdClass();
+        $response->data = $proveedor;
+        return $response; 
+     }  
+
+      public function extraerdireccionproveedor($id_direccion){
+        $db = Zend_Db_Table_Abstract::getDefaultAdapter();
+        $select = $db ->select()
+        ->from('direcciones_proveedores')
+        ->where("id_direccion = '$id_direccion'");
+            //$consulta = $select->__toString();
+            //echo $consulta;
+            //exit();
+        $sql = $db->query($select);
+        $rows = $sql->fetchAll();
+        
+       $proveedor = array();
+       foreach ($rows as $row) {
+        $proveedor[] = array(
+        "id_direccion"=>$row["id_direccion"],
+        "calle"=>utf8_encode($row["calle"]),
+        "colonia" => utf8_encode($row['colonia']),
+        "ciudad" => utf8_encode($row['ciudad']),
+        "municipio" => utf8_encode($row['municipio']),
+        "estado"=>utf8_encode($row['estado']),
+        "cp" => $row['cp'],       
+        "estatus" => $row['id_estatus'], 
+        //"tipo_direccion"=> $row['id_tipodireccion']  ,
+        "nota"=> utf8_encode($row["nota"])
+          );
+       }
+
+       $response = new stdClass();
+        $response->data = $proveedor;
+        return $response; 
+     }       
+
+    public function actualizardireccionproveedor($id_direccion, $calle, $colonia, $ciudad, $municipio, $estado, $cp, $estatus, $nota)
+    {
+        $db = Zend_Db_Table_Abstract::getDefaultAdapter();      
+        $where[] = "id_direccion = '$id_direccion'";
+        $update = $db->update("direcciones_proveedores", array(
+            "calle" => strtoupper(utf8_decode($calle)), 
+            "colonia" => strtoupper(utf8_decode($colonia)), 
+            "ciudad" => strtoupper(utf8_decode($ciudad)), 
+            "municipio" => strtoupper(utf8_decode($municipio)), 
+            "estado" => strtoupper(utf8_decode($estado)), 
+            "cp" => $cp, 
+            "id_estatus" => $estatus,
+            "nota" => strtoupper(utf8_decode($nota))
+        ), $where);
+
+        $response = new stdClass();
+        $response->validacion = true;
+        return $response;
+        echo $set;
+    }      
+
+    public function insertardireccionproveedor($id_proveedor, $calle, $colonia, $ciudad, $municipio, $estado, $cp, $estatus, $nota)
+    {
+        $db = Zend_Db_Table_Abstract::getDefaultAdapter();
+        $insert = $db->insert("direcciones_proveedores", array(
+            "id_proveedor" => $id_proveedor,
+            "calle" => $calle, 
+            "colonia" => $colonia, 
+            "ciudad" => $ciudad, 
+            "municipio" => $municipio, 
+            "estado" => $estado, 
+            "cp" => $cp, 
+            "id_estatus" => $estatus,
+            "nota" => $nota
+          ));
+        $response = new stdClass();
+        $response->validacion = true;
+        return $response;
+    }       
     
 }

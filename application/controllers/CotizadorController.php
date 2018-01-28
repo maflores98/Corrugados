@@ -217,4 +217,53 @@
 
             echo json_encode($response);
         }
+
+  //////////////////////////////////////////////////////////////////////////////
+  ///                                                                        ///
+  ///                           COTIZADOR DE CARTON                          ///
+  ///                                                                        ///
+  //////////////////////////////////////////////////////////////////////////////
+
+
+    public function cartonAction(){
+        
+        $this->view->titulo="** Cotizador de Cartón **";
+    }
+
+        public function buscaclientesAction(){
+
+            $this->_helper->layout->disableLayout();
+            $this->_helper->viewRenderer->setNoRender();
+
+            $ListaClientes = new Application_Model_DbTable_Clientes();
+            $Clientes = $ListaClientes->listaclientes();
+
+            echo Zend_Json::encode($Clientes);
+        }
+
+        public function selarticuloAction(){
+
+            $this->_helper->layout->disableLayout();
+            $this->_helper->viewRenderer->setNoRender();
+
+            $ListaArticulos = new Application_Model_DbTable_Articulos();
+            $articulos = $ListaArticulos->selarticulos();
+
+            echo Zend_Json::encode($articulos);
+        }        
+
+        public function selproductoAction(){
+
+            $this->_helper->layout->disableLayout();
+            $this->_helper->viewRenderer->setNoRender();
+
+            $Clasificacion = $_POST['Clasificacion'];
+
+            $ListaArticulos = new Application_Model_DbTable_Tiposcajas();
+            $articulos = $ListaArticulos->selproducto($Clasificacion);
+
+            echo Zend_Json::encode($articulos);
+
+        }        
+
     }

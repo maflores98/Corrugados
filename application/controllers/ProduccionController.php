@@ -1,9 +1,4 @@
 <?php
-	use setasign\Fpdi\Fpdi;
-	use setasign\Fpdi\PdfReader;
-
-	require_once('pdf/fpdf/fpdf.php');
-	require_once('pdf/fpdi/src/autoload.php');	
 	
 class ProduccionController extends Zend_Controller_Action
 {

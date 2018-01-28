@@ -1,4 +1,3 @@
-<?php $this->headScript()->appendFile($this->baseUrl('js/gridsCatalogos.js'), 'text/javascript');?>
 <style>
 .modal-dialog {
   width: 70%;
@@ -11,92 +10,213 @@
 }
 </style>
 <div class="row">  
-<div class="col-md-8">
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#detalleModal" id="btnnuevousuario">Nuevo</button>
+  <div class="col-md-8">
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#detalleModal" id="btnnuevousuario">Nuevo</button>
   <!--button class="btn btn-primary" id='editarCliente'><span class="glyphicon glyphicon-pencil"></span>Editar</button>
-   <button class="btn btn-primary" id='suspender'><span class="glyphicon glyphicon-hourglass"></span>Suspender</button-->
+  <button class="btn btn-primary" id='suspender'><span class="glyphicon glyphicon-hourglass"></span>Suspender</button-->
    <button class="btn btn-primary" id='excel-usuarios'>Exportar a Excel</button>
  </div>
-<div class="col-md-4"><h1><?php  echo $this->titulo; echo @$this->nombreCliente?></h1></div>
+ <div class="col-md-4"><h1><?php  echo $this->titulo; echo @$this->nombreCliente?></h1></div>
 </div> 
 
 <div class="row">
-<div class="col-md-12">
-<table id="catUsuarios" class="compact cell-border" cellspacing="0" width="100%">
-  <thead>
-    <tr>
-      <th>Id</th>
-      <th>Usuario </th>
-      <th>Password</th>
-      <th>Correo</th>
-      <th>Nombre</th>
-      <th>Id_Estatus</th>
-      <th>Id_Tipo_Usuario</th>
-      <th>Detalle</th>
-    </tr>
-  </thead>
+  <div class="col-md-12">
+    <table id="catUsuarios" class="compact cell-border" cellspacing="0" width="100%">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Usuario </th>
+          <th>Password</th>
+          <th>Correo</th>
+          <th>Nombre</th>
+          <th>Id_Estatus</th>
+          <th>Id_Tipo_Usuario</th>
+          <th>Detalle</th>
+        </tr>
+      </thead>
 
-  <tbody id="bdy-grid">
-  </tbody>
-</table>
-</div>
+      <tbody id="bdy-grid">
+      </tbody>
+    </table>
+  </div>
 </div>
 
-    <!-- Modal  Reporte -->
-    <div class="modal fade" id="detalleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">Detalle Usuarios</h4>
-          </div>
-          <div class="modal-body">
-            <form id="frmactualizarusuario" method="POST" action="extraerproveedor" style="font-size:10px;">
-              <div class="row">
-                <!--div class="col-md-12"-->
-                  <div class="col-md-4">
-                    <div class="form-group">
-                      <label for="usuario" class="control-label">Usuario</label>
-                      <input type="text" class="form-control modal-clientes" id="usuario" name="usuario">
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="form-group">
-                      <label for="nombre" class="control-label">Nombre</label>
-                      <input type="text" class="form-control modal-clientes" id="nombre" name="nombre">
-                    </div>
-                  </div>    
-                  <div class="col-md-4">
-                    <div class="form-group">
-                      <label for="correo" class="control-label">correo</label>
-                      <input type="email" class="form-control modal-clientes" id="correo" name="correo">
-                    </div>
-                  </div> 
-                  <div class="col-md-4">
-                    <div class="form-group">
-                      <label for="password" class="control-label">Password</label>
-                      <input type="text" class="form-control modal-clientes" id="password" name="password">
-                    </div>
-                  </div>                                                                 
-                    <div class="form-group col-md-4">
-                      <label for="tipousuario">Tipo Usuario</label>
-                      <select class="form-control" id="tipousuario" name="tipousuario">
-                      </select>
-                    </div>                   
-                    <div class="form-group col-md-4">
-                      <label for="estatus">Estatus</label>
-                      <select class="form-control" id="estatus" name="estatus">
-                      </select>
-                    </div>                                                        
-                <!--/div-->                                                                      
-              </div>         
-            </form>        
-          </div>
-          <div class="modal-footer">
-            <button id="cancelar" type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-            <button id="nuevousuario" type="submit" class="btn btn-primary">Nuevo</button>
-            <button id="actualizarusuario" type="button" class="btn btn-primary">Actualizar</button>
-          </div>
-        </div>
+<!-- Modal  Reporte -->
+<div class="modal fade" id="detalleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Detalle Usuarios</h4>
+      </div>
+      <div class="modal-body">
+        <form id="frmactualizarusuario" method="POST" action="extraerproveedor" style="font-size:10px;">
+          <div class="row">
+            <!--div class="col-md-12"-->
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="usuario" class="control-label">Usuario</label>
+                <input type="text" class="form-control modal-clientes" id="usuario" name="usuario">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="nombre" class="control-label">Nombre</label>
+                <input type="text" class="form-control modal-clientes" id="nombre" name="nombre">
+              </div>
+            </div>    
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="correo" class="control-label">correo</label>
+                <input type="email" class="form-control modal-clientes" id="correo" name="correo">
+              </div>
+            </div> 
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="password" class="control-label">Password</label>
+                <input type="text" class="form-control modal-clientes" id="password" name="password">
+              </div>
+            </div>                                                                 
+            <div class="form-group col-md-4">
+              <label for="tipousuario">Tipo Usuario</label>
+              <select class="form-control" id="tipousuario" name="tipousuario">
+              </select>
+            </div>                   
+            <div class="form-group col-md-4">
+              <label for="estatus">Estatus</label>
+              <select class="form-control" id="estatus" name="estatus">
+              </select>
+            </div>                                                        
+            <!--/div-->                                                                      
+          </div>         
+        </form>        
+      </div>
+      <div class="modal-footer">
+        <button id="cancelar" type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button id="nuevousuario" type="submit" class="btn btn-primary">Nuevo</button>
+        <button id="actualizarusuario" type="button" class="btn btn-primary">Actualizar</button>
       </div>
     </div>
+  </div>
+</div>
+
+<script>
+
+$.ajax({
+  dataType: "json",
+  url: 'llenarcombousuarios',
+  type: "POST",
+  success: function(data){
+    $('select[name="tipousuario"]').html('<option value="0" selected>ELIGE</option>');
+    $('select[name="tipousuario"]').append(data);           
+  }
+});
+
+$.ajax({
+  dataType: "json",
+  url: 'llenarcombotiposestatus',
+  async: false,
+          //type: "POST",
+          success: function(data){
+            $('select[name="estatus"]').append(data);
+          }
+        });        
+
+var catUsuarios = $('#catUsuarios').DataTable({
+  ajax:{
+    url: 'consultarusuarios'
+  },  
+    //"info" : false,
+    //"searching": false,
+    "paging":    false,
+    "scrollY":   '58vh',
+    //"scrollX": true 
+    dom: 'Blfrtip',
+    buttons: [
+    'excel'
+    ],      
+    "columns":[
+    {data:"id_usuario"},
+    {data:"usuario"},
+    {data:"password"},
+    {data:"correo"},
+    {data:"nombre"},
+    {data:"id_estatus"},
+    {data:"id_tipo_usuario"},   
+    {data:"detalle"}
+    ],  
+    "columnDefs": [
+    {
+      "className": "dt-center",
+      "targets": [5,6,7]
+    },
+    ]         
+  }); 
+
+$( ".buttons-excel" ).hide(); 
+$( "#excel-usuarios" ).on( "click", function() {
+  $( ".buttons-excel" ).trigger( "click" );
+});   
+
+$('#catUsuarios').on("click", "a.btn-detalles", function () 
+{
+  $("#nuevousuario").hide();
+  $("#actualizarusuario").show();
+  var data = catUsuarios.row($(this).parents("tr")).data();
+  idusuario = data.id_usuario;
+  $.post('extraerusuario', {idusuario:idusuario},
+    function(result)
+    {
+      console.log(result.rcomercial);       
+      $("#usuario").val(result.usuario);
+      $("#nombre").val(result.nombre);  
+      $("#correo").val(result.correo);
+      $("#password").val(result.password);
+      $('select[name="tipousuario"]>option').removeAttr("selected");
+      $('select[name="tipousuario"]>option[value="'+result.id_tipo_usuario+'"]').attr("selected", true);      
+      $('select[name="estatus"]>option').removeAttr("selected");
+      $('select[name="estatus"]>option[value="'+result.id_estatus+'"]').attr("selected", true);      
+      $("#detalleModal").modal('show');         
+    },'json'
+    );
+  
+});
+
+$("#actualizarusuario").click(function(){
+  var cadena = $("#frmactualizarusuario").serialize()+'&id_usuario='+idusuario;
+  console.log(cadena);
+  $.post('actualizarusuario', cadena,
+    function(result)
+    {
+      swal("Actualizado","success");
+      $("#detalleModal").modal('hide');
+      catUsuarios.ajax.reload();
+    },'json'
+    );
+});
+
+$("#btnnuevousuario").click(function(){
+  $("#actualizarusuario").hide();
+  $("#nuevousuario").show();    
+  $("#usuario").val("");
+  $("#nombre").val(""); 
+  $("#correo").val("");
+  $("#password").val("");
+  $("select[id=tipousuario]").val("0");
+  $("select[id=estatus]").val("0");
+});
+
+$("#nuevousuario").click(function(){
+  var cadena = $("#frmactualizarusuario").serialize();
+  console.log(cadena);
+  $.post('insertarusuario', cadena,
+    function(result)
+    {
+      swal("Se registro","success");
+      $("#detalleModal").modal('hide');
+      catUsuarios.ajax.reload();
+    },'json'
+    );    
+});
+
+</script>

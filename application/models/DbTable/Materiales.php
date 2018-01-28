@@ -135,7 +135,7 @@ class Application_Model_DbTable_Materiales extends Zend_Db_Table_Abstract
           "costo" => $row['costo'], 
           "unidad" => $row['unidad'],
           "id_estatus" => $row['id_estatus'],                 
-          "detalle"=>"<a class='btn btn-default btn-xs btn-detalles' data-id='".$row['id_material']."'> <span class='glyphicon glyphicon-plus'></a>"                            
+          "detalle"=>"<a class='btn btn-default btn-xs btn-detalles' data-id='".$row['id_material']."'> <span class='glyphicon glyphicon-pencil'></a>"                            
           );
        }
        $response->data = $materiales;

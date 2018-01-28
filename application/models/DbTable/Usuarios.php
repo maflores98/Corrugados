@@ -41,7 +41,7 @@ class Application_Model_DbTable_Usuarios extends Zend_Db_Table_Abstract
           "nombre" => $row['nombre'],
           "id_estatus" => $row['id_estatus'], 
           "id_tipo_usuario" => $row['id_tipo_usuario'],               
-          "detalle"=>"<a class='btn btn-default btn-xs btn-detalles' data-id='".$row['id_usuario']."'> <span class='glyphicon glyphicon-plus'></a>"                            
+          "detalle"=>"<a class='btn btn-default btn-xs btn-detalles' data-id='".$row['id_usuario']."'> <span class='glyphicon glyphicon-pencil'></a>"                            
           );
        }
        $response->data = $usuarios;

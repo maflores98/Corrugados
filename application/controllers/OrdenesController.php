@@ -152,6 +152,11 @@
 			$OrdenProd = new Application_Model_DbTable_ProcesosPendientes();
 			$orden = $OrdenProd->addLibera($datos);
 
+			$id_orden = $datos['id_orden'];
+
+			$updateProd = new Application_Model_DbTable_OrdenesProduccion();
+			$update = $updateProd->updateEstatus($id_orden, 2);
+
 			echo Zend_Json::encode($orden);
 
 		}
@@ -275,10 +280,10 @@
 			$this->_helper->layout->disableLayout();
 			$this->_helper->viewRenderer->setNoRender();
 
-			$descripcion = $_POST['Descripcion'];
+			$id = $_POST['Id'];
 
 			$ListaMateriales = new Application_Model_DbTable_Materiales();
-			$Materiales = $ListaMateriales->consultadescripcion($descripcion);
+			$Materiales = $ListaMateriales->consultadescripcion($id);
 
 			echo Zend_Json::encode($Materiales);
 
@@ -364,6 +369,8 @@
 
 				'id_ordenproduccion' => $_POST['id_ordenproduccion'],
 				'cant_requerida' => $_POST['cant_requerida'],
+				'cant_cmerma' => $_POST['cant_cmerma'],
+				'id_material' => $_POST['id_material'],
 				'tipo_medida' => $_POST['tipo_medida'],
 				'articulo' => $_POST['articulo'],
 				'tipo_producto' => $_POST['tipo_producto'],
@@ -375,7 +382,10 @@
 				'med_alto' => $_POST['med_alto'],
 				'med_largo' => $_POST['med_largo'],
 				'med_ancho' => $_POST['med_ancho'],
+				'med_ext_largo' => $_POST['med_ext_largo'],
+				'med_ext_ancho' => $_POST['med_ext_ancho'],
 				'tipo_impresion' => $_POST['tipo_impresion'],
+				'sel_color' => $_POST['sel_color'],
 				'num_tintas' => $_POST['num_tintas'],
 				'largo_tinta1' => $_POST['largo_tinta1'],
 				'ancho_tinta1' => $_POST['ancho_tinta1'],
@@ -385,6 +395,10 @@
 				'ancho_tinta3' => $_POST['ancho_tinta3'],
 				'largo_tinta4' => $_POST['largo_tinta4'],
 				'ancho_tinta4' => $_POST['ancho_tinta4'],
+				'color_tinta1' => $_POST['color_tinta1'],
+				'color_tinta2' => $_POST['color_tinta2'],
+				'color_tinta3' => $_POST['color_tinta3'],
+				'color_tinta4' => $_POST['color_tinta4'],
 				'maquina_suajado' => $_POST['maquina_suajado'],
 				'med_suaje' => $_POST['med_suaje'],
 				'med_cito' => $_POST['med_cito'],
@@ -397,54 +411,60 @@
 				'maquina_ranurado' => $_POST['maquina_ranurado'],
 				'proceso_refilado' => $_POST['proceso_refilado'],
 				'maquina_empalme' => $_POST['maquina_empalme'],
+				'ligas' => $_POST['ligas'],
 				'num_ligas' => $_POST['num_ligas'],
+				'fajillas' => $_POST['fajillas'],
 				'num_fajillas' => $_POST['num_fajillas'],
-				'cant_granel' => $_POST['cant_granel'],
+				'granel' => $_POST['granel'],
+				'paquetes' => $_POST['paquetes'],
 				'cant_xpaquete' => $_POST['cant_xpaquete'],
+				'corrugado' => $_POST['corrugado'],
 				'cant_xcorrugado' => $_POST['cant_xcorrugado'],
+				'tarima' => $_POST['tarima'],
 				'cant_xtarima' => $_POST['cant_xtarima'],
 				'esquineros' => $_POST['esquineros'],
 				'emplayado' => $_POST['emplayado'],
 				'impresion' => $_POST['impresion'],
-				'tiempo_arreglo_impresion' => $_POST['tiempo_arreglo_impresion'],
-				'tiempo_tiro_impresion' => $_POST['tiempo_tiro_impresion'],
-				'tiempo_arreglo_refilado' => $_POST['tiempo_arreglo_refilado'],
-				'tiempo_tiro_refilado' => $_POST['tiempo_tiro_refilado'],
 				'rayado' => $_POST['rayado'],
-				'tiempo_arreglo_rayado' => $_POST['tiempo_arreglo_rayado'],
-				'tiempo_tiro_rayado' => $_POST['tiempo_tiro_rayado'],
 				'flexo' => $_POST['flexo'],
-				'tiempo_arreglo_flexo' => $_POST['tiempo_arreglo_flexo'],
-				'tiempo_tiro_flexo' => $_POST['tiempo_tiro_flexo'],
 				'caiman' => $_POST['caiman'],
-				'tiempo_arreglo_caiman' => $_POST['tiempo_arreglo_caiman'],
-				'tiempo_tiro_caiman' => $_POST['tiempo_tiro_caiman'],
 				'pegado' => $_POST['pegado'],
-				'tiempo_arreglo_pegado' => $_POST['tiempo_arreglo_pegado'],
-				'tiempo_tiro_arreglo' => $_POST['tiempo_tiro_arreglo'],
 				'grapado' => $_POST['grapado'],
-				'tiempo_arreglo_grapado' => $_POST['tiempo_arreglo_grapado'],
-				'tiempo_tiro_grapado' => $_POST['tiempo_tiro_grapado'],
 				'suajado' => $_POST['suajado'],
-				'tiempo_arreglo_suajado' => $_POST['tiempo_arreglo_suajado'],
-				'tiempo_tiro_suajado' => $_POST['tiempo_tiro_suajado'],
 				'flejado' => $_POST['flejado'],
-				'tiempo_arreglo_flejado' => $_POST['tiempo_arreglo_flejado'],
-				'tiempo_tiro_flejado' => $_POST['tiempo_tiro_flejado'],
+				'cant_flejado' => $_POST['cant_flejado'],
 				'entarimado' => $_POST['entarimado'],
-				'tiempo_arreglo_entarimado' => $_POST['tiempo_arreglo_entarimado'],
-				'tiempo_tiro_entarimado' => $_POST['tiempo_tiro_entarimado'],
+				'tipo_envio' => $_POST['tipo_envio'],
+				'tipo_entrega' => $_POST['tipo_entrega'],
+				'id_direccionentrega' => $_POST['id_direccionentrega'],
 				'id_camion1' => $_POST['id_camion1'],
 				'id_camion2' => $_POST['id_camion2'],
 				'id_camion3' => $_POST['id_camion3'],
 				'cantidad_envio1' => $_POST['cantidad_envio1'],
 				'cantidad_envio2' => $_POST['cantidad_envio2'],
 				'cantidad_envio3' => $_POST['cantidad_envio3'],
+				'cant_parc1' => $_POST['cant_parc1'],
+				'cant_parc2' => $_POST['cant_parc2'],
+				'cant_parc3' => $_POST['cant_parc3'],
+				'cant_parc4' => $_POST['cant_parc4'],
+				'cant_parc5' => $_POST['cant_parc5'],
+				'cant_parc6' => $_POST['cant_parc6'],
+				'cant_parc7' => $_POST['cant_parc7'],
+				'cant_parc8' => $_POST['cant_parc8'],
+				'fec_parc1' => $_POST['fec_parc1'],
+				'fec_parc2' => $_POST['fec_parc2'],
+				'fec_parc3' => $_POST['fec_parc3'],
+				'fec_parc4' => $_POST['fec_parc4'],
+				'fec_parc5' => $_POST['fec_parc5'],
+				'fec_parc6' => $_POST['fec_parc6'],
+				'fec_parc7' => $_POST['fec_parc7'],
+				'fec_parc8' => $_POST['fec_parc8'],
+
 
 			);
 
 			$OrdenProd = new Application_Model_DbTable_DetalleOrdenProduccion();
-			$orden = $OrdenProd->updateOrden($datos, $OrdProduccion, $Id);
+			$orden = $OrdenProd->updateOrden($datos, $OrdProduccion);
 
 			echo Zend_Json::encode($orden);
 
@@ -474,5 +494,31 @@
 			$this->view->data = $data;
 		}
 
+		public function nombreproveedorAction(){
+
+			$this->_helper->layout->disableLayout();
+			$this->_helper->viewRenderer->setNoRender();
+
+			$id = $_POST['id'];
+
+			$valores = new Application_Model_DbTable_proveedores();
+			$data = $valores->consultarProveedor($id);
+
+			echo Zend_Json::encode($data);		
+		}
+
+		public function seldireccionAction(){
+
+			$this->_helper->layout->disableLayout();
+			$this->_helper->viewRenderer->setNoRender();
+
+			$IdCliente = $_POST['idCliente'];
+
+			$ListaClientes = new Application_Model_DbTable_direccionesClientes();
+			$clientes = $ListaClientes->seldireccion($IdCliente);
+
+			echo Zend_Json::encode($clientes);
+
+		}
 
 	}

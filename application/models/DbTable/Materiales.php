@@ -30,7 +30,7 @@ class Application_Model_DbTable_Materiales extends Zend_Db_Table_Abstract
     public function consultadescripcion($descripcion){
 
         $select = $this->select()
-        ->where('descripcion = ?', $descripcion);
+        ->where('id_material = ?', $descripcion);
 
         $rowset = $this->fetchAll($select);
 
@@ -43,7 +43,7 @@ class Application_Model_DbTable_Materiales extends Zend_Db_Table_Abstract
 
         foreach ($tiposcorrugados as $row) {
 
-            $data .= "<option value='".$row['clave']."'>".$row['clave']."</option>";          
+            $data .= "<option value='".$row['id_material']."'>".$row['clave']."</option>";          
         }
 
         $response = $data;

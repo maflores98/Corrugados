@@ -9,9 +9,9 @@ class Application_Model_DbTable_direccionesClientes extends Zend_Db_Table_Abstra
     {
         $db = Zend_Db_Table_Abstract::getDefaultAdapter();
         $select = $db->select()
-            ->from ("direcciones_clientes")
-            ->where("estado LIKE '$letra%'")
-            ->order('id_cliente DESC');
+        ->from ("direcciones_clientes")
+        ->where("estado LIKE '$letra%'")
+        ->order('id_cliente DESC');
 
         $sql = $db->query($select);
 
@@ -20,34 +20,34 @@ class Application_Model_DbTable_direccionesClientes extends Zend_Db_Table_Abstra
         return  $row = $sql->fetchAll();
     }
     public function consultarDireccionCliente($id){
-     
+
         $db = Zend_Db_Table_Abstract::getDefaultAdapter();
         $select = $db->select()
-            ->from ("direcciones_clientes")
-            ->where("id_cliente=?",$id);
+        ->from ("direcciones_clientes")
+        ->where("id_cliente=?",$id);
         $sql = $db->query($select);
-    return  $row = $sql->fetchAll();
+        return  $row = $sql->fetchAll();
 
     }
-     public function consultarDireccion($id){
-     
+    public function consultarDireccion($id){
+
         $db = Zend_Db_Table_Abstract::getDefaultAdapter();
         $select = $db->select()
-            ->from ("direcciones_clientes")
-            ->where("id_direccion=?",$id);
+        ->from ("direcciones_clientes")
+        ->where("id_direccion=?",$id);
         $sql = $db->query($select);
-    return  $row = $sql->fetchAll();
+        return  $row = $sql->fetchAll();
 
     }
-     public function TodasDireccion($cliente,$letra){
-     
+    public function TodasDireccion($cliente,$letra){
+
         $db = Zend_Db_Table_Abstract::getDefaultAdapter();
         $select = $db->select()
-            ->from ("direcciones_clientes")
-            ->where("id_cliente=?",$cliente)
-            ->where("estado LIKE '$letra%'");
+        ->from ("direcciones_clientes")
+        ->where("id_cliente=?",$cliente)
+        ->where("estado LIKE '$letra%'");
         $sql = $db->query($select);
-    return  $row = $sql->fetchAll();
+        return  $row = $sql->fetchAll();
 
     }
 
@@ -63,9 +63,35 @@ class Application_Model_DbTable_direccionesClientes extends Zend_Db_Table_Abstra
       $where = "id_direccion=$id";
       return $this->update($datos, $where);
 
+  }
+
+  public function seldireccion($IdCliente){
+
+    $datos = $this->fetchAll(
+        $this->select()
+        ->where('id_cliente = ?', $IdCliente)
+        ->where('id_estatus = ?', 1)
+    );
+
+    $UTF8 = new Application_Model_Utf8EncodeArray();
+    $tiposMovi = $UTF8->encode($datos);
+
+    $response = new stdClass();
+
+    $data = "";
+
+    foreach ($tiposMovi as $row) {
+
+        $data .= '<option value="'.$row['id_direccion'].'" data-val="'.$row['calle'].", ".$row['colonia'].'">'.$row['calle'].", ".$row['colonia'].'</option>';          
     }
 
+    $response = $data;
 
-    
-    
+    return $data;
+
+}
+
+
+
+
 }

@@ -483,7 +483,7 @@
 			$this->_helper->viewRenderer->setNoRender();
 
 			$IdOrden = $_POST['id_orden'];
-			$Estatus = 2;
+			$Estatus = $_POST['estatus'];
 
 			$OrdenProd = new Application_Model_DbTable_OrdenesProduccion();
 			$orden = $OrdenProd->updateEstatus($IdOrden, $Estatus);

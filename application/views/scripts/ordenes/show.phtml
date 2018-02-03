@@ -871,6 +871,7 @@ label {
 									<button type="button" class="btn btn-primary" id="btn-clonar">Clonar</button>
 									<button type="button" class="btn btn-primary" id="btn-editar2">Guardar</button>
 									<button type="button" class="btn btn-primary" id="btn-guardar2">Guardar</button>
+									<button type="button" class="btn btn-primary" id="btn-cancelar">Cancelar</button>
 								</div>
 							</div>
 						</div>
@@ -924,6 +925,8 @@ label {
 		$('#btn-guardar2').hide();
 		$('#btn-liberar').hide();
 		$('#btn-clonar').hide();
+		$('#btn-cancelar').hide();
+
 
 	}
 
@@ -1315,6 +1318,8 @@ $('#btn-liberar').click(function () {
 	var idorden = $('span[id="IdOrden"]').text();
 
 	var trabajo = $('input[name="nombre_trabajo"]').val();
+
+	generarMembrete(idorden);
 
 
 	if ($('input[name="maquina_suajado"]:radio').is(':checked')) {
@@ -1756,7 +1761,8 @@ $('#btn-liberar').click(function () {
 	$.ajax({
 		dataType: "json",
 		data: {
-			'id_orden': idorden
+			'id_orden': idorden,
+			'estatus': 2
 		},
 		url: 'estatusordenproduccion',
 		type: 'post',
@@ -1769,12 +1775,14 @@ $('#btn-liberar').click(function () {
 					'success'
 					);
 				orden = $('.num_folio').text();
-				generarMembrete(orden);
+				
 
 			}
 		}
 
 	});
+
+	
 });
 
 $('input[id="med_largo"]').keyup(function () {
@@ -1840,6 +1848,36 @@ $("#btn-editar2").click(function () {
 
 
 });
+
+$("#btn-cancelar").click(function () {
+
+	var idorden = $('span[id="IdOrden"]').text();
+
+	$.ajax({
+		dataType: "json",
+		data: {
+			'id_orden': idorden,
+			'estatus': 4
+		},
+		url: 'estatusordenproduccion',
+		type: 'post',
+		success: function (data) {
+			if (data.validacion) {
+
+				swal(
+					'¡Correcto!',
+					'Se ha cancelado la orden',
+					'success'
+					);
+				orden = $('.num_folio').text();
+				
+
+			}
+		}
+
+	});
+});
+
 
 $("#btn-salir").click(function () {
 	window.location.href = "activas";
@@ -1976,7 +2014,7 @@ $('input[name="tipo_envio"]').on('click', function () {
 
 
 
-function generarMembrete() {
+function generarMembrete(orden) {
 //$.post('../../application/models/generarMarbete.php', {orden:orden});
 window.open("marbetepdf?Id=" + orden, '_blank');
 }

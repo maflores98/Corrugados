@@ -1753,16 +1753,28 @@ $('#btn-liberar').click(function () {
 
 	}
 
+	$.ajax({
+		dataType: "json",
+		data: {
+			'id_orden': idorden
+		},
+		url: 'estatusordenproduccion',
+		type: 'post',
+		success: function (data) {
+			if (data.validacion) {
 
-	swal(
-		'¡Correcto!',
-		'Se ha liberado la orden',
-		'success'
-		);
-	orden = $('.num_folio').text();
-	generarMembrete(orden);
+				swal(
+					'¡Correcto!',
+					'Se ha liberado la orden',
+					'success'
+					);
+				orden = $('.num_folio').text();
+				generarMembrete(orden);
 
+			}
+		}
 
+	});
 });
 
 $('input[id="med_largo"]').keyup(function () {

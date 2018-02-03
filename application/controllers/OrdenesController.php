@@ -152,11 +152,6 @@
 			$OrdenProd = new Application_Model_DbTable_ProcesosPendientes();
 			$orden = $OrdenProd->addLibera($datos);
 
-			$id_orden = $datos['id_orden'];
-
-			$updateProd = new Application_Model_DbTable_OrdenesProduccion();
-			$update = $updateProd->updateEstatus($id_orden, 2);
-
 			echo Zend_Json::encode($orden);
 
 		}
@@ -480,6 +475,23 @@
 			$data = $valores->consultar($Id);
 
 			$this->view->data = $data;
+		}
+
+		public function estatusordenproduccionAction(){
+
+			$this->_helper->layout->disableLayout();
+			$this->_helper->viewRenderer->setNoRender();
+
+			$IdOrden = $_POST['id_orden'];
+			$Estatus = 2;
+
+			$OrdenProd = new Application_Model_DbTable_OrdenesProduccion();
+			$orden = $OrdenProd->updateEstatus($IdOrden, $Estatus);
+
+			echo Zend_Json::encode($orden);
+
+
+
 		}
 
 		public function marbetepdfAction(){

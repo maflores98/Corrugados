@@ -39,7 +39,7 @@ class Application_Model_DbTable_OrdenesProduccion extends Zend_Db_Table_Abstract
             'id_estatusorden' => $estatus,
         );
 
-        $where = $this->getAdapter()->quoteInto('id_ordencompra = ?', $idOrden);
+        $where = $this->getAdapter()->quoteInto('id_ordenproduccion = ?', $idOrden);
 
         $this->update($data, $where);
 

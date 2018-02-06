@@ -12,27 +12,23 @@ class PDF extends FPDF{
 		$this->SetFont('Helvetica','B', 10);
 
 		//Carton
-		$this->Image('http://localhost/Corrugados/library/Zend/FPDF/logo.PNG',9,9,45);
-		$this->Image('http://localhost/Corrugados/library/Zend/FPDF/carton.PNG',15,120,50);
-		$this->Text(30.5, 119, "$data->med_largo cm");
-		$this->Text(67, 136, "$data->med_ancho cm");
+		$this->Image('http://localhost/Corrugados/library/Zend/FPDF/logo.PNG',9,9,25);
+		$this->Image('http://localhost/Corrugados/library/Zend/FPDF/carton.PNG',15,115,50);
+		$this->Text(30.5, 114, "$data->med_largo cm");
+		$this->Text(67, 131, "$data->med_ancho cm");
 
 		//Fin carton
-
+		$this->Cell(25);
+		$this->SetTextColor(255,255,255);
+		$this->SetFont('Helvetica','BI', 11);
+		$this->Cell(75, 6,"O R D E N   D E   P R O D U C C I O N", 1, 0,'C', true);
+		$this->SetTextColor(0,0,0);
 		$this->SetFont('Helvetica','', 9);
-		$this->Cell(100);
 		$this->Cell(20, 6,"No. Cot.", 0, 0,'R');
 		$this->Cell(25, 6,"$data->id_cotizacion", 1, 0,'C');
 		$this->Cell(20, 6,"No. Orden", 0, 0,'R');
 		$this->Cell(25, 6,"$data->id_ordenproduccion", 1, 0,'C');
-		$this->Ln(12);
-		$this->Cell(62);
-		$this->SetTextColor(255,255,255);
-		$this->SetFont('Helvetica','BI', 12);
-		$this->Cell(0, 8,"O R D E N   D E   P R O D U C C I O N", 1, 0,'C', true);
-		$this->SetTextColor(0,0,0);
-		$this->SetFont('Helvetica','', 9);
-		$this->Ln(12);
+		$this->Ln(10);
 		$this->Cell(55);
 		$this->Cell(20, 6,"O.C. Cte.", 0, 0,'R');
 		$this->Cell(25, 6,"$data->id_ordencompra", 1, 0,'C');
@@ -40,7 +36,7 @@ class PDF extends FPDF{
 		$this->Cell(25, 6,"$data->id_ordenmaterial", 1, 0,'C');
 		$this->Cell(20, 6,"Origen", 0, 0,'R');
 		$this->Cell(25, 6,"$data->tipo_orden", 1, 0,'C');
-		$this->Ln(12);
+		$this->Ln(10);
 		$this->Cell(100);
 		$this->Cell(20, 6,"F. Emision", 0, 0,'R');
 		$this->Cell(25, 6,"$data->fecha_emision", 1, 0,'C');
@@ -57,12 +53,12 @@ class PDF extends FPDF{
 		$this->Ln();
 		$this->Cell(56.66,6,"Med. Caja", 0, 0, 'C');
 		$this->Cell(10);
-		$this->Line(10,70,66.66,70);
+		$this->Line(10,53.5,66.66,53.5);
 		$this->Cell(56.66,6,"Med. Carton", 0, 0, 'C');
 		$this->Cell(10);
-		$this->Line(76.66,70,133.32,70);
+		$this->Line(76.66,53.5,133.32,53.5);
 		$this->Cell(56.66,6,"Cantidad (pzas)", 0, 0, 'C');
-		$this->Line(143.42,70,200,70);
+		$this->Line(143.42,53.5,200,53.5);
 		$this->Ln();
 		$this->Cell(16.88,6,"Frente",0,0,'C');
 		$this->Cell(3);
@@ -93,10 +89,11 @@ class PDF extends FPDF{
 		$this->Cell(0,6,"$data->cant_cmerma",1,0,'C');
 		$this->Ln(10);
 		$this->Cell(15,6,"Articulo:",0,0,'L');
-		$this->Cell(65,6,"$data->articulo",1,0,'C');
+		$this->Cell(0,6,"$data->articulo",1,0,'C');
 		$this->Cell(5);
+		$this->ln(10);
 		$this->Cell(15,6,"Producto:",0,0,'L');
-		$this->Cell(90,6,"$data->producto",1,0,'C');
+		$this->Cell(0,6,"$data->producto",1,0,'C');
 		$this->Ln(10);
 		$this->SetFillColor(225,225,225);
 		$this->SetFont('Helvetica','B', 10);
@@ -139,7 +136,7 @@ class PDF extends FPDF{
 		$this->Cell(30, 6,"$data->predoblado", 1, 0,'C');
 		$this->Cell(30, 6,"$data->clave_pegamento", 1, 0,'C');
 		$this->Cell(30, 6,"$data->pegado_con", 1, 0,'C');
-		$this->Ln(12);
+		$this->Ln(10);
 		$this->Cell(100);
 		$this->SetFont('Helvetica','B', 10);
 		$this->Cell(90, 6,'Grapado', 1, 0,'C', true);
@@ -212,7 +209,11 @@ class PDF extends FPDF{
 		$this->Cell(10);
 		$this->Cell(45, 6,"Tipo de envio", 1, 0,'C');
 		$this->Cell(45, 6,"$data->tipo_envio", 1, 0,'C');
-		$this->Ln(12);
+		$this->Ln();
+		$this->Cell(100);
+		$this->Cell(90, 6,"$data->tipo_envio", 1, 0,'C');
+
+		$this->Ln(10);
 
 		$this->SetFont('Helvetica','B', 10);
 		$this->Cell(90, 6,'Impresion', 1, 0,'C', true);
@@ -266,12 +267,12 @@ class PDF extends FPDF{
 		$this->Cell(20, 6,"$data->fec_parc8", 1, 0,'C');
 		$this->Ln();
 		$this->Cell(90, 6,"Sel. Color: $data->sel_color", 1, 0,'C');
-		$this->Ln(12);
+		$this->Ln(10);
 		$this->SetFont('Helvetica','B', 10);
 		$this->Cell(0, 6,"Observaciones", 1, 0,'C',true);
 		$this->SetFont('Helvetica','', 9);
 		$this->Ln();
-		$this->MultiCell(0, 18, "$data->notas", 1);
+		$this->MultiCell(0, 15, "$data->notas", 1);
 		$this->Ln();
 
 	}

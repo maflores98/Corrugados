@@ -13,9 +13,10 @@ class PDF extends FPDF{
 
 		//Carton
 		$this->Image('http://localhost/Corrugados/library/Zend/FPDF/logo.PNG',9,9,45);
-		$this->Image('http://localhost/Corrugados/library/Zend/FPDF/carton.PNG',30,120,50);
-		$this->Text(52.5, 119, "$data->med_largo cm");
-		$this->Text(82, 136, "$data->med_ancho cm");
+		$this->Image('http://localhost/Corrugados/library/Zend/FPDF/carton.PNG',15,120,50);
+		$this->Text(30.5, 119, "$data->med_largo cm");
+		$this->Text(67, 136, "$data->med_ancho cm");
+
 		//Fin carton
 
 		$this->SetFont('Helvetica','', 9);
@@ -119,6 +120,10 @@ class PDF extends FPDF{
 		$this->Cell(20, 6,"$data->med_suaje", 1, 0,'C');
 		$this->Cell(20, 6,"$data->med_cito", 1, 0,'C');
 		$this->Cell(20, 6,"$data->tipo_desbarbe", 1, 0,'C');
+		$this->Ln();
+		$this->Cell(60);
+		$this->Cell(20, 6,"C. Laminas:", 1, 0,'C');
+		$this->Cell(40, 6,"valor", 1, 0,'C');
 		$this->Ln(10);
 		$this->Cell(100);
 		$this->SetFont('Helvetica','B', 10);

@@ -1,4 +1,4 @@
-<?php 
+<?php
 $this->headLink()->appendStylesheet('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css');
 $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js','text/javascript');
 ?>
@@ -93,7 +93,9 @@ label {
 		<div class="col-md-6">
 			<div class="form-horizontal">
 				<div class="form-group">
-					<label for="nombre_proveedor" class="col-md-3 control-label data-proveedor="0">Proveedor:</label>
+					<label for="nombre_proveedor" class="col-md-3 control-label" data-proveedor="0">
+						Proveedor:
+					</label>
 					<div class="col-md-9">
 						<input type="text" class="form-control input-sm" id="nombre_proveedor">
 					</div>
@@ -130,8 +132,7 @@ label {
 				<div class="form-group">
 					<label for="fecha_emision" class="col-md-6 control-label">Fecha registro:</label>
 					<div class="col-md-6">
-						<input type="date" class="form-control input-sm date-cls" id="fecha_emision" name="fecha_emision" value="<?php echo date("
-						Y-m-d ");?>" readonly>
+						<input type="date" class="form-control input-sm date-cls" id="fecha_emision" name="fecha_emision" value="<?php echo date("Y-m-d");?>" readonly>
 					</div>
 				</div>
 			</div>
@@ -239,6 +240,7 @@ label {
 	</div>
 
 	<div class="row">
+
 		<div class="col-md-6">
 			<div class="form-horizontal">
 				<div class="form-group">
@@ -263,9 +265,11 @@ label {
 				</div>
 			</div>
 		</div>
+
 	</div>
 
 	<div class="row">
+
 		<div class="col-md-6">
 			<div class="row">
 				<!--Suajado-->
@@ -346,6 +350,7 @@ label {
 														<label>
 															<input type="radio" id="pegado-cajas" name="tipo_pegado" value="4" data-maquina="PEGADORA CORRUGADOS" data-proceso="3" data-cvepega='UNIVM  5298'>Pegadora de cajas
 														</label>
+														<br>
 														<label>
 															<input type="radio" id="pegado-chica" name="tipo_pegado" value="12" data-maquina="PEGADORA LINEAL CHICA" data-proceso="2"
 															data-cvepega='TILMEX 1126'>Pegadora lineal chica
@@ -358,6 +363,7 @@ label {
 															<input type="radio" id="pegado-grande" name="tipo_pegado" value="11" data-maquina="PEGADORA LINEAL GRANDE" data-proceso="2"
 															data-cvepega='TILMEX 1129'>Pegadora lineal grande
 														</label>
+														<br>
 														<label>
 															<input type="radio" id="pegado-manual" name="tipo_pegado" value="13" data-maquina="PEGADO MANUAL" data-proceso="2" data-cvepega=''>Pegado Manual
 														</label>
@@ -539,11 +545,12 @@ label {
 									<div class="form-group">
 										<label for="id_direccionentrega">Direccion:</label>
 										<select class="form-control" id="id_direccionentrega" name="id_direccionentrega" disabled>
+											<option value="null" selected>SELECCIONAR</option>
 										</select>
 									</div>
 								</div>
 							</div>
-						</div>	
+						</div>
 					</div>
 				</div>
 			</div>
@@ -854,7 +861,7 @@ label {
 									</div>
 								</div>
 							</div>
-						</div>	
+						</div>
 					</div>
 				</div>
 				<!--Botones-->
@@ -883,104 +890,103 @@ label {
 </form>
 
 <script type="text/javascript">
-	function getParameterByName(name, url) {
-		if (!url) url = window.location.href;
-		name = name.replace(/[\[\]]/g, "\\$&");
-		var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-		results = regex.exec(url);
-		if (!results) return null;
-		if (!results[2]) return '';
-		return decodeURIComponent(results[2].replace(/\+/g, " "));
+function getParameterByName(name, url) {
+	if (!url) url = window.location.href;
+	name = name.replace(/[\[\]]/g, "\\$&");
+	var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+	results = regex.exec(url);
+	if (!results) return null;
+	if (!results[2]) return '';
+	return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+$.ajax({
+	type: "GET",
+	url: 'buscaclientes',
+	async: false,
+	success: function (response) {
+		$('#id_cliente').html(response);
+
+	},
+	error: function () {
+		$('#id_cliente').html('Hubo un error');
 	}
+});
+
+$.ajax({
+	dataType: "json",
+	url: 'selarticulo',
+	async: false,
+	success: function (data) {
+		$('select[name="articulo"]').append(data);
+	}
+});
+
+var Tipo = getParameterByName('Tipo');
+
+if (Tipo == 1) {
+
+	$('#btn-guardar').show();
+	$('#btn-editar').hide();
+	$('#btn-editar2').hide();
+	$('#btn-guardar2').hide();
+	$('#btn-liberar').hide();
+	$('#btn-clonar').hide();
+	$('#btn-cancelar').hide();
+
+
+}
+
+if (Tipo == 2) {
+
+	$('#btn-guardar').hide();
+	$('#btn-editar2').hide();
+	$('#btn-guardar2').hide();
+	$('#btn-clonar').hide();
+
+	var IdOrden = getParameterByName('ID');
 
 	$.ajax({
-		type: "GET",
-		url: 'buscaclientes',
-		async: false,
-		success: function (response) {
-			$('#id_cliente').html(response);
-
-		},
-		error: function () {
-			$('#id_cliente').html('Hubo un error');
-		}
-	});
-
-	$.ajax({
+		type: "POST",
+		url: 'ordenproduccion',
 		dataType: "json",
-		url: 'selarticulo',
-		async: false,
+		data: {
+			id_ordenproduccion: IdOrden
+		},
 		success: function (data) {
-			$('select[name="articulo"]').append(data);
-		}
-	});
 
-	var Tipo = getParameterByName('Tipo');
+			var emision = data['fecha_emision'];
+			emision = emision.split(" ");
 
-	if (Tipo == 1) {
+			var requerida = data['fecha_requeridaentrega'];
+			requerida = requerida.split(" ");
 
-		$('#btn-guardar').show();
-		$('#btn-editar').hide();
-		$('#btn-editar2').hide();
-		$('#btn-guardar2').hide();
-		$('#btn-liberar').hide();
-		$('#btn-clonar').hide();
-		$('#btn-cancelar').hide();
+			$('input').attr('readonly', true);
+			$('input:radio').attr('disabled', true);
+			$('input:checkbox').attr('disabled', true);
+			$('select').attr('disabled', true);
+			$('textarea').attr('readonly', true);
 
+			$('.num_folio').text(data['id_ordenproduccion']);
+			//$('input[name="id_ordenproduccion"]').val(data['id_ordenproduccion']);
+			$('input[name="id_ordenmaterial"]').val(data['id_ordenmaterial']);
+			$('input[name="id_ordencompra"]').val(data['id_ordencompra']);
 
-	}
-
-	if (Tipo == 2) {
-
-		$('#btn-guardar').hide();
-		$('#btn-editar2').hide();
-		$('#btn-guardar2').hide();
-		$('#btn-clonar').hide();
-
-		var IdOrden = getParameterByName('ID');
-
-		$.ajax({
-			type: "POST",
-			url: 'ordenproduccion',
-			dataType: "json",
-			data: {
-				id_ordenproduccion: IdOrden
-			},
-			success: function (data) {
-
-				var emision = data['fecha_emision'];
-				emision = emision.split(" ");
-
-				var requerida = data['fecha_requeridaentrega'];
-				requerida = requerida.split(" ");
-
-				$('input').attr('readonly', true);
-				$('input:radio').attr('disabled', true);
-				$('input:checkbox').attr('disabled', true);
-				$('select').attr('disabled', true);
-				$('textarea').attr('readonly', true);
-
-				$('.num_folio').text(data['id_ordenproduccion']);
-				//$('input[name="id_ordenproduccion"]').val(data['id_ordenproduccion']);
-				$('input[name="id_ordenmaterial"]').val(data['id_ordenmaterial']);
-				$('input[name="id_ordencompra"]').val(data['id_ordencompra']);
-				
-				$.ajax({
-					dataType: "json",
-					url: 'seldireccion',
-					type: "POST",
-					data: {
-						idCliente: data['id_ordencompra']
-					},
-					success: function (data) {
-						$('select[name="id_direccionentrega"]').html('<option value="null">SELECCIONAR</option>');
-						$('select[name="id_direccionentrega"]').append(data);
-						$('select[name="tipo_producto"]>option').removeAttr("selected");
-						$('select[name="tipo_producto"]>option[value="' + data['id_ordencompra'] + '"]').attr(
-							"selected", true);
+			$.ajax({
+				dataType: "json",
+				url: 'seldireccion',
+				type: "POST",
+				data: {
+					idCliente: data['id_ordencompra']
+				},
+				success: function (data) {
+					$('select[name="id_direccionentrega"]').html('<option value="null">SELECCIONAR</option>');
+					$('select[name="id_direccionentrega"]').append(data);
+					$('select[name="tipo_producto"]>option').removeAttr("selected");
+					$('select[name="tipo_producto"]>option[value="' + data['id_ordencompra'] + '"]').attr(
+						"selected", true);
 					}
 				});
-
 
 				$('input[name="id_cotizacion"]').val(data['id_cotizacion']);
 				$('#id_cliente').selectpicker('val', data['id_cliente']);
@@ -988,7 +994,6 @@ label {
 				$('input[name="fecha_emision"]').val(emision[0]);
 				$('input[name="fecha_requeridaentrega"]').val(requerida[0]);
 				$('textarea[name="notas"]').val(data['notas']);
-
 
 				$('#id_cliente').selectpicker('refresh');
 
@@ -1029,998 +1034,995 @@ label {
 						$('select[name="tipo_producto"]>option').removeAttr("selected");
 						$('select[name="tipo_producto"]>option[value="' + response['tipo_producto'] + '"]').attr(
 							"selected", true);
+						}
+					});
+
+					$('input[name="selector_material"][value="' + response['selector_material'] + '"]').prop("checked", true);
+
+					$.ajax({
+						dataType: "json",
+						url: 'tipomaterial',
+						type: "POST",
+						data: {
+							'tipoMaterial': response['selector_material']
+						},
+						success: function (data) {
+							$('select[name="tipo_material"]').html('<option value="null">SELECCIONAR</option>');
+							$('select[name="tipo_material"]').append(data);
+
+							$('select[name="tipo_material"]>option').removeAttr("selected");
+							$('select[name="tipo_material"]>option[value="' + response['tipo_material'] + '"]').attr(
+								"selected", true);
+
+								$.ajax({
+									dataType: "json",
+									url: 'selmatcorrugados',
+									type: "POST",
+									data: {
+										Material: response['tipo_material']
+									},
+									success: function (data) {
+
+										$('select[name="carton"]').html('<option value="null">SELECCIONAR</option>');
+										$('select[name="carton"]').append(data);
+
+										$('select[name="carton"]>option').removeAttr("selected");
+										$('select[name="carton"]>option[value="' + response['carton'] + '"]').attr("selected",
+										true);
+
+										$.ajax({
+											dataType: "json",
+											url: 'seltamcorrugados',
+											type: "POST",
+											data: {
+												Id: response['carton']
+											},
+											success: function (data) {
+
+												$('select[name="tam-carton"]').html(
+													'<option value="null">SELECCIONAR</option>');
+													$('select[name="tam-carton"]').append(data);
+
+													$('select[name="tam-carton"]>option').removeAttr("selected");
+													$('select[name="tam-carton"]>option[value="' + response['carton'] + '"]').attr(
+														"selected", true);
+
+													}
+												});
+
+											}
+										});
+
+									}
+								});
+
+								$('input[name="maquina_suajado"][value="' + response['maquina_suajado'] + '"]').prop("checked", true);
+								$('input[name="med_suaje"]').val(response['med_suaje']);
+								$('input[name="med_cito"]').val(response['med_cito']);
+								$('input[name="tipo_desbarbe"]').val(response['tipo_desbarbe']);
+								$('input[name="tipo_pegado"][value="' + response['tipo_pegado'] + '"]').prop("checked", true);
+								$('input[name="predoblado"][value="' + response['predoblado'] + '"]').prop("checked", true);
+								$('input[name="clave_pegamento"]').val(response['clave_pegamento']);
+								$('input[name="pegado_con"][value="' + response['pegado_con'] + '"]').prop("checked", true);
+								$('input[name="grapado"]').prop("checked", true);
+								$('input[name="num_grapas"]').val(response['num_grapas']);
+
+								$('input[name="cant_parc1"]').val(response['cant_parc1']);
+								$('input[name="fec_parc1"]').val(response['fec_parc1']);
+								$('input[name="cant_parc2"]').val(response['cant_parc2']);
+								$('input[name="fec_parc2"]').val(response['fec_parc2']);
+								$('input[name="cant_parc3"]').val(response['cant_parc3']);
+								$('input[name="fec_parc3"]').val(response['fec_parc3']);
+								$('input[name="cant_parc4"]').val(response['cant_parc4']);
+								$('input[name="fec_parc4"]').val(response['fec_parc4']);
+								$('input[name="cant_parc5"]').val(response['cant_parc5']);
+								$('input[name="fec_parc5"]').val(response['fec_parc5']);
+								$('input[name="cant_parc6"]').val(response['cant_parc6']);
+								$('input[name="fec_parc6"]').val(response['fec_parc6']);
+								$('input[name="cant_parc7"]').val(response['cant_parc7']);
+								$('input[name="fec_parc7"]').val(response['fec_parc7']);
+								$('input[name="cant_parc8"]').val(response['cant_parc8']);
+								$('input[name="fec_parc8"]').val(response['fec_parc8']);
+
+								$('input[name="tipo_envio"][value="' + response['tipo_envio'] + '"]').prop("checked", true);
+								$('input[name="tipo_entrega"][value="' + response['tipo_entrega'] + '"]').prop("checked", true);
+								$('input[name="maquina_ranurado"][value="' + response['maquina_ranurado'] + '"]').prop("checked", true);
+								$('input[name="proceso_refilado"][value="' + response['proceso_refilado'] + '"]').prop("checked", true);
+								$('input[name="maquina_empalme"][value="' + response['maquina_empalme'] + '"]').prop("checked", true);
+								$('input[name="tipo_impresion"][value="' + response['tipo_impresion'] + '"]').prop("checked", true);
+								$('input[name="sel_color"][value="' + response['sel_color'] + '"]').prop("checked", true);
+								$('select[name="num_tintas"]>option').removeAttr("selected");
+								$('select[name="num_tintas"]>option[value="' + response['num_tintas'] + '"]').attr("selected", true);
+								$('input[name="largo_tinta1"]').val(response['largo_tinta1']);
+								$('input[name="ancho_tinta1"]').val(response['ancho_tinta1']);
+								$('input[name="color_tinta1"]').val(response['color_tinta1']);
+								$('input[name="largo_tinta2"]').val(response['largo_tinta2']);
+								$('input[name="ancho_tinta2"]').val(response['ancho_tinta2']);
+								$('input[name="color_tinta2"]').val(response['color_tinta2']);
+								$('input[name="largo_tinta3"]').val(response['largo_tinta3']);
+								$('input[name="ancho_tinta3"]').val(response['ancho_tinta3']);
+								$('input[name="color_tinta3"]').val(response['color_tinta3']);
+								$('input[name="largo_tinta4"]').val(response['largo_tinta4']);
+								$('input[name="ancho_tinta4"]').val(response['ancho_tinta4']);
+								$('input[name="color_tinta4"]').val(response['color_tinta4']);
+								$('input[name="flejado"][value="' + response['flejado'] + '"]').prop("checked", true);
+								$('input[name="cant_flejado"]').val(response['cant_flejado']);
+								$('input[name="ligas"][value="' + response['ligas'] + '"]').prop("checked", true);
+								$('input[name="num_ligas"]').val(response['num_ligas']);
+								$('input[name="corrugado"][value="' + response['corrugado'] + '"]').prop("checked", true);
+								$('input[name="cant_xcorrugado"]').val(response['cant_xcorrugado']);
+								$('input[name="fajillas"][value="' + response['fajillas'] + '"]').prop("checked", true);
+								$('input[name="num_fajillas"]').val(response['num_fajillas']);
+								$('input[name="tarima"][value="' + response['tarima'] + '"]').prop("checked", true);
+								$('input[name="cant_xtarima"]').val(response['cant_xtarima']);
+								$('input[name="paquetes"][value="' + response['paquetes'] + '"]').prop("checked", true);
+								$('input[name="cant_xpaquete"]').val(response['cant_xpaquete']);
+								$('input[name="cant_granel"]').val(response['cant_granel']);
+								$('input[name="esquineros"][value="' + response['esquineros'] + '"]').prop("checked", true);
+								$('input[name="emplayado"][value="' + response['emplayado'] + '"]').prop("checked", true);
+							}
+						});
+
 					}
-				});
 
-				$('input[name="selector_material"][value="' + response['selector_material'] + '"]').prop("checked", true);
 
-				$.ajax({
-					dataType: "json",
-					url: 'tipomaterial',
-					type: "POST",
-					data: {
-						'tipoMaterial': response['selector_material']
-					},
-					success: function (data) {
-						$('select[name="tipo_material"]').html('<option value="null">SELECCIONAR</option>');
-						$('select[name="tipo_material"]').append(data);
+					$("#btn-salir").click(function () {
+						window.location.href = "activas";
+					});
 
-						$('select[name="tipo_material"]>option').removeAttr("selected");
-						$('select[name="tipo_material"]>option[value="' + response['tipo_material'] + '"]').attr(
-							"selected", true);
+
+
+
+
+
+					$('input[type=radio]').click(function (e) {
+
+						if (e.ctrlKey) {
+
+							$(this).prop('checked', false);
+
+						}
+
+					});
+
+
+
+					$('select[name="tipo_material"]').change(function () {
+
+						var value = $('select[name="tipo_material"] option:selected').val();
+
+						var texto = $('select[name="tipo_material"] option:selected').text();
 
 						$.ajax({
 							dataType: "json",
 							url: 'selmatcorrugados',
 							type: "POST",
 							data: {
-								Material: response['tipo_material']
+								Material: texto
 							},
 							success: function (data) {
-
 								$('select[name="carton"]').html('<option value="null">SELECCIONAR</option>');
 								$('select[name="carton"]').append(data);
-
-								$('select[name="carton"]>option').removeAttr("selected");
-								$('select[name="carton"]>option[value="' + response['carton'] + '"]').attr("selected",
-									true);
-
-								$.ajax({
-									dataType: "json",
-									url: 'seltamcorrugados',
-									type: "POST",
-									data: {
-										Id: response['carton']
-									},
-									success: function (data) {
-
-										$('select[name="tam-carton"]').html(
-											'<option value="null">SELECCIONAR</option>');
-										$('select[name="tam-carton"]').append(data);
-
-										$('select[name="tam-carton"]>option').removeAttr("selected");
-										$('select[name="tam-carton"]>option[value="' + response['carton'] + '"]').attr(
-											"selected", true);
-
-									}
-								});
-
 							}
 						});
 
-					}
-				});
-
-				$('input[name="maquina_suajado"][value="' + response['maquina_suajado'] + '"]').prop("checked", true);
-				$('input[name="med_suaje"]').val(response['med_suaje']);
-				$('input[name="med_cito"]').val(response['med_cito']);
-				$('input[name="tipo_desbarbe"]').val(response['tipo_desbarbe']);
-				$('input[name="tipo_pegado"][value="' + response['tipo_pegado'] + '"]').prop("checked", true);
-				$('input[name="predoblado"][value="' + response['predoblado'] + '"]').prop("checked", true);
-				$('input[name="clave_pegamento"]').val(response['clave_pegamento']);
-				$('input[name="pegado_con"][value="' + response['pegado_con'] + '"]').prop("checked", true);
-				$('input[name="grapado"]').prop("checked", true);
-				$('input[name="num_grapas"]').val(response['num_grapas']);
-
-				$('input[name="cant_parc1"]').val(response['cant_parc1']);
-				$('input[name="fec_parc1"]').val(response['fec_parc1']);
-				$('input[name="cant_parc2"]').val(response['cant_parc2']);
-				$('input[name="fec_parc2"]').val(response['fec_parc2']);
-				$('input[name="cant_parc3"]').val(response['cant_parc3']);
-				$('input[name="fec_parc3"]').val(response['fec_parc3']);
-				$('input[name="cant_parc4"]').val(response['cant_parc4']);
-				$('input[name="fec_parc4"]').val(response['fec_parc4']);
-				$('input[name="cant_parc5"]').val(response['cant_parc5']);
-				$('input[name="fec_parc5"]').val(response['fec_parc5']);
-				$('input[name="cant_parc6"]').val(response['cant_parc6']);
-				$('input[name="fec_parc6"]').val(response['fec_parc6']);
-				$('input[name="cant_parc7"]').val(response['cant_parc7']);
-				$('input[name="fec_parc7"]').val(response['fec_parc7']);
-				$('input[name="cant_parc8"]').val(response['cant_parc8']);
-				$('input[name="fec_parc8"]').val(response['fec_parc8']);
-
-				$('input[name="tipo_envio"][value="' + response['tipo_envio'] + '"]').prop("checked", true);
-				$('input[name="tipo_entrega"][value="' + response['tipo_entrega'] + '"]').prop("checked", true);
-				$('input[name="maquina_ranurado"][value="' + response['maquina_ranurado'] + '"]').prop("checked", true);
-				$('input[name="proceso_refilado"][value="' + response['proceso_refilado'] + '"]').prop("checked", true);
-				$('input[name="maquina_empalme"][value="' + response['maquina_empalme'] + '"]').prop("checked", true);
-				$('input[name="tipo_impresion"][value="' + response['tipo_impresion'] + '"]').prop("checked", true);
-				$('input[name="sel_color"][value="' + response['sel_color'] + '"]').prop("checked", true);
-				$('select[name="num_tintas"]>option').removeAttr("selected");
-				$('select[name="num_tintas"]>option[value="' + response['num_tintas'] + '"]').attr("selected", true);
-				$('input[name="largo_tinta1"]').val(response['largo_tinta1']);
-				$('input[name="ancho_tinta1"]').val(response['ancho_tinta1']);
-				$('input[name="color_tinta1"]').val(response['color_tinta1']);
-				$('input[name="largo_tinta2"]').val(response['largo_tinta2']);
-				$('input[name="ancho_tinta2"]').val(response['ancho_tinta2']);
-				$('input[name="color_tinta2"]').val(response['color_tinta2']);
-				$('input[name="largo_tinta3"]').val(response['largo_tinta3']);
-				$('input[name="ancho_tinta3"]').val(response['ancho_tinta3']);
-				$('input[name="color_tinta3"]').val(response['color_tinta3']);
-				$('input[name="largo_tinta4"]').val(response['largo_tinta4']);
-				$('input[name="ancho_tinta4"]').val(response['ancho_tinta4']);
-				$('input[name="color_tinta4"]').val(response['color_tinta4']);
-				$('input[name="flejado"][value="' + response['flejado'] + '"]').prop("checked", true);
-				$('input[name="cant_flejado"]').val(response['cant_flejado']);
-				$('input[name="ligas"][value="' + response['ligas'] + '"]').prop("checked", true);
-				$('input[name="num_ligas"]').val(response['num_ligas']);
-				$('input[name="corrugado"][value="' + response['corrugado'] + '"]').prop("checked", true);
-				$('input[name="cant_xcorrugado"]').val(response['cant_xcorrugado']);
-				$('input[name="fajillas"][value="' + response['fajillas'] + '"]').prop("checked", true);
-				$('input[name="num_fajillas"]').val(response['num_fajillas']);
-				$('input[name="tarima"][value="' + response['tarima'] + '"]').prop("checked", true);
-				$('input[name="cant_xtarima"]').val(response['cant_xtarima']);
-				$('input[name="paquetes"][value="' + response['paquetes'] + '"]').prop("checked", true);
-				$('input[name="cant_xpaquete"]').val(response['cant_xpaquete']);
-				$('input[name="cant_granel"]').val(response['cant_granel']);
-				$('input[name="esquineros"][value="' + response['esquineros'] + '"]').prop("checked", true);
-				$('input[name="emplayado"][value="' + response['emplayado'] + '"]').prop("checked", true);
-			}
-		});
 
-}
 
+						$('select[name="carton"]').change(function () {
 
-$("#btn-salir").click(function () {
-	window.location.href = "activas";
-});
+							var id = $('select[name="carton"] option:selected').val();
 
+							$.ajax({
+								dataType: "json",
+								url: 'seltamcorrugados',
+								type: "POST",
+								data: {
+									Descripcion: id
+								},
+								success: function (data2) {
+									$('select[name="tam-carton"]').html('<option value="null">SELECCIONAR</option>');
+									$('select[name="tam-carton"]').append(data2);
 
+								}
+							});
 
 
+						});
 
 
-$('input[type=radio]').click(function (e) {
 
-	if (e.ctrlKey) {
 
-		$(this).prop('checked', false);
+					})
 
-	}
+					$('select[name="articulo"]').change(function () {
 
-});
+						var value = $('select[name="articulo"] option:selected').data('descripcion');
 
+						$.ajax({
+							dataType: "json",
+							url: 'selproducto',
+							type: "POST",
+							data: {
+								Clasificacion: value
+							},
+							success: function (data) {
+								$('select[name="tipo_producto"]').html('<option value="null">SELECCIONAR</option>');
+								$('select[name="tipo_producto"]').append(data);
+							}
+						});
+					})
 
 
-$('select[name="tipo_material"]').change(function () {
+					$("#btn-guardar").click(function () {
 
-	var value = $('select[name="tipo_material"] option:selected').val();
+						var user = localStorage.user;
 
-	var texto = $('select[name="tipo_material"] option:selected').text();
+						var ordenProduccion = $("#OrdenProduccion").serialize() + "&id_usuario=" + user + "&tipo_orden=MANUAL";
 
-	$.ajax({
-		dataType: "json",
-		url: 'selmatcorrugados',
-		type: "POST",
-		data: {
-			Material: texto
-		},
-		success: function (data) {
-			$('select[name="carton"]').html('<option value="null">SELECCIONAR</option>');
-			$('select[name="carton"]').append(data);
-		}
-	});
+						$.ajax({
 
+							dataType: "json",
 
+							data: ordenProduccion,
 
-	$('select[name="carton"]').change(function () {
+							url: 'guardaordenproduccion',
 
-		var id = $('select[name="carton"] option:selected').val();
+							type: 'post',
 
-		$.ajax({
-			dataType: "json",
-			url: 'seltamcorrugados',
-			type: "POST",
-			data: {
-				Descripcion: id
-			},
-			success: function (data2) {
-				$('select[name="tam-carton"]').html('<option value="null">SELECCIONAR</option>');
-				$('select[name="tam-carton"]').append(data2);
+							success: function (data) {
 
-			}
-		});
+								if (data.validacion) {
 
 
-	});
+									swal(
 
+										'',
 
+										'Se ha guardado la orden correctamente',
 
+										'success'
 
-})
+									);
 
-$('select[name="articulo"]').change(function () {
+								}
 
-	var value = $('select[name="articulo"] option:selected').data('descripcion');
+							}
 
-	$.ajax({
-		dataType: "json",
-		url: 'selproducto',
-		type: "POST",
-		data: {
-			Clasificacion: value
-		},
-		success: function (data) {
-			$('select[name="tipo_producto"]').html('<option value="null">SELECCIONAR</option>');
-			$('select[name="tipo_producto"]').append(data);
-		}
-	});
-})
+						});
 
 
-$("#btn-guardar").click(function () {
 
-	var user = localStorage.user;
+					});
 
-	var ordenProduccion = $("#OrdenProduccion").serialize() + "&id_usuario=" + user + "&tipo_orden=MANUAL";
+					$('input[name="selector_material"]:radio').click(function () {
 
-	$.ajax({
 
-		dataType: "json",
+						var value = $('input[name="selector_material"]:checked').val();
 
-		data: ordenProduccion,
+						$.ajax({
+							dataType: "json",
+							url: 'tipomaterial',
+							type: "POST",
+							data: {
+								'tipoMaterial': value
+							},
+							success: function (data) {
+								$('select[name="tipo_material"]').html('<option value="null">SELECCIONAR</option>');
+								$('select[name="carton"]').html('<option value="null">SELECCIONAR</option>');
+								$('select[name="tam-carton"]').html('<option value="null">SELECCIONAR</option>');
+								$('select[name="tipo_material"]').append(data);
+							}
+						});
 
-		url: 'guardaordenproduccion',
+					});
 
-		type: 'post',
 
-		success: function (data) {
 
-			if (data.validacion) {
+					$('#btn-liberar').click(function () {
 
+						var idorden = $('span[id="IdOrden"]').text();
 
-				swal(
+						var trabajo = $('input[name="nombre_trabajo"]').val();
 
-					'',
+						generarMembrete(idorden);
 
-					'Se ha guardado la orden correctamente',
 
-					'success'
+						if ($('input[name="maquina_suajado"]:radio').is(':checked')) {
 
-					);
+							var idmaquina = $('input[name="maquina_suajado"]:checked').val();
 
-			}
+							var maquina = $('input[name="maquina_suajado"]:checked').data('maquina');
 
-		}
+							var proceso = $('input[name="maquina_suajado"]:checked').data('proceso');
 
-	});
+							var requerida = $('input[name="cant_requerida"]').val();
 
 
 
-});
+							$.ajax({
 
-$('input[name="selector_material"]:radio').click(function () {
+								dataType: "json",
 
+								data: {
 
-	var value = $('input[name="selector_material"]:checked').val();
+									'id_orden': idorden,
 
-	$.ajax({
-		dataType: "json",
-		url: 'tipomaterial',
-		type: "POST",
-		data: {
-			'tipoMaterial': value
-		},
-		success: function (data) {
-			$('select[name="tipo_material"]').html('<option value="null">SELECCIONAR</option>');
-			$('select[name="carton"]').html('<option value="null">SELECCIONAR</option>');
-			$('select[name="tam-carton"]').html('<option value="null">SELECCIONAR</option>');
-			$('select[name="tipo_material"]').append(data);
-		}
-	});
+									'nombre_trabajo': trabajo,
 
-});
+									'id_maquina': idmaquina,
 
+									'nombre_maquina': maquina,
 
+									'id_proceso': proceso,
 
-$('#btn-liberar').click(function () {
+									'nombre_proceso': 'SUAJADO',
 
-	var idorden = $('span[id="IdOrden"]').text();
+									'cant_requerida': requerida,
 
-	var trabajo = $('input[name="nombre_trabajo"]').val();
+								},
 
-	generarMembrete(idorden);
+								url: 'liberaordenproduccion',
 
+								type: 'post',
 
-	if ($('input[name="maquina_suajado"]:radio').is(':checked')) {
+								success: function (data) {
 
-		var idmaquina = $('input[name="maquina_suajado"]:checked').val();
+									if (data.validacion) {
 
-		var maquina = $('input[name="maquina_suajado"]:checked').data('maquina');
 
-		var proceso = $('input[name="maquina_suajado"]:checked').data('proceso');
 
-		var requerida = $('input[name="cant_requerida"]').val();
+									}
 
+								}
 
+							});
 
-		$.ajax({
+						}
 
-			dataType: "json",
 
-			data: {
 
-				'id_orden': idorden,
+						if ($('input[name="tipo_pegado"]:radio').is(':checked')) {
 
-				'nombre_trabajo': trabajo,
+							var idmaquina = $('input[name="tipo_pegado"]:checked').val();
 
-				'id_maquina': idmaquina,
+							var maquina = $('input[name="tipo_pegado"]:checked').data('maquina');
 
-				'nombre_maquina': maquina,
+							var proceso = $('input[name="tipo_pegado"]:checked').data('proceso');
 
-				'id_proceso': proceso,
+							var requerida = $('input[name="cant_requerida"]').val();
 
-				'nombre_proceso': 'SUAJADO',
+							var nombreproceso = 'PEGADO';
 
-				'cant_requerida': requerida,
+							if (idmaquina == 4) {
 
-			},
+								nombreproceso = 'PEGADO CAJAS'
 
-			url: 'liberaordenproduccion',
+							}
 
-			type: 'post',
+							$.ajax({
 
-			success: function (data) {
+								dataType: "json",
 
-				if (data.validacion) {
+								data: {
 
+									'id_orden': idorden,
 
+									'nombre_trabajo': trabajo,
 
-				}
+									'id_maquina': idmaquina,
 
-			}
+									'nombre_maquina': maquina,
 
-		});
+									'id_proceso': proceso,
 
-	}
+									'nombre_proceso': nombreproceso,
 
+									'cant_requerida': requerida,
 
+								},
 
-	if ($('input[name="tipo_pegado"]:radio').is(':checked')) {
+								url: 'liberaordenproduccion',
 
-		var idmaquina = $('input[name="tipo_pegado"]:checked').val();
+								type: 'post',
 
-		var maquina = $('input[name="tipo_pegado"]:checked').data('maquina');
+								success: function (data) {
 
-		var proceso = $('input[name="tipo_pegado"]:checked').data('proceso');
+									if (data.validacion) {
 
-		var requerida = $('input[name="cant_requerida"]').val();
 
-		var nombreproceso = 'PEGADO';
+									}
 
-		if (idmaquina == 4) {
+								}
 
-			nombreproceso = 'PEGADO CAJAS'
+							});
 
-		}
 
-		$.ajax({
 
-			dataType: "json",
+						}
 
-			data: {
 
-				'id_orden': idorden,
 
-				'nombre_trabajo': trabajo,
+						if ($('input[name="grapado"]:checkbox').is(':checked')) {
 
-				'id_maquina': idmaquina,
+							var idmaquina = $('input[name="grapado"]:checked').val();
 
-				'nombre_maquina': maquina,
+							var maquina = $('input[name="grapado"]:checked').data('maquina');
 
-				'id_proceso': proceso,
+							var proceso = $('input[name="grapado"]:checked').data('proceso');
 
-				'nombre_proceso': nombreproceso,
+							var requerida = $('input[name="cant_requerida"]').val();
 
-				'cant_requerida': requerida,
+							var nombreproceso = 'GRAPADO';
 
-			},
 
-			url: 'liberaordenproduccion',
+							$.ajax({
 
-			type: 'post',
+								dataType: "json",
 
-			success: function (data) {
+								data: {
 
-				if (data.validacion) {
+									'id_orden': idorden,
 
+									'nombre_trabajo': trabajo,
 
-				}
+									'id_maquina': idmaquina,
 
-			}
+									'nombre_maquina': maquina,
 
-		});
+									'id_proceso': proceso,
 
+									'nombre_proceso': nombreproceso,
 
+									'cant_requerida': requerida,
 
-	}
+								},
 
+								url: 'liberaordenproduccion',
 
+								type: 'post',
 
-	if ($('input[name="grapado"]:checkbox').is(':checked')) {
+								success: function (data) {
 
-		var idmaquina = $('input[name="grapado"]:checked').val();
+									if (data.validacion) {
 
-		var maquina = $('input[name="grapado"]:checked').data('maquina');
 
-		var proceso = $('input[name="grapado"]:checked').data('proceso');
 
-		var requerida = $('input[name="cant_requerida"]').val();
+									}
 
-		var nombreproceso = 'GRAPADO';
+								}
 
+							});
 
-		$.ajax({
 
-			dataType: "json",
 
-			data: {
+						}
 
-				'id_orden': idorden,
 
-				'nombre_trabajo': trabajo,
 
-				'id_maquina': idmaquina,
+						if ($('input[name="maquina_ranurado"]:radio').is(':checked')) {
 
-				'nombre_maquina': maquina,
+							var idmaquina = $('input[name="maquina_ranurado"]:checked').val();
 
-				'id_proceso': proceso,
+							var maquina = $('input[name="maquina_ranurado"]:checked').data('maquina');
 
-				'nombre_proceso': nombreproceso,
+							var proceso = $('input[name="maquina_ranurado"]:checked').data('proceso');
 
-				'cant_requerida': requerida,
+							var requerida = $('input[name="cant_requerida"]').val();
 
-			},
+							var nombreproceso = 'RANURADO';
 
-			url: 'liberaordenproduccion',
 
-			type: 'post',
+							$.ajax({
 
-			success: function (data) {
+								dataType: "json",
 
-				if (data.validacion) {
+								data: {
 
+									'id_orden': idorden,
 
+									'nombre_trabajo': trabajo,
 
-				}
+									'id_maquina': idmaquina,
 
-			}
+									'nombre_maquina': maquina,
 
-		});
+									'id_proceso': proceso,
 
+									'nombre_proceso': nombreproceso,
 
+									'cant_requerida': requerida,
 
-	}
+								},
 
+								url: 'liberaordenproduccion',
 
+								type: 'post',
 
-	if ($('input[name="maquina_ranurado"]:radio').is(':checked')) {
+								success: function (data) {
 
-		var idmaquina = $('input[name="maquina_ranurado"]:checked').val();
+									if (data.validacion) {
 
-		var maquina = $('input[name="maquina_ranurado"]:checked').data('maquina');
 
-		var proceso = $('input[name="maquina_ranurado"]:checked').data('proceso');
 
-		var requerida = $('input[name="cant_requerida"]').val();
+									}
 
-		var nombreproceso = 'RANURADO';
+								}
 
+							});
 
-		$.ajax({
 
-			dataType: "json",
 
-			data: {
+						}
 
-				'id_orden': idorden,
 
-				'nombre_trabajo': trabajo,
 
-				'id_maquina': idmaquina,
+						if ($('input[name="proceso_refilado"]:radio').is(':checked')) {
 
-				'nombre_maquina': maquina,
+							var idmaquina = $('input[name="proceso_refilado"]:checked').val();
 
-				'id_proceso': proceso,
+							var maquina = $('input[name="proceso_refilado"]:checked').data('maquina');
 
-				'nombre_proceso': nombreproceso,
+							var proceso = $('input[name="proceso_refilado"]:checked').data('proceso');
 
-				'cant_requerida': requerida,
+							var requerida = $('input[name="cant_requerida"]').val();
 
-			},
 
-			url: 'liberaordenproduccion',
+							if (proceso == 5) {
 
-			type: 'post',
+								var nombreproceso = 'RAYADO';
 
-			success: function (data) {
+							}
 
-				if (data.validacion) {
 
+							if (proceso == 6) {
 
+								var nombreproceso = 'REFILADO';
 
-				}
+							}
 
-			}
 
-		});
+							if (proceso == 7) {
 
+								var nombreproceso = 'REFILADO RAYADO';
 
+							}
 
-	}
 
 
+							$.ajax({
 
-	if ($('input[name="proceso_refilado"]:radio').is(':checked')) {
+								dataType: "json",
 
-		var idmaquina = $('input[name="proceso_refilado"]:checked').val();
+								data: {
 
-		var maquina = $('input[name="proceso_refilado"]:checked').data('maquina');
+									'id_orden': idorden,
 
-		var proceso = $('input[name="proceso_refilado"]:checked').data('proceso');
+									'nombre_trabajo': trabajo,
 
-		var requerida = $('input[name="cant_requerida"]').val();
+									'id_maquina': idmaquina,
 
+									'nombre_maquina': maquina,
 
-		if (proceso == 5) {
+									'id_proceso': proceso,
 
-			var nombreproceso = 'RAYADO';
+									'nombre_proceso': nombreproceso,
 
-		}
+									'cant_requerida': requerida,
 
+								},
 
-		if (proceso == 6) {
+								url: 'liberaordenproduccion',
 
-			var nombreproceso = 'REFILADO';
+								type: 'post',
 
-		}
+								success: function (data) {
 
+									if (data.validacion) {
 
-		if (proceso == 7) {
 
-			var nombreproceso = 'REFILADO RAYADO';
 
-		}
+									}
 
+								}
 
+							});
 
-		$.ajax({
 
-			dataType: "json",
 
-			data: {
+						}
 
-				'id_orden': idorden,
 
-				'nombre_trabajo': trabajo,
 
-				'id_maquina': idmaquina,
+						if ($('input[name="maquina_empalme"]:radio').is(':checked')) {
 
-				'nombre_maquina': maquina,
+							var idmaquina = $('input[name="maquina_empalme"]:checked').val();
 
-				'id_proceso': proceso,
+							var maquina = $('input[name="maquina_empalme"]:checked').data('maquina');
 
-				'nombre_proceso': nombreproceso,
+							var proceso = $('input[name="maquina_empalme"]:checked').data('proceso');
 
-				'cant_requerida': requerida,
+							var requerida = $('input[name="cant_requerida"]').val();
 
-			},
 
-			url: 'liberaordenproduccion',
 
-			type: 'post',
+							var nombreproceso = 'EMPALME';
 
-			success: function (data) {
 
-				if (data.validacion) {
 
+							$.ajax({
 
+								dataType: "json",
 
-				}
+								data: {
 
-			}
+									'id_orden': idorden,
 
-		});
+									'nombre_trabajo': trabajo,
 
+									'id_maquina': idmaquina,
 
+									'nombre_maquina': maquina,
 
-	}
+									'id_proceso': proceso,
 
+									'nombre_proceso': nombreproceso,
 
+									'cant_requerida': requerida,
 
-	if ($('input[name="maquina_empalme"]:radio').is(':checked')) {
+								},
 
-		var idmaquina = $('input[name="maquina_empalme"]:checked').val();
+								url: 'liberaordenproduccion',
 
-		var maquina = $('input[name="maquina_empalme"]:checked').data('maquina');
+								type: 'post',
 
-		var proceso = $('input[name="maquina_empalme"]:checked').data('proceso');
+								success: function (data) {
 
-		var requerida = $('input[name="cant_requerida"]').val();
+									if (data.validacion) {
 
 
 
-		var nombreproceso = 'EMPALME';
+									}
 
+								}
 
+							});
 
-		$.ajax({
 
-			dataType: "json",
 
-			data: {
+						}
 
-				'id_orden': idorden,
 
-				'nombre_trabajo': trabajo,
 
-				'id_maquina': idmaquina,
+						if ($('input[name="tipo_impresion"]:radio').is(':checked')) {
 
-				'nombre_maquina': maquina,
+							var idmaquina = $('input[name="tipo_impresion"]:checked').val();
 
-				'id_proceso': proceso,
+							var maquina = $('input[name="tipo_impresion"]:checked').data('maquina');
 
-				'nombre_proceso': nombreproceso,
+							var proceso = $('input[name="tipo_impresion"]:checked').data('proceso');
 
-				'cant_requerida': requerida,
+							var requerida = $('input[name="cant_requerida"]').val();
 
-			},
 
-			url: 'liberaordenproduccion',
 
-			type: 'post',
+							if (idmaquina == 3) {
 
-			success: function (data) {
+								var nombreproceso = 'FLEXOGRAFICA';
 
-				if (data.validacion) {
+							}
 
 
 
-				}
+							if (idmaquina == 14) {
 
-			}
+								var nombreproceso = 'MAQ OFFSET';
 
-		});
+							}
 
 
 
-	}
+							$.ajax({
 
+								dataType: "json",
 
+								data: {
 
-	if ($('input[name="tipo_impresion"]:radio').is(':checked')) {
+									'id_orden': idorden,
 
-		var idmaquina = $('input[name="tipo_impresion"]:checked').val();
+									'nombre_trabajo': trabajo,
 
-		var maquina = $('input[name="tipo_impresion"]:checked').data('maquina');
+									'id_maquina': idmaquina,
 
-		var proceso = $('input[name="tipo_impresion"]:checked').data('proceso');
+									'nombre_maquina': maquina,
 
-		var requerida = $('input[name="cant_requerida"]').val();
+									'id_proceso': proceso,
 
+									'nombre_proceso': nombreproceso,
 
+									'cant_requerida': requerida,
 
-		if (idmaquina == 3) {
+								},
 
-			var nombreproceso = 'FLEXOGRAFICA';
+								url: 'liberaordenproduccion',
 
-		}
+								type: 'post',
 
+								success: function (data) {
 
+									if (data.validacion) {
 
-		if (idmaquina == 14) {
 
-			var nombreproceso = 'MAQ OFFSET';
 
-		}
+									}
 
+								}
 
+							});
 
-		$.ajax({
 
-			dataType: "json",
 
-			data: {
+						}
 
-				'id_orden': idorden,
+						$.ajax({
+							dataType: "json",
+							data: {
+								'id_orden': idorden,
+								'estatus': 2
+							},
+							url: 'estatusordenproduccion',
+							type: 'post',
+							success: function (data) {
+								if (data.validacion) {
 
-				'nombre_trabajo': trabajo,
+									swal(
+										'¡Correcto!',
+										'Se ha liberado la orden',
+										'success'
+									);
+									orden = $('.num_folio').text();
 
-				'id_maquina': idmaquina,
 
-				'nombre_maquina': maquina,
+								}
+							}
 
-				'id_proceso': proceso,
+						});
 
-				'nombre_proceso': nombreproceso,
 
-				'cant_requerida': requerida,
+					});
 
-			},
+					$('input[id="med_largo"]').keyup(function () {
+						$('input[id="med_requerido"]').val($('input[id="med_largo"]').val() + "x" + $('input[id="med_ancho"]').val())
+					});
 
-			url: 'liberaordenproduccion',
+					$('input[id="med_ancho"]').keyup(function () {
+						$('input[id="med_requerido"]').val($('input[id="med_largo"]').val() + "x" + $('input[id="med_ancho"]').val())
+					});
 
-			type: 'post',
+					$("#btn-editar").click(function () {
 
-			success: function (data) {
+						$(this).hide();
+						$('input').attr('readonly', false);
+						$('input:radio').attr('disabled', false);
+						$('input:checkbox').attr('disabled', false);
+						$('select').attr('disabled', false);
+						$('textarea').attr('readonly', false);
+						$('#btn-liberar').hide();
+						$('#btn-clonar').hide();
+						$('#btn-editar2').show();
 
-				if (data.validacion) {
+					});
 
+					$("#btn-editar2").click(function () {
 
+						var IdOrden = getParameterByName('ID');
 
-				}
+						var ordenProduccion = $("#OrdenProduccion").serialize() + "&id_ordenproduccion=" + IdOrden;
 
-			}
+						$.ajax({
 
-		});
+							dataType: "json",
+							data: ordenProduccion,
+							url: 'updateorden',
+							type: 'post',
+							success: function (data) {
+								if (data.validacion) {
 
+									$('#btn-guardar').hide();
+									$('#btn-editar2').hide();
+									$('#btn-guardar2').hide();
+									$('#btn-clonar').hide();
+									$('#btn-editar').show();
 
+									$('input').attr('readonly', true);
+									$('input:radio').attr('disabled', true);
+									$('input:checkbox').attr('disabled', true);
+									$('select').attr('disabled', true);
+									$('textarea').attr('readonly', true);
 
-	}
+									swal(
+										'',
+										'Se ha guardado la orden correctamente',
+										'success'
 
-	$.ajax({
-		dataType: "json",
-		data: {
-			'id_orden': idorden,
-			'estatus': 2
-		},
-		url: 'estatusordenproduccion',
-		type: 'post',
-		success: function (data) {
-			if (data.validacion) {
+									);
+								}
 
-				swal(
-					'¡Correcto!',
-					'Se ha liberado la orden',
-					'success'
-					);
-				orden = $('.num_folio').text();
-				
+							}
 
-			}
-		}
+						});
 
-	});
 
-	
-});
+					});
 
-$('input[id="med_largo"]').keyup(function () {
-	$('input[id="med_requerido"]').val($('input[id="med_largo"]').val() + "x" + $('input[id="med_ancho"]').val())
-});
+					$("#btn-cancelar").click(function () {
 
-$('input[id="med_ancho"]').keyup(function () {
-	$('input[id="med_requerido"]').val($('input[id="med_largo"]').val() + "x" + $('input[id="med_ancho"]').val())
-});
+						var idorden = $('span[id="IdOrden"]').text();
 
-$("#btn-editar").click(function () {
+						$.ajax({
+							dataType: "json",
+							data: {
+								'id_orden': idorden,
+								'estatus': 4
+							},
+							url: 'estatusordenproduccion',
+							type: 'post',
+							success: function (data) {
+								if (data.validacion) {
 
-	$(this).hide();
-	$('input').attr('readonly', false);
-	$('input:radio').attr('disabled', false);
-	$('input:checkbox').attr('disabled', false);
-	$('select').attr('disabled', false);
-	$('textarea').attr('readonly', false);
-	$('#btn-liberar').hide();
-	$('#btn-clonar').hide();
-	$('#btn-editar2').show();
+									swal(
+										'¡Correcto!',
+										'Se ha cancelado la orden',
+										'success'
+									);
+									orden = $('.num_folio').text();
 
-});
 
-$("#btn-editar2").click(function () {
+								}
+							}
 
-	var IdOrden = getParameterByName('ID');
+						});
+					});
 
-	var ordenProduccion = $("#OrdenProduccion").serialize() + "&id_ordenproduccion=" + IdOrden;
 
-	$.ajax({
+					$("#btn-salir").click(function () {
+						window.location.href = "activas";
+					});
 
-		dataType: "json",
-		data: ordenProduccion,
-		url: 'updateorden',
-		type: 'post',
-		success: function (data) {
-			if (data.validacion) {
+					$("#id_ordenmaterial").on('keyup', function (e) {
+						if (e.keyCode == 13) {
 
-				$('#btn-guardar').hide();
-				$('#btn-editar2').hide();
-				$('#btn-guardar2').hide();
-				$('#btn-clonar').hide();
-				$('#btn-editar').show();
+							var idProveedor = $(this).val();
 
-				$('input').attr('readonly', true);
-				$('input:radio').attr('disabled', true);
-				$('input:checkbox').attr('disabled', true);
-				$('select').attr('disabled', true);
-				$('textarea').attr('readonly', true);
+							if(idProveedor != ""){
+								$.ajax({
+									dataType: "json",
+									data: {id:idProveedor},
+									url: 'nombreproveedor',
+									type: 'post',
+									success: function (response) {
 
-				swal(
-					'',
-					'Se ha guardado la orden correctamente',
-					'success'
+										if(response == null){
+											alert( "Id de proveedor no encontrado");
+											$('#nombre_proveedor').val(null);
+											$('#nombre_proveedor').attr('data-proveedor',0);
+											return false;
+										}
 
-					);
-			}
+										$('#nombre_proveedor').val(response['rcomercial']);
+										$('#nombre_proveedor').attr('data-proveedor',response['id_proveedores']);
 
-		}
+									}
+								});
+								return false;
+							}
 
-	});
+							$('#nombre_proveedor').val(null);
+						}
+					});
 
 
-});
+					$('input[id="mcaja"]').on('click', function () {
 
-$("#btn-cancelar").click(function () {
+						if ($('input[id="mcaja"]').prop("checked") == true) {
 
-	var idorden = $('span[id="IdOrden"]').text();
+							var frente = new Number($('input[name="med_frente"]').val());
+							var fondo = new Number($('input[name ="med_fondo"]').val());
+							var alto = new Number($('input[id="med_alto"]').val());
 
-	$.ajax({
-		dataType: "json",
-		data: {
-			'id_orden': idorden,
-			'estatus': 4
-		},
-		url: 'estatusordenproduccion',
-		type: 'post',
-		success: function (data) {
-			if (data.validacion) {
+							if (frente != "" && fondo != "" && alto != "") {
 
-				swal(
-					'¡Correcto!',
-					'Se ha cancelado la orden',
-					'success'
-					);
-				orden = $('.num_folio').text();
-				
+								var largo = roundToTwo(((2*frente)+(2*fondo)+4)-.3);
 
-			}
-		}
+								var ancho = roundToTwo(alto + fondo);
 
-	});
-});
+								$('input[id="med_largo"]').val(largo).attr('readonly', true);
 
+								$('input[id="med_ancho"]').val(ancho).attr('readonly', true);
 
-$("#btn-salir").click(function () {
-	window.location.href = "activas";
-});
+								$('input[id="med_requerido"]').val(ancho + ' x ' + largo);
 
-$("#id_ordenmaterial").on('keyup', function (e) {
-	if (e.keyCode == 13) {
+							} else {
 
-		var idProveedor = $(this).val();
+								alert("Faltan datos de (M. Final)");
+								return false;
 
-		if(idProveedor != ""){
-			$.ajax({
-				dataType: "json",
-				data: {id:idProveedor},
-				url: 'nombreproveedor',
-				type: 'post',
-				success: function (response) {
+							}
 
-					if(response == null){
-						alert( "Id de proveedor no encontrado");
-						$('#nombre_proveedor').val(null);
-						$('#nombre_proveedor').attr('data-proveedor',0);
-						return false;
+
+						} else {
+
+							alert("No Esta checkado");
+
+						}
+					});
+
+					$('input[id="mcarton"]').on('click', function () {
+
+						if ($('input[id="mcarton"]').prop("checked") == true) {
+
+							$('input[id="med_largo"]').val("").attr('readonly', false);
+
+							$('input[id="med_ancho"]').val("").attr('readonly', false);
+
+							$('input[id="med_requerido"]').val("");
+
+
+						}
+					});
+
+					$('input[name="tipo_pegado"]').on('click', function () {
+
+						$('input[name = clave_pegamento]').val($('input:radio[name = tipo_pegado]:checked').data('cvepega'));
+
+					});
+
+					$('input[name="maquina_empalme"]').on('click', function () {
+
+						$('input[name = clave_pegamento]').val($('input:radio[name = maquina_empalme]:checked').data('cvepega'));
+
+					});
+
+					$('input[name="tipo_envio"]').on('click', function () {
+
+						if($('select[name="id_direccionentrega"]').val() != null){
+
+							$('select[name="id_direccionentrega"]').attr('disabled', false);
+
+						}
+
+					});
+
+
+
+					function generarMembrete(orden) {
+						//$.post('../../application/models/generarMarbete.php', {orden:orden});
+						window.open("marbetepdf?Id=" + orden, '_blank');
 					}
 
-					$('#nombre_proveedor').val(response['rcomercial']);
-					$('#nombre_proveedor').attr('data-proveedor',response['id_proveedores']);
+					function roundToTwo(num) {
+						return +(Math.round(num + "e+2")  + "e-2");
+					}
 
-				}
-			});
-			return false;
-		}
+					$('select.selectpicker').on('change', function(){
+						var selected = $('.selectpicker option:selected').val();
+						buscaDireccion(selected);
+					});
 
-		$('#nombre_proveedor').val(null);
-	}
-});
-
-
-$('input[id="mcaja"]').on('click', function () {
-
-	if ($('input[id="mcaja"]').prop("checked") == true) {
-
-		var frente = new Number($('input[name="med_frente"]').val());
-		var fondo = new Number($('input[name ="med_fondo"]').val());
-		var alto = new Number($('input[id="med_alto"]').val());
-
-		if (frente != "" && fondo != "" && alto != "") {
-
-			var largo = roundToTwo(((2*frente)+(2*fondo)+4)-.3);
-
-			var ancho = roundToTwo(alto + fondo);
-
-			$('input[id="med_largo"]').val(largo).attr('readonly', true);
-
-			$('input[id="med_ancho"]').val(ancho).attr('readonly', true);
-
-			$('input[id="med_requerido"]').val(ancho + ' x ' + largo);
-
-		} else {
-
-			alert("Faltan datos de (M. Final)");
-			return false;
-
-		}
-
-
-	} else {
-
-		alert("No Esta checkado");
-
-	}
-});
-
-$('input[id="mcarton"]').on('click', function () {
-
-	if ($('input[id="mcarton"]').prop("checked") == true) {
-
-		$('input[id="med_largo"]').val("").attr('readonly', false);
-
-		$('input[id="med_ancho"]').val("").attr('readonly', false);
-
-		$('input[id="med_requerido"]').val("");
-
-
-	}
-});
-
-$('input[name="tipo_pegado"]').on('click', function () {
-
-	$('input[name = clave_pegamento]').val($('input:radio[name = tipo_pegado]:checked').data('cvepega'));
-
-});
-
-$('input[name="maquina_empalme"]').on('click', function () {
-
-	$('input[name = clave_pegamento]').val($('input:radio[name = maquina_empalme]:checked').data('cvepega'));
-
-});
-
-$('input[name="tipo_envio"]').on('click', function () {
-
-	$('#id_direccionentrega').attr('disabled', true);
-	$('select[name="id_direccionentrega"]>option').removeAttr("selected");
-
-	if ($('input[id="domicilio"]').prop("checked") == true) {
-		if($('input#id_ordencompra').val() != ""){
-
-			var IdCliente = $('input#id_ordencompra').val();
-
-			$.ajax({
-				dataType: "json",
-				url: 'seldireccion',
-				type: "POST",
-				data: {
-					idCliente: IdCliente
-				},
-				success: function (data) {
-					$('select[name="id_direccionentrega"]').html('<option value="null">SELECCIONAR</option>');
-					$('select[name="id_direccionentrega"]').append(data);
-					$('#direccion').attr('disabled', false);
-				}
-			});
-
-			$('#id_direccionentrega').attr('disabled', false);
-
-		}else{
-			alert("Indtroduce F. OC Cliente");
-			return false;
-		}
-
-	}
-
-});
+					function buscaDireccion(value){
+						$.ajax({
+							dataType: "json",
+							url: 'seldireccion',
+							type: "POST",
+							data: {
+								idCliente: value
+							},
+							success: function (data) {
+								$('select[name="id_direccionentrega"]').html('<option value="null">SELECCIONAR</option>');
+								$('select[name="id_direccionentrega"]').append(data);
+							}
+						});
+					}
 
 
 
-function generarMembrete(orden) {
-//$.post('../../application/models/generarMarbete.php', {orden:orden});
-window.open("marbetepdf?Id=" + orden, '_blank');
-}
-
-function roundToTwo(num) {    
-	return +(Math.round(num + "e+2")  + "e-2");
-}
-
-</script>
+					</script>

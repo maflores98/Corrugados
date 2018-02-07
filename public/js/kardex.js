@@ -6,6 +6,13 @@ $(document).ready(function(){
 		scrollY: "350px",
 		scrollCollapse: true,
 		paging: false,
+        dom: 'Blfrtip',
+          buttons: [
+          	{
+            extend: 'excelHtml5',
+            title: 'Kardex'
+        	}
+        ], 		
 		language: {
 			"info": "Viendo  _TOTAL_ de _MAX_ registros.",
 			"infoEmpty": "Viendo  _TOTAL_ de _MAX_ registros.",
@@ -41,6 +48,11 @@ $(document).ready(function(){
 		}
 		]
 	});
+
+  $( ".buttons-excel" ).hide(); 
+      $( "#excel-clientes" ).on( "click", function() {
+        $( ".buttons-excel" ).trigger( "click" );
+      });	
 
 	datos_modal("#kardex tbody", table);
 

@@ -84,11 +84,11 @@ class Application_Model_DbTable_ProcesosPendientes extends Zend_Db_Table_Abstrac
    return $copiar;
  }             
  
- public function eliminarprocesoenpendiente($maquina,$proceso)
+ public function eliminarprocesoenpendiente($maquina,$proceso,$orden)
  {
    $where = array();
    $where[] = $this->getAdapter()->quoteInto('nombre_maquina = ?', $maquina);
-   //$where[] = $this->getAdapter()->quoteInto('nombre_proceso = ?', $proceso);
+   $where[] = $this->getAdapter()->quoteInto('id_orden = ?', $orden);
    $delete = $this->delete($where);                                                          
                                //$delete->where("id_orden = ?", $orden);
                                //$delete = $this->delete(where('id_orden = ?',$orden));

@@ -907,7 +907,7 @@ $("#inicio").click(function()
 									{
 										if (data.validacion == true) 
 										{
-											$.post('eliminarprocesoenpendiente', {maquina:maquina,proceso:proceso},
+											$.post('eliminarprocesoenpendiente', {maquina:maquina,proceso:proceso,orden:orden},
 												function(result)
 												{
 													if (result.validacion == true) 
@@ -1233,8 +1233,9 @@ $("#guardar").click(function()
 										if (result.validacion == true) 
 										{
 											//swal("Correcto","success");
-											limpiar();
+											parar();
 											reinicio();
+											limpiar();											
 											enProceso.ajax.reload();
 										}    
 									},'json'

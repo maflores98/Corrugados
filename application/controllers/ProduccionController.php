@@ -213,9 +213,10 @@ class ProduccionController extends Zend_Controller_Action
 		$this->_helper->viewRenderer->setNoRender();
 		$maquina = $_POST['maquina'];
 		$proceso = $_POST['proceso'];
+		$orden = $_POST['orden'];
 
 		$elimina = new Application_Model_DbTable_ProcesosPendientes();
-		$eliminar = $elimina->eliminarprocesoenpendiente($maquina,$proceso);
+		$eliminar = $elimina->eliminarprocesoenpendiente($maquina,$proceso,$orden);
 
 		echo Zend_Json::encode($eliminar);
 	}

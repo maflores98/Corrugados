@@ -91,16 +91,14 @@ label {
 		</div>
 
 		<div class="col-md-6">
-			<div class="form-horizontal">
-				<div class="form-group">
-					<label for="nombre_proveedor" class="col-md-3 control-label" data-proveedor="0">
-						Proveedor:
-					</label>
-					<div class="col-md-9">
-						<input type="text" class="form-control input-sm" id="nombre_proveedor">
-					</div>
-				</div>
-			</div>
+      <div class="form-horizontal">
+        <div class="form-group">
+          <label for="nombre_proveedor" class="col-md-2 control-label">Cliente:</label>
+          <div class="col-md-10">
+            <select class="selectpicker form-control input-sm" id="nombre_proveedor" name="nombre_proveedor" data-live-search="true"></select>
+          </div>
+        </div>
+      </div>
 		</div>
 	</div>
 
@@ -391,15 +389,17 @@ label {
    </label>
  </div>
 </div>
-<div class="col-md-8">
- <div class="form-horizontal">
+<div class="col-md-4">
   <div class="form-group">
-   <label for="clave_pegamento" class="col-md-6 control-label" style="text-align: left;">Clave pegamento:</label>
-   <div class="col-md-6">
-    <input type="text" class="form-control input-sm" id="clave_pegamento" name="clave_pegamento">
+    <label for="clave_pegamento">Cve pegamento:</label>
+    <input type="text" class="form-control" id="clave_pegamento" name="clave_pegamento">
   </div>
 </div>
-</div>
+<div class="col-md-4">
+  <div class="form-group">
+    <label for="cant_piezas">Cant. Pzas:</label>
+    <input type="text" class="form-control" id="cant_piezas" name="cant_piezas">
+  </div>
 </div>
 </div>
 <div class="row">
@@ -933,6 +933,20 @@ label {
     $('#id_cliente').html('Hubo un error');
   }
 });
+
+  $.ajax({
+   type: "GET",
+   url: 'nombreproveedor',
+   async: false,
+   success: function (response) {
+    $('#nombre_proveedor').html(response);
+
+  },
+  error: function () {
+    $('#nombre_proveedor').html('Hubo un error');
+  }
+});
+
 
  $.ajax({
    dataType: "json",
@@ -1908,38 +1922,6 @@ $("#btn-cancelar").click(function () {
 
 $("#btn-salir").click(function () {
   window.location.href = "activas";
-});
-
-$("#id_ordenmaterial").on('keyup', function (e) {
-  if (e.keyCode == 13) {
-
-   var idProveedor = $(this).val();
-
-   if(idProveedor != ""){
-    $.ajax({
-     dataType: "json",
-     data: {id:idProveedor},
-     url: 'nombreproveedor',
-     type: 'post',
-     success: function (response) {
-
-      if(response == null){
-       alert( "Id de proveedor no encontrado");
-       $('#nombre_proveedor').val(null);
-       $('#nombre_proveedor').attr('data-proveedor',0);
-       return false;
-     }
-
-     $('#nombre_proveedor').val(response['rcomercial']);
-     $('#nombre_proveedor').attr('data-proveedor',response['id_proveedores']);
-
-   }
- });
-    return false;
-  }
-
-  $('#nombre_proveedor').val(null);
-}
 });
 
 

@@ -511,10 +511,8 @@
 			$this->_helper->layout->disableLayout();
 			$this->_helper->viewRenderer->setNoRender();
 
-			$id = $_POST['id'];
-
 			$valores = new Application_Model_DbTable_proveedores();
-			$data = $valores->consultarProveedor($id);
+			$data = $valores->consultarProveedor();
 
 			echo Zend_Json::encode($data);		
 		}

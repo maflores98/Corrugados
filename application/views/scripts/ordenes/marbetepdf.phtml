@@ -48,29 +48,100 @@ class PDF extends FPDF{
 		$this->Cell(31.6,10,"Fecha/Hora",1,0,'C');
 		$this->Ln();
 		$this->SetFont('Helvetica','', 14);
-		$this->Cell(31.6,10,"Refilado",1,0,'C');	
-		$this->Cell(31.6,10,"",1,0,'C');
-		$this->Cell(31.6,10,"",1,0,'C');
-		$this->Cell(31.6,10,"",1,0,'C');
-		$this->Cell(31.6,10,"",1,0,'C');
-		$this->Cell(31.6,10,"",1,0,'C');		
-		$this->Ln();
-		$this->Cell(31.6,10,"Rayado",1,0,'C');			
-		$this->Cell(31.6,10,"",1,0,'C');
-		$this->Cell(31.6,10,"",1,0,'C');
-		$this->Cell(31.6,10,"",1,0,'C');
-		$this->Cell(31.6,10,"",1,0,'C');
-		$this->Cell(31.6,10,"",1,0,'C');
-		$this->Ln();
-		$this->Cell(31.6,10,"Impresion",1,0,'C');			
-		$this->Cell(31.6,10,"",1,0,'C');
-		$this->Cell(31.6,10,"",1,0,'C');
-		$this->Cell(31.6,10,"",1,0,'C');
-		$this->Cell(31.6,10,"",1,0,'C');
-		$this->Cell(31.6,10,"",1,0,'C');
-		$this->Ln();
-		$this->Cell(31.6,10,"Ranurado",1,0,'C');			
-		$this->Cell(31.6,10,"",1,0,'C');
+		//$this->Cell(31.6,10,"Impresion",1,0,'C');
+		if( strcmp($data->maq_impresion, "--") !== 0 && strcmp($data->maq_impresion, "") !== 0 && strcmp($data->maq_impresion, null) !== 0 )
+		{
+			$this->Cell(31.6,10,"Impresion",1,0,'C');
+			$this->Cell(31.6,10,"",1,0,'C');
+			$this->Cell(31.6,10,"",1,0,'C');
+			$this->Cell(31.6,10,"",1,0,'C');
+			$this->Cell(31.6,10,"",1,0,'C');
+			$this->Cell(31.6,10,"",1,0,'C');		
+			$this->Ln();						
+		}
+
+		if( strcmp($data->maq_suajado, "--") !== 0 && strcmp($data->maq_suajado, "") !== 0 && strcmp($data->maq_suajado, null) !== 0 )
+		{
+			$this->Cell(31.6,10,"Suajado",1,0,'C');
+			$this->Cell(31.6,10,"",1,0,'C');
+			$this->Cell(31.6,10,"",1,0,'C');
+			$this->Cell(31.6,10,"",1,0,'C');
+			$this->Cell(31.6,10,"",1,0,'C');
+			$this->Cell(31.6,10,"",1,0,'C');
+			$this->Ln();			
+		}				
+
+		if( strcmp($data->maq_pegado, "--") !== 0 && strcmp($data->maq_pegado, "") !== 0 && strcmp($data->maq_pegado, null) !== 0 )
+		{
+			$this->Cell(31.6,10,"Pegado",1,0,'C');
+			$this->Cell(31.6,10,"",1,0,'C');
+			$this->Cell(31.6,10,"",1,0,'C');
+			$this->Cell(31.6,10,"",1,0,'C');
+			$this->Cell(31.6,10,"",1,0,'C');
+			$this->Cell(31.6,10,"",1,0,'C');
+			$this->Ln();			
+		}		
+
+		if( strcmp($data->maq_grapado, "--") !== 0 && strcmp($data->maq_grapado, "") !== 0 )
+		{
+			$this->Cell(31.6,10,"Grapado",1,0,'C');
+			$this->Cell(31.6,10,"",1,0,'C');
+			$this->Cell(31.6,10,"",1,0,'C');
+			$this->Cell(31.6,10,"",1,0,'C');
+			$this->Cell(31.6,10,"",1,0,'C');
+			$this->Cell(31.6,10,"",1,0,'C');
+			$this->Ln();			
+		}			
+
+		//$this->Cell(31.6,10,"Ranurado",1,0,'C');
+		if( strcmp($data->maq_ranurado, "--") !== 0 && strcmp($data->maq_ranurado, "") !== 0  )
+		{
+			$this->Cell(31.6,10,"Ranurado",1,0,'C');
+			$this->Cell(31.6,10,"",1,0,'C');
+			$this->Cell(31.6,10,"",1,0,'C');
+			$this->Cell(31.6,10,"",1,0,'C');
+			$this->Cell(31.6,10,"",1,0,'C');
+			$this->Cell(31.6,10,"",1,0,'C');
+			$this->Ln();			
+		}			
+
+		//$this->Cell(31.6,10,"Refilado",1,0,'C');
+		if( strcmp($data->maq_refilado, "--") !== 0 && strcmp($data->maq_refilado, "") !== 0 )
+		{
+			$this->Cell(31.6,10,"Refilado",1,0,'C');
+			$this->Cell(31.6,10,"",1,0,'C');
+			$this->Cell(31.6,10,"",1,0,'C');
+			$this->Cell(31.6,10,"",1,0,'C');
+			$this->Cell(31.6,10,"",1,0,'C');
+			$this->Cell(31.6,10,"",1,0,'C');
+			$this->Ln();			
+		}	
+
+		//$this->Cell(31.6,10,"Rayado",1,0,'C');
+		if( strcmp($data->maq_rayado, "--") !== 0 && strcmp($data->maq_rayado, "") !== 0 )
+		{
+			$this->Cell(31.6,10,"Rayado",1,0,'C');
+			$this->Cell(31.6,10,"",1,0,'C');
+			$this->Cell(31.6,10,"",1,0,'C');
+			$this->Cell(31.6,10,"",1,0,'C');
+			$this->Cell(31.6,10,"",1,0,'C');
+			$this->Cell(31.6,10,"",1,0,'C');
+			$this->Ln();			
+		}		
+
+		//$this->Cell(31.6,10,"Empalme",1,0,'C');
+		if( strcmp($data->maq_empalme, "--") !== 0 && strcmp($data->maq_empalme, "") !== 0 )
+		{
+			$this->Cell(31.6,10,"Empalme",1,0,'C');
+			$this->Cell(31.6,10,"",1,0,'C');
+			$this->Cell(31.6,10,"",1,0,'C');
+			$this->Cell(31.6,10,"",1,0,'C');
+			$this->Cell(31.6,10,"",1,0,'C');
+			$this->Cell(31.6,10,"",1,0,'C');
+			$this->Ln();			
+		}	
+
+		/*$this->Cell(31.6,10,"",1,0,'C');
 		$this->Cell(31.6,10,"",1,0,'C');
 		$this->Cell(31.6,10,"",1,0,'C');
 		$this->Cell(31.6,10,"",1,0,'C');
@@ -103,7 +174,7 @@ class PDF extends FPDF{
 		$this->Cell(31.6,10,"",1,0,'C');
 		$this->Cell(31.6,10,"",1,0,'C');
 		$this->Cell(31.6,10,"",1,0,'C');	
-		$this->Ln();
+		$this->Ln();*/
 		$this->Cell(31.6,10,"",1,0,'C');			
 		$this->Cell(31.6,10,"",1,0,'C');
 		$this->Cell(31.6,10,"",1,0,'C');

@@ -33,13 +33,13 @@ class Application_Model_DbTable_OrdenesProduccion extends Zend_Db_Table_Abstract
         return $rowset[0];
     }
 
-    public function updateEstatus($idOrden, $estatus){
+    public function updateEstatus($numorden, $estatus){
 
         $data = array(
             'id_estatusorden' => $estatus,
         );
 
-        $where = $this->getAdapter()->quoteInto('id_ordenproduccion = ?', $idOrden);
+        $where = $this->getAdapter()->quoteInto('id_ordenproduccion = ?', $numorden);
 
         $this->update($data, $where);
 

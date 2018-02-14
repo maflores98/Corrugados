@@ -17,10 +17,10 @@ class Application_Model_DbTable_vListaOrdenes extends Zend_Db_Table_Abstract
 		$activas = array();
 		foreach ($rows as $row) {
 
-Zend_Date::setOptions(array('format_type' => 'php'));
-$date = new Zend_Date($row['Fecha_Entrega']);
+			Zend_Date::setOptions(array('format_type' => 'php'));
+			$date = new Zend_Date($row['Fecha_Entrega']);
 
-$date=new Zend_Date($row['Fecha_Entrega'], 'dd.MM.yyyy');
+			$date=new Zend_Date($row['Fecha_Entrega'], 'dd.MM.yyyy');
 			$activas[] = array(
 				"numorden"=> $row['Num_Orden'],
 				"trabajo" => $row['Trabajo'],
@@ -44,8 +44,8 @@ $date=new Zend_Date($row['Fecha_Entrega'], 'dd.MM.yyyy');
 		$finalizadas = array();
 		foreach ($rows as $row) {
 
-Zend_Date::setOptions(array('format_type' => 'php'));
-$date = new Zend_Date($row['Fecha_Entrega']);			
+			Zend_Date::setOptions(array('format_type' => 'php'));
+			$date = new Zend_Date($row['Fecha_Entrega']);			
 
 			$finalizadas[] = array(
 				"numorden"=> $row['Num_Orden'],
@@ -58,6 +58,7 @@ $date = new Zend_Date($row['Fecha_Entrega']);
 		$response->data = $finalizadas;
 		return $response;		
 	}	
+
 	public function consultarcanceladas(){
 		$select = $this->select();
 		$select->where("Estatus IN (?)", "CANCELADO");
@@ -69,8 +70,8 @@ $date = new Zend_Date($row['Fecha_Entrega']);
 		$canceladas = array();
 		foreach ($rows as $row) {
 
-Zend_Date::setOptions(array('format_type' => 'php'));
-$date = new Zend_Date($row['Fecha_Entrega']);			
+			Zend_Date::setOptions(array('format_type' => 'php'));
+			$date = new Zend_Date($row['Fecha_Entrega']);			
 
 			$canceladas[] = array(
 				"numorden"=> $row['Num_Orden'],
@@ -82,5 +83,35 @@ $date = new Zend_Date($row['Fecha_Entrega']);
 		}
 		$response->data = $canceladas;
 		return $response;		
-	}		
+	}	
+
+	public function consultarxliberar(){
+		$select = $this->select();
+		$select->where("Estatus IN (?)", "X LIBERAR");
+		$response=new stdClass();
+		$rows = $this->fetchAll($select);
+                        //$consulta = $select->__toString();
+                        //echo $consulta;
+                        //exit();
+		$activas = array();
+		foreach ($rows as $row) {
+
+			Zend_Date::setOptions(array('format_type' => 'php'));
+			$date = new Zend_Date($row['Fecha_Entrega']);
+
+			$date=new Zend_Date($row['Fecha_Entrega'], 'dd.MM.yyyy');
+			$activas[] = array(
+				"numorden"=> $row['Num_Orden'],
+				"trabajo" => $row['Trabajo'],
+				"estatus" => $row['Estatus'],
+				"cantidad"=>$row['Cantidad'],
+				"fecha_entrega"=> $date->toString('d-m-Y'),
+				"liberar" => "<a class='btn btn-default btn-xs btn-xliberar' data-id='".$row['Num_Orden']."'> <span class='glyphicon glyphicon-triangle-right'></a>"
+				); 
+		}
+		$response->data = $activas;
+		return $response;		
+	}	
+
+
 }

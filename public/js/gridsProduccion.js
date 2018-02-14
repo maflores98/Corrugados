@@ -1107,6 +1107,13 @@ $("#cantmerma").keyup(function()
 	}
 });
 
+$('input[id="parcial"]').on('click', function () {
+	if ($('input[id="parcial"]').prop("checked") == true) {
+		$("#cant_parcial").attr("disabled",false);
+	}	
+});
+
+
 $("#guardar").click(function()
 {
 	var cantidadok = $("#cantidadrep").val();

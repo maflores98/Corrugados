@@ -1,0 +1,84 @@
+.input-sm {
+    padding: 1px 5px;
+    line-height: 1.0;
+}
+
+input[type=date]::-webkit-outer-spin-button,
+input[type=date]::-webkit-inner-spin-button {
+
+  -webkit-appearance: none;
+  margin: 0;
+
+}
+
+input[type=date] {
+
+  -moz-appearance:textfield;
+
+}
+
+.helper {
+
+  margin-top: -19px;
+  margin-bottom: 0px;
+  font-size: 12px;
+
+}
+
+.bs-panel-interno{
+
+  margin-bottom: 0px;
+
+}
+
+h4.bs-titulo {
+
+  font-size: 14px;
+  font-weight: bold;
+
+}
+
+.bs-titulo {
+
+  margin-top: -10px;
+  padding-left: 5px;
+  margin-bottom: 0px;
+
+}
+
+span {
+
+  //background-color: white;
+  //padding: 0 8px 0 8px;
+  font-size: 12px;
+
+}
+
+.bs-body{
+
+  padding: 0 10px 0 10px;
+
+}
+
+.bs-sm{
+
+  width: 70px !important;
+
+}
+
+.bs-md{
+
+  width: 100px !important;
+
+}
+
+label{
+
+  font-size: 13px;
+
+}
+
+.Folio{
+  font-size: 1.5em;
+  color: red;
+}

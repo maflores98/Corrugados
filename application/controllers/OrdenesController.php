@@ -531,6 +531,6 @@
 
 			echo Zend_Json::encode($clientes);
 
-		}
+		}		
 
 	}

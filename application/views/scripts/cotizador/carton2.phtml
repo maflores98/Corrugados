@@ -1,0 +1,541 @@
+<?php 
+$this->headLink()->appendStylesheet('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css');
+$this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js','text/javascript');
+?>
+
+<div class="row">
+  <div class="col-md-12">
+    <h1><?php  echo $this->titulo; echo @$this->nombreCliente?></h1>
+  </div>
+</div>
+<form action="">
+  <div class="row">
+    <div class="col-md-9">
+     
+     <div class="panel panel-default">
+       <div class="bs-titulo">
+         <h4 class="bs-titulo"><span>Datos</span></h4>
+       </div>
+       <div class="panel-body"> 
+        <div id="encabezado" class="row">
+          <div class="form-group">
+            <label for="inputtext3" class="col-md-2 control-label">Fecha registro:</label>
+            <div class="col-md-4">
+              <input type="date" class="form-control input-sm date-cls" id="fecha_emision" name="fecha_emision" value="<?php echo date("Y-m-d");?>" readonly>
+            </div>
+            <label for="inputtext3" class="col-md-1 control-label">Folio:</label>
+            <div class="col-md-5">
+              <input type="text" class="form-control input-sm" id="id_cotizacion" name="id_cotizacion">
+            </div>
+          </div>      
+        </div>
+        <div class="row">
+          <div class="form-group">
+           <label for="id_cliente" class="col-md-2 control-label">Cliente:</label>
+           <div class="col-md-10">
+            <select class="selectpicker form-control input-sm" id="id_cliente" name="id_cliente" data-live-search="true"></select>
+          </div>
+        </div>                
+      </div>      
+      <br>
+      <div class="row">
+        <div class="form-group">
+          <label for="inputtext3" class="col-md-2 control-label">Trabajo:</label>
+          <div class="col-md-10">
+            <input type="text" class="form-control input-sm" id="nombre_trabajo" name="nombre_trabajo">
+          </div>
+        </div>          
+      </div>
+    </div>    
+  </div>
+  
+  <div class="panel panel-default">
+   <div class="bs-titulo">
+     <h4 class="bs-titulo"><span>Medidas</span></h4>
+   </div>
+   <div class="panel-body">
+    <div class="row">
+      <div class="form-group">
+        <label for="" class="col-md-1 control-label">Cantidad:</label>
+        <div class="col-md-2">
+          <input type="text" class="form-control" id="cant_requerida" name="cant_requerida" value="0">
+        </div>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="form-group">
+        <label for="med_frente" class="col-md-1 control-label">Frente:</label>
+        <div class="col-md-2">
+          <input type="text" class="form-control" id="med_frente" name="med_frente" value="0">
+        </div>
+        <label for="med_fondo" class="col-md-1 control-label">Fondo:</label>
+        <div class="col-md-2">
+          <input type="text" class="form-control" id="med_fondo" name="med_fondo" value="0">
+        </div>
+        <label for="med_alto" class="col-md-1 control-label">Alto:</label>
+        <div class="col-md-2">
+          <input type="text" class="form-control" id="med_alto" name="med_alto" value="0">
+        </div>
+        <label for="med_alto" class="col-md-1 control-label">Medidas</label>
+        <div class="col-md-2">
+          <input type="text" class="form-control" id="med_alto" name="med_alto" value="0" readonly>
+        </div>                         
+      </div>
+    </div>
+    <div class="row">             
+      <div class="form-group">
+        <label for="med_largo" class="col-md-1 control-label">Largo:</label>
+        <div class="col-md-2">
+          <input type="text" class="form-control" id="med_largo" name="med_largo" value="0">
+        </div>
+        <label for="med_ancho" class="col-md-1 control-label">Ancho:</label>
+        <div class="col-md-2">
+          <input type="text" class="form-control" id="med_ancho" name="med_ancho" value="0">
+        </div>
+        <label for="carton_req" class="col-md-1 control-label">Carton requerido</label>
+        <div class="col-md-2">
+          <input type="text" class="form-control" id="carton_req" name="carton_req" value="0" readonly>
+        </div> 
+        <label for="cm_suaje" class="col-md-1 control-label">Suaje</label>
+        <div class="col-md-2">
+          <input type="text" class="form-control" id="cm_suaje" name="cm_suaje" placeholder="cm">
+        </div>                        
+      </div>            
+    </div>
+    <br>
+    <div class="row">             
+      <div class="form-group">
+        <label for="medida_caja" class="col-md-3 control-label">"Con medidas de la caja":</label>
+        <div class="col-md-1">
+         <input type="radio" id="medida_caja" name="calcularcon" class="custom-control-input">
+       </div>
+       <label for="medida_carton" class="col-md-3 control-label">"Con Medidas del carton":</label>
+       <div class="col-md-1">
+        <input type="radio" id="medida_carton" name="calcularcon" class="custom-control-input">
+      </div>
+      <label for="m2_req" class="col-md-2 control-label">m2 requeridos:</label>
+      <div class="col-md-2">
+       <input type="text" class="form-control" id="m2_req" name="m2_req" value="0" readonly>
+     </div>            
+   </div>            
+ </div>                                
+</div>    
+</div>
+
+<div class="panel panel-default">
+ <div class="bs-titulo">
+   <h4 class="bs-titulo"><span>Material</span></h4>
+ </div>
+ <div class="panel-body">
+  <div class="row">
+   <div class="form-group">
+     <label for="articulo" class="col-md-2 control-label">Articulo:</label>
+     <div class="col-md-10">
+      <select class="form-control input-sm" id="articulo" name="articulo">
+        <option value="null" selected=>SELECCIONAR</option>
+      </select>
+    </div>
+  </div>
+  <div class="form-group">
+   <label for="tipo_producto" class="col-md-2 control-label">Producto:</label>
+   <div class="col-md-10">
+    <select class="form-control input-sm" id="tipo_producto" name="tipo_producto">
+      <option value="null">SELECCIONAR</option>
+    </select>
+  </div>
+</div>
+<div class="form-group">
+  <label for="tipo_material" class="col-md-2 control-label">Tipo:</label>
+  <div class="col-md-10">
+    <select class="form-control input-sm" id="tipo_material" name="tipo_material">
+      <option value="null">SELECCIONAR</option>
+    </select>
+  </div>
+</div>
+<div class="form-group">
+  <label for="carton" class="col-md-2 control-label">Carton:</label>
+  <div class="col-md-10">
+    <select class="form-control input-sm" id="carton" name="carton">
+     <option value="null" selected>SELECCIONAR</option>
+   </select>
+ </div>
+</div> 
+</div>
+<br>
+<div class="row">
+  <div class="form-group">
+    <input type="checkbox" id="refiladorayado" name="refiladorayado" class="custom-control-input">
+    <label class="custom-control-label" for="refiladorayado">Aplicar Refilado Rayado</label>          
+  </div>
+</div>
+</div>    
+</div>
+
+<div class="panel panel-default">
+ <div class="bs-titulo">
+   <h4 class="bs-titulo"><span>Tintas</span></h4>
+ </div>
+ <div class="panel-body"> 
+  <div class="row">
+    <div class="form-group">
+      <label for="no_tintas" class="col-md-1 col-md-offset-1 control-label">#Tintas:</label>
+      <div class="col-md-2">
+        <input type="text" class="form-control" id="no_tintas" name="no_tintas" value="0">
+      </div>
+    </div> 
+  </div> 
+  <br>
+  <div class="row">
+    <div class="form-group">
+      <label for="t1_largo" class="col-md-1 control-label">Tinta1:</label>
+      <div class="col-md-2">
+        <input type="text" class="form-control" id="t1_largo" name="t1_largo" placeholder="Largo (cm)">
+      </div>
+      <label for="t1_ancho" class="control-label"></label>
+      <div class="col-md-2">
+        <input type="text" class="form-control" id="t1_ancho" name="t1_ancho" placeholder="Ancho (cm)">
+      </div>
+      <label for="t1_res" class="control-label"></label>
+      <div class="col-md-2">
+        <input type="text" class="form-control" id="t1_res" name="t1_res" value="0" readonly>
+      </div>    
+    </div>   
+  </div>  
+  <div class="row">
+    <div class="form-group">
+      <label for="t1_largo" class="col-md-1 control-label">Tinta2:</label>
+      <div class="col-md-2">
+        <input type="text" class="form-control" id="t2_largo" name="t2_largo" placeholder="Largo (cm)">
+      </div>
+      <label for="t1_ancho" class="control-label"></label>
+      <div class="col-md-2">
+        <input type="text" class="form-control" id="t2_ancho" name="t2_ancho" placeholder="Ancho (cm)">
+      </div>
+      <label for="t2_res" class="control-label"></label>
+      <div class="col-md-2">
+        <input type="text" class="form-control" id="t2_res" name="t2_res" value="0" readonly>
+      </div>      
+    </div>   
+  </div> 
+  <div class="row">
+    <div class="form-group">
+      <label for="t1_largo" class="col-md-1 control-label">Tinta3:</label>
+      <div class="col-md-2">
+        <input type="text" class="form-control" id="t3_largo" name="t3_largo" placeholder="Largo (cm)">
+      </div>
+      <label for="t1_ancho" class="control-label"></label>
+      <div class="col-md-2">
+        <input type="text" class="form-control" id="t3_ancho" name="t3_ancho" placeholder="Ancho (cm)">
+      </div>
+      <label for="t3_res" class="control-label"></label>
+      <div class="col-md-2">
+        <input type="text" class="form-control" id="t3_res" name="t3_res" value="0" readonly>
+      </div> 
+      <label for="tipo_suajado" class="col-md-2 control-label">Tipo Suajado:</label>
+      <div class="col-md-2">
+        <select class="form-control input-sm" id="tipo_suajado" name="tipo_suajado">
+          <option value="null" selected>SELECCIONAR</option>
+          <option value="1">MANUAL</option>
+          <option value="2">AUTOMATICO</option>
+        </select>
+      </div>        
+    </div>   
+  </div>  
+  <div class="row">
+    <div class="form-group">
+      <label for="t1_largo" class="col-md-1 control-label">Tinta4:</label>
+      <div class="col-md-2">
+        <input type="text" class="form-control" id="t4_largo" name="t4_largo" placeholder="Largo (cm)">
+      </div>
+      <label for="t1_ancho" class="control-label"></label>
+      <div class="col-md-2">
+        <input type="text" class="form-control" id="t4_ancho" name="t4_ancho" placeholder="Ancho (cm)">
+      </div>
+      <label for="t4_res" class="control-label"></label>
+      <div class="col-md-2">
+        <input type="text" class="form-control" id="t4_res" name="t4_res" value="0" readonly>
+      </div>    
+    </div>   
+  </div>
+  <br>
+  <div class="row">
+    <div class="form-group">
+      <label for="t1_largo" class="col-md-2 col-md-offset-3 control-label">Total cm2/caja</label>
+      <div class="col-md-2">
+        <input type="text" class="form-control" id="t4_largo" name="t4_largo" value="0" readonly>
+      </div>
+    </div>   
+  </div> 
+</div>    
+</div>
+
+<div class="panel panel-default">
+ <div class="bs-titulo">
+   <h4 class="bs-titulo"><span>Envios</span></h4>
+ </div>
+ <div class="panel-body">
+  <div class="row">
+   <div class="form-group">
+     <label for="tipo_camion1" class="col-md-2 control-label">Unidad:</label>
+     <div class="col-md-3">
+      <select class="form-control input-sm" id="tipo_camion1" name="tipo_camion1">
+        <option value="null" selected=>SELECCIONAR</option>
+      </select>
+    </div>
+    <div class="col-md-3">
+      <select class="form-control input-sm" id="tipo_camion2" name="tipo_camion2">
+        <option value="null" selected=>SELECCIONAR</option>
+      </select>
+    </div>    
+    <div class="col-md-3">
+      <select class="form-control input-sm" id="tipo_camion2" name="tipo_camion2">
+        <option value="null" selected=>SELECCIONAR</option>
+      </select>
+    </div>    
+  </div>  
+</div>
+<div class="row">
+ <div class="form-group">
+  <label for="capacidad1" class="col-md-2 control-label">Capacidad</label>
+  <div class="col-md-3">
+    <input type="text" class="form-control" id="capacidad1" name="capacidad1" value="0">
+  </div>
+  <label for="capacidad2" class="control-label"></label>
+  <div class="col-md-3">
+    <input type="text" class="form-control" id="capacidad2" name="capacidad2" value="0">
+  </div>   
+  <label for="capacidad3" class="control-label"></label>
+  <div class="col-md-3">
+    <input type="text" class="form-control" id="capacidad3" name="capacidad3" value="0">
+  </div>   
+</div>  
+</div>
+<div class="row">
+ <div class="form-group">
+  <label for="costo_viaje1" class="col-md-2 control-label">Costo x viaje</label>
+  <div class="col-md-3">
+    <input type="text" class="form-control" id="costo_viaje1" name="costo_viaje1" value="0">
+  </div>
+  <label for="costo_viaje2" class="control-label"></label>
+  <div class="col-md-3">
+    <input type="text" class="form-control" id="costo_viaje2" name="costo_viaje2" value="0">
+  </div>   
+  <label for="costo_viaje3" class="control-label"></label>
+  <div class="col-md-3">
+    <input type="text" class="form-control" id="costo_viaje3" name="costo_viaje3" value="0">
+  </div>   
+</div>  
+</div>
+<div class="row">
+ <div class="form-group">
+  <label for="cant_enviar1" class="col-md-2 control-label">Cant.Enviar</label>
+  <div class="col-md-3">
+    <input type="text" class="form-control" id="cant_enviar1" name="cant_enviar1" value="0">
+  </div>
+  <label for="cant_enviar2" class="control-label"></label>
+  <div class="col-md-3">
+    <input type="text" class="form-control" id="cant_enviar2" name="cant_enviar2" value="0">
+  </div>   
+  <label for="cant_enviar3" class="control-label"></label>
+  <div class="col-md-3">
+    <input type="text" class="form-control" id="cant_enviar3" name="cant_enviar3" value="0">
+  </div>   
+</div>  
+</div>
+<div class="row">
+ <div class="form-group">
+  <label for="num_viajes1" class="col-md-2 control-label">Num.Viajes</label>
+  <div class="col-md-3">
+    <input type="text" class="form-control" id="num_viajes1" name="num_viajes1" value="0">
+  </div>
+  <label for="num_viajes2" class="control-label"></label>
+  <div class="col-md-3">
+    <input type="text" class="form-control" id="num_viajes2" name="num_viajes2" value="0">
+  </div>   
+  <label for="num_viajes3" class="control-label"></label>
+  <div class="col-md-3">
+    <input type="text" class="form-control" id="num_viajes3" name="num_viajes3" value="0">
+  </div>   
+</div>  
+</div>
+<div class="row">
+ <div class="form-group">
+  <label for="costo_total1" class="col-md-2 control-label">Costo</label>
+  <div class="col-md-3">
+    <input type="text" class="form-control" id="costo_total1" name="costo_total1" value="0">
+  </div>
+  <label for="costo_total2" class="control-label"></label>
+  <div class="col-md-3">
+    <input type="text" class="form-control" id="costo_total2" name="costo_total2" value="0">
+  </div>   
+  <label for="costo_total3" class="control-label"></label>
+  <div class="col-md-3">
+    <input type="text" class="form-control" id="costo_total3" name="costo_total3" value="0">
+  </div>   
+</div>  
+</div>
+<br>
+<div class="row">
+ <div class="form-group">
+  <label for="costo_total1" class="col-md-2 control-label">Total Enviado</label>
+  <div class="col-md-3">
+    <input type="text" class="form-control" id="costo_total1" name="costo_total1" placeholder="Piezas">
+  </div>   
+</div>  
+</div>
+<div class="row">
+ <div class="form-group">
+  <label for="difvs_pedido" class="col-md-2 control-label">Diferencia vs Pedido</label>
+  <div class="col-md-3">
+    <input type="text" class="form-control" id="difvs_pedido" name="difvs_pedido" value="0">
+  </div>  
+  <label for="difvs_pedido" class="col-md-2 col-md-offset-1 control-label">Costo x envio</label>
+  <div class="col-md-3">
+    <input type="text" class="form-control" id="difvs_pedido" name="difvs_pedido" value="0">
+  </div>         
+</div>  
+</div>
+</div>
+</div>
+</div>
+<div class="col-md-3">
+  
+  <div class="panel panel-default">
+   <div class="bs-titulo">
+     <h4 class="bs-titulo"><span>Totales</span></h4>
+   </div>
+   <div class="panel-body">
+    <div class="row">
+     <div class="form-group">
+      <label for="importe" class="col-md-4 control-label">Importe</label>
+      <div class="col-md-8">
+        <input type="text" class="form-control" id="importe" name="importe" value="0">
+      </div>          
+    </div>
+  </div>
+  <div class="row">   
+   <div class="form-group">
+    <label for="por_margen" class="col-md-4 control-label"> %Margen</label>
+    <div class="col-md-4">
+      <input type="text" class="form-control" id="por_margen" name="por_margen" value="0">
+    </div>                     
+  </div> 
+</div>
+<div class="row">    
+ <div class="form-group">
+  <label for="margen" class="col-md-4 control-label">Margen</label>
+  <div class="col-md-8">
+    <input type="text" class="form-control" id="margen" name="margen" value="0">
+  </div>              
+</div>       
+</div>
+<div class="row">    
+ <div class="form-group">
+  <label for="punitario" class="col-md-4 control-label">P.Unitario</label>
+  <div class="col-md-8">
+    <input type="text" class="form-control" id="punitario" name="punitario" value="0">
+  </div>              
+</div>       
+</div>
+<div class="row">    
+ <div class="form-group">
+  <label for="total" class="col-md-4 control-label">Total</label>
+  <div class="col-md-8">
+    <input type="text" class="form-control" id="total" name="total" value="0">
+  </div>              
+</div>       
+</div>
+</div>
+</div>
+</div>
+</div>
+</form>
+<script>
+
+$.ajax({
+  type: "GET",
+  url: 'buscaclientes',
+    //async: false,
+    success: function (response) {
+      $('#id_cliente').html(response);
+
+    },
+    error: function () {
+      $('#id_cliente').html('Hubo un error');
+    }
+  });
+
+$.ajax({
+  dataType: "json",
+  url: 'selarticulo',
+    //async: false,
+    success: function(data){
+      $('select[name="articulo"]').append(data);
+    }
+  });
+
+$('select[name="articulo"]').change(function(){
+
+  var value = $('select[name="articulo"] option:selected').data('descripcion');
+
+  $.ajax({
+    dataType: "json",
+    url: 'selproducto',
+    type: "POST",
+    data: {Clasificacion : value},
+    success: function(data){
+      $('select[name="tipo_producto"]').html('<option value="null">SELECCIONAR</option>');
+      $('select[name="tipo_producto"]').append(data);
+    }
+  });
+});
+
+$('select[name="tipo_producto"]').change(function(){
+ var value = 8;
+
+ $.ajax({
+  dataType: "json",
+  url: 'tipomaterial',
+  type: "POST",
+  data: {tipoMaterial : value},
+  success: function(data){
+    $('select[name="tipo_material"]').html('<option value="null">SELECCIONAR</option>');
+    $('select[name="tipo_material"]').append(data);
+  }
+});
+});
+
+$('select[name="tipo_material"]').change(function(){
+
+  var texto = $('select[name="tipo_material"] option:selected').text();
+
+  $.ajax({
+    dataType: "json",
+    url: 'selmatcorrugados',
+    type: "POST",
+    data: {Material : texto},
+    success: function(data){
+      $('select[name="carton"]').html('<option value="null">SELECCIONAR</option>');
+      $('select[name="carton"]').append(data);
+    }
+  });
+});
+
+$.ajax({
+  dataType: "json",
+  url: 'seltiposcamiones',
+  type: "POST",
+  //data: {Material : texto},
+  success: function(data){
+    $('select[name="tipo_camion1"]').html('<option value="null">SELECCIONAR</option>');
+    $('select[name="tipo_camion1"]').append(data);
+    $('select[name="tipo_camion2"]').html('<option value="null">SELECCIONAR</option>');
+    $('select[name="tipo_camion2"]').append(data);
+    $('select[name="tipo_camion3"]').html('<option value="null">SELECCIONAR</option>');
+    $('select[name="tipo_camion3"]').append(data);        
+  }
+});
+
+
+</script>

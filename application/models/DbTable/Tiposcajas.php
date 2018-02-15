@@ -67,6 +67,60 @@ class Application_Model_DbTable_Tiposcajas extends Zend_Db_Table_Abstract
         return $data;
 
     }
+
+    public function selectproducto($clasificacion, $clasificacion2)
+    {
+
+        $datos = $this->fetchAll(
+            $this->select()
+            ->where('id_estatus = ?', '1')
+            ->where('Clasificacion = ?', $clasificacion)
+            ->where('Clasificacion2 = ?', $clasificacion2)
+        );
+
+        $UTF8 = new Application_Model_Utf8EncodeArray();
+        $tiposMovi = $UTF8->encode($datos);
+
+        $response = new stdClass();
+        $data = "";
+
+        foreach ($tiposMovi as $row) {
+            $data .= '<option value="'.$row['Id'].'" data-val="'.$row['Descripcion'].'">'.$row['Descripcion'].'</option>';          
+        }
+        $response = $data;
+        return $data;
+    }     
     
+    public function cotizadorprocesos($clasificacion, $clasificacion2, $tipoproducto)
+    {
+        $select = $this->select();
+            $select->where('Clasificacion = ?', $clasificacion);
+            $select->where('Clasificacion2 = ?', $clasificacion2);
+            $select->where('Descripcion = ?', $tipoproducto);
+
+        $response=new stdClass();
+        $rows = $this->fetchAll($select);
+                        //$consulta = $select->__toString();
+                        //echo $consulta;
+                        //exit();
+        $procesos = array();
+        foreach ($rows as $row) {
+
+            $procesos[] = array(
+                "Refilado"=>$row['Refilado'],
+                "Rayado" => $row['Rayado'],
+                "FlexoRanurado"=>$row['FlexoRanurado'],
+                "Caiman" => $row['Caiman'],
+                "Pegado"=>$row['Pegado'],
+                "Grapado" => $row['Grapado'],
+                "Autoarmado"=>$row['Autoarmado'],
+                "Flejado" => $row['Flejado'],
+                "Entarimado"=>$row['Entarimado'],
+                "Impresion" => $row['Impresion']
+                ); 
+        }
+        $response->data = $procesos;
+        return $response;        
+    }    
     
 }

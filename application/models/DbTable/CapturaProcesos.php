@@ -18,7 +18,8 @@ class Application_Model_DbTable_CapturaProcesos extends Zend_Db_Table_Abstract
 		foreach ($rows as $row) {
 
 			$enproceso[] = array(
-				"id"=>"<button id='". $row["id_orden"] . "' data-fila='". $row["id_orden"] . "' type='button' class='btn  btn-preview btn-primary'>". $row["id_orden"] . "</button>",
+				"id_proceso" => $row['id'],
+				"orden"=>"<button id='". $row["id_orden"] . "' data-id='". $row["id_orden"] . "' type='button' class='btn  btn-preview btn-primary'>". $row["id_orden"] . "</button>",
 				"trabajo" => $row['nombre_trabajo']				
 				); 
 		}
@@ -26,11 +27,11 @@ class Application_Model_DbTable_CapturaProcesos extends Zend_Db_Table_Abstract
 		return $response;
 	}
 
-	public function extraerenproceso($orden,$vista)
+	public function extraerenproceso($id_proceso,$vista)
 	{		
 		$select = $this->select();
-		$select->where("id_orden = ?",$orden);
-		$select->where("nombre_maquina IN (?)",$vista);
+		$select->where("id = ?",$id_proceso);
+
 		$response=new stdClass();					
 		$rows = $this->fetchAll($select);
 
@@ -54,6 +55,7 @@ class Application_Model_DbTable_CapturaProcesos extends Zend_Db_Table_Abstract
 		return $response;
 	}
 
+	//1
 	public function copiaracapturaprocesos($copiardependientes){
 		$insert = $this->insert(array(
 									"id_orden"=>$copiardependientes[0]["id_orden"],
@@ -65,40 +67,26 @@ class Application_Model_DbTable_CapturaProcesos extends Zend_Db_Table_Abstract
 									"cant_requerida"=>$copiardependientes[0]["cant_requerida"],
 									"fechahora_registro"=>$copiardependientes[0]["fechahora_registro"]
 									));
+
+        $db = Zend_Db_Table_Abstract::getDefaultAdapter();
+        $row = $db->fetchrow(
+            $db->select()
+            ->from('captura_procesos',array(new Zend_Db_Expr('max(id) as MaxId')))
+        );
+        $id_proceso = $row['MaxId'];
+
 		$response = new stdClass();
+		$response->id_proceso = $id_proceso;
 		$response->validacion = true;
 		return $response;
 	}
 
-	public function iniciarproceso($id_orden,$idmaquina,$maquina,$idproceso,$proceso,$id_operador,$nombre_operador,$fechainicio)
-	{		
-		//$where = array("nombre_maquina" => $maquina, "nombre_proceso" => $proceso);
-		//$where = "proceso = $proceso";
-		$where[] = "id_orden = '$id_orden'";
-		$where[] = "nombre_maquina = '$maquina'";
-		//$where[] = "nombre_proceso = '$proceso'";
-		$update = $this->update(array(
-									"id_maquina"=>$idmaquina,			
-									"nombre_maquina"=>$maquina,
-									"id_proceso"=>$idproceso,
-									"nombre_proceso"=>$proceso,									
-									"id_operador"=>$id_operador,
-									"nombre_operador"=>$nombre_operador,
-									"fechahora_inicio"=>$fechainicio
-									), $where);		
-		//$update->where("id_orden = ?",$id_orden);
-		//die($select->__toString());
-		$response = new stdClass();
-		$response->validacion = true;
-		return $response;
-	}
-
-	public function copiardecapturaprocesos($maquina,$proceso)
+	public function copiardecapturaprocesos($id_proceso)
 	{
 
 		$select = $this->select();
-		$select->where("nombre_maquina = ?",$maquina);
-		//$select->where("nombre_proceso = ?",$proceso);		
+		$select->where("id = ?",$id_proceso);
+	
 		$response=new stdClass();
 		$rows = $this->fetchAll($select);
 
@@ -123,37 +111,81 @@ class Application_Model_DbTable_CapturaProcesos extends Zend_Db_Table_Abstract
 		return $copiar;
 	}	
 
-	public function eliminarprocesoenproceso($maquina,$proceso)
+	public function eliminarprocesoenproceso($id_proceso)
 	{
 		$where = array();
-        $where[] = $this->getAdapter()->quoteInto('nombre_maquina = ?', $maquina);	
-        //$where[] = $this->getAdapter()->quoteInto('nombre_proceso = ?', $proceso);		
+        $where[] = $this->getAdapter()->quoteInto('id = ?', $id_proceso);			
 		$delete = $this->delete($where);
-		//$delete->where("id_orden =?", $orden);		
-		//$delete = $this->delete(where('id_orden = ?',$orden));
-		//->where('id_orden = ?',$orden);
+
 		$response = new stdClass();
 		$response->validacion = true;
 		return $response;
 	}
 
-	public function actualizarfechainicio($id_orden,$idoperador,$nombreoperador,$fechainicio)
-	{		
-		//$where = array("nombre_maquina" => $maquina, "nombre_proceso" => $proceso);
-		//$where = "proceso = $proceso";
-		$where[] = "id_orden = '$id_orden'";
-		//$where[] = "nombre_proceso = '$proceso'";
-		//$where[] = "nombre_proceso = '$proceso'";
+	//2
+	public function iniciarajuste($id_proceso,$idmaquina,$maquina,$idproceso,$proceso,$idoperador,$nombreoperador){
+		
+		$where[] = "id = '$id_proceso'";
 		$update = $this->update(array(
-			"fechahora_inicio"=>$fechainicio,
-			"id_operador"=>$idoperador,
-			"nombre_operador"=>$nombreoperador		
-			), $where);		
-		//$update->where("id_orden = ?",$id_orden);
-		//die($select->__toString());
+									"id_maquina"=>$idmaquina,			
+									"nombre_maquina"=>$maquina,
+									"id_proceso"=>$idproceso,
+									"nombre_proceso"=>$proceso,									
+									"id_operador"=>$idoperador,
+									"nombre_operador"=>$nombreoperador
+									), $where);
+
 		$response = new stdClass();
 		$response->validacion = true;
 		return $response;
 	}	
+
+	public function actualizarproceso($id_proceso,$idproceso,$proceso)
+	{		
+		$where[] = "id = '$id_proceso'";
+		$update = $this->update(array(
+			"id_proceso"=>$idproceso,
+			"nombre_proceso"=>$proceso	
+			), $where);		
+
+        $db = Zend_Db_Table_Abstract::getDefaultAdapter();
+        $row = $db->fetchrow(
+            $db->select()
+            ->from('captura_procesos',array(new Zend_Db_Expr('max(id) as MaxId')))
+        );
+        $id_proceso = $row['MaxId'];
+
+		$response = new stdClass();		
+		$response->validacion = true;
+		$response->id_proceso = $id_proceso;
+		return $response;
+	}
+
+	public function copiardedetalleacaptura($copiardedetalle){
+		$insert = $this->insert(array(
+									"id_orden"=>$copiardedetalle[0]["id_orden"],
+									"nombre_trabajo"=>$copiardedetalle[0]["nombre_trabajo"],
+									"id_maquina"=>$copiardedetalle[0]["id_maquina"],
+									"nombre_maquina"=>$copiardedetalle[0]["nombre_maquina"],
+									"id_proceso"=>$copiardedetalle[0]["id_proceso"],
+									"nombre_proceso"=>$copiardedetalle[0]["nombre_proceso"],
+									"id_operador"=>$copiardedetalle[0]["id_operador"],
+									"nombre_operador"=>$copiardedetalle[0]["nombre_operador"],									
+									"cant_requerida"=>$copiardedetalle[0]["cant_requerida"],
+									"fechahora_registro"=>$copiardedetalle[0]["fechahora_registro"]
+									));
+
+        $db = Zend_Db_Table_Abstract::getDefaultAdapter();
+        $row = $db->fetchrow(
+            $db->select()
+            ->from('captura_procesos',array(new Zend_Db_Expr('max(id) as MaxId')))
+        );
+        $id_proceso = $row['MaxId'];
+
+		$response = new stdClass();
+		$response->id_proceso = $id_proceso;
+		$response->validacion = true;
+		return $response;
+	}
 
 }

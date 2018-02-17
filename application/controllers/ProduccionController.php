@@ -74,14 +74,14 @@ class ProduccionController extends Zend_Controller_Action
 
 	}
 
-	public function extraerenpendienteAction(){		
+	public function extraerenpendienteAction(){//
 		$this->_helper->layout->disableLayout();
 		$this->_helper->viewRenderer->setNoRender();
 
-		$orden = $_POST['orden'];
-		$vista = $_POST['vista'];
+		$id_pendiente = $_POST['id_pendiente'];
+		//$vista = $_POST['vista'];
 		$extrae = new Application_Model_DbTable_ProcesosPendientes();
-		$extraer = $extrae->extraerenpendiente($orden,$vista);
+		$extraer = $extrae->extraerenpendiente($id_pendiente);
 
 		echo Zend_Json::encode($extraer);
 
@@ -91,10 +91,10 @@ class ProduccionController extends Zend_Controller_Action
 		$this->_helper->layout->disableLayout();
 		$this->_helper->viewRenderer->setNoRender();
 
-		$orden = $_POST['orden'];
+		$id_proceso = $_POST['id_proceso'];
 		$vista = $_POST['vista'];
 		$extrae = new Application_Model_DbTable_CapturaProcesos();
-		$extraer = $extrae->extraerenproceso($orden,$vista);
+		$extraer = $extrae->extraerenproceso($id_proceso,$vista);
 
 		echo Zend_Json::encode($extraer);
 
@@ -112,14 +112,15 @@ class ProduccionController extends Zend_Controller_Action
 
 	}
 
+	//1
 	public function copiarprocesoacapturaAction(){
 		$this->_helper->layout->disableLayout();
 		$this->_helper->viewRenderer->setNoRender();		
-		$maquina = $_POST['maquina'];
-		$proceso = $_POST['proceso'];
+
+		$id_pendiente = $_POST['id_pendiente'];
 
 		$copiadependientes = new Application_Model_DbTable_ProcesosPendientes();
-		$copiardependientes = $copiadependientes->copiardeprocesospendientes($maquina,$proceso);
+		$copiardependientes = $copiadependientes->copiardeprocesospendientes($id_pendiente);
 		
 		$copiaacaptura = new Application_Model_DbTable_CapturaProcesos();
 		$copiaracaptura = $copiaacaptura->copiaracapturaprocesos($copiardependientes);	
@@ -132,33 +133,28 @@ class ProduccionController extends Zend_Controller_Action
 		$this->_helper->layout->disableLayout();
 		$this->_helper->viewRenderer->setNoRender();		
 
-		$id_orden = $_POST['orden'];
-		$nombre_trabajo = $_POST['trabajo'];
-		$idmaquina = $_POST['idmaquina'];
-		$maquina = $_POST['maquina'];
-		$idproceso = $_POST['idproceso'];
-		$proceso = $_POST['proceso'];	
-		$id_operador = $_POST['idoperador'];
-		$nombre_operador = $_POST['nombreoperador'];
-		$fechainicio = new Zend_Db_Expr('NOW()');
+		$id_detalle = $_POST['id_detalle'];
 
+		$copiadedetalle = new Application_Model_DbTable_DetalleProcesos();
+		$copiardedetalle = $copiadedetalle->copiardedetalleprocesos($id_detalle);
+		
+		$copiaacaptura = new Application_Model_DbTable_CapturaProcesos();
+		$copiaracaptura = $copiaacaptura->copiardedetalleacaptura($copiardedetalle);			
 
-		$inicia = new Application_Model_DbTable_CapturaProcesos();
-		$iniciar = $inicia->iniciarproceso($id_orden,$idmaquina,$maquina,$idproceso,$proceso,$id_operador,$nombre_operador,$fechainicio);
-		echo Zend_Json::encode($iniciar);
+		echo Zend_Json::encode($copiaracaptura);
 	}
 
 	public function copiaradetalleprocesosAction(){
 		$this->_helper->layout->disableLayout();
 		$this->_helper->viewRenderer->setNoRender();		
-		$maquina = $_POST['maquina'];
-		$proceso = $_POST['proceso'];
+
+		$id_proceso = $_POST['id_proceso'];
 
 		$copiadecaptura = new Application_Model_DbTable_CapturaProcesos();
-		$copiardecaptura = $copiadecaptura->copiardecapturaprocesos($maquina,$proceso);
+		$copiardecaptura = $copiadecaptura->copiardecapturaprocesos($id_proceso);
 		
 		$copiaadetalle = new Application_Model_DbTable_DetalleProcesos();
-		$copiaradetalle = $copiaadetalle->copiaradetalleprocesos($copiardecaptura);	
+		$copiaradetalle = $copiaadetalle->copiaradetalleprocesos($copiardecaptura);			
 
 		echo Zend_Json::encode($copiaradetalle);	
 	}
@@ -169,10 +165,9 @@ class ProduccionController extends Zend_Controller_Action
 		$this->_helper->viewRenderer->setNoRender();
 
 		$id_orden = $_POST['orden'];
-		$vista = $_POST['vista'];	
 
 		$consulta = new Application_Model_DbTable_vAcumulados();
-		$consultar = $consulta->consultaracumulados($id_orden,$vista);
+		$consultar = $consulta->consultaracumulados($id_orden);
 		echo Zend_Json::encode($consultar);       	
 	}
 
@@ -181,76 +176,65 @@ class ProduccionController extends Zend_Controller_Action
 		$this->_helper->layout->disableLayout();
 		$this->_helper->viewRenderer->setNoRender();
 
-		$idorden = $_POST['orden'];
+		$id_detalle = $_POST['id_detalle'];
+		$idmaquina = $_POST['idmaquina'];
 		$maquina = $_POST['maquina'];
+		$idproceso = $_POST['idproceso'];
 		$proceso = $_POST['proceso'];
 		$cantidadok = $_POST['cantidadok'];
 		$cantidadmerma = $_POST['cantidadmerma'];
 		$tiempo = $_POST['tiemporep'];
 		$notas = $_POST['notas'];
-		$fechafin = new Zend_Db_Expr('NOW()');
+		//$fechafin = new Zend_Db_Expr('NOW()');
 
 		$reporta = new Application_Model_DbTable_DetalleProcesos();
-		$reportar = $reporta->reportarproceso($idorden,$maquina,$proceso,$cantidadok,$cantidadmerma,$tiempo,$notas,$fechafin);
+		$reportar = $reporta->reportarproceso($id_detalle,$idmaquina,$maquina,$idproceso,$proceso,$cantidadok,$cantidadmerma,$tiempo,$notas);
 		echo Zend_Json::encode($reportar);
 	}
 
 	public function eliminarprocesoenprocesoAction(){		
 		$this->_helper->layout->disableLayout();
 		$this->_helper->viewRenderer->setNoRender();
-		$maquina = $_POST['maquina'];
-		$proceso = $_POST['proceso'];
+
+		$id_proceso = $_POST['id_proceso'];
 
 		$elimina = new Application_Model_DbTable_CapturaProcesos();
-		$eliminar = $elimina->eliminarprocesoenproceso($maquina,$proceso);
+		$eliminar = $elimina->eliminarprocesoenproceso($id_proceso);
 
 		echo Zend_Json::encode($eliminar);
-
 	}
 
+	//3
 	public function eliminarprocesoenpendienteAction(){
 		$this->_helper->layout->disableLayout();
 		$this->_helper->viewRenderer->setNoRender();
-		$maquina = $_POST['maquina'];
-		$proceso = $_POST['proceso'];
-		$orden = $_POST['orden'];
+
+		$id_pendiente = $_POST['id_pendiente'];
 
 		$elimina = new Application_Model_DbTable_ProcesosPendientes();
-		$eliminar = $elimina->eliminarprocesoenpendiente($maquina,$proceso,$orden);
+		$eliminar = $elimina->eliminarprocesoenpendiente($id_pendiente);
 
 		echo Zend_Json::encode($eliminar);
 	}
 
-	public function iniciarajusteAction(){
-
+	//2
+	public function iniciarajusteAction()
+	{
 		$this->_helper->layout->disableLayout();
-		$this->_helper->viewRenderer->setNoRender();		
+		$this->_helper->viewRenderer->setNoRender();
 
-		$id_orden = $_POST['orden'];
-		$nombre_trabajo = $_POST['trabajo'];
+		$id_proceso = $_POST['id_proceso'];
 		$idmaquina = $_POST['idmaquina'];
 		$maquina = $_POST['maquina'];
 		$idproceso = $_POST['idproceso'];
 		$proceso = $_POST['proceso'];	
-		$id_operador = $_POST['idoperador'];
-		$nombre_operador = $_POST['nombreoperador'];
-		$fechainicio = new Zend_Db_Expr('NOW()');
+		$idoperador = $_POST['idoperador'];
+		$nombreoperador = $_POST['nombreoperador'];
 
+		$inicia = new Application_Model_DbTable_CapturaProcesos();
+		$iniciar = $inicia->iniciarajuste($id_proceso,$idmaquina,$maquina,$idproceso,$proceso,$idoperador,$nombreoperador);
 
-		$rep = new Application_Model_DbTable_DetalleProcesos();
-		$repajuste = $rep->iniciarajuste($id_orden,$nombre_trabajo,$idmaquina,$maquina,$idproceso,$proceso,$id_operador,$nombre_operador,$fechainicio);
-		echo Zend_Json::encode($repajuste);
-	}
-
-	public function existeajusteAction(){		
-		$this->_helper->layout->disableLayout();
-		$this->_helper->viewRenderer->setNoRender();
-
-		$id_orden = $_POST['orden'];
-		$consulta = new Application_Model_DbTable_DetalleProcesos();
-		$consultar = $consulta->existeajuste($id_orden);
-
-		echo Zend_Json::encode($consultar);
+		echo Zend_Json::encode($iniciar);		
 	}
 
 	public function reportarajusteAction(){
@@ -258,50 +242,34 @@ class ProduccionController extends Zend_Controller_Action
 		$this->_helper->layout->disableLayout();
 		$this->_helper->viewRenderer->setNoRender();
 
-		$idorden = $_POST['orden'];
+		$id_detalle = $_POST['id_detalle'];
+		$idmaquina = $_POST['idmaquina'];
+		$maquina = $_POST['maquina'];
+		$idproceso = $_POST['idproceso'];
 		$proceso = $_POST['proceso'];
-		$cantreq = $_POST['cantreq'];
 		$cantidadok = $_POST['cantidadok'];
 		$cantidadmerma = $_POST['cantidadmerma'];
 		$tiempo = $_POST['tiemporep'];
 		$notas = $_POST['notas'];
-		$fechafin = new Zend_Db_Expr('NOW()');
+		//$fechafin = new Zend_Db_Expr('NOW()');
 
 		$reporta = new Application_Model_DbTable_DetalleProcesos();
-		$reportar = $reporta->reportarajuste($idorden,$proceso,$cantreq,$cantidadok,$cantidadmerma,$tiempo,$notas,$fechafin);
+		$reportar = $reporta->reportarajuste($id_detalle,$idmaquina,$maquina,$idproceso,$proceso,$cantidadok,$cantidadmerma,$tiempo,$notas);
 		echo Zend_Json::encode($reportar);
 	}	
 
-	public function actualizarfechainicioAction(){
+	public function actualizarprocesoAction(){
 
 		$this->_helper->layout->disableLayout();
 		$this->_helper->viewRenderer->setNoRender();		
 
-		$id_orden = $_POST['orden'];
-		$idoperador = $_POST['idoperador'];
-		$nombreoperador = $_POST['nombreoperador'];
-		//$proceso = $_POST['proceso'];
-		$fechainicio = new Zend_Db_Expr('NOW()');
+		$id_proceso = $_POST['id_proceso'];
+		$idproceso = $_POST['idproceso'];
+		$proceso = $_POST['proceso'];
 
 		$actualiza = new Application_Model_DbTable_CapturaProcesos();
-		$actualizar = $actualiza->actualizarfechainicio($id_orden,$idoperador,$nombreoperador,$fechainicio);
+		$actualizar = $actualiza->actualizarproceso($id_proceso,$idproceso,$proceso);
 		echo Zend_Json::encode($actualizar);
-	}	
-
-	public function copiarfecharegistroadetalleAction(){
-		$this->_helper->layout->disableLayout();
-		$this->_helper->viewRenderer->setNoRender();		
-		$maquina = $_POST['maquina'];
-		$proceso = $_POST['proceso'];
-		$id_orden = $_POST['orden'];
-
-		$copiarfecha = new Application_Model_DbTable_ProcesosPendientes();
-		$copiarfecharegistro = $copiarfecha->copiarfecharegistrodependiente($maquina,$proceso,$id_orden);
-		
-		$copiaadetalle = new Application_Model_DbTable_DetalleProcesos();
-		$copiaradetalle = $copiaadetalle->copiarfecharegistroadetalleprocesos($copiarfecharegistro,$maquina,$id_orden);	
-
-		echo Zend_Json::encode($copiaradetalle);	
-	}	
+	}		
 
 }

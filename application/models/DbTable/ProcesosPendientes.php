@@ -18,21 +18,20 @@ class Application_Model_DbTable_ProcesosPendientes extends Zend_Db_Table_Abstrac
    foreach ($rows as $row) {
 
      $enproceso[] = array(
-      "id"=>"<button  id='". $row["id_orden"] . "' value='". $row["id_orden"] . "' data-fila='". $row["id_orden"] . "' type='button' class='btn  btn-preview btn-primary'>". $row["id_orden"] . "</button>",
-      "trabajo" => $row['nombre_trabajo'],
-      "cantreq" => $row['cant_requerida'],
-      "trabajo" => $row['nombre_trabajo']                                   
-    );
+      "id_pendiente" => $row['id'],
+      "orden" => "<button  id='". $row["id_orden"] . "' value='". $row["id_orden"] . "' data-id='". $row["id_orden"] . "' type='button' class='btn  btn-preview btn-primary'>". $row["id_orden"] . "</button>",
+      "trabajo" => $row['nombre_trabajo']
+      );
    }
    $response->data = $enproceso;
    return $response;
  }
  
- public function extraerenpendiente($orden,$vista)
+ public function extraerenpendiente($id_pendiente)
  {                             
    $select = $this->select();
-   $select->where("id_orden = ?",$orden);
-   $select->where("nombre_maquina IN (?)",$vista);
+   $select->where("id = ?",$id_pendiente);
+
    $response=new stdClass();                                                                       
    $rows = $this->fetchAll($select);
 
@@ -54,15 +53,12 @@ class Application_Model_DbTable_ProcesosPendientes extends Zend_Db_Table_Abstrac
    return $response;
  }             
  
- public function copiardeprocesospendientes($maquina,$proceso)
+ public function copiardeprocesospendientes($id_pendiente)
  {
 
    $select = $this->select();
-   $select->where("nombre_maquina = ?",$maquina);
-   //$select->where("nombre_proceso = ?",$proceso);
-                              //$consulta = $select->__toString();
-                              //echo $consulta;
-                              //exit();                               
+   $select->where("id = ?",$id_pendiente);
+
    $response=new stdClass();
    $rows = $this->fetchAll($select);
 
@@ -84,45 +80,18 @@ class Application_Model_DbTable_ProcesosPendientes extends Zend_Db_Table_Abstrac
    return $copiar;
  }             
  
- public function eliminarprocesoenpendiente($maquina,$proceso,$orden)
+ //3
+ public function eliminarprocesoenpendiente($id_pendiente)
  {
    $where = array();
-   $where[] = $this->getAdapter()->quoteInto('nombre_maquina = ?', $maquina);
-   $where[] = $this->getAdapter()->quoteInto('id_orden = ?', $orden);
+   $where[] = $this->getAdapter()->quoteInto('id = ?', $id_pendiente);
+
    $delete = $this->delete($where);                                                          
-                               //$delete->where("id_orden = ?", $orden);
-                               //$delete = $this->delete(where('id_orden = ?',$orden));
-                               //->where('id_orden = ?',$orden);
+
    $response = new stdClass();
    $response->validacion = true;
    return $response;
  }
-
- public function copiarfecharegistrodependiente($maquina,$proceso,$id_orden)
- {
-
-   $select = $this->select();
-   $select->where("id_orden = ?",$id_orden);
-   $select->where("nombre_maquina = ?",$maquina);
-   //$select->where("nombre_proceso = ?",$proceso);
-                              //$consulta = $select->__toString();
-                              //echo $consulta;
-                              //exit();                               
-   $response=new stdClass();
-   $rows = $this->fetchAll($select);
-
-   $copiar = array();
-   foreach ($rows as $row) {
-
-     $copiar[] = array(
-      //"id_orden"=>$row["id_orden"],
-      //"nombre_maquina"=>$row["nombre_maquina"],
-       "fechahora_registro"=>$row["fechahora_registro"]
-     );
-   }
-
-   return $copiar;
- }   
  
  public function addSuajado($datos){
 

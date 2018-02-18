@@ -128,8 +128,7 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
         <div class="form-group">
           <label for="fecha_emision" class="col-md-6 control-label">Fecha registro:</label>
           <div class="col-md-6">
-            <input type="date" class="form-control input-sm date-cls" id="fecha_emision" name="fecha_emision" value="<?php echo date("
-              Y-m-d ");?>" readonly>
+            <input type="date" class="form-control input-sm date-cls" id="fecha_emision" name="fecha_emision" value="<?php echo date("Y-m-d");?>" readonly>
           </div>
         </div>
       </div>
@@ -963,41 +962,151 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
     return decodeURIComponent(results[2].replace(/\+/g, " "));
   }
 
-  $.ajax({
-    type: "GET",
-    url: 'buscaclientes',
-    async: false,
-    success: function (response) {
-      $('#id_cliente').html(response);
+  selClientes();
+  selProveedor();
+  selArticulo();
 
-    },
-    error: function () {
-      $('#id_cliente').html('Hubo un error');
-    }
-  });
+  function selClientes() {
 
-  $.ajax({
-    type: "GET",
-    url: 'nombreproveedor',
-    async: false,
-    success: function (response) {
-      $('#nombre_proveedor').html(response);
+    $.ajax({
+      type: "GET",
+      url: 'buscaclientes',
+      async: false,
+      success: function (response) {
+        $('#id_cliente').html(response);
 
-    },
-    error: function () {
-      $('#nombre_proveedor').html('Hubo un error');
-    }
-  });
+      },
+      error: function () {
+        $('#id_cliente').html('Hubo un error');
+      }
+    });
+
+  }
+
+  function selProveedor() {
+
+    $.ajax({
+      type: "GET",
+      url: 'nombreproveedor',
+      async: false,
+      success: function (response) {
+        $('#nombre_proveedor').html(response);
+
+      },
+      error: function () {
+        $('#nombre_proveedor').html('Hubo un error');
+      }
+    });
+
+  }
+
+  function selArticulo() {
+    $.ajax({
+      dataType: "json",
+      url: 'selarticulo',
+      async: false,
+      type: 'POST',
+      success: function (data) {
+        $('select[name="articulo"]').append(data);
+      }
+    });
+  }
+
+  function selDireccion($Cliente) {
+    $.ajax({
+      dataType: "json",
+      url: 'seldireccion',
+      async: false,
+      type: 'POST',
+      data: {
+        idCliente: $Cliente
+      },
+      success: function (data) {
+        $('select[name="id_direccionentrega"]').html('<option value="null">SELECCIONAR</option>');
+        $('select[name="id_direccionentrega"]').append(data);
+        $('select[name="tipo_producto"]>option').removeAttr("selected");
+        $('select[name="tipo_producto"]>option[value="' + data['id_ordencompra'] + '"]').attr(
+          "selected", true);
+      }
+    });
+  }
+
+  function selProducto($articulo) {
+    $.ajax({
+      dataType: "json",
+      url: 'selproducto',
+      async: false,
+      type: 'POST',
+      data: {
+        Clasificacion: $articulo
+      },
+      success: function (data) {
+        $('select[name="tipo_producto"]').html('<option value="null">SELECCIONAR</option>');
+        $('select[name="tipo_producto"]').append(data);
+        $('select[name="tipo_producto"]>option').removeAttr("selected");
+
+      }
+    });
+  }
+
+  function selTipoMaterial($material) {
+    $.ajax({
+      dataType: "json",
+      url: 'tipomaterial',
+      async: false,
+      type: 'POST',
+      data: {
+        'tipoMaterial': $material
+      },
+      success: function (data) {
+        $('select[name="tipo_material"]').html('<option value="null">SELECCIONAR</option>');
+        $('select[name="tipo_material"]').append(data);
+        $('select[name="tipo_material"]>option').removeAttr("selected");
+
+      }
+    });
+  }
+
+  function selCarton($TipoMaterial) {
+    $.ajax({
+      dataType: "json",
+      url: 'selmatcorrugados',
+      async: false,
+      type: 'POST',
+      data: {
+        Material: $TipoMaterial
+      },
+      success: function (data) {
+
+        $('select[name="carton"]').html('<option value="null">SELECCIONAR</option>');
+        $('select[name="carton"]').append(data);
+        $('select[name="carton"]>option').removeAttr("selected");
+
+      }
+    });
+  }
+
+  function selTamanoCarton($Carton) {
+    $.ajax({
+      dataType: "json",
+      url: 'seltamcorrugados',
+      async: false,
+      type: 'POST',
+      data: {
+        Id: $Carton
+      },
+      success: function (data) {
+
+        $('select[name="tam-carton"]').html('<option value="null">SELECCIONAR</option>');
+        $('select[name="tam-carton"]').append(data);
+        $('select[name="tam-carton"]>option').removeAttr("selected");
+
+      }
+    });
+  }
 
 
-  $.ajax({
-    dataType: "json",
-    url: 'selarticulo',
-    async: false,
-    success: function (data) {
-      $('select[name="articulo"]').append(data);
-    }
-  });
+
 
   var Tipo = getParameterByName('Tipo');
 
@@ -1041,35 +1150,18 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
         $('input').attr('readonly', true);
         $('input:radio').attr('disabled', true);
         $('input:checkbox').attr('disabled', true);
-        $('select').attr('disabled', true);
+       
         $('textarea').attr('readonly', true);
 
-        $('.num_folio').text(data['id_ordenproduccion']);
-        //$('input[name="id_ordenproduccion"]').val(data['id_ordenproduccion']);
-        $('input[name="id_ordenmaterial"]').val(data['id_ordenmaterial']);
-        $('input[name="id_ordencompra"]').val(data['id_ordencompra']);
+        selDireccion(data['id_ordencompra']);
 
-        $.ajax({
-          dataType: "json",
-          url: 'seldireccion',
-          type: "POST",
-          data: {
-            idCliente: data['id_ordencompra']
-          },
-          success: function (data) {
-            $('select[name="id_direccionentrega"]').html('<option value="null">SELECCIONAR</option>');
-            $('select[name="id_direccionentrega"]').append(data);
-            $('select[name="tipo_producto"]>option').removeAttr("selected");
-            $('select[name="tipo_producto"]>option[value="' + data['id_ordencompra'] + '"]').attr(
-              "selected", true);
-          }
+        $.each(data, function (index, value) {
+          $('input[name="' + index + '"]').val(value);
         });
 
-        $('input[name="id_cotizacion"]').val(data['id_cotizacion']);
+        $('.num_folio').text(data['id_ordenproduccion']);
+
         $('#id_cliente').selectpicker('val', data['id_cliente']);
-        $('input[name="nombre_trabajo"]').val(data['nombre_trabajo']);
-        $('input[name="fecha_emision"]').val(emision[0]);
-        $('input[name="fecha_requeridaentrega"]').val(requerida[0]);
         $('textarea[name="notas"]').val(data['notas']);
 
         $('#id_cliente').selectpicker('refresh');
@@ -1086,122 +1178,27 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
       },
       success: function (response) {
 
-        $('input[name="cant_requerida"]').val(response['cant_requerida']);
-        $('input[name="cant_cmerma"]').val(response['cant_cmerma']);
-        $('input[name="med_frente"]').val(response['med_frente']);
-        $('input[name="med_fondo"]').val(response['med_fondo']);
-        $('input[name="med_alto"]').val(response['med_alto']);
-        $('input[name="tipo_medida"][value="' + response['tipo_medida'] + '"]').prop("checked", true);
-        $('input[name="med_largo"]').val(response['med_largo']);
-        $('input[name="med_ancho"]').val(response['med_ancho']);
-        $('input[id="med_requerido"]').val(response['med_largo'] + " x " + response['med_ancho']);
-        $('select[name="articulo"]>option').removeAttr("selected");
-        $('select[name="articulo"]>option[value="' + response['articulo'] + '"]').attr("selected", true);
+        selProducto(response['articulo']);
 
-        $.ajax({
-          dataType: "json",
-          url: 'selproducto',
-          type: "POST",
-          data: {
-            Clasificacion: response['articulo']
-          },
-          success: function (data) {
-            $('select[name="tipo_producto"]').html('<option value="null">SELECCIONAR</option>');
-            $('select[name="tipo_producto"]').append(data);
+        selTipoMaterial(response['selector_material']);
 
-            $('select[name="tipo_producto"]>option').removeAttr("selected");
-            $('select[name="tipo_producto"]>option[value="' + response['tipo_producto'] + '"]').attr(
-              "selected", true);
-          }
+        selCarton(response['tipo_material']);
+
+        selTamanoCarton(response['carton']);
+
+        $.each(response, function (index, value) {
+          $('input[name="' + index + '"]').val(value);
         });
+
+        $('input[name="tipo_medida"][value="' + response['tipo_medida'] + '"]').prop("checked", true);
+        $('input[id="med_requerido"]').val(response['med_largo'] + " x " + response['med_ancho']);
 
         $('input[name="selector_material"][value="' + response['selector_material'] + '"]').prop("checked", true);
-
-        $.ajax({
-          dataType: "json",
-          url: 'tipomaterial',
-          type: "POST",
-          data: {
-            'tipoMaterial': response['selector_material']
-          },
-          success: function (data) {
-            $('select[name="tipo_material"]').html('<option value="null">SELECCIONAR</option>');
-            $('select[name="tipo_material"]').append(data);
-
-            $('select[name="tipo_material"]>option').removeAttr("selected");
-            $('select[name="tipo_material"]>option[value="' + response['tipo_material'] + '"]').attr(
-              "selected", true);
-
-            $.ajax({
-              dataType: "json",
-              url: 'selmatcorrugados',
-              type: "POST",
-              data: {
-                Material: response['tipo_material']
-              },
-              success: function (data) {
-
-                $('select[name="carton"]').html('<option value="null">SELECCIONAR</option>');
-                $('select[name="carton"]').append(data);
-
-                $('select[name="carton"]>option').removeAttr("selected");
-                $('select[name="carton"]>option[value="' + response['carton'] + '"]').attr("selected",
-                  true);
-
-                $.ajax({
-                  dataType: "json",
-                  url: 'seltamcorrugados',
-                  type: "POST",
-                  data: {
-                    Id: response['carton']
-                  },
-                  success: function (data) {
-
-                    $('select[name="tam-carton"]').html(
-                      '<option value="null">SELECCIONAR</option>');
-                    $('select[name="tam-carton"]').append(data);
-
-                    $('select[name="tam-carton"]>option').removeAttr("selected");
-                    $('select[name="tam-carton"]>option[value="' + response['carton'] + '"]').attr(
-                      "selected", true);
-
-                  }
-                });
-
-              }
-            });
-
-          }
-        });
-
         $('input[name="maquina_suajado"][value="' + response['maquina_suajado'] + '"]').prop("checked", true);
-        $('input[name="med_suaje"]').val(response['med_suaje']);
-        $('input[name="med_cito"]').val(response['med_cito']);
-        $('input[name="tipo_desbarbe"]').val(response['tipo_desbarbe']);
         $('input[name="tipo_pegado"][value="' + response['tipo_pegado'] + '"]').prop("checked", true);
         $('input[name="predoblado"][value="' + response['predoblado'] + '"]').prop("checked", true);
-        $('input[name="clave_pegamento"]').val(response['clave_pegamento']);
         $('input[name="pegado_con"][value="' + response['pegado_con'] + '"]').prop("checked", true);
         $('input[name="grapado"]').prop("checked", true);
-        $('input[name="num_grapas"]').val(response['num_grapas']);
-
-        $('input[name="cant_parc1"]').val(response['cant_parc1']);
-        $('input[name="fec_parc1"]').val(response['fec_parc1']);
-        $('input[name="cant_parc2"]').val(response['cant_parc2']);
-        $('input[name="fec_parc2"]').val(response['fec_parc2']);
-        $('input[name="cant_parc3"]').val(response['cant_parc3']);
-        $('input[name="fec_parc3"]').val(response['fec_parc3']);
-        $('input[name="cant_parc4"]').val(response['cant_parc4']);
-        $('input[name="fec_parc4"]').val(response['fec_parc4']);
-        $('input[name="cant_parc5"]').val(response['cant_parc5']);
-        $('input[name="fec_parc5"]').val(response['fec_parc5']);
-        $('input[name="cant_parc6"]').val(response['cant_parc6']);
-        $('input[name="fec_parc6"]').val(response['fec_parc6']);
-        $('input[name="cant_parc7"]').val(response['cant_parc7']);
-        $('input[name="fec_parc7"]').val(response['fec_parc7']);
-        $('input[name="cant_parc8"]').val(response['cant_parc8']);
-        $('input[name="fec_parc8"]').val(response['fec_parc8']);
-
         $('input[name="tipo_envio"][value="' + response['tipo_envio'] + '"]').prop("checked", true);
         $('input[name="tipo_entrega"][value="' + response['tipo_entrega'] + '"]').prop("checked", true);
         $('input[name="maquina_ranurado"][value="' + response['maquina_ranurado'] + '"]').prop("checked", true);
@@ -1209,35 +1206,25 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
         $('input[name="maquina_empalme"][value="' + response['maquina_empalme'] + '"]').prop("checked", true);
         $('input[name="tipo_impresion"][value="' + response['tipo_impresion'] + '"]').prop("checked", true);
         $('input[name="sel_color"][value="' + response['sel_color'] + '"]').prop("checked", true);
-        $('select[name="num_tintas"]>option').removeAttr("selected");
-        $('select[name="num_tintas"]>option[value="' + response['num_tintas'] + '"]').attr("selected", true);
-        $('input[name="largo_tinta1"]').val(response['largo_tinta1']);
-        $('input[name="ancho_tinta1"]').val(response['ancho_tinta1']);
-        $('input[name="color_tinta1"]').val(response['color_tinta1']);
-        $('input[name="largo_tinta2"]').val(response['largo_tinta2']);
-        $('input[name="ancho_tinta2"]').val(response['ancho_tinta2']);
-        $('input[name="color_tinta2"]').val(response['color_tinta2']);
-        $('input[name="largo_tinta3"]').val(response['largo_tinta3']);
-        $('input[name="ancho_tinta3"]').val(response['ancho_tinta3']);
-        $('input[name="color_tinta3"]').val(response['color_tinta3']);
-        $('input[name="largo_tinta4"]').val(response['largo_tinta4']);
-        $('input[name="ancho_tinta4"]').val(response['ancho_tinta4']);
-        $('input[name="color_tinta4"]').val(response['color_tinta4']);
+
         $('input[name="flejado"][value="' + response['flejado'] + '"]').prop("checked", true);
-        $('input[name="cant_flejado"]').val(response['cant_flejado']);
         $('input[name="ligas"][value="' + response['ligas'] + '"]').prop("checked", true);
-        $('input[name="num_ligas"]').val(response['num_ligas']);
         $('input[name="corrugado"][value="' + response['corrugado'] + '"]').prop("checked", true);
-        $('input[name="cant_xcorrugado"]').val(response['cant_xcorrugado']);
         $('input[name="fajillas"][value="' + response['fajillas'] + '"]').prop("checked", true);
-        $('input[name="num_fajillas"]').val(response['num_fajillas']);
         $('input[name="tarima"][value="' + response['tarima'] + '"]').prop("checked", true);
-        $('input[name="cant_xtarima"]').val(response['cant_xtarima']);
         $('input[name="paquetes"][value="' + response['paquetes'] + '"]').prop("checked", true);
-        $('input[name="cant_xpaquete"]').val(response['cant_xpaquete']);
-        $('input[name="cant_granel"]').val(response['cant_granel']);
         $('input[name="esquineros"][value="' + response['esquineros'] + '"]').prop("checked", true);
         $('input[name="emplayado"][value="' + response['emplayado'] + '"]').prop("checked", true);
+
+        $('select[name="articulo"]>option').removeAttr("selected");
+        $('select[name="articulo"]>option[value="' + response['articulo'] + '"]').attr("selected", true);
+        $('select[name="tipo_producto"]>option[value="' + response['tipo_producto'] + '"]').attr("selected", true);
+        $('select[name="tipo_material"]>option[value="' + response['tipo_material'] + '"]').attr("selected", true);
+        $('select[name="carton"]>option[value="' + response['carton'] + '"]').attr("selected", true);
+        $('select[name="tam-carton"]>option[value="' + response['carton'] + '"]').attr("selected", true);
+        $('select[name="num_tintas"]>option').removeAttr("selected");
+        $('select[name="num_tintas"]>option[value="' + response['num_tintas'] + '"]').attr("selected", true);
+
       }
     });
 
@@ -1247,11 +1234,6 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
   $("#btn-salir").click(function () {
     window.location.href = "activas";
   });
-
-
-
-
-
 
   $('input[type=radio]').click(function (e) {
 
@@ -2049,8 +2031,9 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
     return +(Math.round(num + "e+2") + "e-2");
   }
 
-  $('select.selectpicker').on('change', function () {
-    var selected = $('.selectpicker option:selected').val();
+  $('#id_cliente.selectpicker').on('change', function () {
+    var selected = $('#id_cliente option:selected').val();
+    alert(selected);
     buscaDireccion(selected);
   });
 
@@ -2068,7 +2051,5 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
       }
     });
   }
-
-
 
 </script>

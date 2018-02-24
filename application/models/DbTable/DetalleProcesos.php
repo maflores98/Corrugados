@@ -33,7 +33,7 @@ class Application_Model_DbTable_DetalleProcesos extends Zend_Db_Table_Abstract
 		return $response;
 	}	
 
-	public function reportarproceso($id_detalle,$idmaquina,$maquina,$idproceso,$proceso,$cantidadok,$cantidadmerma,$tiempo,$notas)
+	public function reportarproceso($id_detalle,$idmaquina,$maquina,$idproceso,$proceso,$cantidadok,$cantidadmerma,$tiempo,$notas,$parcial,$cantidadparcial)
 	{
 		$where[] = "id = '$id_detalle'";
 		$update = $this->update(array(
@@ -52,7 +52,7 @@ class Application_Model_DbTable_DetalleProcesos extends Zend_Db_Table_Abstract
 		return $response;
 	}
 
-	public function reportarajuste($id_detalle,$idmaquina,$maquina,$idproceso,$proceso,$cantidadok,$cantidadmerma,$tiempo,$notas)
+	public function reportarajuste($id_detalle,$idmaquina,$maquina,$idproceso,$proceso,$cantidadok,$cantidadmerma,$tiempo,$notas,$parcial,$cantidadparcial)
 	{
 		$where[] = "id = '$id_detalle'";
 		$update = $this->update(array(			
@@ -63,7 +63,9 @@ class Application_Model_DbTable_DetalleProcesos extends Zend_Db_Table_Abstract
 			"cantidad_ok"=>$cantidadok,
 			"cantidad_merma"=>$cantidadmerma,
 			"tiempo"=>$tiempo,
-			"notas"=>$notas
+			"notas"=>$notas,
+			"parcial"=>$parcial,
+			"cantidad_parcial"=>$cantidadparcial
 			), $where);
 
 		$response = new stdClass();
@@ -98,5 +100,32 @@ class Application_Model_DbTable_DetalleProcesos extends Zend_Db_Table_Abstract
    }
    return $copiar;
  }
+
+	public function copiardedetalleprocesos2($id_detalle)
+	{
+
+		$select = $this->select();
+		$select->where("id = ?",$id_detalle);
+	
+		$response=new stdClass();
+		$rows = $this->fetchAll($select);
+
+		$copiar = array();
+		foreach ($rows as $row) {
+
+			$copiar[] = array(
+				"id_orden"=> $row["id_orden"],
+				"nombre_trabajo"=>$row["nombre_trabajo"],
+				"id_maquina"=>$row['id_maquina'],
+				"nombre_maquina"=>$row["nombre_maquina"],
+				"id_proceso"=>$row["id_proceso"],
+				"nombre_proceso"=>$row["nombre_proceso"],
+				"cant_requerida"=>$row["cant_requerida"],
+				"fechahora_registro"=>$row["fechahora_registro"]
+				); 
+		}
+
+		return $copiar;
+	} 
 
 }

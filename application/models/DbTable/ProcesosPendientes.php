@@ -159,5 +159,50 @@ class Application_Model_DbTable_ProcesosPendientes extends Zend_Db_Table_Abstrac
 
 }
 
+  public function copiaraprocesospendientes($copiardedetalle){
+    $insert = $this->insert(array(
+      "id_orden"=>$copiardedetalle[0]["id_orden"],
+      "nombre_trabajo"=>$copiardedetalle[0]["nombre_trabajo"],
+      "id_maquina"=>$copiardedetalle[0]["id_maquina"],
+      "nombre_maquina"=>$copiardedetalle[0]["nombre_maquina"],
+      "id_proceso"=>$copiardedetalle[0]["id_proceso"],
+      "nombre_proceso"=>$copiardedetalle[0]["nombre_proceso"],
+      "cant_requerida"=>$copiardedetalle[0]["cant_requerida"],
+      "fechahora_registro"=>$copiardedetalle[0]["fechahora_registro"],
+      ));
+
+        $db = Zend_Db_Table_Abstract::getDefaultAdapter();
+        $row = $db->fetchrow(
+            $db->select()
+            ->from('procesos_pendientes',array(new Zend_Db_Expr('max(id) as MaxId')))
+        );
+
+        $id_pendiente = $row['MaxId'];    
+    $response = new stdClass();
+    $response->id_pendiente = $id_pendiente;
+    $response->validacion = true;
+    return $response;
+  }
+
+  public function actualizarproceso2($id_pendiente,$idproceso,$proceso)
+  {   
+    $where[] = "id = '$id_pendiente'";
+    $update = $this->update(array(
+      "id_proceso"=>$idproceso,
+      "nombre_proceso"=>$proceso  
+      ), $where);   
+
+        $db = Zend_Db_Table_Abstract::getDefaultAdapter();
+        $row = $db->fetchrow(
+            $db->select()
+            ->from('procesos_pendientes',array(new Zend_Db_Expr('max(id) as MaxId')))
+        );
+        $id_proceso = $row['MaxId'];
+
+    $response = new stdClass();   
+    $response->validacion = true;
+    $response->id_proceso = $id_pendiente;
+    return $response;
+  }
 
 }

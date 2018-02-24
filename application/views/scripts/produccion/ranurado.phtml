@@ -200,7 +200,7 @@
 										      <input id="parcial" type="checkbox" aria-label="Checkbox for following text input">Parcial?
 										    </div>
 										  </div>
-										  <input id="cant_parcial" type="text" class="form-control" aria-label="Text input with checkbox" readonly>
+										  <input id="cant_parcial" type="text" class="form-control" aria-label="Text input with checkbox">
 										</div>
 									</div>
 											              		             		                    		
@@ -256,3 +256,16 @@
 				</div>
 			</div>
 		</div>
+		<script>
+			$("#cant_parcial").attr("disabled",true);
+			$("#parcial").on("click",function(){
+				if( $("#parcial").is(':checked') )
+				{
+					$("#cant_parcial").attr("disabled",false);					
+				}
+				else
+				{
+					$("#cant_parcial").attr("disabled",true);
+				}
+			});
+		</script>

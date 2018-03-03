@@ -33,7 +33,7 @@ class Application_Model_DbTable_DetalleProcesos extends Zend_Db_Table_Abstract
 		return $response;
 	}	
 
-	public function reportarproceso($id_detalle,$idmaquina,$maquina,$idproceso,$proceso,$cantidadok,$cantidadmerma,$tiempo,$notas,$parcial,$cantidadparcial)
+	public function reportarproceso($id_detalle,$idmaquina,$maquina,$idproceso,$proceso,$cantidadok,$cantidadmerma,$tiempo,$notas,$parcial)
 	{
 		$where[] = "id = '$id_detalle'";
 		$update = $this->update(array(
@@ -44,7 +44,8 @@ class Application_Model_DbTable_DetalleProcesos extends Zend_Db_Table_Abstract
 			"cantidad_ok"=>$cantidadok,
 			"cantidad_merma"=>$cantidadmerma,
 			"tiempo"=>$tiempo,
-			"notas"=>$notas
+			"notas"=>$notas,
+			"parcial"=>$parcial
 			), $where);
 
 		$response = new stdClass();
@@ -52,7 +53,7 @@ class Application_Model_DbTable_DetalleProcesos extends Zend_Db_Table_Abstract
 		return $response;
 	}
 
-	public function reportarajuste($id_detalle,$idmaquina,$maquina,$idproceso,$proceso,$cantidadok,$cantidadmerma,$tiempo,$notas,$parcial,$cantidadparcial)
+	public function reportarajuste($id_detalle,$idmaquina,$maquina,$idproceso,$proceso,$cantidadok,$cantidadmerma,$tiempo,$notas,$parcial)
 	{
 		$where[] = "id = '$id_detalle'";
 		$update = $this->update(array(			
@@ -64,8 +65,7 @@ class Application_Model_DbTable_DetalleProcesos extends Zend_Db_Table_Abstract
 			"cantidad_merma"=>$cantidadmerma,
 			"tiempo"=>$tiempo,
 			"notas"=>$notas,
-			"parcial"=>$parcial,
-			"cantidad_parcial"=>$cantidadparcial
+			"parcial"=>$parcial
 			), $where);
 
 		$response = new stdClass();

@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	var vista, ajuste, existe;
-	var idoperador, nombreoperador, id_pendiente=0, id_proceso=0, id_detalle=0, parcial='no', cantidadparcial=0, orden=0, trabajo, proceso, maquina, diferencia=0, cantidadreal=0, cantreq=0, control, tiempodeejec=0, tiemporep=0, idinicio = 0,
+	var idoperador, nombreoperador, id_pendiente=0, id_proceso=0, id_detalle=0, parcial='no', orden=0, trabajo, proceso, maquina, diferencia=0, cantidadreal=0, cantreq=0, control, tiempodeejec=0, tiemporep=0, idinicio = 0,
 	horainicio, horaregistro, centesimas = 0, segundos = 0, minutos = 0, horas = 0, acumulado=0, mermaacumulado=0, cantidadrep=0, 
 	diferenciaacum=0, cantidadmerma=0, diferenciamerma=0, idproceso=0, idmaquina=0; 
 	switch (window.location.pathname) {
@@ -898,8 +898,8 @@ $("#guardar").click(function()
 	{
 		if( $("#parcial").is(':checked') )
 		{
-			$("#cant_parcial").attr("disabled",false);
-			cantidadparcial = $("#cant_parcial").val();
+			//$("#cant_parcial").attr("disabled",false);
+			//cantidadparcial = $("#cant_parcial").val();
 			parcial = 'si';
 			$.post('copiaradetalleprocesos', {id_proceso:id_proceso},
 				function(data)
@@ -918,8 +918,7 @@ $("#guardar").click(function()
 								cantidadok:cantidadok,
 								cantidadmerma:cantidadmerma,
 								notas:notas,
-								parcial:parcial,
-								cantidadparcial:cantidadparcial
+								parcial:parcial
 							},
 							function(result)
 							{
@@ -1014,7 +1013,7 @@ $("#guardar").click(function()
 		}
 		else
 		{
-			$("#cant_parcial").attr("disabled",true);
+			//$("#cant_parcial").attr("disabled",true);
 			$.post('copiaradetalleprocesos', {id_proceso:id_proceso},
 				function(data)
 				{
@@ -1032,8 +1031,7 @@ $("#guardar").click(function()
 								cantidadok:cantidadok,
 								cantidadmerma:cantidadmerma,
 								notas:notas,
-								parcial:parcial,
-								cantidadparcial:cantidadparcial								
+								parcial:parcial
 							},
 							function(result)
 							{
@@ -1209,8 +1207,8 @@ $("#guardar").click(function()
 	{		
 		if( $("#parcial").is(':checked') )
 		{
-			$("#cant_parcial").attr("disabled",false);
-			cantidadparcial = $("#cant_parcial").val();
+			//$("#cant_parcial").attr("disabled",false);
+			//cantidadparcial = $("#cant_parcial").val();
 			parcial = 'si';
 			$.post('copiaradetalleprocesos', {id_proceso:id_proceso},
 				function(data)
@@ -1229,8 +1227,7 @@ $("#guardar").click(function()
 								cantidadok:cantidadok,
 								cantidadmerma:cantidadmerma,
 								notas:notas,
-								parcial:parcial,
-								cantidadparcial:cantidadparcial
+								parcial:parcial
 							},
 							function(result)
 							{
@@ -1267,7 +1264,7 @@ $("#guardar").click(function()
 		}
 		else
 		{
-			$("#cant_parcial").attr("disabled",true);
+			//$("#cant_parcial").attr("disabled",true);
 			$.post('copiaradetalleprocesos', {id_proceso:id_proceso},
 				function(data)
 				{
@@ -1285,8 +1282,7 @@ $("#guardar").click(function()
 								cantidadok:cantidadok,
 								cantidadmerma:cantidadmerma,
 								notas:notas,
-								parcial:parcial,
-								cantidadparcial:cantidadparcial
+								parcial:parcial
 							},
 							function(result)
 							{
@@ -1393,6 +1389,7 @@ function limpiar (){
 $('#myModal').modal('hide');
 $("input[type=text]").val("");
 $("button[type=button]").attr("disabled",false);
+$("#operador").attr("disabled",false);
 $('textarea#notas').val("");
 enProceso.$('tr.selected').removeClass('selected');
 enPendiente.$('tr.selected').removeClass('selected');

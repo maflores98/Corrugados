@@ -186,12 +186,10 @@ class ProduccionController extends Zend_Controller_Action
 		$tiempo = $_POST['tiemporep'];
 		$notas = $_POST['notas'];
 		$parcial = $_POST['parcial'];
-		$cantidadparcial = $_POST['cantidadparcial'];
-
 		//$fechafin = new Zend_Db_Expr('NOW()');
 
 		$reporta = new Application_Model_DbTable_DetalleProcesos();
-		$reportar = $reporta->reportarproceso($id_detalle,$idmaquina,$maquina,$idproceso,$proceso,$cantidadok,$cantidadmerma,$tiempo,$notas,$parcial,$cantidadparcial);
+		$reportar = $reporta->reportarproceso($id_detalle,$idmaquina,$maquina,$idproceso,$proceso,$cantidadok,$cantidadmerma,$tiempo,$notas,$parcial);
 		echo Zend_Json::encode($reportar);
 	}
 
@@ -255,11 +253,10 @@ class ProduccionController extends Zend_Controller_Action
 		$tiempo = $_POST['tiemporep'];
 		$notas = $_POST['notas'];
 		$parcial = $_POST['parcial'];
-		$cantidadparcial = $_POST['cantidadparcial'];
 		//$fechafin = new Zend_Db_Expr('NOW()');
 
 		$reporta = new Application_Model_DbTable_DetalleProcesos();
-		$reportar = $reporta->reportarajuste($id_detalle,$idmaquina,$maquina,$idproceso,$proceso,$cantidadok,$cantidadmerma,$tiempo,$notas,$parcial,$cantidadparcial);
+		$reportar = $reporta->reportarajuste($id_detalle,$idmaquina,$maquina,$idproceso,$proceso,$cantidadok,$cantidadmerma,$tiempo,$notas,$parcial);
 		echo Zend_Json::encode($reportar);
 	}	
 

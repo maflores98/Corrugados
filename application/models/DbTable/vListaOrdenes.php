@@ -82,5 +82,34 @@ $date = new Zend_Date($row['Fecha_Entrega']);
 		}
 		$response->data = $canceladas;
 		return $response;		
-	}		
+	}
+
+	public function consultarxliberar(){
+		$select = $this->select();
+		$select->where("Estatus IN (?)", "X LIBERAR");
+		$response=new stdClass();
+		$rows = $this->fetchAll($select);
+                        //$consulta = $select->__toString();
+                        //echo $consulta;
+                        //exit();
+		$activas = array();
+		foreach ($rows as $row) {
+
+			Zend_Date::setOptions(array('format_type' => 'php'));
+			$date = new Zend_Date($row['Fecha_Entrega']);
+
+			$date=new Zend_Date($row['Fecha_Entrega'], 'dd.MM.yyyy');
+			$activas[] = array(
+				"numorden"=> $row['Num_Orden'],
+				"trabajo" => $row['Trabajo'],
+				"estatus" => $row['Estatus'],
+				"cantidad"=>$row['Cantidad'],
+				"fecha_entrega"=> $date->toString('d-m-Y'),
+				"liberar" => "<a class='btn btn-default btn-xs btn-xliberar' data-id='".$row['Num_Orden']."'> <span class='glyphicon glyphicon-triangle-right'></a>"
+				); 
+		}
+		$response->data = $activas;
+		return $response;		
+	}
+				
 }

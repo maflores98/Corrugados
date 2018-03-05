@@ -204,5 +204,15 @@ class Application_Model_DbTable_ProcesosPendientes extends Zend_Db_Table_Abstrac
     $response->id_proceso = $id_pendiente;
     return $response;
   }
-
+  
+    public function updatesituacion($numorden, $situacion){
+        $data = array(
+            'situacion' => $situacion,
+        );
+        $where = $this->getAdapter()->quoteInto('id_orden = ?', $numorden);
+        $this->update($data, $where);
+        $response = new stdClass();
+        $response->validacion = true;
+        return $response;
+    }  
 }

@@ -53,6 +53,7 @@
 								<table id="enProceso" class="compact cell-border" cellspacing="0" width="100%" style="text-align: center;">
 									<thead>
 										<tr>
+											<th>Id</th>
 											<th>Orden</th>
 											<th>Trabajo</th>
 										</tr>
@@ -75,6 +76,7 @@
 								<table id="enPendiente" class="compact cell-border" cellspacing="0" width="100%" style="text-align: center;">
 									<thead>
 										<tr>
+											<th>Id</th>
 											<th>Orden</th>
 											<th>Trabajo</th>
 										</tr>
@@ -189,7 +191,7 @@
 											<label for="tiemporep" class="control-label">Tiempo</label>
 											<input type="text" class="form-control" id="tiemporep" name="tiemporep" readonly>
 										</div>
-									</div>  		              		             		                    		
+									</div>											              		             		                    		
 								</div>
 								<div class="col-md-6">
 									<div class="col-md-12">
@@ -197,8 +199,13 @@
 											<label for="cantidadreq" class="control-label">Cantidad Requerida</label>
 											<input type="text" class="form-control" id="cantidadreq" name="cantidadreq" readonly>
 										</div>
-									</div>	        		
-
+									</div>
+									<div class="col-md-12">																
+									    <div class="form-group">
+									    	<label for="parcial" class="control-label">Reportar Parcial ?	</label>
+									      	<input id="parcial" type="checkbox" name="parcial">
+									    </div>
+									</div>									
 									<div class="col-md-12">
 										<div class="form-group">
 											<label for="cantidadok" class="control-label">Cantidad Ok</label>
@@ -242,3 +249,16 @@
 				</div>
 			</div>
 		</div>
+		<!--script>
+			$("#cant_parcial").attr("disabled",true);
+			$("#parcial").on("click",function(){
+				if( $("#parcial").is(':checked') )
+				{
+					$("#cant_parcial").attr("disabled",false);					
+				}
+				else
+				{
+					$("#cant_parcial").attr("disabled",true);
+				}
+			});
+		</script-->

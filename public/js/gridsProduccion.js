@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	var vista, ajuste, existe;
-	var idoperador, nombreoperador, orden=0, trabajo, proceso, maquina, diferencia=0, cantidadreal=0, cantreq=0, control, tiempodeejec=0, tiemporep=0, idinicio = 0,
+	var idoperador, nombreoperador, id_pendiente=0, id_proceso=0, id_detalle=0, parcial='no', orden=0, trabajo, proceso, maquina, diferencia=0, cantidadreal=0, cantreq=0, control, tiempodeejec=0, tiemporep=0, idinicio = 0,
 	horainicio, horaregistro, centesimas = 0, segundos = 0, minutos = 0, horas = 0, acumulado=0, mermaacumulado=0, cantidadrep=0, 
 	diferenciaacum=0, cantidadmerma=0, diferenciamerma=0, idproceso=0, idmaquina=0; 
 	switch (window.location.pathname) {
@@ -470,11 +470,20 @@ var enProceso = $('#enProceso').DataTable({
 		data: {vista: vista}
 	}, 	
 	"columns":[
-	{data:"id", 
+
+	{"data":"id_proceso"},
+	{data:"orden", 
 	width: "1%"},
 
 	{data:"trabajo"}
-	],	
+	],
+    "columnDefs": [
+    {
+      "targets": [ 0 ],
+      "visible": false,
+      "searchable": false
+    }
+    ],		
 	//"info" : false,
 	"searching": false,
 	"paging":    false,
@@ -494,168 +503,21 @@ $('#enProceso tbody').on( 'click', 'tr', function () {
 	limpiar();
 	reinicio();
 	//orden = $(this).find('td').eq(0).html();
-	orden = $(this).find('button').data('fila');
-	//extraerDatosEnProceso(orden); 
+	orden = $(this).find('button').data('fila');	 
+	var data = enProceso.row( this ).data();
+  	id_proceso = data.id_proceso;
 
-	$.post('existeajuste',{orden:orden},
+	$.post('extraerenproceso', {id_proceso:id_proceso,vista:vista},
 		function(result)
 		{
 			if(result.data.length>0)
 			{
-				existe = 1;				
-			    //orden = result.data[0].id_orden;
-			    trabajo = result.data[0].nombre_trabajo;
-			    idmaquina = result.data[0].id_maquina;
-			    maquina = result.data[0].nombre_maquina;
-			    idproceso = result.data[0].id_proceso;
-			    proceso = result.data[0].nombre_proceso;
-			    idoperador = result.data[0].id_operador;
-			    nombreoperador = result.data[0].nombre_operador;
-			    horainicio = result.data[0].fechahora_inicio;          
-			    $("#orden").val(orden);
-			    $("#trabajo").val(trabajo);
-			    $("#operador").val(idoperador);
-			    $("#horainicio").val(horainicio);
-			    $("#nombreoperador").val(nombreoperador);         
-			    $('#orden').attr("disabled", true);
-			    $('#operador').attr("disabled", true);
-			    $('#trabajo').attr("disabled", true);
-			    $('#nombreoperador').attr("disabled", true);
-			    $('#horainicio').attr("disabled", true);
-			    $("#" + maquina.toLowerCase().replace(/ /gi, '') +"").attr("disabled", true);
-			    $("#" + proceso.toLowerCase().replace('/', '').replace(/ /gi,'') + "").attr("disabled", true);
-			    $('#inicio').attr("disabled", true);
-			    idinicio = 1;
-			    // asignar el valor de las unidades en milisegundos
-			    var msecPerMinute = 1000 * 60;
-			    var msecPerHour = msecPerMinute * 60;
-			    var msecPerDay = msecPerHour * 24;
-			    // asignar la fecha actual en milisegundos
-			    var date = new Date();
-			    var dateMsec = date.getTime();
-			    // Asignar la fecha de la base de datos
-			    var date2 = new Date(horainicio);
-			    date2.getMonth();
-			    date2.getDate();
-			    date2.getHours();
-			    date2.getMinutes();
-			    date2.getSeconds();
-			    // Obtener la diferencia en milisegundos
-			    var interval = dateMsec - date2.getTime();            
-			    // Calcular las horas
-			    var hours = Math.floor(interval / msecPerHour );
-			    interval = interval - (hours * msecPerHour );
-			    // Calcular los minutos
-			    var minutes = Math.floor(interval / msecPerMinute );
-			    interval = interval - (minutes * msecPerMinute );
-			    // Calcular los segundos
-			    var seconds = Math.floor(interval / 1000 );
-			    //cronometro
-			    centesimas = 99;
-			    segundos = seconds;
-			    minutos = minutes;
-			    horas = hours;
-
-			    if (segundos < 10) { segundos = "0"+segundos }
-			    	Segundos.innerHTML = ":"+segundos;
-			    if (minutos < 10) { minutos = "0"+minutos }
-			     	Minutos.innerHTML = ":"+minutos;
-			    if (horas < 10) { horas = "0"+horas }
-			      	Horas.innerHTML = horas;          
-			    inicio();		       
-		    }				
-			else
-			{
-				existe = 0;
-				$.post('extraerenproceso', {orden:orden,vista:vista},
-					function(result)
-					{
-						if(result.data.length>0)
-						{
-					      //orden = result.data[0].id_orden;
-					      trabajo = result.data[0].trabajo;
-					      idmaquina = result.data[0].id_maquina;
-					      maquina = result.data[0].maquina;
-					      idproceso = result.data[0].id_proceso;
-					      proceso = result.data[0].proceso;
-					      idoperador = result.data[0].operador;
-					      nombreoperador = result.data[0].nombreoperador;
-					      horainicio = result.data[0].horainicio;
-					      cantreq = result.data[0].cantidadreq;           
-					      $("#orden").val(orden);
-					      $("#trabajo").val(trabajo);
-					      $("#operador").val(idoperador);
-					      $("#horainicio").val(horainicio);
-					      $("#nombreoperador").val(nombreoperador);         
-					      $('#orden').attr("disabled", true);
-					      $('#operador').attr("disabled", true);
-					      $('#trabajo').attr("disabled", true);
-					      $('#nombreoperador').attr("disabled", true);
-					      $('#horainicio').attr("disabled", true);
-					      $("#" + maquina.toLowerCase().replace(/ /gi, '') +"").attr("disabled", true);
-					      $("#" + proceso.toLowerCase().replace('/', '').replace(/ /gi,'') + "").attr("disabled", true);
-					      $('#inicio').attr("disabled", true);
-					      idinicio = 1;                                       
-					      // asignar el valor de las unidades en milisegundos
-					      var msecPerMinute = 1000 * 60;
-					      var msecPerHour = msecPerMinute * 60;
-					      var msecPerDay = msecPerHour * 24;
-					      // asignar la fecha actual en milisegundos
-					      var date = new Date();
-					      var dateMsec = date.getTime();
-					      // Asignar la fecha de la base de datos
-					      var date2 = new Date(horainicio);
-					      date2.getMonth();
-					      date2.getDate();
-					      date2.getHours();
-					      date2.getMinutes();
-					      date2.getSeconds();
-
-					      // Obtener la diferencia en milisegundos
-					      var interval = dateMsec - date2.getTime();            
-					      // Calcular las horas
-					      var hours = Math.floor(interval / msecPerHour );
-					      interval = interval - (hours * msecPerHour );
-					      // Calcular los minutos
-					      var minutes = Math.floor(interval / msecPerMinute );
-					      interval = interval - (minutes * msecPerMinute );
-					      // Calcular los segundos
-					      var seconds = Math.floor(interval / 1000 );
-					      //cronometro
-					      centesimas = 99;
-					      segundos = seconds;
-					      minutos = minutes;
-					      horas = hours;
-
-					      if (segundos < 10) { segundos = "0"+segundos }
-					      	Segundos.innerHTML = ":"+segundos;
-					      if (minutos < 10) { minutos = "0"+minutos }
-					      	Minutos.innerHTML = ":"+minutos;
-					      if (horas < 10) { horas = "0"+horas }
-					      	Horas.innerHTML = horas;          
-					      inicio();
-			  			}
-			  			else
-			  			{        
-			  				swal("Error","","error");  
-			  			}
-					},'json'
-				); 
-			}
-		},'json'	
-	);
-
-	/*$.post('extraerenproceso', {orden:orden,vista:vista},
-		function(result)
-		{
-			if(result.data.length>0)
-			{
-		      //orden = result.data[0].id_orden;
+		      orden = result.data[0].id_orden;
 		      trabajo = result.data[0].trabajo;
 		      idmaquina = result.data[0].id_maquina;
 		      maquina = result.data[0].maquina;
 		      idproceso = result.data[0].id_proceso;
-		      proceso = result.data[0].proceso;
+		      proceso = result.data[0].proceso;		      
 		      idoperador = result.data[0].operador;
 		      nombreoperador = result.data[0].nombreoperador;
 		      horainicio = result.data[0].horainicio;
@@ -718,7 +580,7 @@ $('#enProceso tbody').on( 'click', 'tr', function () {
   				swal("Error","","error");  
   			}
 		},'json'
-	);*/ 
+	);  
 });
 
 //Tablas en Pendiente
@@ -728,11 +590,18 @@ var enPendiente = $('#enPendiente').DataTable({
 		"data": {vista: vista}
 	}, 
 	"columns":[
-	{"data":"id", 
+	{"data":"id_pendiente"},
+	{"data":"orden", 
 	width: "1%"},
-
-	{"data":"trabajo"},
-	],	
+	{"data":"trabajo"}	
+	],
+    "columnDefs": [
+    {
+      "targets": [ 0 ],
+      "visible": false,
+      "searchable": false
+    }
+    ],		
 	//"info" : false,
 	"searching": true,
 	"paging":    false,
@@ -740,122 +609,105 @@ var enPendiente = $('#enPendiente').DataTable({
 	"scrollX": true			
 });
 
-//datos_enpendiente("#enPendiente tbody", enPendiente);
+$("#enPendiente tbody").on( 'click', 'tr', function () {
+	if ( $(this).hasClass('selected') ) {
+		$(this).removeClass('selected');
+	}
+	else {
+		enPendiente.$('tr.selected').removeClass('selected');
+		$(this).addClass('selected');
+	}
+	limpiar();
+	reinicio();
 
-//function datos_enpendiente(tbody, table) {
-	$("#enPendiente tbody").on( 'click', 'tr', function () {
-		if ( $(this).hasClass('selected') ) {
-			$(this).removeClass('selected');
-		}
-		else {
-			enPendiente.$('tr.selected').removeClass('selected');
-			$(this).addClass('selected');
-		}
-		limpiar();
-		reinicio();
-		//orden = $(this).find('td').eq(0).html();
-		orden = $(this).find('button').data('fila');
-		//alert(orden);
-//extraerDatosEnPendiente(orden);
+	orden = $(this).find('button').data('fila');
 
-			$.post('extraerenpendiente', {orden:orden,vista:vista},
-				function(result){
-					if(result.data.length>0)
-					{
-						trabajo = result.data[0].trabajo;
-						idproceso = result.data[0].id_proceso;
-						maquina = result.data[0].maquina;
-						idmaquina = result.data[0].id_maquina;
-						proceso = result.data[0].proceso;
+	var data = enPendiente.row( this ).data();
+  	id_pendiente = data.id_pendiente;
 
-						$("#orden").val(orden);
-						$("#trabajo").val(trabajo);
-						$('#orden').attr("disabled", true);
-						$('#trabajo').attr("disabled", true);
-						$('#horainicio').attr("disabled", true);
-						$("#" + maquina.toLowerCase().replace(/ /gi, '') +"").attr("disabled", true);
-						//$("#" + proceso.toLowerCase().replace('/', '').replace(/ /gi,'') + "").attr("disabled", true);                                     
-					      if(proceso == "EMPALME")
-					      {
-					      	$("#ajusteempalmadora").attr("disabled", true);
-					      	idproceso = $("#ajusteempalmadora").val();						      	
-					      	proceso = "AJUSTE EMPALMADORA";
-					      }	
-					      if(proceso == "RANURADO" && maquina == "CAIMAN")
-					      {
-					      	$("#ajustecaiman").attr("disabled", true);
-					      	idproceso = $("#ajustecaiman").val();					      	
-					      	proceso = "AJUSTE CAIMAN";
-					      }	
-					      if(proceso == "RANURADO" && maquina == "FLEXOGRAFICA")
-					      {
-					      	$("#ajusteflexograficaranurado").attr("disabled", true);
-					      	idproceso = $("#ajusteflexograficaranurado").val();					      	
-					      	proceso = "AJUSTE FLEXOGRAFICA RANURADO";
-					      }		
-					      if(proceso == "IMPRESION" && maquina == "FLEXOGRAFICA")
-					      {
-					      	$("#ajusteflexograficaimpresion").attr("disabled", true);
-					      	idproceso = $("#ajusteflexograficaimpresion").val();					      	
-					      	proceso = "AJUSTE FLEXOGRAFICA IMPRESION";
-					      }	
-					      if(proceso == "REFILADO RAYADO")
-					      {
-					      	$("#ajusterefiladorarefiladorayado").attr("disabled", true);
-					      	idproceso = $("#ajusterefiladorarefiladorayado").val();					      	
-					      	proceso = "AJUSTE REFILADORA REFILADO RAYADO";
-					      }		
-					      if(proceso == "RAYADO")
-					      {
-					      	$("#ajusterefiladorarayado").attr("disabled", true);
-					      	idproceso = $("#ajusterefiladorarayado").val();					      	
-					      	proceso = "AJUSTE REFILADORA RAYADO";
-					      }	
-					      if(proceso == "REFILADO")
-					      {
-					      	$("#ajusterefiladorarefilado").attr("disabled", true);
-					      	idproceso = $("#ajusterefiladorarefilado").val();					      	
-					      	proceso = "AJUSTE REFILADORA REFILADO";
-					      }	
-					      if(proceso == "PEGADO CAJAS")
-					      {
-					      	$("#ajustepegadoracorrugados").attr("disabled", true);
-					      	idproceso = $("#ajustepegadoracorrugados").val();					      	
-					      	proceso = "AJUSTE PEGADORA CORRUGADOS";
-					      }		
-					      if(proceso == "SUAJADO")
-					      {
-					      	$("#ajustesuajadora").attr("disabled", true);
-					      	idproceso = $("#ajustesuajadora").val();					      	
-					      	proceso = "AJUSTE SUAJADORA";
-					      }						      				      					      					      				      						      				      					      						
-					}else{        
-						swal("Error","","error");  
-					}
-				},'json'); 
+	$.post('extraerenpendiente', {id_pendiente:id_pendiente,vista:vista},
+		function(result){
+			if(result.data.length>0)
+			{
+				orden = result.data[0].id_orden;
+				trabajo = result.data[0].trabajo;
+				idproceso = result.data[0].id_proceso;
+				maquina = result.data[0].maquina;
+				idmaquina = result.data[0].id_maquina;
+				proceso = result.data[0].proceso;
 
+				$("#orden").val(orden);
+				$("#trabajo").val(trabajo);
+				$('#orden').attr("disabled", true);
+				$('#trabajo').attr("disabled", true);
+				$('#horainicio').attr("disabled", true);
+				$("#" + maquina.toLowerCase().replace(/ /gi, '') +"").attr("disabled", true);
+
+			      if(proceso == "EMPALME")
+			      {
+			      	$("#ajusteempalmadora").attr("disabled", true);
+			      	idproceso = $("#ajusteempalmadora").val();						      	
+			      	proceso = "AJUSTE EMPALMADORA";
+			      }	
+			      if(proceso == "RANURADO" && maquina == "CAIMAN")
+			      {
+			      	$("#ajustecaiman").attr("disabled", true);
+			      	idproceso = $("#ajustecaiman").val();					      	
+			      	proceso = "AJUSTE CAIMAN";
+			      }	
+			      if(proceso == "RANURADO" && maquina == "FLEXOGRAFICA")
+			      {
+			      	$("#ajusteflexograficaranurado").attr("disabled", true);
+			      	idproceso = $("#ajusteflexograficaranurado").val();					      	
+			      	proceso = "AJUSTE FLEXOGRAFICA RANURADO";
+			      }		
+			      if(proceso == "IMPRESION" && maquina == "FLEXOGRAFICA")
+			      {
+			      	$("#ajusteflexograficaimpresion").attr("disabled", true);
+			      	idproceso = $("#ajusteflexograficaimpresion").val();					      	
+			      	proceso = "AJUSTE FLEXOGRAFICA IMPRESION";
+			      }	
+			      if(proceso == "REFILADO RAYADO")
+			      {
+			      	$("#ajusterefiladorarefiladorayado").attr("disabled", true);
+			      	idproceso = $("#ajusterefiladorarefiladorayado").val();					      	
+			      	proceso = "AJUSTE REFILADORA REFILADO RAYADO";
+			      }		
+			      if(proceso == "RAYADO")
+			      {
+			      	$("#ajusterefiladorarayado").attr("disabled", true);
+			      	idproceso = $("#ajusterefiladorarayado").val();					      	
+			      	proceso = "AJUSTE REFILADORA RAYADO";
+			      }	
+			      if(proceso == "REFILADO")
+			      {
+			      	$("#ajusterefiladorarefilado").attr("disabled", true);
+			      	idproceso = $("#ajusterefiladorarefilado").val();					      	
+			      	proceso = "AJUSTE REFILADORA REFILADO";
+			      }	
+			      if(proceso == "PEGADO CAJAS")
+			      {
+			      	$("#ajustepegadoracorrugados").attr("disabled", true);
+			      	idproceso = $("#ajustepegadoracorrugados").val();					      	
+			      	proceso = "AJUSTE PEGADORA CORRUGADOS";
+			      }		
+			      if(proceso == "SUAJADO")
+			      {
+			      	$("#ajustesuajadora").attr("disabled", true);
+			      	idproceso = $("#ajustesuajadora").val();					      	
+			      	proceso = "AJUSTE SUAJADORA";
+			      }						      				      					      					      				      						      				      					      						
+			}
+			else
+			{        
+				swal("Error","","error");  
+			}
+		},'json'
+	); 
 });
-//}
-
-/*$("#ajuste").click(function(){
-
-		$("#ajuste").attr("disabled", true);
-		$("#ranurado").attr("disabled", false);
-		$("#refilado").attr("disabled", false);
-		$("#rayado").attr("disabled", false);
-		$("#refiladorayado").attr("disabled", false);
-		$("#impresion").attr("disabled", false);	
-		$("#pegadoCajas").attr("disabled", false);
-		$("#empalme").attr("disabled", false);
-		$("#suajado").attr("disabled", false);
-		$("#pegado").attr("disabled", false);	
-		idproceso = this.value;
-		proceso = "Ajuste";	
-});*/
 
 $("#operador").change(function(){
 	idoperador = $("#operador").val();	
-	//obtenerOperador(operador);
 
 	$.post('consultaroperador', {idoperador:idoperador},
 		function(result){
@@ -864,11 +716,13 @@ $("#operador").change(function(){
 				nombreoperador = result.data[0].nombreoperador;
 				idoperador = result.data[0].usuario;
 				$("#nombreoperador").val(nombreoperador);
-			}else{        
+			}
+			else
+			{        
 				swal("Error","","error");  
 			}
-		},'json'); 	
-
+		},'json'
+	); 	
 });
 
 $("#inicio").click(function()
@@ -879,109 +733,37 @@ $("#inicio").click(function()
 	} 
 	else 
 	{
-		//iniciarProceso(orden,trabajo,idmaquina,maquina,idproceso,proceso,operador,nombreoperador);
-		validaAjustes();
+		//validaAjustes();
 
-		$.post('iniciarajuste', 
-			{
-				orden:orden,
-				trabajo:trabajo,
-				idmaquina:idmaquina,
-				maquina:maquina,
-				idproceso:idproceso,
-				proceso:proceso,
-				idoperador:idoperador,
-				nombreoperador:nombreoperador
-			},
-			function(data)
-			{
-				if (data.validacion==true) 
-				{
-					$.post('copiarfecharegistroadetalle', {maquina:maquina,proceso:proceso,orden:orden},
-						function(data)
-						{
-							if (data.validacion == true) 
-							{
-								$.post('copiarprocesoacaptura', {maquina:maquina,proceso:proceso},
-									function(data)
-									{
-										if (data.validacion == true) 
-										{
-											$.post('eliminarprocesoenpendiente', {maquina:maquina,proceso:proceso,orden:orden},
-												function(result)
-												{
-													if (result.validacion == true) 
-													{
-														inicio();
-														$("#inicio").attr("disabled", true);
-														$("#orden").attr("disabled", true);
-														$("#operador").attr("disabled", true);
-														$("#inicio").attr("disabled",true);
-														//swal("Correcto","success");
-														idinicio = 1;
-														var strDate = new Date();
-														horainicio = strDate.getFullYear() + "-" + (strDate.getMonth()+1) + "-" + strDate.getDate() + " " + strDate.getHours() + ":" + strDate.getMinutes() + ":" + strDate.getSeconds();
-														$("#horainicio").val(horainicio);
-														enProceso.ajax.reload();
-														enPendiente.ajax.reload();
-													}
-													else
-													{        
-													swal("Error","error");  
-													}         
-												},'json'
-											);																	
-										}
-										else
-										{        
-											swal("Error","error");  
-										}  		
-									},'json'
-								);
-							}
-							else
-							{        
-								swal("Error","error");  
-							}  		
-						},'json'
-					);																																			
-				}
-				else
-				{        
-					swal("Error","error");  
-				}
-			},'json'
-		);			
-
-		/*$.post('copiarprocesoacaptura', {maquina:maquina,proceso:proceso},
+		$.post('copiarprocesoacaptura', {id_pendiente:id_pendiente},
 			function(data)
 			{
 				if (data.validacion == true) 
 				{
-					$.post('eliminarprocesoenpendiente', {maquina:maquina,proceso:proceso},
-						function(result)
+					id_proceso = data.id_proceso;
+					$.post('iniciarajuste', 
 						{
-							if (result.validacion == true) 
+							id_proceso:id_proceso,
+							idmaquina:idmaquina,
+							maquina:maquina,
+							idproceso:idproceso,
+							proceso:proceso,
+							idoperador:idoperador,
+							nombreoperador:nombreoperador
+						},
+						function(data)
+						{
+							if (data.validacion==true) 
 							{
-								$.post('iniciarproceso', 
+								$.post('eliminarprocesoenpendiente', {id_pendiente:id_pendiente},
+									function(result)
 									{
-										orden:orden,
-										trabajo:trabajo,
-										idmaquina:idmaquina,
-										maquina:maquina,
-										idproceso:idproceso,
-										proceso:proceso,
-										idoperador:idoperador,
-										nombreoperador:nombreoperador
-									},
-									function(data)
-									{
-										if (data.validacion==true) 
-										{																
+										if (result.validacion == true) 
+										{
 											inicio();
 											$("#inicio").attr("disabled", true);
 											$("#orden").attr("disabled", true);
-											$("#operador").attr("disabled", true);
+											//$("#operador").attr("disabled", true);
 											$("#inicio").attr("disabled",true);
 											//swal("Correcto","success");
 											idinicio = 1;
@@ -989,40 +771,39 @@ $("#inicio").click(function()
 											horainicio = strDate.getFullYear() + "-" + (strDate.getMonth()+1) + "-" + strDate.getDate() + " " + strDate.getHours() + ":" + strDate.getMinutes() + ":" + strDate.getSeconds();
 											$("#horainicio").val(horainicio);
 											enProceso.ajax.reload();
-											enPendiente.ajax.reload();										
+											enPendiente.ajax.reload();
 										}
 										else
 										{        
-											swal("Error","error");  
-										}
+										swal("Error","error");  
+										}         
 									},'json'
-								);						
+								);								
 							}
 							else
 							{        
-							swal("Error","error");  
-							}         
+								swal("Error","error");  
+							}
 						},'json'
-					);
+					);																								
 				}
 				else
 				{        
 					swal("Error","error");  
 				}  		
 			},'json'
-		);*/	
+		);			
 	}
 });
 
 $("#parar").click(function(){
-//alert(proceso.substr(0,6));
+
 	if( idinicio != 1 && orden == 0 )
 	{
 		swal("Alto","No puedes parar si el proceso no ha iniciado","");
 	} else {
 		parar();
-		//obtenerAcumulados(orden);
-		validaAjustes();
+
 		if(cantreq == 0)
 		{
 			$.post('extraerenproceso', {orden:orden,vista:vista},
@@ -1112,140 +893,420 @@ $("#guardar").click(function()
 	var cantidadok = $("#cantidadrep").val();
 	var cantidadmerma = $("#cantmerma").val();
 	var notas = $("#notas").val();
-	//guardarProceso(orden,tiempodeejec,cantidadok,notas,cantidadmerma);
-	validaAjustes();
-	if( (proceso.substr(0,6) == 'AJUSTE') )			
+
+	if( proceso.substr(0,6) == 'AJUSTE' )			
 	{
-		$.post('reportarajuste', 
-			{
-				orden:orden,
-				proceso:proceso,
-				cantreq:cantreq,
-				cantidadok:cantidadok,
-				cantidadmerma:cantidadmerma,
-				tiemporep:tiemporep,
-				notas:notas
-			},
-			function(data)
-			{
-				if (data.validacion==true) 
+		if( $("#parcial").is(':checked') )
+		{
+			//$("#cant_parcial").attr("disabled",false);
+			//cantidadparcial = $("#cant_parcial").val();
+			parcial = 'si';
+			$.post('copiaradetalleprocesos', {id_proceso:id_proceso},
+				function(data)
 				{
-					$.post('actualizarfechainicio', {orden:orden,idoperador:idoperador,nombreoperador:nombreoperador},
-						function(result)
-						{				
-							$('#myModal').modal('hide');
-							limpiar();
-							reinicio();					
-							$.post('extraerenproceso', {orden:orden,vista:vista},
-								function(result)
+					if (data.validacion == true) 
+					{
+						id_detalle = data.id_detalle;
+						$.post('reportarajuste', 
+							{
+								id_detalle:id_detalle,
+								idmaquina:idmaquina,
+								maquina:maquina,
+								idproceso:idproceso,
+								proceso:proceso,
+								tiemporep:tiemporep,
+								cantidadok:cantidadok,
+								cantidadmerma:cantidadmerma,
+								notas:notas,
+								parcial:parcial
+							},
+							function(result)
+							{
+								if (result.validacion == true) 
 								{
-									if(result.data.length>0)
-									{
-								      //orden = result.data[0].id_orden;
-								      trabajo = result.data[0].trabajo;
-								      idmaquina = result.data[0].id_maquina;
-								      maquina = result.data[0].maquina;
-								      idproceso = result.data[0].id_proceso;
-								      proceso = result.data[0].proceso;
-								      idoperador = result.data[0].operador;
-								      nombreoperador = result.data[0].nombreoperador;
-								      horainicio = result.data[0].horainicio;
-								      cantreq = result.data[0].cantidadreq;           
-								      $("#orden").val(orden);
-								      $("#trabajo").val(trabajo);
-								      $("#operador").val(idoperador);
-								      $("#horainicio").val(horainicio);
-								      $("#nombreoperador").val(nombreoperador);         
-								      $('#orden').attr("disabled", true);
-								      $('#operador').attr("disabled", true);
-								      $('#trabajo').attr("disabled", true);
-								      $('#nombreoperador').attr("disabled", true);
-								      $('#horainicio').attr("disabled", true);
-								      $("#" + maquina.toLowerCase().replace(/ /gi, '') +"").attr("disabled", true);
-								      $("#" + proceso.toLowerCase().replace('/', '').replace(/ /gi,'') + "").attr("disabled", true);
-								      $('#inicio').attr("disabled", true);
-								      idinicio = 1;                                       
-								      // asignar el valor de las unidades en milisegundos
-								      var msecPerMinute = 1000 * 60;
-								      var msecPerHour = msecPerMinute * 60;
-								      var msecPerDay = msecPerHour * 24;
-								      // asignar la fecha actual en milisegundos
-								      var date = new Date();
-								      var dateMsec = date.getTime();
-								      // Asignar la fecha de la base de datos
-								      var date2 = new Date(horainicio);
-								      date2.getMonth();
-								      date2.getDate();
-								      date2.getHours();
-								      date2.getMinutes();
-								      date2.getSeconds();
+									$.post('eliminarprocesoenproceso', {id_proceso:id_proceso},
+										function(result)
+										{
+											if (result.validacion == true) 
+											{												
+												$.post('copiaraprocesospendientes', {id_detalle:id_detalle},
+													function(result)
+													{
+														if (result.validacion == true) 
+														{			
+														  if(proceso == "AJUSTE EMPALMADORA")
+														  {												  	
+														  	idproceso = $("#ranurado").val();						      	
+														  	proceso = "EMPALME";
+														  }	
+														  if(proceso == "AJUSTE CAIMAN")
+														  {
+														  	idproceso = $("#ranurado").val();					      	
+														  	proceso = "RANURADO";
+														  }	
+														  if(proceso == "AJUSTE FLEXOGRAFICA RANURADO")
+														  {
+														  	idproceso = $("#ranurado").val();					      	
+														  	proceso = "RANURADO";
+														  }		
+														  if(proceso == "AJUSTE FLEXOGRAFICA IMPRESION")
+														  {
+														  	idproceso = $("#impresion").val();					      	
+														  	proceso = "IMPRESION";
+														  }	
+														  if(proceso == "AJUSTE REFILADORA REFILADO RAYADO")
+														  {
+														  	idproceso = $("#refiladorayado").val();					      	
+														  	proceso = "REFILADO RAYADO";
+														  }		
+														  if(proceso == "AJUSTE REFILADORA RAYADO")
+														  {
+														  	idproceso = $("#rayado").val();					      	
+														  	proceso = "RAYADO";
+														  }	
+														  if(proceso == "AJUSTE REFILADORA REFILADO")
+														  {
+														  	idproceso = $("#refilado").val();					      	
+														  	proceso = "REFILADO";
+														  }	
+														  if(proceso == "AJUSTE PEGADORA CORRUGADOS")
+														  {
+														  	idproceso = $("#pegadocajas").val();					      	
+														  	proceso = "PEGADO CAJAS";
+														  }		
+														  if(proceso == "AJUSTE SUAJADORA")
+														  {
+														  	idproceso = $("#suajado").val();					      	
+														  	proceso = "SUAJADO";
+														  }																									
+															id_pendiente = result.id_pendiente;
+															$.post('actualizarproceso2',
+																{
+																	id_pendiente:id_pendiente,
+																	idproceso:idproceso,
+																	proceso:proceso
+																},
+																function(result)
+																{
+																	if(result.validacion == true)
+																	{
+																		$("#myModal").modal('hide');
+																		enProceso.ajax.reload();
+																		enPendiente.ajax.reload();															
+																		limpiar();
+																		reinicio();
+																	}
+																},'json'
+															);
+														}													
+													},'json'
+												);																		
+											}          
+										},'json'
+									);
+								}
+							},'json'			
+						);										
+					}
+				},'json'
+			);
+		}
+		else
+		{
+			//$("#cant_parcial").attr("disabled",true);
+			$.post('copiaradetalleprocesos', {id_proceso:id_proceso},
+				function(data)
+				{
+					if (data.validacion == true) 
+					{
+						id_detalle = data.id_detalle;
+						$.post('reportarajuste', 
+							{
+								id_detalle:id_detalle,
+								idmaquina:idmaquina,
+								maquina:maquina,
+								idproceso:idproceso,
+								proceso:proceso,
+								tiemporep:tiemporep,
+								cantidadok:cantidadok,
+								cantidadmerma:cantidadmerma,
+								notas:notas,
+								parcial:parcial
+							},
+							function(result)
+							{
+								if (result.validacion == true) 
+								{
+									$.post('eliminarprocesoenproceso', {id_proceso:id_proceso},
+										function(result)
+										{
+											if (result.validacion == true) 
+											{
+												$.post('iniciarproceso', {id_detalle:id_detalle},
+													function(result)
+													{
+														if (result.validacion == true) 
+														{
+															id_proceso = result.id_proceso;
+														  if(proceso == "AJUSTE EMPALMADORA")
+														  {
+														  	$("#ranurado").attr("disabled", true);
+														  	idproceso = $("#ranurado").val();						      	
+														  	proceso = "EMPALME";
+														  }	
+														  if(proceso == "AJUSTE CAIMAN")
+														  {
+														  	$("#ranurado").attr("disabled", true);
+														  	idproceso = $("#ranurado").val();					      	
+														  	proceso = "RANURADO";
+														  }	
+														  if(proceso == "AJUSTE FLEXOGRAFICA RANURADO")
+														  {
+														  	$("#ranurado").attr("disabled", true);
+														  	idproceso = $("#ranurado").val();					      	
+														  	proceso = "RANURADO";
+														  }		
+														  if(proceso == "AJUSTE FLEXOGRAFICA IMPRESION")
+														  {
+														  	$("#impresion").attr("disabled", true);
+														  	idproceso = $("#impresion").val();					      	
+														  	proceso = "IMPRESION";
+														  }	
+														  if(proceso == "AJUSTE REFILADORA REFILADO RAYADO")
+														  {
+														  	$("#refiladorayado").attr("disabled", true);
+														  	idproceso = $("#refiladorayado").val();					      	
+														  	proceso = "REFILADO RAYADO";
+														  }		
+														  if(proceso == "AJUSTE REFILADORA RAYADO")
+														  {
+														  	$("#rayado").attr("disabled", true);
+														  	idproceso = $("#rayado").val();					      	
+														  	proceso = "RAYADO";
+														  }	
+														  if(proceso == "AJUSTE REFILADORA REFILADO")
+														  {
+														  	$("#refilado").attr("disabled", true);
+														  	idproceso = $("#refilado").val();					      	
+														  	proceso = "REFILADO";
+														  }	
+														  if(proceso == "AJUSTE PEGADORA CORRUGADOS")
+														  {
+														  	$("#pegadocajas").attr("disabled", true);
+														  	idproceso = $("#pegadocajas").val();					      	
+														  	proceso = "PEGADO CAJAS";
+														  }		
+														  if(proceso == "AJUSTE SUAJADORA")
+														  {
+														  	$("#suajado").attr("disabled", true);
+														  	idproceso = $("#suajado").val();					      	
+														  	proceso = "SUAJADO";
+														  }
+															$.post('actualizarproceso', {id_proceso:id_proceso,idproceso:idproceso,proceso:proceso},
+																function(result)
+																{
+																	if (result.validacion == true) 
+																	{	
+																		id_proceso = result.id_proceso;																									
+																		enPendiente.ajax.reload();
+																		enProceso.ajax.reload();
+																		limpiar();
+																		reinicio();
 
-								      // Obtener la diferencia en milisegundos
-								      var interval = dateMsec - date2.getTime();            
-								      // Calcular las horas
-								      var hours = Math.floor(interval / msecPerHour );
-								      interval = interval - (hours * msecPerHour );
-								      // Calcular los minutos
-								      var minutes = Math.floor(interval / msecPerMinute );
-								      interval = interval - (minutes * msecPerMinute );
-								      // Calcular los segundos
-								      var seconds = Math.floor(interval / 1000 );
-								      //cronometro
-								      centesimas = 99;
-								      segundos = seconds;
-								      minutos = minutes;
-								      horas = hours;
+																		$.post('extraerenproceso', {id_proceso:id_proceso,vista:vista},
+																			function(result)
+																			{
+																				if(result.data.length>0)
+																				{
+																			      trabajo = result.data[0].trabajo;
+																			      idmaquina = result.data[0].id_maquina;
+																			      maquina = result.data[0].maquina;
+																			      idproceso = result.data[0].id_proceso;
+																			      proceso = result.data[0].proceso;
+																			      idoperador = result.data[0].operador;
+																			      nombreoperador = result.data[0].nombreoperador;
+																			      horainicio = result.data[0].horainicio;
+																			      cantreq = result.data[0].cantidadreq;           
+																			      $("#orden").val(orden);
+																			      $("#trabajo").val(trabajo);
+																			      $("#operador").val(idoperador);
+																			      $("#horainicio").val(horainicio);
+																			      $("#nombreoperador").val(nombreoperador);         
+																			      $('#orden').attr("disabled", true);
+																			      $('#operador').attr("disabled", true);
+																			      $('#trabajo').attr("disabled", true);
+																			      $('#nombreoperador').attr("disabled", true);
+																			      $('#horainicio').attr("disabled", true);
+																			      $("#" + maquina.toLowerCase().replace(/ /gi, '') +"").attr("disabled", true);
+																			      $("#" + proceso.toLowerCase().replace('/', '').replace(/ /gi,'') + "").attr("disabled", true);
+																			      $('#inicio').attr("disabled", true);
+																			      idinicio = 1;                                       
+																			      // asignar el valor de las unidades en milisegundos
+																			      var msecPerMinute = 1000 * 60;
+																			      var msecPerHour = msecPerMinute * 60;
+																			      var msecPerDay = msecPerHour * 24;
+																			      // asignar la fecha actual en milisegundos
+																			      var date = new Date();
+																			      var dateMsec = date.getTime();
+																			      // Asignar la fecha de la base de datos
+																			      var date2 = new Date(horainicio);
+																			      date2.getMonth();
+																			      date2.getDate();
+																			      date2.getHours();
+																			      date2.getMinutes();
+																			      date2.getSeconds();
 
-								      if (segundos < 10) { segundos = "0"+segundos }
-								      	Segundos.innerHTML = ":"+segundos;
-								      if (minutos < 10) { minutos = "0"+minutos }
-								      	Minutos.innerHTML = ":"+minutos;
-								      if (horas < 10) { horas = "0"+horas }
-								      	Horas.innerHTML = horas;          
-								      inicio();
-						  			}
-						  			else
-						  			{        
-						  				swal("Error","","error");  
-						  			}
-								},'json'
-							);
-						},'json'
-					);										
-				}
-			},'json'
-		);
+																			      // Obtener la diferencia en milisegundos
+																			      var interval = dateMsec - date2.getTime();            
+																			      // Calcular las horas
+																			      var hours = Math.floor(interval / msecPerHour );
+																			      interval = interval - (hours * msecPerHour );
+																			      // Calcular los minutos
+																			      var minutes = Math.floor(interval / msecPerMinute );
+																			      interval = interval - (minutes * msecPerMinute );
+																			      // Calcular los segundos
+																			      var seconds = Math.floor(interval / 1000 );
+																			      //cronometro
+																			      centesimas = 99;
+																			      segundos = seconds;
+																			      minutos = minutes;
+																			      horas = hours;
+
+																			      if (segundos < 10) { segundos = "0"+segundos }
+																			      	Segundos.innerHTML = ":"+segundos;
+																			      if (minutos < 10) { minutos = "0"+minutos }
+																			      	Minutos.innerHTML = ":"+minutos;
+																			      if (horas < 10) { horas = "0"+horas }
+																			      	Horas.innerHTML = horas;          
+																			      inicio();
+																	  			}
+																	  			else
+																	  			{        
+																	  				swal("Error","","error");  
+																	  			}
+																			},'json'
+																		);
+																	}
+																},'json'
+															);
+														}
+													},'json'
+												);																		
+											}          
+										},'json'
+									);
+								}
+							},'json'			
+						);										
+					}
+				},'json'
+			);				
+		}		
 	} 
 	else 
-	{
-		$.post('copiaradetalleprocesos', {maquina:maquina,proceso:proceso},
-			function(data)
-			{
-				if (data.validacion == true) 
+	{		
+		if( $("#parcial").is(':checked') )
+		{
+			//$("#cant_parcial").attr("disabled",false);
+			//cantidadparcial = $("#cant_parcial").val();
+			parcial = 'si';
+			$.post('copiaradetalleprocesos', {id_proceso:id_proceso},
+				function(data)
 				{
-					$.post('eliminarprocesoenproceso', {maquina:maquina,proceso:proceso},
-						function(result){
-							if (result.validacion == true) 
+					if (data.validacion == true) 
+					{
+						id_detalle = data.id_detalle;
+						$.post('reportarproceso', 
 							{
-								$.post('reportarproceso', {orden:orden,tiemporep:tiemporep,cantidadok:cantidadok,cantidadmerma:cantidadmerma,notas:notas,maquina:maquina,proceso:proceso},
-									function(result)
-									{
-										if (result.validacion == true) 
+								id_detalle:id_detalle,
+								idmaquina:idmaquina,
+								maquina:maquina,
+								idproceso:idproceso,
+								proceso:proceso,
+								tiemporep:tiemporep,
+								cantidadok:cantidadok,
+								cantidadmerma:cantidadmerma,
+								notas:notas,
+								parcial:parcial
+							},
+							function(result)
+							{
+								if (result.validacion == true) 
+								{
+									$.post('eliminarprocesoenproceso', {id_proceso:id_proceso},
+										function(result)
 										{
-											//swal("Correcto","success");
-											parar();
-											reinicio();
-											limpiar();											
-											enProceso.ajax.reload();
-										}    
-									},'json'
-								);
-							}          
-						},'json'
-					);
-				}          
-			},'json'
-		);			
+												if (result.validacion == true) 
+												{
+													$.post('copiaraprocesospendientes', {id_detalle:id_detalle},
+														function(result)
+														{
+															if (result.validacion == true) 
+															{														
+																id_proceso = result.id_proceso;																									
+																$("#myModal").modal('hide');
+																enProceso.ajax.reload();
+																enPendiente.ajax.reload();																
+																limpiar();
+																reinicio();	
+															}
+														},'json'													
+													);																		
+												}           
+										},'json'
+									);
+								}
+							},'json'			
+						);
+					}          
+				},'json'
+			);
+		}
+		else
+		{
+			//$("#cant_parcial").attr("disabled",true);
+			$.post('copiaradetalleprocesos', {id_proceso:id_proceso},
+				function(data)
+				{
+					if (data.validacion == true) 
+					{
+						id_detalle = data.id_detalle;
+						$.post('reportarproceso', 
+							{
+								id_detalle:id_detalle,
+								idmaquina:idmaquina,
+								maquina:maquina,
+								idproceso:idproceso,
+								proceso:proceso,
+								tiemporep:tiemporep,
+								cantidadok:cantidadok,
+								cantidadmerma:cantidadmerma,
+								notas:notas,
+								parcial:parcial
+							},
+							function(result)
+							{
+								if (result.validacion == true) 
+								{
+									$.post('eliminarprocesoenproceso', {id_proceso:id_proceso},
+										function(result){
+											if (result.validacion == true) 
+											{		
+												id_proceso = result.id_proceso;
+												$("#myModal").modal('hide');
+												enProceso.ajax.reload();												
+												limpiar();
+												reinicio();																	
+											}          
+										},'json'
+									);
+								}
+							},'json'			
+						);
+					}          
+				},'json'
+			);			
+		}			
 	}
 });
 
@@ -1256,14 +1317,14 @@ $("#cancelar").click(function(){
 
 $("#enPendiente tbody").on("click","button[type='button'].btn-preview", function()
 { 
-	id=$(".btn-preview").val();
-	window.open("http://localhost/Corrugados/public/ordenes/orderpdf?Id="+id, '_blank');
+	var id_preview = $(this).data("id");
+	window.open("http://localhost/Corrugados/public/ordenes/orderpdf?Id="+id_preview, '_blank');
 });
 
 $("#enProceso tbody").on("click","button[type='button'].btn-preview", function()
 { 
-	id=$(".btn-preview").val();
-	window.open("http://localhost/Corrugados/public/ordenes/orderpdf?Id="+id, '_blank');
+	var id_preview = $(this).data("id")
+	window.open("http://localhost/Corrugados/public/ordenes/orderpdf?Id="+id_preview, '_blank');
 });  
 
 //==================================== FUNCIONES ====================================
@@ -1280,8 +1341,7 @@ function inicio () {
 function parar () {
 	clearInterval(control);
 	tiempodeejec = horas + ":" + minutos + ":" + segundos;
-	tiemporep = horas + (minutos/ 60);
-
+	tiemporep = parseFloat(horas) + (parseFloat(minutos)/ 60);
 }
 function reinicio () {
 	clearInterval(control);
@@ -1329,53 +1389,14 @@ function limpiar (){
 $('#myModal').modal('hide');
 $("input[type=text]").val("");
 $("button[type=button]").attr("disabled",false);
+$("#operador").attr("disabled",false);
+$('textarea#notas').val("");
 enProceso.$('tr.selected').removeClass('selected');
 enPendiente.$('tr.selected').removeClass('selected');
 idmaquina=0;
 idproceso=0;
 proceso="";
 maquina="";
-
-}
-
-function validaAjustes()
-{
-	if( (proceso == "AJUSTE EMPALMADORA") && (maquina =="EMPALMADORA AUTOMATICA")  )
-	{
-		idproceso = 18;
-	} else 
-	if( (proceso == "AJUSTE EMPALMADORA") && (maquina =="EMPALMADORA SEMIAUTOMATICA")  )
-	{
-		idproceso = 19;
-	} else 
-	if( (proceso == "AJUSTE SUAJADORA") && (maquina =="SUAJADORA AUTOMATICA")  )
-	{
-		idproceso = 20;
-	} else 
-	if( (proceso == "AJUSTE SUAJADORA") && (maquina =="SUAJADORA QUIJADA 1")  )
-	{
-		idproceso = 21;
-	} else 
-	if( (proceso == "AJUSTE SUAJADORA") && (maquina =="SUAJADORA QUIJADA 2")  )
-	{
-		idproceso = 22;
-	} else 
-	if( (proceso == "AJUSTE SUAJADORA") && (maquina =="SUAJADORA PLANA")  )
-	{
-		idproceso = 25;
-	} else 
-	/*if( (proceso == "AJUSTE SUAJADORA") && (maquina =="SUAJADORA DE RODILLO")  )
-	{
-		idproceso = 27;
-	} else*/ 
-	if( (proceso == "AJUSTE PEGADORA") && (maquina =="PEGADORA LINEAL GRANDE")  )
-	{
-		idproceso = 23;
-	} else
-	if( (proceso == "AJUSTE PEGADORA") && (maquina =="PEGADORA LINEAL CHICA")  )
-	{
-		idproceso = 24;
-	}		
 }
 
 $(document).bind('keydown',function(e){

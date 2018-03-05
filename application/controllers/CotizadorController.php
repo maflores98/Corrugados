@@ -264,6 +264,102 @@
 
             echo Zend_Json::encode($articulos);
 
+        }
+
+        public function tipomaterialAction(){
+
+            $this->_helper->layout->disableLayout();
+            $this->_helper->viewRenderer->setNoRender();
+
+            $idTipo = $_POST['tipoMaterial'];
+
+            $ListaMateriales = new Application_Model_DbTable_TiposMateriales();
+            $Materiales = $ListaMateriales->selTipoMateriales($idTipo);
+
+            echo Zend_Json::encode($Materiales);
+
+        }            
+
+        public function selmatcorrugadosAction(){
+
+            $this->_helper->layout->disableLayout();
+            $this->_helper->viewRenderer->setNoRender();
+
+            $idMaterial = $_POST['Material'];
+
+            $ListaMateriales = new Application_Model_DbTable_vClasifCartones();
+            $Materiales = $ListaMateriales->consultar($idMaterial);
+
+            echo Zend_Json::encode($Materiales);
+
+        }      
+
+        public function seltamcorrugadosAction(){
+
+            $this->_helper->layout->disableLayout();
+            $this->_helper->viewRenderer->setNoRender();
+
+            $descripcion = $_POST['Descripcion'];
+
+            $ListaMateriales = new Application_Model_DbTable_Materiales();
+            $Materiales = $ListaMateriales->consultadescripcion($descripcion);
+
+            echo Zend_Json::encode($Materiales);
+
         }        
+
+        public function seltiposcamionesAction(){
+
+            $this->_helper->layout->disableLayout();
+            $this->_helper->viewRenderer->setNoRender();
+
+            $ListaMateriales = new Application_Model_DbTable_vTiposCamiones();
+            $Materiales = $ListaMateriales->consultar();
+
+            echo Zend_Json::encode($Materiales);
+
+        }       
+
+        public function margenAction(){
+            $this->_helper->layout->disableLayout();
+            $this->_helper->viewRenderer->setNoRender();
+
+            $cant_requerida = $_POST['cant_requerida'];
+            $margen = new Application_Model_DbTable_Margen();
+            $porcentaje = $margen->consultar($cant_requerida);
+
+            echo Zend_Json::encode($porcentaje);            
+        }   
+
+        public function selectproductoAction(){
+
+            $this->_helper->layout->disableLayout();
+            $this->_helper->viewRenderer->setNoRender();
+
+            $clasificacion = $_POST['clasificacion'];
+            $clasificacion2 = $_POST['clasificacion2'];
+
+            $ListaArticulos = new Application_Model_DbTable_Tiposcajas();
+            $articulos = $ListaArticulos->selectproducto($clasificacion, $clasificacion2);
+
+            echo Zend_Json::encode($articulos);
+
+        }
+
+        public function cotizadorprocesosAction(){
+
+            $this->_helper->layout->disableLayout();
+            $this->_helper->viewRenderer->setNoRender();
+
+            $clasificacion = $_POST['clasificacion'];
+            $clasificacion2 = $_POST['clasificacion2'];
+            $tipoproducto = $_POST['tipoproducto'];
+
+            $ListaProcesos = new Application_Model_DbTable_Tiposcajas();
+            $procesos = $ListaProcesos->cotizadorprocesos($clasificacion, $clasificacion2, $tipoproducto);
+
+            echo Zend_Json::encode($procesos);
+
+        }                   
 
     }

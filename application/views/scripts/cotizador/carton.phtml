@@ -1,108 +1,859 @@
-<div class="row">
-  <div class="col-md-12">
-    <h1><?php  echo $this->titulo; echo @$this->nombreCliente?></h1>
-  </div>
-</div>
+<?php 
+$this->headLink()->appendStylesheet('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css');
+$this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js','text/javascript');
+//$this->headScript()->appendFile($this->baseUrl('js/cotcarton.validaciones.js'), 'text/javascript');
+$this->headScript()->appendFile($this->baseUrl('js/cotcarton.calculos.js'), 'text/javascript');
+$this->headLink()->appendStylesheet($this->baseUrl('css/estilos.cotcarton.css'));
+?>
+
 <form action="">
   <div class="row">
+    <div class="col-md-12">
+      <h1 style="margin-top: 5px;"><?php  echo $this->titulo; echo @$this->nombreCliente?></h1>
+    </div>     
+  </div>
 
+  <div class="row">
     <div class="col-md-9">
+      <div class="panel panel-default">
+       <div class=" ">
+         <h4 class="bs-titulo"><span>Datos</span></h4>
+       </div>
+       <div class="panel-body">
 
-      <div id="encabezado" class="row">
-
-        <div class="form-group">
-          <label for="inputtext3" class="col-md-2 control-label">Fecha registro:</label>
-          <div class="col-md-10">
+        <div class="row">
+         <div class="form-group">
+           <label class="col-md-3 control-label">Fecha registro:</label>
+           <div class="col-md-3">
             <input type="date" class="form-control input-sm date-cls" id="fecha_emision" name="fecha_emision" value="<?php echo date("Y-m-d");?>" readonly>
           </div>
-        </div>
 
-        <div class="form-group">
-          <label for="inputtext3" class="col-md-2 control-label">F. cotización:</label>
-          <div class="col-md-10">
+          <label class="col-md-3 control-label">Folio cotización:</label>
+          <div class="col-md-3">
             <input type="text" class="form-control input-sm" id="id_cotizacion" name="id_cotizacion">
           </div>
-        </div>  
-
-        <div class="form-group">
-          <label for="id_cliente" class="col-md-2 control-label">Cliente:</label>
-          <div class="col-md-10">
-            <select class="selectpicker form-control input-sm" id="id_cliente" name="id_cliente" data-live-search="true"></select>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="inputtext3" class="col-md-2 control-label">Trabajo:</label>
-          <div class="col-md-10">
-            <input type="text" class="form-control input-sm" id="nombre_trabajo" name="nombre_trabajo">
-          </div>
-        </div>      
-
+        </div>                         
       </div>
       <br>
-      <div id="cuerpo" class="row">              
-        <div class="col-md-6">
-          <div class="row">
-            <div class="form-group col-md-12">
-              <input type="text" class="form-control" id="cant_requerida" name="cant_requerida" placeholder="Cantidad Requerida">
-            </div>
 
-            <div class="form-group col-md-6">
-              <input type="text" class="form-control" id="med_frente" name="med_frente" placeholder="Frente">
-            </div>
-
-            <div class="form-group col-md-6">
-              <input type="text" class="form-control" id="med_fondo" name="med_fondo" placeholder="Fondo">
-            </div>    
-
-            <div class="form-group col-md-6">
-              <input type="text" class="form-control" id="med_largo" name="med_largo" placeholder="Largo">
-            </div>           
-
-            <div class="form-group col-md-6">
-              <input type="text" class="form-control" id="med_ancho" name="med_ancho" placeholder="Ancho">
-            </div>             
-          </div>
+      <div class="row">
+       <div class="form-group">
+         <label class="col-md-2 control-label">Cliente:</label>
+         <div class="col-md-10">
+          <select class="selectpicker form-control input-sm" id="id_cliente" name="id_cliente" data-live-search="true"></select>
         </div>
-        <div class="col-md-6">
-          <div class="row">
-            <div class="col-md-6">
-            <label class="radio-inline">
-              <input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">
-              "Con medidas de la caja"
-            </label>              
-            </div>
-            <div class="col-md-6">
-            <label class="radio-inline">
-              <input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">
-              "Con medidas del cartón"
-            </label>               
-            </div>                       
-          </div> 
-          <br>
-          <div class="row">
-            <div class="form-group col-md-6">
-              <input type="text" class="form-control" id="med_altura" name="med_altura" placeholder="Altura">
-            </div>  
-            <div class="form-group col-md-6">
-              <input type="text" class="form-control" id="m2" name="m2" placeholder="m2">
-            </div>  
-            <div class="form-group col-md-6">
-              <input type="text" class="form-control" id="total" name="total" placeholder="total">
-            </div>  
-            <div class="form-group col-md-6">
-              <input type="text" class="form-control" id="cmajuste" name="cmajuste" placeholder="cm de ajuste">
-            </div>                                 
-          </div>        
-        </div>
+      </div>                         
+    </div>
+    <br>
+
+    <div class="row">
+     <div class="form-group">
+       <label class="col-md-2 control-label">Trabajo:</label>
+       <div class="col-md-10">
+        <input type="text" class="form-control input-sm" id="nombre_trabajo" name="nombre_trabajo">
       </div>
+    </div>               
+  </div>
 
+</div>      
+</div>         
+</div>
+<div class="col-md-3">
+  <div class="panel panel-default">
+   <div class="bs-titulo">
+     <h4 class="bs-titulo"><span>Totales</span></h4>
+   </div>
+   <div class="panel-body">
 
+    <div class="row">
+      <label class="col-md-5 control-label">Importe:</label>
+      <span class="col-md-7" id="importe" name="importe">0</span>          
     </div>
 
-    <div class="col-md-3">
-      aqui van los resultados
+    <div class="row">    
+      <label class="col-md-5 control-label">Margen:</label>
+      <span class="col-md-4" id="margen" name="margen">0</span>
+      <span class="col-md-2" id="por_margen" name="por_margen">0</span>%
+    </div>
+
+    <div class="row">    
+      <label class="col-md-5 control-label">P.Unitario:</label>
+      <span class="col-md-7" id="punitario" name="punitario">0</span>             
+    </div>
+
+    <div class="row">    
+      <label class="col-md-5 control-label">Total:</label>
+      <span class="col-md-7" id="total" name="total">0</span>              
     </div>
 
   </div>
+</div>
+</div>
+</div>
+
+<div class="row">
+  <div class="col-md-9">
+    <div class="panel panel-default">
+      <div class="bs-titulo">
+        <h4 class="bs-titulo"><span>Materiales</span></h4>
+      </div>
+      <div class="panel-body">
+
+        <div class="row">
+         <div class="form-group">
+           <label class="col-md-1 control-label">Cant.req.</label>
+           <div class="col-md-2">
+            <input type="text" class="form-control input-sm" id="cant_requerida" name="cant_requerida" value="0">
+          </div>
+          <label class="col-md-1 control-label">Frente</label>
+          <div class="col-md-2">
+            <input type="text" class="form-control input-sm" id="med_frente" name="med_frente" value="0">
+          </div>   
+          <label class="col-md-1 control-label">Fondo</label>
+          <div class="col-md-2">
+            <input type="text" class="form-control input-sm" id="med_fondo" name="med_fondo" value="0">
+          </div>  
+          <label class="col-md-1 control-label">Alto</label>
+          <div class="col-md-2">
+            <input type="text" class="form-control input-sm" id="med_alto" name="med_alto" value="0">
+          </div>                           
+        </div>       
+      </div>
+      <br>
+
+      <div class="row">
+       <label class="col-md-1 control-label">Largo</label>
+       <div class="col-md-2">
+        <input type="text" class="form-control input-sm" id="med_largo" name="med_largo" value="0">
+      </div> 
+      <label class="col-md-1 control-label">Ancho</label>
+      <div class="col-md-2">
+        <input type="text" class="form-control input-sm" id="med_ancho" name="med_ancho" value="0">
+      </div>
+      <div class="radio col-md-3">
+       <label class="radio-inline">
+        <input type="radio" id="caja" name="tipo_medida" class="tipo_medida" value="1"> M.Caja
+      </label>
+
+      <label class="radio-inline">
+        <input type="radio" id="carton" name="tipo_medida" class="tipo_medida" value="2"> M.Carton
+      </label>
+    </div>  
+    <label class="col-md-3 control-label" id="med_lamina"></label>              
+  </div>
+
+  <div class="row">       
+    <label class="col-md-offset-7 col-md-2 control-label" id="m2_xcaja"></label>
+    <label class="col-md-2 control-label">m<sup>2</sup> requeridos: </label>
+    <label class="col-md-1 control-label" id="m2_requeridos"></label>
+  </div>         
+  <br> 
+  <div class="row">
+
+    <div class="col-md-4">
+      <div class="form-group">
+       <label class="col-md-4 control-label">Articulo:</label>
+       <div class="col-md-8">
+        <select class="form-control input-sm" id="articulo" name="articulo">
+          <option value="null" selected=>SELECCIONAR</option>
+        </select>
+      </div>
+
+      <label class="col-md-4 control-label">Producto:</label>
+      <div class="col-md-8">
+        <select class="form-control input-sm" id="tipo_producto" name="tipo_producto">
+          <option value="null">SELECCIONAR</option>
+        </select>
+      </div>
+    </div>      
+  </div>
+
+  <div class="col-md-3">
+
+    <div class="radio">
+      <label><input type="radio" id="mat-corrugados" name="selector_material" value="8">Corrugados</label>
+    </div
+    <div class="radio">
+      <label><input type="radio" id="mat-kaples" name="selector_material" value="9">Kaples y sulfatadas</label>
+    </div
+
+  </div>
+
+  <div class="col-md-5">
+   <div class="form-group">
+    <label class="col-md-3 control-label">Tipo:</label>
+    <div class="col-md-7">
+      <select class="form-control input-sm" id="tipo_material" name="tipo_material">
+        <option value="null">SELECCIONAR</option>
+      </select>
+    </div>
+
+    <label class="col-md-3 control-label">Carton:</label>
+    <div class="col-md-7">
+      <select class="form-control input-sm" id="carton" name="carton">
+       <option value="null" selected>SELECCIONAR</option>
+     </select>
+   </div>
+
+   <label class="col-md-3 control-label">Tamaño:</label>
+   <div class="col-md-9">
+    <select class="form-control input-sm" id="tam-carton" name="tam-carton">
+     <option value="null" selected>SELECCIONAR</option>
+   </select>
+ </div>   
+</div>      
+</div> 
+
+</div>
+
+</div>
+</div>
+
+<div class="row">
+  <div class="form-group">
+    <label class="col-md-1 control-label">Tipo Suajado:</label>
+    <div class="col-md-3">
+      <select class="form-control input-sm" id="tipo_suajado" name="tipo_suajado">
+        <option value="null" selected>SELECCIONAR</option>
+        <option value="1">MANUAL</option>
+        <option value="2">AUTOMATICO</option>
+      </select>
+    </div>
+    <label class="col-md-1 control-label">cm de suaje:</label>
+    <div class="col-md-3">
+      <input type="text" class="form-control input-sm" id="cm_suaje" name="cm_suaje">
+    </div> 
+    <div class="col-md-4">
+     <div class="radio">
+       <label class="radio-inline">
+        <input type="checkbox" id="refiladorayado" name="refiladorayado"> Aplicar Refilado/Rayado
+      </label>
+    </div>
+  </div>             
+</div>             
+</div>
+<br>
+
+</div>
+<div class="col-md-3">
+  <div class="panel panel-default">
+    <div class="bs-titulo">
+      <h4 class="bs-titulo"><span>Subtotal Materiales</span></h4>
+    </div>
+    <div class="panel-body">
+
+      <div class="row">
+        <label class="col-md-5 control-label">Cantidad</label>
+        <span class="col-md-7" id="cant_producir" name="cant_producir">0</span>
+      </div>     
+      <div class="row">
+        <label class="col-md-5 control-label">Metros<sup>2</sup></label>
+        <span class="col-md-7" id="m2_req" name="m2_req">0</span>
+      </div>
+      <div class="row">
+        <label class="col-md-5 control-label">Costo_m<sup>2</sup></label> 
+        <span class="col-md-7" id="costo_m2" name="costo_m2">0</span>   
+      </div>
+      <div class="row">
+        <label class="col-md-5 control-label">Tinta(kg)</label> 
+        <span class="col-md-7" id="consumo_tinta" name="consumo_tinta">0</span>   
+      </div>
+      <div class="row">
+        <label class="col-md-5 control-label">Carton</label> 
+        <span class="col-md-7" id="costo_carton" name="costo_carton">0</span> 
+      </div>
+      <div class="row">
+        <label class="col-md-5 control-label">Tinta</label>  
+        <span class="col-md-7" id="costo_tinta" name="costo_tinta">0</span>
+      </div>
+      <div class="row">
+        <label class="col-md-5 control-label">Cirel</label> 
+        <span class="col-md-7" id="costo_cirel" name="costo_cirel">0</span>
+      </div>
+      <div class="row">
+        <label class="col-md-5 control-label">Suaje</label> 
+        <span class="col-md-7" id="costo_suaje" name="costo_suaje">0</span>
+      </div>
+      <div class="row">
+        <label class="col-md-5 control-label">Costo</label> 
+        <span class="col-md-7" id="total_material" name="total_material">0</span>                      
+      </div>
+
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="row">
+  <div class="col-md-9">
+    <div class="panel panel-default">
+      <div class="bs-titulo">
+        <h4 class="bs-titulo"><span>Procesos</span></h4>
+      </div>
+      <div class="panel-body">
+
+        <div class="row">
+          <label class="col-md-2 control-label">Procesos</label>
+          <label class="col-md-1 control-label">Merma</label> 
+          <label class="col-md-1 control-label">Arreglo</label> 
+          <label class="col-md-1 control-label">Tiro</label> 
+          <label class="col-md-1 control-label">C.Unit</label>
+
+          <label class="col-md-2 control-label">Procesos</label>
+          <label class="col-md-1 control-label">Merma</label> 
+          <label class="col-md-1 control-label">Arreglo</label> 
+          <label class="col-md-1 control-label">Tiro</label> 
+          <label class="col-md-1 control-label">C.Unit</label>                                
+        </div>
+        <div class="row">
+         <div class="form-group">
+           <label class="col-md-2 control-label">Impresión</label>
+           <span class="col-md-1" id="imp_merma" name="imp_merma">0</span>
+           <span class="col-md-1" id="imp_arreglo" name="imp_arreglo">0</span>
+           <span class="col-md-1" id="imp_tiro" name="imp_tiro">0</span>
+           <span class="col-md-1" id="imp_cunit" name="imp_cunit">0</span>                       
+
+           <label class="col-md-2 control-label">Refilado</label>
+           <span class="col-md-1" id="ref_merma" name="ref_merma">0</span>
+           <span class="col-md-1" id="ref_arreglo" name="ref_arreglo">0</span>
+           <span class="col-md-1" id="ref_tiro" name="ref_tiro">0</span>
+           <span class="col-md-1" id="ref_cunit" name="ref_cunit">0</span>                              
+         </div>
+       </div>
+       <div class="row">
+        <div class="form-group">
+         <label class="col-md-2 control-label">Rayado</label>
+         <span class="col-md-1" id="rayado_merma" name="rayado_merma">0</span>
+         <span class="col-md-1" id="rayado_arreglo" name="rayado_arreglo">0</span>
+         <span class="col-md-1" id="rayado_tiro" name="rayado_tiro">0</span>
+         <span class="col-md-1" id="rayado_cunit" name="rayado_cunit">0</span>                               
+
+         <label class="col-md-2 control-label">Flexoranurado</label>
+         <span class="col-md-1" id="flexo_merma" name="flexo_merma">0</span>
+         <span class="col-md-1" id="flexo_arreglo" name="flexo_arreglo">0</span>
+         <span class="col-md-1" id="flexo_tiro" name="flexo_tiro">0</span>
+         <span class="col-md-1" id="flexo_cunit" name="flexo_cunit">0</span>                                 
+       </div>
+     </div> 
+     <div class="row">
+      <div class="form-group">
+       <label class="col-md-2 control-label">Caiman</label>   
+       <span class="col-md-1" id="caiman_merma" name="caiman_merma">0</span>
+       <span class="col-md-1" id="caiman_arreglo" name="caiman_arreglo">0</span>
+       <span class="col-md-1" id="caiman_tiro" name="caiman_tiro">0</span>
+       <span class="col-md-1" id="caiman_cunit" name="caiman_cunit">0</span>                           
+
+       <label class="col-md-2 control-label">Pegado</label>
+       <span class="col-md-1" id="pegado_merma" name="pegado_merma">0</span>
+       <span class="col-md-1" id="pegado_arreglo" name="pegado_arreglo">0</span>
+       <span class="col-md-1" id="pegado_tiro" name="pegado_tiro">0</span>
+       <span class="col-md-1" id="pegado_cunit" name="pegado_cunit">0</span>                                 
+     </div>
+   </div>
+   <div class="row">
+    <div class="form-group">
+     <label class="col-md-2 control-label">Grapado</label>
+     <span class="col-md-1" id="grapado_merma" name="grapado_merma">0</span>
+     <span class="col-md-1" id="grapado_arreglo" name="grapado_arreglo">0</span>
+     <span class="col-md-1" id="grapado_tiro" name="grapado_tiro">0</span>
+     <span class="col-md-1" id="grapado_cunit" name="grapado_cunit">0</span>                                
+
+     <label class="col-md-2 control-label">Suajado</label>
+     <span class="col-md-1" id="suajado_merma" name="suajado_merma">0</span>
+     <span class="col-md-1" id="suajado_arreglo" name="suajado_arreglo">0</span>
+     <span class="col-md-1" id="suajado_tiro" name="suajado_tiro">0</span>
+     <span class="col-md-1" id="suajado_cunit" name="suajado_cunit">0</span>                                  
+   </div>
+ </div> 
+ <div class="row">
+  <div class="form-group">
+   <label class="col-md-2 control-label">Flejado</label>   
+   <span class="col-md-1" id="flejado_merma" name="flejado_merma">0</span>
+   <span class="col-md-1" id="flejado_arreglo" name="flejado_arreglo">0</span>
+   <span class="col-md-1" id="flejado_tiro" name="flejado_tiro">0</span>
+   <span class="col-md-1" id="flejado_cunit" name="flejado_cunit">0</span>                              
+
+   <label class="col-md-2 control-label">Entarimado</label>
+   <span class="col-md-1" id="entarimado_merma" name="entarimado_merma">0</span>
+   <span class="col-md-1" id="entarimado_arreglo" name="entarimado_arreglo">0</span>
+   <span class="col-md-1" id="entarimado_tiro" name="entarimado_tiro">0</span>
+   <span class="col-md-1" id="entarimado_cunit" name="entarimado_cunit">0</span>                                
+ </div>
+</div>                                          
+
+</div>
+</div>
+</div>
+<div class="col-md-3">
+  <div class="panel panel-default">
+    <div class="bs-titulo">
+      <h4 class="bs-titulo"><span>Subtotal Procesos</span></h4>
+    </div>
+    <div class="panel-body">
+      <div class="row">
+        <label class="col-md-5 control-label">Merma</label> 
+        <span class="col-md-7" id="total_merma" name="total_merma">0</span>
+      </div>
+
+      <div class="row">
+        <label class="col-md-5 control-label">Arreglo</label> 
+        <span class="col-md-7" id="total_arreglo" name="total_arreglo">0</span>
+      </div>
+
+      <div class="row">
+        <label class="col-md-5 control-label">Tiro</label> 
+        <span class="col-md-7" id="total_tiro" name="total_tiro">0</span>
+      </div>
+
+      <div class="row">
+        <label class="col-md-5 control-label">Costo unit</label> 
+        <span class="col-md-7" id="total_cunit" name="total_cunit">0</span>                   
+        
+      </div>
+    </div>
+  </div>    
+</div>
+</div>
+
+<div class="row" class="oculto">
+  <div class="col-md-9">
+    <div class="panel panel-default">
+     <div class=" ">
+       <h4 class="bs-titulo"><span>Tintas:</span></h4>
+     </div>
+     <div class="panel-body"> 
+      <div class="row">
+        <div class="form-group">
+          <label for="no_tintas" class="col-md-2 col-md-offset-2 control-label">#Tintas:</label>
+          <div class="col-md-3">
+            <input type="text" class="form-control input-sm" id="no_tintas" name="no_tintas" value="0">
+          </div>
+        </div> 
+      </div>
+      <br>
+      <div class="row">
+        <div class="form-group">
+          <label for="t1_largo" class="col-md-2 control-label">Tinta1:</label>
+          <div class="col-md-3">
+            <input type="text" class="form-control" id="t1_largo" name="t1_largo" placeholder="Largo (cm)">
+          </div>
+          <label for="t1_ancho" class="control-label"></label>
+          <div class="col-md-3">
+            <input type="text" class="form-control" id="t1_ancho" name="t1_ancho" placeholder="Ancho (cm)">
+          </div>
+          <label for="t1_res" class="control-label"></label>   
+        </div>   
+      </div>  
+      <div class="row">
+        <div class="form-group">
+          <label for="t1_largo" class="col-md-2 control-label">Tinta2:</label>
+          <div class="col-md-3">
+            <input type="text" class="form-control" id="t2_largo" name="t2_largo" placeholder="Largo (cm)">
+          </div>
+          <label for="t1_ancho" class="control-label"></label>
+          <div class="col-md-3">
+            <input type="text" class="form-control" id="t2_ancho" name="t2_ancho" placeholder="Ancho (cm)">
+          </div>
+          <label for="t2_res" class="control-label"></label>     
+        </div>   
+      </div> 
+      <div class="row">
+        <div class="form-group">
+          <label for="t1_largo" class="col-md-2 control-label">Tinta3:</label>
+          <div class="col-md-3">
+            <input type="text" class="form-control" id="t3_largo" name="t3_largo" placeholder="Largo (cm)">
+          </div>
+          <label for="t1_ancho" class="control-label"></label>
+          <div class="col-md-3">
+            <input type="text" class="form-control" id="t3_ancho" name="t3_ancho" placeholder="Ancho (cm)">
+          </div>
+          <label for="t3_res" class="control-label"></label>       
+        </div>   
+      </div>  
+      <div class="row">
+        <div class="form-group">
+          <label for="t1_largo" class="col-md-2 control-label">Tinta4:</label>
+          <div class="col-md-3">
+            <input type="text" class="form-control" id="t4_largo" name="t4_largo" placeholder="Largo (cm)">
+          </div>
+          <label for="t1_ancho" class="control-label"></label>
+          <div class="col-md-3">
+            <input type="text" class="form-control" id="t4_ancho" name="t4_ancho" placeholder="Ancho (cm)">
+          </div>
+          <label for="t4_res" class="control-label"></label>    
+        </div>   
+      </div> 
+    </div>    
+  </div>      
+</div>
+<div class="col-md-3">
+  <div class="panel panel-default">
+   <div class="bs-titulo">
+     <h4 class="bs-titulo"><span>Total Envio</span></h4>
+   </div>
+   <div class="panel-body">
+    <div class="row">
+      <label class="col-md-5 control-label">Tinta 1:</label> 
+      <span class="col-md-7" id="t1_res" name="t1_res">0</span>
+    </div>  
+    <div class="row">
+      <label class="col-md-5 control-label">Tinta 2:</label> 
+      <span class="col-md-7" id="t2_res" name="t2_res">0</span>
+    </div> 
+    <div class="row">
+      <label class="col-md-5 control-label">Tinta 3:</label> 
+      <span class="col-md-7" id="t3_res" name="t3_res">0</span>       
+    </div>
+    <div class="row">
+      <label class="col-md-5 control-label">Tinta 4:</label> 
+      <span class="col-md-7" id="t4_res" name="t4_res">0</span>
+    </div> 
+    <div class="row">
+      <label class="col-md-5 control-label">Total</label> 
+      <span class="col-md-7" id="total_tinta" name="total_tinta">0</span>
+    </div>                       
+  </div>
+</div>      
+</div>
+</div>
+
+<div class="row">
+  <div class="col-md-9">
+    <div class="panel panel-default">
+     <div class="bs-titulo">
+       <h4 class="bs-titulo"><span>Envios</span></h4>
+     </div>
+     <div class="panel-body">
+      <div class="row">
+       <div class="form-group">
+         <label class="col-md-2 control-label">Unidad:</label>
+         <div class="col-md-3">
+          <select class="form-control input-sm" id="tipo_camion1" name="tipo_camion1">
+            <option value="null" selected=>SELECCIONAR</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <select class="form-control input-sm" id="tipo_camion2" name="tipo_camion2">
+            <option value="null" selected=>SELECCIONAR</option>
+          </select>
+        </div>    
+        <div class="col-md-3">
+          <select class="form-control input-sm" id="tipo_camion2" name="tipo_camion2">
+            <option value="null" selected=>SELECCIONAR</option>
+          </select>
+        </div>    
+      </div>  
+    </div>
+    <br>
+    <div class="row">
+     <div class="form-group">
+      <label class="col-md-3 control-label">Capacidad</label>
+      <span class="col-md-3" id="capacidad1" name="capacidad1">0</span>
+      <span class="col-md-3" id="capacidad2" name="capacidad2">0</span>   
+      <span class="col-md-3" id="capacidad3" name="capacidad3">0</span>   
+    </div>  
+  </div>
+  <div class="row">
+   <div class="form-group">
+    <label class="col-md-3 control-label">Costo x viaje</label>
+    <span class="col-md-3" id="costo_viaje1" name="costo_viaje1">0</span>
+    <span class="col-md-3" id="costo_viaje2" name="costo_viaje2">0</span>   
+    <span class="col-md-3" id="costo_viaje3" name="costo_viaje3">0</span>
+  </div>  
+</div>
+<div class="row">
+ <div class="form-group">
+  <label class="col-md-2 control-label">Cant.Enviar</label>
+  <div class="col-md-3">
+    <input type="text" class="form-control input-sm" id="cant_enviar1" name="cant_enviar1" value="0">
+  </div>
+  <label class="control-label"></label>
+  <div class="col-md-3">
+    <input type="text" class="form-control input-sm" id="cant_enviar2" name="cant_enviar2" value="0">
+  </div>   
+  <label class="control-label"></label>
+  <div class="col-md-3">
+    <input type="text" class="form-control input-sm" id="cant_enviar3" name="cant_enviar3" value="0">
+  </div>   
+</div>  
+</div>
+<div class="row">
+ <div class="form-group">
+  <label class="col-md-2 control-label">Num.Viajes</label>
+  <span class="col-md-3" id="num_viajes1" name="num_viajes1">0</span>
+  <span class="col-md-3" id="num_viajes2" name="num_viajes2">0</span>   
+  <span class="col-md-3" id="num_viajes3" name="num_viajes3">0</span>          
+</div>  
+</div>
+<div class="row">
+ <div class="form-group">
+  <label class="col-md-2 control-label">Costo</label>
+  <span class="col-md-3" id="costo_total1" name="costo_total1">0</span>
+  <span class="col-md-3" id="costo_total2" name="costo_total2">0</span>   
+  <span class="col-md-3" id="costo_total3" name="costo_total3">0</span>            
+</div>  
+</div>
+</div>
+</div>       
+</div>
+<div class="col-md-3">
+
+  <div class="panel panel-default">
+   <div class="bs-titulo">
+     <h4 class="bs-titulo"><span>Total Envio</span></h4>
+   </div>
+   <div class="panel-body">
+    <div class="row">
+      <label class="col-md-5 control-label">Piezas</label> 
+      <span class="col-md-7" id="costo_envio1" name="costo_envio1">0</span>
+    </div>  
+    <div class="row">
+      <label class="col-md-5 control-label">Diferencia</label> 
+      <span class="col-md-7" id="difvs_pedido" name="difvs_pedido">0</span>
+    </div> 
+    <div class="row">
+      <label class="col-md-5 control-label">Costo envio</label> 
+      <span class="col-md-7" id="costoenv_total" name="costoenv_total">0</span>       
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
 </form>
+<script>
+$.ajax({
+  type: "GET",
+  url: 'buscaclientes',
+  async: false,
+  success: function (response) {
+    $('#id_cliente').html(response);
+
+  },
+  error: function () {
+    $('#id_cliente').html('Hubo un error');
+  }
+});
+
+$.ajax({
+  dataType: "json",
+  url: 'selarticulo',
+    //async: false,
+    success: function(data){
+      $('select[name="articulo"]').append(data);
+    }
+  });
+
+$('select[name="articulo"]').change(function(){
+
+  var clasificacion = $('select[name="articulo"] option:selected').data('descripcion');
+  var clasificacion2 = $("#m2_requeridos").text().replace(",","");
+
+  if( clasificacion2 <= 700 )
+  {
+    $.ajax({
+      dataType: "json",
+      url: 'selectproducto',
+      type: "POST",
+      data: {clasificacion : clasificacion, clasificacion2: "<= 700"},
+      success: function(data){
+        $('select[name="tipo_producto"]').html('<option value="null">SELECCIONAR</option>');
+        $('select[name="tipo_producto"]').append(data);
+      }
+    });
+  }
+  else if( clasificacion2 > 700 )
+  {
+    $.ajax({
+      dataType: "json",
+      url: 'selectproducto',
+      type: "POST",
+      data: {clasificacion : clasificacion, clasificacion2: "> 700"},
+      success: function(data){
+        $('select[name="tipo_producto"]').html('<option value="null">SELECCIONAR</option>');
+        $('select[name="tipo_producto"]').append(data);
+      }
+    });  
+  }
+});
+
+$('select[name="tipo_producto"]').change(function(){
+
+  var clasificacion = $('select[name="articulo"] option:selected').data('descripcion');
+  var clasificacion2 = $("#m2_requeridos").text().replace(",","");
+  var tipoproducto = $('select[name="tipo_producto"] option:selected').data('val');
+
+  $.procesos(clasificacion, clasificacion2, tipoproducto);
+
+});
+
+$('select[name="tipo_material"]').change(function(){
+
+  var texto = $('select[name="tipo_material"] option:selected').text();
+
+  $.ajax({
+    dataType: "json",
+    url: 'selmatcorrugados',
+    type: "POST",
+    data: {Material : texto},
+    success: function(data){
+      $('select[name="carton"]').html('<option value="null">SELECCIONAR</option>');
+      $('select[name="carton"]').append(data);
+    }
+  });
+});
+
+$.ajax({
+  dataType: "json",
+  url: 'seltiposcamiones',
+  type: "POST",
+  //data: {Material : texto},
+  success: function(data){
+    $('select[name="tipo_camion1"]').html('<option value="null">SELECCIONAR</option>');
+    $('select[name="tipo_camion1"]').append(data);
+    $('select[name="tipo_camion2"]').html('<option value="null">SELECCIONAR</option>');
+    $('select[name="tipo_camion2"]').append(data);
+    $('select[name="tipo_camion3"]').html('<option value="null">SELECCIONAR</option>');
+    $('select[name="tipo_camion3"]').append(data);        
+  }
+});
+
+$('select[name="carton"]').change(function(){
+
+  var descripcion = $('select[name="carton"] option:selected').text();
+
+  $.ajax({
+    dataType: "json",
+    url: 'seltamcorrugados',
+    type: "POST",
+    data: {Descripcion : descripcion},
+    success: function(data2){
+      $('select[name="tam-carton"]').html('<option value="null">SELECCIONAR</option>');
+      $('select[name="tam-carton"]').append(data2);
+
+    }
+  });
+
+});
+
+$('input[name="selector_material"]:radio').click(function(){
+
+  var value = $('input[name="selector_material"]:checked').val();
+
+  $.ajax({
+    dataType: "json",
+    url: 'tipomaterial',
+    type: "POST",
+    data: {'tipoMaterial' : value},
+    success: function(data){
+      $('select[name="tipo_material"]').html('<option value="null">SELECCIONAR</option>');
+      $('select[name="carton"]').html('<option value="null">SELECCIONAR</option>');
+      $('select[name="tam-carton"]').html('<option value="null">SELECCIONAR</option>');
+      $('select[name="tipo_material"]').append(data);
+    }
+  });
+
+});
+
+$('#med_frente' ).keyup(function() {
+ $.medidas();
+ if( $("#caja").prop("checked", true) )
+ {
+  $.medidascaja();
+}
+});
+
+$('#med_fondo' ).keyup(function() {
+ $.medidas();
+ if( $("#caja").prop("checked", true) )
+ {
+  $.medidascaja();
+}
+});
+
+$('#med_alto').keyup(function() {
+ $.medidas();
+ if( $("#caja").prop("checked", true) )
+ {
+  $.medidascaja();
+}
+}); 
+
+$("#med_largo").keyup(function(){
+ if( $("#carton").prop("checked", true) )
+ {
+  $.medidascarton();
+}
+});
+
+$("#med_ancho").keyup(function(){
+  if( $("#carton").prop("checked", true) )
+  {
+    $.medidascarton();
+  }});
+
+$('input[name="tipo_medida"]').click(function() {
+  if( $(this).val() == 1 )
+  {
+    $("#med_ancho").attr("disabled", true);
+    $("#med_largo").attr("disabled", true);
+    $("#med_frente").attr("disabled", false);
+    $("#med_fondo").attr("disabled", false);
+    $("#med_alto").attr("disabled", false);
+    $.medidascaja();
+  }  
+  else if( $(this).val() == 2 )
+  {
+    $("#med_frente").attr("disabled", true);
+    $("#med_fondo").attr("disabled", true);
+    $("#med_alto").attr("disabled", true);
+    $("#med_ancho").attr("disabled", false);
+    $("#med_largo").attr("disabled", false); 
+    $.medidascarton();   
+  }  
+});
+
+$("#cant_requerida").change(function(){
+  $.margen();
+});
+
+$("#t1_largo").keyup(function(){
+  var t = 1;  
+  $.tinta(t);
+});
+
+$("#t1_ancho").keyup(function(){
+  var t = 1;  
+  $.tinta(t);
+});
+
+$("#t2_largo").keyup(function(){
+  var t = 2;  
+  $.tinta(t);
+});
+
+$("#t2_ancho").keyup(function(){
+  var t = 2;  
+  $.tinta(t);
+});
+
+$("#t3_largo").keyup(function(){
+  var t = 3;  
+  $.tinta(t);
+});
+
+$("#t3_ancho").keyup(function(){
+  var t = 3;  
+  $.tinta(t);
+});
+
+$("#t4_largo").keyup(function(){
+  var t = 4;  
+  $.tinta(t);
+});
+
+$("#t4_ancho").keyup(function(){
+  var t = 4;  
+  $.tinta(t);
+});
+</script>

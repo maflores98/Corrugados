@@ -9,6 +9,7 @@ class Application_Model_DbTable_ProcesosPendientes extends Zend_Db_Table_Abstrac
   {
    $select = $this->select();
    $select->where("nombre_maquina IN (?)", $vista);
+   $select->where("situacion = ?", 'LIBERADO');
    $response=new stdClass();
    $rows = $this->fetchAll($select);
                         //$consulta = $select->__toString();
@@ -190,5 +191,19 @@ class Application_Model_DbTable_ProcesosPendientes extends Zend_Db_Table_Abstrac
 
 }
 
+    public function updatesituacion($numorden, $situacion){
+
+        $data = array(
+            'situacion' => $situacion,
+        );
+
+        $where = $this->getAdapter()->quoteInto('id_orden = ?', $numorden);
+
+        $this->update($data, $where);
+
+        $response = new stdClass();
+        $response->validacion = true;
+        return $response;
+    }
 
 }

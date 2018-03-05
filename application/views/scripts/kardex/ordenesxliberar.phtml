@@ -1,0 +1,154 @@
+<style>
+.modal-dialog
+{
+  width: 40%;
+}	
+</style>
+
+<div class="row">
+  <div class="col-md-9 btns">
+    <!--button class="btn btn-primary" id='excel-clientes'>Exportar a Excel</button-->
+  </div>
+  <div class="col-md-3"><h1><?php  echo $this->titulo; echo @$this->nombreCliente?></h1></div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <table id="ord_preliberadas" class="display compact" cellspacing="0" width="100%" style="font-size: .85em;">
+      <thead>
+        <tr>
+          <th>IdOrden</th>
+          <th>Nombre Trabajo</th>
+          <th>Estatus</th>
+          <th>Cantidad</th>
+          <th>Fecha Entrega</th>
+          <th>Liberar</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+</div>
+
+    <!-- Modal  Liberar -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Liberar Orden de Produccion</h4>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="row">
+                <!--div class="col-md-6"-->
+                  <div class="col-md-2">
+                    <div class="form-group">
+                      <label for="numorden" class="control-label">Num.Orden</label>
+                      <input type="text" class="form-control" id="numorden" readonly>
+                    </div>
+                  </div>
+                  <div class="col-md-10">
+                    <div class="form-group">
+                      <label for="trabajo" class="control-label">Trabajo</label>
+                      <input type="text" class="form-control" id="trabajo" readonly>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="cant_req" class="control-label">Cantidad Requerida</label>
+                      <input type="text" class="form-control" id="cant_req" readonly>
+                    </div>
+                  </div>                                                                                      
+              </div>
+              <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="ord_compra" class="control-label">Orden de Compra</label>
+                      <input type="text" class="form-control" id="ord_compra">
+                    </div>
+                  </div>                 
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="cant_prod" class="control-label">Cantidad a Producir</label>
+                      <input type="text" class="form-control" id="cant_prod" readonly>
+                    </div>
+                  </div>                 
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="notas" class="control-label">Notas</label>
+                    <textarea class="form-control" id="notas" name="notas"></textarea>
+                  </div>
+                </div>            
+              </div>          
+            </form>        
+          </div>
+          <div class="modal-footer">
+            <button id="cancelar" type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            <button id="liberar" type="button" class="btn btn-primary">Liberar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<script>
+
+	var ord_preliberadas = $('#ord_preliberadas').DataTable({
+		ajax:{
+			url: 'consultarxliberar'
+		}, 	
+		"columns":[
+		{data:"numorden",width:"5%"},
+		{data:"trabajo"},
+		{data:"estatus",width:"10%"},
+		{data:"cantidad",width:"10%"},
+		{data:"fecha_entrega",width:"10%"},
+		{data:"liberar", width:"5%"}
+		],
+		"columnDefs": 
+		[
+		{"className": "dt-body-left", "targets": [1]},	
+		{"className": "dt-body-center", "targets": [2,3,4,5]},
+		{"className": "dt-head-center", "targets": "_all"}
+		],	
+		"searching": true,
+		"paging":    false,
+		"scrollY":   '320px',
+		"scrollX": true			
+	});
+
+	$('#ord_preliberadas').on("click", "a.btn-xliberar", function () 
+	{	
+		var data = ord_preliberadas.row($(this).parents("tr")).data();
+		var numorden = data.numorden;
+		var trabajo = data.trabajo;
+    var cantidad = data.cantidad;
+		$('#myModal').modal('show');
+		$("#numorden").val(numorden);
+		$("#trabajo").val(trabajo);
+    $("#cant_req").val(cantidad);
+	});
+
+	$("#liberar").click(function(){
+
+		var numorden = $("#numorden").val();
+		var trabajo = $("#trabajo").val();
+
+		$.post('estatusordenproduccion',{numorden:numorden,estatus: 2},
+			function(result){
+				ord_preliberadas.ajax.reload();
+				$("#myModal").modal('hide');
+			},'json');
+		$.post('updatesituacion',{numorden:numorden,situacion: "LIBERADO"},
+			function(result){
+				ord_preliberadas.ajax.reload();
+				$("#myModal").modal('hide');
+			},'json');		
+	});
+
+	$("#cancelar").click(function(){
+		$("#myModal").modal('hide');
+	});
+
+</script>

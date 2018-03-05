@@ -895,7 +895,7 @@ label {
      <button type="button" class="btn btn-default" id="btn-salir">Salir</button>
      <button type="button" class="btn btn-primary" id="btn-guardar">Guardar</button>
      <button type="button" class="btn btn-primary" id="btn-editar">Editar</button>
-     <button type="button" class="btn btn-primary" id="btn-liberar">Liberar</button>
+     <button type="button" class="btn btn-primary" id="btn-liberar">Pre-liberar</button>
      <button type="button" class="btn btn-primary" id="btn-clonar">Clonar</button>
      <button type="button" class="btn btn-primary" id="btn-editar2">Guardar</button>
      <button type="button" class="btn btn-primary" id="btn-guardar2">Guardar</button>
@@ -1395,6 +1395,8 @@ $('#btn-liberar').click(function () {
 
      'cant_requerida': requerida,
 
+     'situacion' : 'X LIBERAR'
+
    },
 
    url: 'liberaordenproduccion',
@@ -1455,6 +1457,8 @@ $('#btn-liberar').click(function () {
 
      'cant_requerida': requerida,
 
+     'situacion' : 'X LIBERAR'
+
    },
 
    url: 'liberaordenproduccion',
@@ -1510,6 +1514,8 @@ if ($('input[name="grapado"]:checkbox').is(':checked')) {
    'nombre_proceso': nombreproceso,
 
    'cant_requerida': requerida,
+
+   'situacion' : 'X LIBERAR'
 
  },
 
@@ -1567,6 +1573,8 @@ if ($('input[name="maquina_ranurado"]:radio').is(':checked')) {
    'nombre_proceso': nombreproceso,
 
    'cant_requerida': requerida,
+
+   'situacion' : 'X LIBERAR'
 
  },
 
@@ -1645,6 +1653,8 @@ $.ajax({
 
    'cant_requerida': requerida,
 
+   'situacion' : 'X LIBERAR'
+
  },
 
  url: 'liberaordenproduccion',
@@ -1704,6 +1714,8 @@ if ($('input[name="maquina_empalme"]:radio').is(':checked')) {
    'nombre_proceso': nombreproceso,
 
    'cant_requerida': requerida,
+
+   'situacion' : 'X LIBERAR'
 
  },
 
@@ -1777,6 +1789,8 @@ $.ajax({
 
    'cant_requerida': requerida,
 
+   'situacion' : 'X LIBERAR'
+
  },
 
  url: 'liberaordenproduccion',
@@ -1803,7 +1817,7 @@ $.ajax({
  dataType: "json",
  data: {
   'id_orden': idorden,
-  'estatus': 2
+  'estatus': 5
 },
 url: 'estatusordenproduccion',
 type: 'post',

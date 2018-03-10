@@ -9,8 +9,7 @@ class KardexController extends Zend_Controller_Action
 		if (!$auth->hasIdentity())
 		{ 
 			$this->_redirect('login'); 
-		}
-		
+		}		
 	}
 	
 	public function showAction(){
@@ -99,48 +98,5 @@ class KardexController extends Zend_Controller_Action
 		echo Zend_Json::encode($movimiento);
 
 	}
-
-	public function ordenesxliberarAction(){
-		
-		$this->view->titulo="** Ordenes por Liberar **";
-	}	
-
-		public function consultarxliberarAction(){
-			$this->_helper->layout->disableLayout();
-			$this->_helper->viewRenderer->setNoRender();
-
-			$consulta = new Application_Model_DbTable_vListaOrdenes();
-			$consultar = $consulta->consultarxliberar();
-
-			echo Zend_Json::encode($consultar);		
-		}
-
-		public function estatusordenproduccionAction(){
-
-			$this->_helper->layout->disableLayout();
-			$this->_helper->viewRenderer->setNoRender();
-
-			$numorden = $_POST['numorden'];
-			$estatus = $_POST['estatus'];
-
-			$OrdenProd = new Application_Model_DbTable_OrdenesProduccion();
-			$orden = $OrdenProd->updateEstatus($numorden, $estatus);
-
-			echo Zend_Json::encode($orden);
-		}		
-
-		public function updatesituacionAction(){
-
-			$this->_helper->layout->disableLayout();
-			$this->_helper->viewRenderer->setNoRender();
-
-			$numorden = $_POST['numorden'];
-			$situacion = $_POST['situacion'];
-
-			$OrdenProd = new Application_Model_DbTable_ProcesosPendientes();
-			$orden = $OrdenProd->updatesituacion($numorden, $situacion);
-
-			echo Zend_Json::encode($orden);
-		}	
 
 }

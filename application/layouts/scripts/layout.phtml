@@ -126,7 +126,9 @@ $baseUrl = $front -> getBaseUrl ();
                 </li>
                 <ul class="sub-menu collapse" id="products">
                   <!--li><a href="<?php //echo $baseUrl;?>/Ordenes/show">Nueva</a></li-->
-                  <li><a href="<?php echo $baseUrl;?>/ordenes/activas">Activas</a></li>
+                  <li><a href="<?php echo $baseUrl;?>/ordenes/esperadematerial">En espera</a></li>
+                  <li><a href="<?php echo $baseUrl;?>/ordenes/pendientes">Pendientes</a></li>
+                  <li><a href="<?php echo $baseUrl;?>/ordenes/activas">En produccion</a></li>
                   <li><a href="<?php echo $baseUrl;?>/ordenes/canceladas">Canceladas</a></li>
                   <li><a href="<?php echo $baseUrl;?>/ordenes/finalizadas">Finalizadas</a></li>
                   <li><a href="#!">Estatus de Ordenes</a></li>
@@ -158,7 +160,10 @@ $baseUrl = $front -> getBaseUrl ();
                   <?php } ?>
                   <?php if($menu->mnuproduccion_pegadolineal == 1) { ?>  
                   <li><a href="<?php echo $baseUrl;?>/produccion/pegado">Pegado</a></li>
-                  <?php } ?>                   
+                  <?php } ?>
+                  <?php if($menu->mnucalidad == 1) { ?>  
+                  <li><a href="<?php echo $baseUrl;?>/produccion/liberacion">Liberacion</a></li>
+                  <?php } ?>
                 </ul>
                 <?php } ?>
                 <?php if($menu->mnualmacen == 1) { ?>                
@@ -171,8 +176,7 @@ $baseUrl = $front -> getBaseUrl ();
                   <?php } ?>
                   <?php if($menu->mnualmacen_ordencompra == 1) { ?>
                   <li><a href="#!">Orden de compra</a></li>
-                  <?php } ?>
-                  <li><a href="<?php echo $baseUrl;?>/Kardex/ordenesxliberar">Ordenes por liberar</a></li>
+                  <?php } ?>                  
                 </ul>
                 <?php } ?>
                 <?php if($menu->mnuventas == 1) { ?>

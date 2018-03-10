@@ -9,6 +9,7 @@ class Application_Model_DbTable_ProcesosPendientes extends Zend_Db_Table_Abstrac
   {
    $select = $this->select();
    $select->where("nombre_maquina IN (?)", $vista);
+   $select->where("situacion = (?)", "PRODUCCION");
    $response=new stdClass();
    $rows = $this->fetchAll($select);
                         //$consulta = $select->__toString();
@@ -215,4 +216,68 @@ class Application_Model_DbTable_ProcesosPendientes extends Zend_Db_Table_Abstrac
         $response->validacion = true;
         return $response;
     }  
+
+  public function existenenpendiente($id_orden){
+   $select = $this->select();
+   $select->where("id_orden = (?)", $id_orden);
+   $response=new stdClass();
+   $rows = $this->fetchAll($select);
+                        //$consulta = $select->__toString();
+                        //echo $consulta;
+                        //exit();
+   //$enpendiente = array();
+   $enpendiente = "";
+   foreach ($rows as $row) {
+
+    $enpendiente .= "<tr><td>" . $row['id_orden'] . "</td>" . "<td>" . $row['nombre_trabajo'] . "</td>" . "<td>" . $row['nombre_maquina'] . "</td></tr>";
+     /*$enpendiente[] = array(
+      "id_pendiente" => $row['id'],
+      "orden" => $row["id_orden"],
+      "trabajo" => $row['nombre_trabajo']
+      );*/
+   }
+   $response->data = $enpendiente;
+   return $response;    
+  }    
+
+ public function calidadcopiardeprocesospendientes($id_orden)
+ {
+
+   $select = $this->select();
+   $select->where("id_orden = ?",$id_orden);
+                        //$consulta = $select->__toString();
+                        //echo $consulta;
+                        //exit();   
+   $response=new stdClass();
+   $rows = $this->fetchAll($select);
+
+   $copiar = array();
+   foreach ($rows as $row) {
+
+     $copiar[] = array(
+       "id_orden"=> $row["id_orden"],
+       "nombre_trabajo"=>$row["nombre_trabajo"],
+       "id_maquina"=>$row['id_maquina'],
+       "nombre_maquina"=>$row["nombre_maquina"],
+       "id_proceso"=>$row["id_proceso"],
+       "nombre_proceso"=>$row["nombre_proceso"],
+       "cant_requerida"=>$row["cant_requerida"],
+       "fechahora_registro"=>$row["fechahora_registro"]
+     );
+   }
+
+   return $copiar;
+ }   
+
+ public function calidadeliminarprocesoenpendiente($id_orden)
+ {
+   $where = array();
+   $where[] = $this->getAdapter()->quoteInto('id_orden = ?', $id_orden);
+
+   $delete = $this->delete($where);                                                          
+
+   $response = new stdClass();
+   $response->validacion = true;
+   return $response;
+ } 
 }

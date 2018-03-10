@@ -126,6 +126,31 @@ class Application_Model_DbTable_DetalleProcesos extends Zend_Db_Table_Abstract
 		}
 
 		return $copiar;
-	} 
+	}
+
+	public function calidadcopiaradetalleprocesos($copiardecaptura){
+		$insert = $this->insert(array(
+			"id_orden"=>$copiardecaptura[0]["id_orden"],
+			"nombre_trabajo"=>$copiardecaptura[0]["nombre_trabajo"],
+			"id_maquina"=>$copiardecaptura[0]["id_maquina"],
+			"nombre_maquina"=>$copiardecaptura[0]["nombre_maquina"],
+			"id_proceso"=>$copiardecaptura[0]["id_proceso"],
+			"nombre_proceso"=>$copiardecaptura[0]["nombre_proceso"],
+			"id_operador"=>$copiardecaptura[0]["id_operador"],
+			"nombre_operador"=>$copiardecaptura[0]["nombre_operador"],
+			"cant_requerida"=>$copiardecaptura[0]["cant_requerida"],
+			"fechahora_registro"=>$copiardecaptura[0]["fechahora_registro"],
+			"fechahora_inicio"=>$copiardecaptura[0]["fechahora_inicio"],
+			"cantidad_ok"=>"0",
+			"cantidad_merma"=>"0",
+			"tiempo"=>"0",
+			"notas"=>"Finalizado por calidad",
+			"parcial"=>"no"
+			));
+
+		$response = new stdClass();
+		$response->validacion = true;
+		return $response;
+	}	 
 
 }

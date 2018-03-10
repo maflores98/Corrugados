@@ -47,6 +47,4 @@ class Application_Model_DbTable_OrdenesProduccion extends Zend_Db_Table_Abstract
         $response->validacion = true;
         return $response;
     }
-
-
 }

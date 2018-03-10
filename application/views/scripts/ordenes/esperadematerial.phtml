@@ -74,14 +74,14 @@
                     </div>
                   </div>                 
               </div>
-              <div class="row">
+              <!--div class="row">
                 <div class="col-md-12">
                   <div class="form-group">
                     <label for="notas" class="control-label">Notas</label>
                     <textarea class="form-control" id="notas" name="notas"></textarea>
                   </div>
                 </div>            
-              </div>          
+              </div-->          
             </form>        
           </div>
           <div class="modal-footer">
@@ -96,7 +96,7 @@
 
 	var ord_preliberadas = $('#ord_preliberadas').DataTable({
 		ajax:{
-			url: 'consultarxliberar'
+			url: 'consultarenesperadematerial'
 		}, 	
 		"columns":[
 		{data:"numorden",width:"5%"},
@@ -135,14 +135,14 @@
 		var numorden = $("#numorden").val();
 		var trabajo = $("#trabajo").val();
 
-		$.post('estatusordenproduccion',{numorden:numorden,estatus: 2},
+		$.post('estatusordenproduccion',{id_orden:numorden,estatus: 2},
 			function(result){
 				ord_preliberadas.ajax.reload();
 				$("#myModal").modal('hide');
 			},'json');
-		$.post('updatesituacion',{numorden:numorden,situacion: "LIBERADO"},
+		$.post('updatesituacion',{numorden:numorden,situacion: "PRODUCCION"},
 			function(result){
-				ord_preliberadas.ajax.reload();
+				//ord_preliberadas.ajax.reload();
 				$("#myModal").modal('hide');
 			},'json');		
 	});

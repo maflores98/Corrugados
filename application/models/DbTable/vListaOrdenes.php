@@ -6,7 +6,7 @@ class Application_Model_DbTable_vListaOrdenes extends Zend_Db_Table_Abstract
 	protected $_primary='Num_Orden';
 
 	public function consultaractivas(){
-		$condicion = array("SIN LIBERAR", "PENDIENTE","PRODUCCION");
+		$condicion = array("PRODUCCION");
 		$select = $this->select();
 		$select->where("Estatus IN (?)", $condicion);
 		$response=new stdClass();
@@ -82,11 +82,40 @@ $date = new Zend_Date($row['Fecha_Entrega']);
 		}
 		$response->data = $canceladas;
 		return $response;		
-	}
+	}	
 
-	public function consultarxliberar(){
+    public function consultarenesperadematerial(){
+        $select = $this->select();
+        $select->where("Estatus IN (?)", "ESPERA MATERIAL");
+        $response=new stdClass();
+        $rows = $this->fetchAll($select);
+                        //$consulta = $select->__toString();
+                        //echo $consulta;
+                        //exit();
+        $activas = array();
+        foreach ($rows as $row) {
+
+            Zend_Date::setOptions(array('format_type' => 'php'));
+            $date = new Zend_Date($row['Fecha_Entrega']);
+
+            $date=new Zend_Date($row['Fecha_Entrega'], 'dd.MM.yyyy');
+            $activas[] = array(
+                "numorden"=> $row['Num_Orden'],
+                "trabajo" => $row['Trabajo'],
+                "estatus" => $row['Estatus'],
+                "cantidad"=>$row['Cantidad'],
+                "fecha_entrega"=> $date->toString('d-m-Y'),
+                "liberar" => "<a class='btn btn-default btn-xs btn-xliberar' data-id='".$row['Num_Orden']."'> <span class='glyphicon glyphicon-triangle-right'></a>"
+                ); 
+        }
+        $response->data = $activas;
+        return $response;       
+    }
+
+	public function consultarpendientes(){
+		$condicion = array("SIN LIBERAR","PENDIENTE");
 		$select = $this->select();
-		$select->where("Estatus IN (?)", "X LIBERAR");
+		$select->where("Estatus IN (?)", $condicion);
 		$response=new stdClass();
 		$rows = $this->fetchAll($select);
                         //$consulta = $select->__toString();
@@ -95,21 +124,48 @@ $date = new Zend_Date($row['Fecha_Entrega']);
 		$activas = array();
 		foreach ($rows as $row) {
 
-			Zend_Date::setOptions(array('format_type' => 'php'));
-			$date = new Zend_Date($row['Fecha_Entrega']);
+Zend_Date::setOptions(array('format_type' => 'php'));
+$date = new Zend_Date($row['Fecha_Entrega']);
 
-			$date=new Zend_Date($row['Fecha_Entrega'], 'dd.MM.yyyy');
+$date=new Zend_Date($row['Fecha_Entrega'], 'dd.MM.yyyy');
 			$activas[] = array(
 				"numorden"=> $row['Num_Orden'],
 				"trabajo" => $row['Trabajo'],
 				"estatus" => $row['Estatus'],
 				"cantidad"=>$row['Cantidad'],
-				"fecha_entrega"=> $date->toString('d-m-Y'),
-				"liberar" => "<a class='btn btn-default btn-xs btn-xliberar' data-id='".$row['Num_Orden']."'> <span class='glyphicon glyphicon-triangle-right'></a>"
+				"fecha_entrega"=> $date->toString('d-m-Y')
 				); 
 		}
 		$response->data = $activas;
 		return $response;		
-	}
-				
+	}    
+
+    public function consultarxliberar(){
+        $select = $this->select();
+        $select->where("Estatus IN (?)", "PRODUCCION");
+        $response=new stdClass();
+        $rows = $this->fetchAll($select);
+                        //$consulta = $select->__toString();
+                        //echo $consulta;
+                        //exit();
+        $activas = array();
+        foreach ($rows as $row) {
+
+            Zend_Date::setOptions(array('format_type' => 'php'));
+            $date = new Zend_Date($row['Fecha_Entrega']);
+
+            $date=new Zend_Date($row['Fecha_Entrega'], 'dd.MM.yyyy');
+            $activas[] = array(
+                "numorden"=> $row['Num_Orden'],
+                "trabajo" => $row['Trabajo'],
+                "estatus" => $row['Estatus'],
+                "cantidad"=>$row['Cantidad'],
+                "fecha_entrega"=> $date->toString('d-m-Y'),
+                "liberar" => "<a class='btn btn-default btn-xs btn-xliberar' data-id='".$row['Num_Orden']."'> <span class='glyphicon glyphicon-triangle-right'></a>"
+                ); 
+        }
+        $response->data = $activas;
+        return $response;       
+    }	
+
 }

@@ -489,9 +489,6 @@
 			$orden = $OrdenProd->updateEstatus($IdOrden, $Estatus);
 
 			echo Zend_Json::encode($orden);
-
-
-
 		}
 
 		public function marbetepdfAction(){
@@ -528,7 +525,63 @@
 			$clientes = $ListaClientes->seldireccion($IdCliente);
 
 			echo Zend_Json::encode($clientes);
-
 		}
+
+	public function esperadematerialAction(){
+		
+		$this->view->titulo="** En espera **";
+	}	
+
+		public function consultarenesperadematerialAction(){
+			$this->_helper->layout->disableLayout();
+			$this->_helper->viewRenderer->setNoRender();
+
+			$consulta = new Application_Model_DbTable_vListaOrdenes();
+			$consultar = $consulta->consultarenesperadematerial();
+
+			echo Zend_Json::encode($consultar);		
+		}
+
+		/*public function estatusordenproduccionAction(){
+
+			$this->_helper->layout->disableLayout();
+			$this->_helper->viewRenderer->setNoRender();
+
+			$numorden = $_POST['numorden'];
+			$estatus = $_POST['estatus'];
+
+			$OrdenProd = new Application_Model_DbTable_OrdenesProduccion();
+			$orden = $OrdenProd->updateEstatus($numorden, $estatus);
+
+			echo Zend_Json::encode($orden);
+		}*/		
+
+		public function updatesituacionAction(){
+
+			$this->_helper->layout->disableLayout();
+			$this->_helper->viewRenderer->setNoRender();
+
+			$numorden = $_POST['numorden'];
+			$situacion = $_POST['situacion'];
+
+			$OrdenProd = new Application_Model_DbTable_ProcesosPendientes();
+			$orden = $OrdenProd->updatesituacion($numorden, $situacion);
+
+			echo Zend_Json::encode($orden);
+		}	
+
+		public function pendientesAction(){		
+			$this->view->titulo="** Ordenes Pendientes **"; 
+		}	
+
+		public function consultarpendientesAction(){
+			$this->_helper->layout->disableLayout();
+			$this->_helper->viewRenderer->setNoRender();
+
+			$consulta = new Application_Model_DbTable_vListaOrdenes();
+			$consultar = $consulta->consultarpendientes();
+
+			echo Zend_Json::encode($consultar);		
+		}				
 
 	}

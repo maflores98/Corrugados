@@ -1,0 +1,223 @@
+<style>
+.modal-dialog
+{
+  width: 60%;
+}	
+</style>
+
+<div class="row">
+  <div class="col-md-9 btns">
+    <!--button class="btn btn-primary" id='excel-clientes'>Exportar a Excel</button-->
+  </div>
+  <div class="col-md-3"><h1><?php  echo $this->titulo; echo @$this->nombreCliente?></h1></div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <table id="liberacion" class="display compact" cellspacing="0" width="100%" style="font-size: .85em;">
+      <thead>
+        <tr>
+          <th>IdOrden</th>
+          <th>Nombre Trabajo</th>
+          <th>Estatus</th>
+          <th>Cantidad</th>
+          <th>Fecha Entrega</th>
+          <th>Liberar</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+</div>
+
+    <!-- Modal  Liberar -->
+    <div class="modal fade" id="modalenpendiente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Liberacion de Ordenes</h4>
+          </div>
+          <div class="modal-body">
+          	<div class="row">
+          		<div class="col-md-12">
+          			<span><b>Existen las siguientes ordenes en producción ¿Deseas finalizarlas?</b></span>         			
+          		</div>				
+          	</div>
+          	<br>			      
+			<div class="row">
+			  <div class="col-md-12">
+			    <table id="enpendiente" class="display compact" cellspacing="0" width="100%" style="font-size: .85em;">
+			    	<caption>EN PROCESO</caption>
+			      <thead>
+			        <tr>
+			          <th>Id_orden</th>
+			          <th>Trabajo</th>
+			          <th>Maquina</th>
+			        </tr>
+			      </thead>
+			      <tbody id="existentes1">
+			      	
+			      </tbody>
+			    </table>
+			  </div>
+			</div>
+			<br>
+			<br>	
+			<div class="row">
+			  <div class="col-md-12">
+			    <table id="enproceso" class="display compact" cellspacing="0" width="100%" style="font-size: .85em;">
+			    	<caption>EN PENDIENTE</caption>
+			      <thead>
+			        <tr>
+			          <th>Id_orden</th>
+			          <th>Trabajo</th>
+			          <th>Maquina</th>
+			        </tr>
+			      </thead>
+			      <tbody id="existentes2">
+			      	
+			      </tbody>
+			    </table>
+			  </div>
+			</div>					
+          </div>
+          <div class="modal-footer">
+            <button id="cancelar" type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            <button id="finalizar" type="button" class="btn btn-primary">Finalizar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<script>
+$(document).ready(function(){
+
+var enpendiente, numorden;
+	var liberacion = $('#liberacion').DataTable({
+		ajax:{
+			url: 'consultarxliberar'
+		}, 	
+		"columns":[
+		{data:"numorden",width:"5%"},
+		{data:"trabajo"},
+		{data:"estatus",width:"10%"},
+		{data:"cantidad",width:"10%"},
+		{data:"fecha_entrega",width:"10%"},
+		{data:"liberar", width:"5%"}
+		],
+		"columnDefs": 
+		[
+		{"className": "dt-body-left", "targets": [1]},	
+		{"className": "dt-body-center", "targets": [2,3,4,5]},
+		{"className": "dt-head-center", "targets": "_all"}
+		],	
+		"searching": true,
+		"paging":    false,
+		"scrollY":   '320px',
+		"scrollX": true			
+	});
+
+	var enpendiente = $('#enpendiente').DataTable({	
+		"searching": false,
+		"paging":    false,
+		//"scrollY":   '320px',
+		"scrollX": true,
+		"bInfo": false,			
+	});
+
+	var enproceso = $('#enproceso').DataTable({	
+		"searching": false,
+		"paging":    false,
+		//"scrollY":   '320px',
+		"scrollX": true,
+		"bInfo": false,			
+	});	
+
+	$('#liberacion').on("click", "a.btn-xliberar", function () 
+	{	
+		var data = liberacion.row($(this).parents("tr")).data();
+		numorden = data.numorden;
+
+    	$.post('existenenpendiente',{numorden:numorden},
+    		function(result){
+    			if(result.data.length>0)
+    			{
+    				//enpendiente = result.data[0].trabajo;
+    				$("#existentes1").html(result.data);    				
+			    	$.post('existenenproceso',{numorden:numorden},
+			    		function(result){
+			    			if(result.data.length>0)
+			    			{
+								$("#existentes2").html(result.data);
+								$("#modalenpendiente").modal('show');
+			    			}
+			    			else
+			    			{
+								$("#existentes2").html("<tr><td></td><td></td></tr>");
+								$("#modalenpendiente").modal('show');		    					
+			    			}			    			
+			    		},'json'
+			    	);    				
+    			}
+    			else
+    			{
+			    	$.post('existenenproceso',{numorden:numorden},
+			    		function(result){
+			    			if(result.data.length>0)
+			    			{
+								$("#existentes1").html("<tr><td></td><td></td></tr>");
+								$("#existentes2").html(result.data);
+								$("#modalenpendiente").modal('show');								
+			    			}
+			    			else
+			    			{
+		    					$.post('estatusordenproduccion',{id_orden:numorden,estatus:'3'},
+		    						function(result){
+		    							swal("Finalizado","","success");
+		    							liberacion.ajax.reload();
+		    						},'json'
+		    					);		    					
+			    			}			    			
+			    		},'json'
+			    	);
+    			}
+    		},'json'
+    	);		
+	});
+
+$("#finalizar").click(function(){
+	id_operador = "<?php $usuario = Zend_Auth::getInstance()->getIdentity(); echo $usuario->usuario; ?>";
+	nombre_operador = "<?php $usuario = Zend_Auth::getInstance()->getIdentity(); echo $usuario->nombre; ?>";
+	/*$.post('calidadcopiarprocesoacaptura', {numorden:numorden,id_operador:id_operador,nombre_operador:nombre_operador},
+		function(result){
+			if(result.validacion == "true")
+			{
+				$.post('calidadeliminarprocesoenpendiente', {numorden:numorden},
+					function(result)
+					{	
+						$.post('calidadcopiaradetalleprocesos', {numorden:numorden},
+							function(result){
+								if(result.validacion == "true")
+								{
+									$.post('calidadeliminarprocesoenpendiente', {numorden:numorden},
+										function(result)
+										{	
+											swal("Finalizado","","success");
+											liberacion.ajax.reload();								
+										},'json'					
+									);
+								}
+							},'json'
+						);								
+					},'json'					
+				);
+			}
+		},'json'
+	);*/
+});
+
+	$("#cancelar").click(function(){
+		$("#myModal").modal('hide');
+	});
+});
+</script>

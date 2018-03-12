@@ -1,0 +1,264 @@
+<?php $this->headScript()->appendFile($this->baseUrl('js/gridsProduccion.js'), 'text/javascript');?>
+<div class="row">
+  <div class="col-md-12"><h1><?php  echo $this->titulo; echo @$this->nombreCliente?></h1></div>
+</div>
+<div class="row">
+  <div class="col-md-12 padding-right-15">          
+    <form>
+      <div class="row">
+        <div class="col-md-1">
+          <div class="form-group">
+            <label for="orden" class="control-label">Orden</label>
+            <input type="text" class="form-control" id="orden" name="orden" readonly>
+          </div>
+        </div>
+        <div class="col-md-5">
+          <div class="form-group">
+            <label for="trabajo" class="control-label">Trabajo</label>
+            <input type="text" class="form-control" id="trabajo" name="trabajo" readonly>
+          </div>
+        </div>
+        <div class="col-md-1">
+          <div class="form-group">
+            <label for="operador" class="control-label">Operador</label>
+            <input type="text" class="form-control" id="operador" name="operador" required>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="nombreoperador" class="control-label">Nombre</label>
+            <input type="text" class="form-control" id="nombreoperador" name="nombreoperador" readonly>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group">
+            <label for="horainicio" class="control-label">Hora Inicio</label>
+            <input type="text" class="form-control" id="horainicio" name="horainicio" value="" readonly>
+          </div>
+        </div>                    
+      </div>
+    </form>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row">
+
+          <div class="col-md-12"> 
+            <br>
+            <div class="panel panel-default">
+              <div class="bs-titulo">
+                <h4 class="bs-titulo"><span>En Proceso</span></h4>
+              </div>
+              <div class="panel-body">
+                <table id="enProceso" class="compact cell-border" cellspacing="0" width="100%" style="text-align: center;">
+                  <thead>
+                    <tr>
+                      <th>Id</th>
+                      <th>Orden</th>
+                      <th>Trabajo</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!--Registro de la BD-->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <br>
+            <div class="panel panel-default">
+              <div class="bs-titulo">
+                <h4 class="bs-titulo"><span>En Pendiente</span></h4>
+              </div>
+              <div class="panel-body">
+                <table id="enPendiente" class="compact cell-border" cellspacing="0" width="100%" style="text-align: center;">
+                  <thead>
+                    <tr>
+                      <th>Id</th>
+                      <th>Orden</th>
+                      <th>Trabajo</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!--Registro de la BD-->              
+                  </tbody>
+                </table>
+              </div>            
+            </div>
+          </div>
+
+        </div>
+      </div>      
+
+      <div class="col-md-6">
+        <div class="row">
+          <br>
+          <div class="panel panel-default">
+            <div class="bs-titulo">
+              <h4 class="bs-titulo"><span>Proceso</span></h4>
+            </div>
+            <div class="panel-body">        
+              <div class="col-md-offset-1 col-md-5">
+                <button type="button" id="ajusteengrapadora" name="ajusteengrapadora" class="boton btn-primary" value="26">Ajuste</button>                      
+              </div>
+              <div class="col-md-offset-1 col-md-4">          
+                <button type="button" id="grapado" name="grapado" class="boton btn-primary" value="9">Grapado</button>           
+              </div>
+            </div>
+          </div>          
+        </div>
+
+
+        <div class="row">
+          <div class="panel panel-default">
+            <div class="bs-titulo">
+              <h4 class="bs-titulo"><span>Maquina</span></h4>
+            </div>
+            <div class="panel-body">        
+              <div class="col-md-4 col-md-offset-4">
+                <button type="button" id="engrapadora" name="engrapadora" class="boton btn-primary" value="15">Engrapadora</button>               
+              </div>
+            </div>
+          </div>       
+        </div>
+
+
+        <div class="row">
+          <div class="panel panel-default">
+            <div class="bs-titulo">
+              <h4 class="bs-titulo"><span>Cronometro</span></h4>
+            </div>
+            <div class="panel-body">          
+              <div class="col-md-offset-2 col-md-9">
+                <div class="reloj" id="Horas">00</div>
+                <div class="reloj" id="Minutos">:00</div>
+                <div class="reloj" id="Segundos">:00</div>
+              </div>
+
+              <div class="col-md-offset-2 col-md-4">
+                <button type="button" id="inicio" class="boton btn-primary" value="0">Iniciar &#9658;</button>        
+              </div>
+              <div class="col-md-offset-1 col-md-4">
+                <button type="button" id="parar" class="boton btn-primary" value="0">Parar &#8718;</button>
+              </div>          
+            </div>    
+          </div>
+        </div>
+
+      </div>
+    </div>    
+
+    <!-- Modal  Reporte -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Reporte Proceso</h4>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label for="ordenrep" class="control-label">Orden</label>
+                      <input type="text" class="form-control" id="ordenrep" name="ordenrep" readonly>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label for="trabajorep" class="control-label">Trabajo</label>
+                      <input type="text" class="form-control" id="trabajorep" name="trabajorep" readonly>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label for="procesorep" class="control-label">Proceso</label>
+                      <input type="text" class="form-control" id="procesorep" name="procesorep" readonly>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label for="maquinarep" class="control-label">Maquina</label>
+                      <input type="text" class="form-control" id="maquinarep" name="maquinarep" readonly>
+                    </div>
+                  </div>                  
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label for="tiemporep" class="control-label">Tiempo</label>
+                      <input type="text" class="form-control" id="tiemporep" name="tiemporep" readonly>
+                    </div>
+                  </div>                                                                                
+                </div>
+                <div class="col-md-6">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label for="cantidadreq" class="control-label">Cantidad Requerida</label>
+                      <input type="text" class="form-control" id="cantidadreq" name="cantidadreq" readonly>
+                    </div>
+                  </div>
+                  <div class="col-md-12">                               
+                      <div class="form-group">
+                        <label for="parcial" class="control-label">Reportar Parcial ? </label>
+                          <input id="parcial" type="checkbox" name="parcial">
+                      </div>
+                  </div>                  
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label for="cantidadok" class="control-label">Cantidad Ok</label>
+                      <input type="text" class="form-control" id="cantidadrep" name="cantidadrep" val="0">
+                    </div>
+                  </div>              
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label for="cantidadmerma" class="control-label">Cantidad Merma</label>
+                      <input type="text" class="form-control" id="cantmerma" name="cantmerma" val="0">
+                    </div>
+                  </div>              
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label for="acumuladorep" class="control-label">Acumulado</label>
+                      <input type="text" class="form-control" id="acumuladorep" name="acumuladorep" readonly>
+                    </div>
+                  </div>              
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label for="acumerma" class="control-label">Merma Acumulado</label>
+                      <input type="text" class="form-control" id="acumerma" name="acumerma" readonly>
+                    </div>
+                  </div>              
+                </div>                                                                      
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="notas" class="control-label">Notas</label>
+                    <textarea class="form-control" id="notas" name="notas"></textarea>
+                  </div>
+                </div>            
+              </div>                      
+            </form>        
+          </div>
+          <div class="modal-footer">
+            <button id="cancelar" type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            <button id="guardar" type="button" class="btn btn-primary">Guardar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--script>
+      $("#cant_parcial").attr("disabled",true);
+      $("#parcial").on("click",function(){
+        if( $("#parcial").is(':checked') )
+        {
+          $("#cant_parcial").attr("disabled",false);          
+        }
+        else
+        {
+          $("#cant_parcial").attr("disabled",true);
+        }
+      });
+    </script-->

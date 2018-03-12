@@ -354,50 +354,30 @@ class ProduccionController extends Zend_Controller_Action
 		$orden = $OrdenProd->updateEstatus($IdOrden, $Estatus);
 
 		echo Zend_Json::encode($orden);
-	}	
-
-	public function calidadcopiarprocesoacapturaAction(){
-		$this->_helper->layout->disableLayout();
-		$this->_helper->viewRenderer->setNoRender();		
-
-		$id_orden = $_POST['numorden'];
-		$id_operador = $_POST['id_operador'];
-		$nombre_operador = $_POST['nombre_operador'];
-
-		$copiadependientes = new Application_Model_DbTable_ProcesosPendientes();
-		$copiardependientes = $copiadependientes->calidadcopiardeprocesospendientes($id_orden);
-		
-		$copiaacaptura = new Application_Model_DbTable_CapturaProcesos();
-		$copiaracaptura = $copiaacaptura->calidadcopiaracapturaprocesos($copiardependientes,$id_operador,$nombre_operador);	
-
-		echo Zend_Json::encode($copiaracaptura);	
 	}		
 
-	public function calidadeliminarprocesoenpendienteAction(){
+	public function finalizarenpendienteAction(){		
 		$this->_helper->layout->disableLayout();
 		$this->_helper->viewRenderer->setNoRender();
 
 		$id_orden = $_POST['numorden'];
 
 		$elimina = new Application_Model_DbTable_ProcesosPendientes();
-		$eliminar = $elimina->calidadeliminarprocesoenpendiente($id_orden);
+		$eliminar = $elimina->finalizarenpendiente($id_orden);
 
 		echo Zend_Json::encode($eliminar);
 	}	
 
-	public function calidadcopiaradetalleprocesosAction(){
+	public function finalizarenprocesoAction(){
 		$this->_helper->layout->disableLayout();
-		$this->_helper->viewRenderer->setNoRender();		
+		$this->_helper->viewRenderer->setNoRender();
 
 		$id_orden = $_POST['numorden'];
 
-		$copiadecaptura = new Application_Model_DbTable_CapturaProcesos();
-		$copiardecaptura = $copiadecaptura->calidadcopiardecapturaprocesos($id_orden);
-		
-		$copiaadetalle = new Application_Model_DbTable_DetalleProcesos();
-		$copiaradetalle = $copiaadetalle->calidadcopiaradetalleprocesos($copiardecaptura);			
+		$elimina = new Application_Model_DbTable_CapturaProcesos();
+		$eliminar = $elimina->finalizarenproceso($id_orden);
 
-		echo Zend_Json::encode($copiaradetalle);	
+		echo Zend_Json::encode($eliminar);
 	}	
 
 }

@@ -210,68 +210,15 @@ class Application_Model_DbTable_CapturaProcesos extends Zend_Db_Table_Abstract
    return $response;    
   }	
 
-	public function finalizacalidadenpendiente($id_orden,$idoperador,$nombreoperador){
-		
-		$where[] = "id_orden = '$id_orden'";
-		$update = $this->update(array(								
-									"id_operador"=>$idoperador,
-									"nombre_operador"=>$nombreoperador
-									), $where);
+	public function finalizarenproceso($id_orden)
+	{
+		$where = array();
+        $where[] = $this->getAdapter()->quoteInto('id_orden= ?', $id_orden);			
+		$delete = $this->delete($where);
 
 		$response = new stdClass();
 		$response->validacion = true;
 		return $response;
 	}  
-
-	public function calidadcopiardecapturaprocesos($id_orden)
-	{
-
-		$select = $this->select();
-		$select->where("id_orden = ?",$id_orden);
-	
-		$response=new stdClass();
-		$rows = $this->fetchAll($select);
-
-		$copiar = array();
-		foreach ($rows as $row) {
-
-			$copiar[] = array(
-				"id_orden"=> $row["id_orden"],
-				"nombre_trabajo"=>$row["nombre_trabajo"],
-				"id_maquina"=>$row['id_maquina'],
-				"nombre_maquina"=>$row["nombre_maquina"],
-				"id_proceso"=>$row["id_proceso"],
-				"nombre_proceso"=>$row["nombre_proceso"],
-				"id_operador" => $row["id_operador"],
-				"nombre_operador" => $row["nombre_operador"],
-				"cant_requerida"=>$row["cant_requerida"],
-				"fechahora_registro"=>$row["fechahora_registro"],
-				"fechahora_inicio" => $row["fechahora_inicio"]
-				); 
-		}
-
-		return $copiar;
-	}
-
-	public function calidadcopiaracapturaprocesos($copiardependientes,$id_operador,$nombre_operador){
-		foreach($copiardependientes AS $copiar){
-		$insert = $this->insert(array(
-									"id_orden"=>$copiar["id_orden"],
-									"nombre_trabajo"=>$copiar["nombre_trabajo"],
-									"id_maquina"=>$copiar["id_maquina"],
-									"nombre_maquina"=>$copiar["nombre_maquina"],
-									"id_proceso"=>$copiar["id_proceso"],
-									"nombre_proceso"=>$copiar["nombre_proceso"],
-									"cant_requerida"=>$copiar["cant_requerida"],
-									"fechahora_registro"=>$copiar["fechahora_registro"],
-									"id_operador"=>$id_operador,
-									"nombre_operador"=>$nombre_operador
-									));
-
-		$response = new stdClass();
-		$response->validacion = true;
-		return $response;
-		}
-	}
 
 }

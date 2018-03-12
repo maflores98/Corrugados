@@ -161,6 +161,9 @@ $baseUrl = $front -> getBaseUrl ();
                   <?php if($menu->mnuproduccion_pegadolineal == 1) { ?>  
                   <li><a href="<?php echo $baseUrl;?>/produccion/pegado">Pegado</a></li>
                   <?php } ?>
+                  <?php if($menu->mnuproduccion_grapado == 1) { ?>  
+                  <li><a href="<?php echo $baseUrl;?>/produccion/engrapado">Engrapado</a></li>
+                  <?php } ?>                  
                   <?php if($menu->mnucalidad == 1) { ?>  
                   <li><a href="<?php echo $baseUrl;?>/produccion/liberacion">Liberacion</a></li>
                   <?php } ?>

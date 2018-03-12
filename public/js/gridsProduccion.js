@@ -25,6 +25,9 @@ $(document).ready(function(){
 		case '/Corrugados/public/produccion/pegado':
 		vista = ["Pegadora Lineal Grande", "Pegado Manual", "Pegadora Lineal Chica"];
 		break;        
+		case '/Corrugados/public/produccion/engrapado':
+		vista = ["Engrapadora"];
+		break;		
 	}
 	$("#operador").focus();
 
@@ -462,6 +465,40 @@ $("#pegadoralinealchica").click(function(){
 	}
 });
 
+//==================================== RANURADO ===============================================
+$("#ajusteengrapadora").click(function(){
+	if( idinicio != 1 && orden == 0)
+	{
+		$("#ajusteengrapadora").attr("disabled", false);
+	} else {	
+		$("#ajusteengrapadora").attr("disabled", true);
+		$("#grapado").attr("disabled", false);
+		idproceso = this.value;
+		proceso = "AJUSTE ENGRAPADORA";
+	}
+});
+$("#grapado").click(function(){
+	if( idinicio != 1 && orden == 0 )
+	{
+		$("#grapado").attr("disabled", false);
+	} else {	
+		$("#grapado").attr("disabled", true);
+		$('#ajusteengrapadora').attr("disabled", false);
+		idproceso = this.value;
+		proceso = "GRAPADO";
+	}
+});
+$("#engrapadora").click(function(){
+	if( idinicio != 1 && orden == 0 )
+	{
+		$("#engrapadora").attr("disabled", false);
+	} else {	
+		$('#engrapadora').attr("disabled", true);
+		idmaquina = this.value;
+		maquina = "ENGRAPADORA";
+	}	
+});
+
 //==================================== EN TODAS LAS VISTAS ====================================
 //Tablas en Proceso
 var enProceso = $('#enProceso').DataTable({
@@ -697,6 +734,12 @@ $("#enPendiente tbody").on( 'click', 'tr', function () {
 			      	idproceso = $("#ajustesuajadora").val();					      	
 			      	proceso = "AJUSTE SUAJADORA";
 			      }						      				      					      					      				      						      				      					      						
+			      if(proceso == "GRAPADO")
+			      {
+			      	$("#ajusteengrapadora").attr("disabled", true);
+			      	idproceso = $("#ajusteengrapadora").val();					      	
+			      	proceso = "AJUSTE ENGRAPADORA";
+			      }			      
 			}
 			else
 			{        
@@ -978,7 +1021,12 @@ $("#guardar").click(function()
 														  {
 														  	idproceso = $("#suajado").val();					      	
 														  	proceso = "SUAJADO";
-														  }																									
+														  }	
+														  if(proceso == "AJUSTE ENGRAPADORA")
+														  {
+														  	idproceso = $("#grapado").val();					      	
+														  	proceso = "GRAPADO";
+														  }														  																								
 															id_pendiente = result.id_pendiente;
 															$.post('actualizarproceso2',
 																{
@@ -1102,6 +1150,12 @@ $("#guardar").click(function()
 														  	idproceso = $("#suajado").val();					      	
 														  	proceso = "SUAJADO";
 														  }
+														  if(proceso == "AJUSTE ENGRAPADORA")
+														  {
+														  	$("#grapado").attr("disabled", true);
+														  	idproceso = $("#grapado").val();					      	
+														  	proceso = "GRAPADO";
+														  }														  
 															$.post('actualizarproceso', {id_proceso:id_proceso,idproceso:idproceso,proceso:proceso},
 																function(result)
 																{

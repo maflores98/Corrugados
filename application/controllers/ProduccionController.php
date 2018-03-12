@@ -51,6 +51,11 @@ class ProduccionController extends Zend_Controller_Action
 		$this->view->titulo="** Pegado **"; 
 	}
 
+	public function engrapadoAction(){
+		
+		$this->view->titulo="** Engrapado **"; 
+	}	
+
 	public function consultarenpendienteAction(){
 		$vista = $_REQUEST['vista'];
 		$this->_helper->layout->disableLayout();

@@ -58,158 +58,237 @@ $.tinta = function(t){
   $("#consumo_tinta").html( currency(consumo_tinta,4) );    
 }
 
-$.procesos = function(clasificacion, clasificacion2, tipoproducto)
+$.impresion = function()
 {
-  if( clasificacion2 <= 700 )
+  if( $('select[name="articulo"]').val() == "CAJAS CON IMPRESION" )
+  {          
+    var imp_merma = ( 15 * parseFloat( $("#cant_requerida").val() ) ) / 1000;
+    $("#imp_merma").html(Math.ceil(imp_merma));
+    var imp_arreglo = 1;
+    $("#imp_arreglo").html(imp_arreglo.toPrecision(2));
+    var imp_tiraje = ( parseFloat($("#cant_requerida").val()) * 1.5 ) / 1000;
+    $("#imp_tiro").html(imp_tiraje.toPrecision(2));
+
+    if( $("#no_tintas").val() > 0 )
+    {
+      var arreglo_personas = 2;
+      var tiraje_personas = 4;
+      var costo_hrhombre = 95;
+      var imp_cunit = (parseFloat( $("#imp_arreglo").text() ) * arreglo_personas * costo_hrhombre) + ( parseFloat($("#imp_tiro").text()) * tiraje_personas * costo_hrhombre );
+      $("#imp_cunit").html( currency(imp_cunit,2) );
+    }            
+  }
+  else
   {
-    $.post('cotizadorprocesos', {clasificacion : clasificacion, clasificacion2: "<= 700", tipoproducto : tipoproducto},
-      function(result){
-
-        if( result.data[0].Impresion == 1 )
-        {
-          if( $('select[name="articulo"]').val() == "CAJAS CON IMPRESION" )
-          {          
-            var imp_merma = ( 15 * parseFloat( $("#cant_requerida").val() ) ) / 1000;
-            $("#imp_merma").html(Math.ceil(imp_merma));
-            $.total_merma();
-            var imp_arreglo = 1;
-            $("#imp_arreglo").html(imp_arreglo);
-            var imp_tiraje = ( parseFloat($("#cant_requerida").val()) * 1.5 ) / 1000;
-            $("#imp_tiro").html(imp_tiraje);
-
-            if( $("#no_tintas").val() > 0 )
-            {
-              var arreglo_personas = 2;
-              var tiraje_personas = 4;
-              var costo_hrhombre = 95;
-
-              var imp_cunit = (parseFloat( $("#imp_arreglo").text() ) * arreglo_personas * costo_hrhombre) + ( parseFloat($("#imp_tiro").text()) * tiraje_personas * costo_hrhombre );
-              $("#imp_cunit").html( imp_cunit );
-
-            }            
-          }
-          else
-          {
-            $("#imp_merma").html("0");
-            $("#imp_arreglo").html("0");
-            $("#imp_tiro").html("0");
-            $("#imp_cunit").html("0");
-          }
-
-        }
-
-        if( result.data[0].FlexoRanurado == 1 )
-        {
-          var merma = ( 6 * parseFloat( $("#cant_requerida").val() ) ) / 1000;
-          $("#flexo_merma").html(Math.ceil(merma));
-          $.total_merma();
-          var arreglo = 0.67;
-          $("#flexo_arreglo").html(arreglo);
-
-          if( $('select[name="articulo"]').val() == "CAJAS CON IMPRESION" )
-          {           
-            if( $('select[name="tipo_producto"]').val() == "RANURADA ESTANDAR REFILADA FLEXO PEGADA" || $('select[name="tipo_producto"]').val() == "RANURADA ESTANDAR REFILADA FLEXO GRAPADA" )
-            {
-              var flexo_tiraje = parseFloat($("#cant_producir").text())  / 667;
-              $("#flexo_tiro").html(flexo_tiraje);            
-            }
-            else
-            {
-              $("#flexo_tiro").html("0"); 
-            }
-          }
-          else
-          {
-              var flexo_tiraje = parseFloat($("#cant_producir").text())  / 1000;
-              $("#flexo_tiro").html(flexo_tiraje);            
-          }
-        }
-
-        if( result.data[0].Pegado == 1 )
-        {
-          var pegado_merma = ( 10 * parseFloat( $("#cant_requerida").val() ) ) / 1000;
-          $("#pegado_merma").html(Math.ceil(pegado_merma));
-          $.total_merma();
-          var pegado_arreglo = 0.25;
-          $("#pegado_arreglo").html(pegado_arreglo);
-          var pegado_tiraje = parseFloat($("#cant_producir").text())  / 1000;
-          $("#pegado_tiro").html(pegado_tiraje);          
-        }        
-
-      },'json'
-      );
+    $("#imp_merma").html("0");
+    $("#imp_arreglo").html("0");
+    $("#imp_tiro").html("0");
+    $("#imp_cunit").html("0");
+  }  
 }
-else if( clasificacion2 > 700 )
+
+$.flexoranurado = function()
 {
- $.post('cotizadorprocesos', {clasificacion : clasificacion, clasificacion2: "> 700", tipoproducto : tipoproducto},
-  function(result){
+  var merma = ( 6 * parseFloat( $("#cant_requerida").val() ) ) / 1000;
+  $("#flexo_merma").html(Math.ceil(merma));
+  var arreglo = 0.67;
+  $("#flexo_arreglo").html(arreglo.toPrecision(2));
 
-        if( result.data[0].Impresion == 1 )
-        {
-          if( $('select[name="articulo"]').val() == "CAJAS CON IMPRESION" )
-          {          
-            var imp_merma = ( 15 * parseFloat( $("#cant_requerida").val() ) ) / 1000;
-            $("#imp_merma").html(Math.ceil(imp_merma));
-            $.total_merma();
-            var imp_arreglo = 1;
-            $("#imp_arreglo").html(imp_arreglo);
-            var imp_tiraje = ( parseFloat( $("#cant_requerida").val() ) * 1.5 ) / 1000;
-            $("#imp_tiro").html(imp_tiraje);
-          }
-          else
-          {
-            $("#imp_merma").html("0");
-            $("#imp_arreglo").html("0");
-            $("#imp_tiro").html("0");
-          }
-        }
+  if( $('select[name="articulo"]').val() == "CAJAS CON IMPRESION" )
+  {           
+    if( $('select[name="tipo_producto"]').val() == "RANURADA ESTANDAR REFILADA FLEXO PEGADA" || $('select[name="tipo_producto"]').val() == "RANURADA ESTANDAR REFILADA FLEXO GRAPADA" )
+    {
+      var flexo_tiraje = parseFloat($("#cant_producir").text())  / 667;
+      $("#flexo_tiro").html(flexo_tiraje.toPrecision(2));            
+    }
+    else
+    {
+      $("#flexo_tiro").html("0"); 
+    }            
+  }
+  else
+  {           
+    var flexo_tiraje = parseFloat($("#cant_producir").text())  / 1000;
+    $("#flexo_tiro").html(flexo_tiraje.toPrecision(2));            
+  }          
+    var arreglo_personas = 2;
+    var tiraje_personas = 4;
+    var costo_hrhombre = 95;
 
-        if( result.data[0].FlexoRanurado == 1 )
-        {
-          var merma = ( 6 * parseFloat( $("#cant_requerida").val() ) ) / 1000;
-          $("#flexo_merma").html(Math.ceil(merma));
-          $.total_merma();
-          var arreglo = 0.67;
-          $("#flexo_arreglo").html(arreglo);
+    var flexo_cunit = (parseFloat( $("#flexo_arreglo").text() ) * arreglo_personas * costo_hrhombre) + ( parseFloat($("#flexo_tiro").text()) * tiraje_personas * costo_hrhombre );
+    $("#flexo_cunit").html( currency(flexo_cunit,2) );  
+}
 
-          if( $('select[name="articulo"]').val() == "CAJAS CON IMPRESION" )
-          {           
-            if( $('select[name="tipo_producto"]').val() == "RANURADA ESTANDAR REFILADA FLEXO PEGADA" || $('select[name="tipo_producto"]').val() == "RANURADA ESTANDAR REFILADA FLEXO GRAPADA" )
-            {
-              var flexo_tiraje = parseFloat($("#cant_producir").text())  / 667;
-              $("#flexo_tiro").html(flexo_tiraje);            
-            }
-            else
-            {
-              $("#flexo_tiro").html("0"); 
-            }
-          }
-          else
-          {
-              var flexo_tiraje = parseFloat($("#cant_producir").text())  / 1000;
-              $("#flexo_tiro").html(flexo_tiraje);            
-          }
-        }
+$.pegado = function()
+{
+  var pegado_merma = ( 10 * parseFloat( $("#cant_requerida").val() ) ) / 1000;
+  $("#pegado_merma").html(Math.ceil(pegado_merma));
+  var pegado_arreglo = 0.25;
+  $("#pegado_arreglo").html(pegado_arreglo.toPrecision(2));
+  var pegado_tiraje = parseFloat($("#cant_producir").text())  / 1000;
+  $("#pegado_tiro").html(pegado_tiraje.toPrecision(2));  
 
-        if( result.data[0].Pegado == 1 )
-        {
-          var pegado_merma = ( 10 * parseFloat( $("#cant_requerida").val() ) ) / 1000;
-          $("#pegado_merma").html(Math.ceil(pegado_merma));
-          $.total_merma();
-          var pegado_arreglo = 0.25;
-          $("#pegado_arreglo").html(pegado_arreglo);
-          var pegado_tiraje = parseFloat($("#cant_producir").text())  / 1000;
-          $("#pegado_tiro").html(pegado_tiraje);          
-        }         
+  var arreglo_personas = 1;
+  var tiraje_personas = 2;
+  var costo_hrhombre = 95;
+  var pegado_cunit = (parseFloat( $("#pegado_arreglo").text() ) * arreglo_personas * costo_hrhombre) + ( parseFloat($("#pegado_tiro").text()) * tiraje_personas * costo_hrhombre );
+  $("#pegado_cunit").html( currency(pegado_cunit,2) );  
+}
 
-  },'json'
-  );
-}   
+$.grapado = function()
+{
+  var grapado_merma = ( 20 * parseFloat( $("#cant_requerida").val() ) ) / 1000;
+  $("#grapado_merma").html(Math.ceil(grapado_merma));
+  $.total_merma();
+
+    if($("#cant_requerida").val() <= 1000)
+    {
+    var grapado_arreglo = 0;
+    $("#grapado_arreglo").html(grapado_arreglo.toPrecision(2));
+    }
+    else
+    {
+    var grapado_arreglo = 0;
+    $("#grapado_arreglo").html(grapado_arreglo.toPrecision(2));                
+    }
+  var grapado_tiraje = parseFloat($("#cant_producir").text())  / 500;
+  $("#grapado_tiro").html(grapado_tiraje.toPrecision(2));  
+
+  var arreglo_personas = 0;
+  var tiraje_personas = 2;
+  var costo_hrhombre = 95;
+  var grapado_cunit = (parseFloat( $("#grapado_arreglo").text() ) * arreglo_personas * costo_hrhombre) + ( parseFloat($("#grapado_tiro").text()) * tiraje_personas * costo_hrhombre );
+  $("#grapado_cunit").html( currency(grapado_cunit,2) );  
+}
+
+$.refilado = function()
+{
+  var refilado_merma = ( 2 * parseFloat( $("#cant_requerida").val() ) ) / 1000;
+  $("#refilado_merma").html(Math.ceil(refilado_merma));
+  var refilado_arreglo = 0.33;
+  $("#refilado_arreglo").html(refilado_arreglo.toPrecision(2));
+  var refilado_tiraje = parseFloat($("#cant_producir").text())  / 500;
+  $("#refilado_tiro").html(refilado_tiraje.toPrecision(2));  
+
+  var arreglo_personas = 1;
+  var tiraje_personas = 2;
+  var costo_hrhombre = 95;
+  var refilado_cunit = (parseFloat( $("#refilado_arreglo").text() ) * arreglo_personas * costo_hrhombre) + ( parseFloat($("#refilado_tiro").text()) * tiraje_personas * costo_hrhombre );
+  $("#refilado_cunit").html( currency(refilado_cunit,2) );  
+}
+
+$.rayado = function()
+{
+  var rayado_merma = ( 2 * parseFloat( $("#cant_requerida").val() ) ) / 1000;
+  $("#rayado_merma").html(Math.ceil(rayado_merma));
+  var rayado_arreglo = 0.33;
+  $("#rayado_arreglo").html(rayado_arreglo.toPrecision(2));
+  var rayado_tiraje = parseFloat($("#cant_producir").text())  / 500;
+  $("#rayado_tiro").html(rayado_tiraje.toPrecision(2));  
+
+  var arreglo_personas = 1;
+  var tiraje_personas = 2;
+  var costo_hrhombre = 95;
+  var rayado_cunit = (parseFloat( $("#rayado_arreglo").text() ) * arreglo_personas * costo_hrhombre) + ( parseFloat($("#rayado_tiro").text()) * tiraje_personas * costo_hrhombre );
+  $("#rayado_cunit").html( currency(rayado_cunit,2) );  
+}
+
+$.caiman = function()
+{
+  var caiman_merma = ( 5 * parseFloat( $("#cant_requerida").val() ) ) / 1000;
+  $("#caiman_merma").html(Math.ceil(caiman_merma));
+  var caiman_arreglo = 0.17;
+  $("#caiman_arreglo").html(caiman_arreglo.toPrecision(2));
+  var caiman_tiraje = parseFloat($("#cant_producir").text())  / 500;
+  $("#caiman_tiro").html(caiman_tiraje.toPrecision(2));  
+
+  var arreglo_personas = 1;
+  var tiraje_personas = 2;
+  var costo_hrhombre = 95;
+  var caiman_cunit = (parseFloat( $("#caiman_arreglo").text() ) * arreglo_personas * costo_hrhombre) + ( parseFloat($("#caiman_tiro").text()) * tiraje_personas * costo_hrhombre );
+  $("#caiman_cunit").html( currency(caiman_cunit,2) );  
+}
+
+$.suajado = function()
+{
+  var suajado_merma = ( 10 * parseFloat( $("#cant_requerida").val() ) ) / 1000;
+  $("#suajado_merma").html(Math.ceil(suajado_merma));
+
+    if($("#tipo_suajado").val() == 1)
+    {
+      var suajado_arreglo = 1.50;
+      $("#suajado_arreglo").html(suajado_arreglo.toPrecision(2));
+      var suajado_tiraje = parseFloat($("#cant_requerida").text() * 2.5)  / 1000;
+      $("#suajado_tiro").html(suajado_tiraje.toPrecision(2));
+    }
+    else if($("#tipo_suajado").val() == 2)
+    {
+      var suajado_arreglo = 2;
+      $("#suajado_arreglo").html(suajado_arreglo.toPrecision(2));
+      var suajado_tiraje = parseFloat($("#cant_requerida").text() * 0.4)  / 1000;
+      $("#suajado_tiro").html(suajado_tiraje.toPrecision(2));            
+    }
+
+  var arreglo_personas = 1;
+  var tiraje_personas = 3;
+  var costo_hrhombre = 95;
+
+  if( $("#cm_suaje").val() > 0)
+  {
+    var suajado_cunit = (parseFloat( $("#suajado_arreglo").text() ) * arreglo_personas * costo_hrhombre) + ( parseFloat($("#suajado_tiro").text()) * tiraje_personas * costo_hrhombre );
+    $("#suajado_cunit").html( currency(suajado_cunit,2) );  
+  }
+  else
+  {
+    $("#suajado_cunit").html('0');
+  }
+}
+
+$.flejado = function()
+{
+  $("#flejado_merma").html('0');
+  if($("#cant_requerida").val() <= 1000)
+  {
+    $("#flejado_arreglo").html('0');
+  }
+  else
+  {
+    $("#flejado_arreglo").html('0');
+  }
+  var flejado_tiraje = parseFloat($("#cant_producir").text())  / 1000;
+  $("#flejado_tiro").html(flejado_tiraje.toPrecision(2));  
+
+  var arreglo_personas = 0;
+  var tiraje_personas = 1;
+  var costo_hrhombre = 95;
+  var flejado_cunit = (parseFloat( $("#flejado_arreglo").text() ) * arreglo_personas * costo_hrhombre) + ( parseFloat($("#flejado_tiro").text()) * tiraje_personas * costo_hrhombre );
+  $("#flejado_cunit").html( currency(flejado_cunit,2) );  
+}
+
+$.entarimado = function()
+{
+  $("#entarimado_merma").html('0');
+  if($("#cant_requerida").val() <= 1000)
+  {
+    $("#entarimado_arreglo").html('0');
+  }
+  else
+  {
+    $("#entarimado_arreglo").html('0');
+  }
+  var entarimado_tiraje = parseFloat($("#cant_producir").text())  / 1000;
+  $("#entarimado_tiro").html(entarimado_tiraje.toPrecision(2));  
+
+  var arreglo_personas = 0;
+  var tiraje_personas = 1;
+  var costo_hrhombre = 95;
+  var entarimado_cunit = (parseFloat( $("#entarimado_arreglo").text() ) * arreglo_personas * costo_hrhombre) + ( parseFloat($("#entarimado_tiro").text()) * tiraje_personas * costo_hrhombre );
+  $("#entarimado_cunit").html( currency(entarimado_cunit,2) );  
 }
 
 $.total_merma = function()
 {
-  var total_merma = parseFloat($("#imp_merma").text()) + parseFloat($("#rayado_merma").text()) + parseFloat($("#caiman_merma").text()) + parseFloat($("#grapado_merma").text()) + parseFloat($("#flejado_merma").text()) + parseFloat($("#ref_merma").text()) + parseFloat($("#flexo_merma").text()) + parseFloat($("#pegado_merma").text()) + parseFloat($("#suajado_merma").text()) + parseFloat($("#entarimado_merma").text());
+  var total_merma = parseFloat($("#imp_merma").text()) + parseFloat($("#rayado_merma").text()) + parseFloat($("#caiman_merma").text()) + parseFloat($("#grapado_merma").text()) + parseFloat($("#flejado_merma").text()) + parseFloat($("#refilado_merma").text()) + parseFloat($("#flexo_merma").text()) + parseFloat($("#pegado_merma").text()) + parseFloat($("#suajado_merma").text()) + parseFloat($("#entarimado_merma").text());
   $("#total_merma").html(total_merma); 
 
   var cant_producir = parseFloat($("#cant_requerida").val()) + total_merma;
@@ -217,6 +296,24 @@ $.total_merma = function()
 
   var m2_req = cant_producir * parseFloat($("#m2_xcaja").text()); 
   $("#m2_req").html(currency(m2_req,2));
+}
+
+$.total_arreglo = function()
+{
+  var total_arreglo = parseFloat($("#imp_arreglo").text()) + parseFloat($("#rayado_arreglo").text()) + parseFloat($("#caiman_arreglo").text()) + parseFloat($("#grapado_arreglo").text()) + parseFloat($("#flejado_arreglo").text()) + parseFloat($("#refilado_arreglo").text()) + parseFloat($("#flexo_arreglo").text()) + parseFloat($("#pegado_arreglo").text()) + parseFloat($("#suajado_arreglo").text()) + parseFloat($("#entarimado_arreglo").text());
+  $("#total_arreglo").html(total_arreglo);  
+}
+
+$.total_tiro = function()
+{
+  var total_tiro = parseFloat($("#imp_tiro").text()) + parseFloat($("#rayado_tiro").text()) + parseFloat($("#caiman_tiro").text()) + parseFloat($("#grapado_tiro").text()) + parseFloat($("#flejado_tiro").text()) + parseFloat($("#refilado_tiro").text()) + parseFloat($("#flexo_tiro").text()) + parseFloat($("#pegado_tiro").text()) + parseFloat($("#suajado_tiro").text()) + parseFloat($("#entarimado_tiro").text());
+  $("#total_tiro").html(total_tiro);  
+}
+
+$.total_cunit = function()
+{
+  var total_cunit = parseFloat($("#imp_cunit").text()) + parseFloat($("#rayado_cunit").text()) + parseFloat($("#caiman_cunit").text()) + parseFloat($("#grapado_cunit").text()) + parseFloat($("#flejado_cunit").text()) + parseFloat($("#refilado_cunit").text()) + parseFloat($("#flexo_cunit").text()) + parseFloat($("#pegado_cunit").text()) + parseFloat($("#suajado_cunit").text()) + parseFloat($("#entarimado_cunit").text());
+  $("#total_cunit").html(total_cunit);
 }
 
 function currency(value, decimals, separators) {

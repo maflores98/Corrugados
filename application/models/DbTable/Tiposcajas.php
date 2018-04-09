@@ -93,19 +93,28 @@ class Application_Model_DbTable_Tiposcajas extends Zend_Db_Table_Abstract
     
     public function cotizadorprocesos($clasificacion, $clasificacion2, $tipoproducto)
     {
-        $select = $this->select();
+        if( $clasificacion2 <= 700 )
+        {        
+            $select = $this->select();
             $select->where('Clasificacion = ?', $clasificacion);
-            $select->where('Clasificacion2 = ?', $clasificacion2);
+            $select->where('Clasificacion2 = ?', '<= 700');
             $select->where('Descripcion = ?', $tipoproducto);
-
+        }
+        else
+        {
+            $select = $this->select();
+            $select->where('Clasificacion = ?', $clasificacion);
+            $select->where('Clasificacion2 = ?', '> 700');
+            $select->where('Descripcion = ?', $tipoproducto);
+        }
         $response=new stdClass();
         $rows = $this->fetchAll($select);
-                        //$consulta = $select->__toString();
-                        //echo $consulta;
-                        //exit();
+        //$consulta = $select->__toString();
+        //echo $consulta;
+        //exit();            
         $procesos = array();
-        foreach ($rows as $row) {
-
+        foreach ($rows as $row) 
+        {
             $procesos[] = array(
                 "Refilado"=>$row['Refilado'],
                 "Rayado" => $row['Rayado'],
@@ -120,7 +129,6 @@ class Application_Model_DbTable_Tiposcajas extends Zend_Db_Table_Abstract
                 ); 
         }
         $response->data = $procesos;
-        return $response;        
-    }    
-    
+        return $response;           
+    }
 }

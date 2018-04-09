@@ -314,10 +314,10 @@ $this->headLink()->appendStylesheet($this->baseUrl('css/estilos.cotcarton.css'))
            <span class="col-md-1" id="imp_cunit" name="imp_cunit">0</span>                       
 
            <label class="col-md-2 control-label">Refilado</label>
-           <span class="col-md-1" id="ref_merma" name="ref_merma">0</span>
-           <span class="col-md-1" id="ref_arreglo" name="ref_arreglo">0</span>
-           <span class="col-md-1" id="ref_tiro" name="ref_tiro">0</span>
-           <span class="col-md-1" id="ref_cunit" name="ref_cunit">0</span>                              
+           <span class="col-md-1" id="refilado_merma" name="refilado_merma">0</span>
+           <span class="col-md-1" id="refilado_arreglo" name="refilado_arreglo">0</span>
+           <span class="col-md-1" id="refilado_tiro" name="refilado_tiro">0</span>
+           <span class="col-md-1" id="refilado_cunit" name="refilado_cunit">0</span>                              
          </div>
        </div>
        <div class="row">
@@ -683,8 +683,90 @@ $('select[name="tipo_producto"]').change(function(){
   var clasificacion2 = $("#m2_requeridos").text().replace(",","");
   var tipoproducto = $('select[name="tipo_producto"] option:selected').data('val');
 
-  $.procesos(clasificacion, clasificacion2, tipoproducto);
-
+    $.post('cotizadorprocesos', {clasificacion : clasificacion, clasificacion2: clasificacion2, tipoproducto : tipoproducto},
+      function(result){
+        if( result.data[0].Impresion == 1 )
+        {
+          $.impresion();
+          $.total_merma();
+          $.total_arreglo();
+          $.total_tiro();
+          $.total_cunit();
+        }
+        if( result.data[0].FlexoRanurado == 1 )
+        {
+          $.flexoranurado();
+          $.total_merma();
+          $.total_arreglo();
+          $.total_tiro();
+          $.total_cunit();
+        }
+        if( result.data[0].Pegado == 1 )
+        {      
+          $.pegado();
+          $.total_merma();                  
+          $.total_arreglo();
+          $.total_tiro();
+          $.total_cunit();
+        }
+        if( result.data[0].Grapado == 1 )
+        {      
+          $.grapado();
+          $.total_merma();                  
+          $.total_arreglo();
+          $.total_tiro();
+          $.total_cunit();
+        } 
+        if( result.data[0].Refilado == 1 )
+        {      
+          $.refilado();
+          $.total_merma();                  
+          $.total_arreglo();
+          $.total_tiro();
+          $.total_cunit();
+        }    
+        if( result.data[0].Rayado == 1 )
+        {      
+          $.rayado();
+          $.total_merma();                  
+          $.total_arreglo();
+          $.total_tiro();
+          $.total_cunit();
+        }
+        if( result.data[0].Caiman == 1 )
+        {      
+          $.caiman();
+          $.total_merma();                  
+          $.total_arreglo();
+          $.total_tiro();
+          $.total_cunit();
+        }
+        if( result.data[0].Suajado == 1 )
+        {      
+          $.suajado();
+          $.total_merma();                  
+          $.total_arreglo();
+          $.total_tiro();
+          $.total_cunit();
+        }   
+        if( result.data[0].Flejado == 1 )
+        {      
+          $.flejado();
+          $.total_merma();                  
+          $.total_arreglo();
+          $.total_tiro();
+          $.total_cunit();
+        }
+        if( result.data[0].Entarimado == 1 )
+        {      
+          $.entarimado();
+          $.total_merma();                  
+          $.total_arreglo();
+          $.total_tiro();
+          $.total_cunit();
+        }                                                            
+      },'json'
+    );
 });
 
 $('select[name="tipo_material"]').change(function(){

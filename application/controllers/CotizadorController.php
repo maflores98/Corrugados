@@ -230,6 +230,11 @@
         $this->view->titulo="** Cotizador de Cartón **";
     }
 
+    public function carton2Action(){
+        
+        $this->view->titulo="** Cotizador de Cartón 2**";
+    }    
+
         public function buscaclientesAction(){
 
             $this->_helper->layout->disableLayout();
@@ -273,8 +278,8 @@
 
             $idTipo = $_POST['tipoMaterial'];
 
-            $ListaMateriales = new Application_Model_DbTable_TiposMateriales();
-            $Materiales = $ListaMateriales->selTipoMateriales($idTipo);
+            $ListaMateriales = new Application_Model_DbTable_vSeleccionaMateriales();
+            $Materiales = $ListaMateriales->tipos_materiales($idTipo);
 
             echo Zend_Json::encode($Materiales);
 
@@ -287,8 +292,8 @@
 
             $idMaterial = $_POST['Material'];
 
-            $ListaMateriales = new Application_Model_DbTable_vClasifCartones();
-            $Materiales = $ListaMateriales->consultar($idMaterial);
+            $ListaMateriales = new Application_Model_DbTable_vSeleccionaMateriales();
+            $Materiales = $ListaMateriales->tipos_carton($idMaterial);
 
             echo Zend_Json::encode($Materiales);
 
@@ -301,8 +306,8 @@
 
             $descripcion = $_POST['Descripcion'];
 
-            $ListaMateriales = new Application_Model_DbTable_Materiales();
-            $Materiales = $ListaMateriales->consultadescripcion($descripcion);
+            $ListaMateriales = new Application_Model_DbTable_vSeleccionaMateriales();
+            $Materiales = $ListaMateriales->tipos_tamano($descripcion);
 
             echo Zend_Json::encode($Materiales);
 
@@ -359,7 +364,20 @@
             $procesos = $ListaProcesos->cotizadorprocesos($clasificacion, $clasificacion2, $tipoproducto);
 
             echo Zend_Json::encode($procesos);
+        }  
 
-        }                   
+        public function detallecamionesAction(){
+
+            $this->_helper->layout->disableLayout();
+            $this->_helper->viewRenderer->setNoRender();
+
+            $tipo_camion = $_POST['tipo_camion'];
+
+            $ListaArticulos = new Application_Model_DbTable_vTiposCamiones();
+            $articulos = $ListaArticulos->detallecamiones($tipo_camion);
+
+            echo Zend_Json::encode($articulos);
+
+        }                         
 
     }

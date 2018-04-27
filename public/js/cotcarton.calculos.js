@@ -10,7 +10,7 @@ $.medidas = function()
   var med_frente = $("#med_frente").val();
   var med_lamina_1 = ( ( 2 * parseFloat(med_frente) ) + ( 2 * parseFloat(med_fondo) ) + cejapegue );
   var med_lamina_2 = ( parseFloat(med_alto) + parseFloat(med_fondo) );
-  $("#med_lamina").html("("+ med_lamina_1 + "x" + med_lamina_2 + ")");  
+  $("#med_lamina").val("("+ med_lamina_1 + "x" + med_lamina_2 + ")");  
 }
 
 $.medidascaja = function()
@@ -21,11 +21,11 @@ $.medidascaja = function()
   var med_lamina_1 = ( ( 2 * parseFloat(med_frente) ) + ( 2 * parseFloat(med_fondo) ) + cejapegue );
   var med_lamina_2 = ( parseFloat(med_alto) + parseFloat(med_fondo) );
   var m2_xcaja = (parseFloat(med_lamina_1) / 100) * (parseFloat(med_lamina_2) / 100);
-  $("#m2_xcaja").html( currency(m2_xcaja,3) +" m<sup>2</sup> x caja" );
+  $("#m2_xcaja").val( currency(m2_xcaja,3)); //+" m<sup>2</sup> x caja"
   var cant_requerida = $("#cant_requerida").val();
 
   var m2_requeridos = parseFloat(cant_requerida) * parseFloat(m2_xcaja);
-  $("#m2_requeridos").html( currency(m2_requeridos,2) );
+  $("#m2_requeridos").val( currency(m2_requeridos,2) );
 }
 
 $.medidascarton = function()
@@ -33,11 +33,11 @@ $.medidascarton = function()
   var med_largo = $("#med_largo").val();
   var med_ancho = $("#med_ancho").val();
   var m2_xcaja = (med_largo / 100) * (med_ancho / 100);
-  $("#m2_xcaja").html( currency(m2_xcaja,3) +" m<sup>2</sup> x caja" );
+  $("#m2_xcaja").val( currency(m2_xcaja,3)); //+ " m<sup>2</sup> x caja"
   var cant_requerida = $("#cant_requerida").val();
 
   var m2_requeridos = parseFloat(cant_requerida) * parseFloat(m2_xcaja);
-  $("#m2_requeridos").html( currency(m2_requeridos,2) );
+  $("#m2_requeridos").val( currency(m2_requeridos,2) );
 }
 
 $.margen = function()
@@ -51,8 +51,8 @@ $.margen = function()
     );
 }
 
-$.tinta = function(t){
-  $("#t"+t+"_res").html( $("#t"+t+"_largo").val() * $("#t"+t+"_ancho").val() );
+$.totaltinta = function(){
+  //$("#t"+t+"_res").html( $("#t"+t+"_largo").val() * $("#t"+t+"_ancho").val() );
   $("#total_tinta").html( parseFloat($("#t1_res").html()) + parseFloat($("#t2_res").html()) + parseFloat($("#t3_res").html()) + parseFloat($("#t4_res").html()) +parseFloat( $("#t4_res").html()) );
   consumo_tinta = (parseFloat( $("#cant_requerida").val() ) * parseFloat( $("#total_tinta").text() ) * factor_tinta);
   $("#consumo_tinta").html( currency(consumo_tinta,4) );    
@@ -65,9 +65,9 @@ $.impresion = function()
     var imp_merma = ( 15 * parseFloat( $("#cant_requerida").val() ) ) / 1000;
     $("#imp_merma").html(Math.ceil(imp_merma));
     var imp_arreglo = 1;
-    $("#imp_arreglo").html(imp_arreglo.toPrecision(2));
+    $("#imp_arreglo").html(trunc(imp_arreglo,2));
     var imp_tiraje = ( parseFloat($("#cant_requerida").val()) * 1.5 ) / 1000;
-    $("#imp_tiro").html(imp_tiraje.toPrecision(2));
+    $("#imp_tiro").html(trunc(imp_tiraje,2));
 
     if( $("#no_tintas").val() > 0 )
     {
@@ -92,14 +92,14 @@ $.flexoranurado = function()
   var merma = ( 6 * parseFloat( $("#cant_requerida").val() ) ) / 1000;
   $("#flexo_merma").html(Math.ceil(merma));
   var arreglo = 0.67;
-  $("#flexo_arreglo").html(arreglo.toPrecision(2));
+  $("#flexo_arreglo").html(trunc(arreglo,2));
 
   if( $('select[name="articulo"]').val() == "CAJAS CON IMPRESION" )
   {           
     if( $('select[name="tipo_producto"]').val() == "RANURADA ESTANDAR REFILADA FLEXO PEGADA" || $('select[name="tipo_producto"]').val() == "RANURADA ESTANDAR REFILADA FLEXO GRAPADA" )
     {
-      var flexo_tiraje = parseFloat($("#cant_producir").text())  / 667;
-      $("#flexo_tiro").html(flexo_tiraje.toPrecision(2));            
+      var flexo_tiraje = parseFloat($("#cant_producir").text().replace(/,/gi,''))  / 667;
+      $("#flexo_tiro").html(trunc(flexo_tiraje,2));            
     }
     else
     {
@@ -108,8 +108,8 @@ $.flexoranurado = function()
   }
   else
   {           
-    var flexo_tiraje = parseFloat($("#cant_producir").text())  / 1000;
-    $("#flexo_tiro").html(flexo_tiraje.toPrecision(2));            
+    var flexo_tiraje = parseFloat($("#cant_producir").text().replace(/,/gi,''))  / 1000;
+    $("#flexo_tiro").html(trunc(flexo_tiraje,2));            
   }          
     var arreglo_personas = 2;
     var tiraje_personas = 4;
@@ -124,9 +124,9 @@ $.pegado = function()
   var pegado_merma = ( 10 * parseFloat( $("#cant_requerida").val() ) ) / 1000;
   $("#pegado_merma").html(Math.ceil(pegado_merma));
   var pegado_arreglo = 0.25;
-  $("#pegado_arreglo").html(pegado_arreglo.toPrecision(2));
-  var pegado_tiraje = parseFloat($("#cant_producir").text())  / 1000;
-  $("#pegado_tiro").html(pegado_tiraje.toPrecision(2));  
+  $("#pegado_arreglo").html(trunc(pegado_arreglo,2));
+  var pegado_tiraje = parseFloat($("#cant_producir").text().replace(/,/gi,''))  / 1000;
+  $("#pegado_tiro").html(trunc(pegado_tiraje,2));  
 
   var arreglo_personas = 1;
   var tiraje_personas = 2;
@@ -144,15 +144,15 @@ $.grapado = function()
     if($("#cant_requerida").val() <= 1000)
     {
     var grapado_arreglo = 0;
-    $("#grapado_arreglo").html(grapado_arreglo.toPrecision(2));
+    $("#grapado_arreglo").html(trunc(grapado_arreglo,2));
     }
     else
     {
     var grapado_arreglo = 0;
-    $("#grapado_arreglo").html(grapado_arreglo.toPrecision(2));                
+    $("#grapado_arreglo").html(trunc(grapado_arreglo,2));                
     }
-  var grapado_tiraje = parseFloat($("#cant_producir").text())  / 500;
-  $("#grapado_tiro").html(grapado_tiraje.toPrecision(2));  
+  var grapado_tiraje = parseFloat($("#cant_producir").text().replace(/,/gi,''))  / 500;
+  $("#grapado_tiro").html(trunc(grapado_tiraje,2));  
 
   var arreglo_personas = 0;
   var tiraje_personas = 2;
@@ -166,9 +166,9 @@ $.refilado = function()
   var refilado_merma = ( 2 * parseFloat( $("#cant_requerida").val() ) ) / 1000;
   $("#refilado_merma").html(Math.ceil(refilado_merma));
   var refilado_arreglo = 0.33;
-  $("#refilado_arreglo").html(refilado_arreglo.toPrecision(2));
-  var refilado_tiraje = parseFloat($("#cant_producir").text())  / 500;
-  $("#refilado_tiro").html(refilado_tiraje.toPrecision(2));  
+  $("#refilado_arreglo").html(trunc(refilado_arreglo,2));
+  var refilado_tiraje = parseFloat($("#cant_producir").text().replace(/,/gi,''))  / 500;
+  $("#refilado_tiro").html(trunc(refilado_tiraje,2));  
 
   var arreglo_personas = 1;
   var tiraje_personas = 2;
@@ -182,9 +182,9 @@ $.rayado = function()
   var rayado_merma = ( 2 * parseFloat( $("#cant_requerida").val() ) ) / 1000;
   $("#rayado_merma").html(Math.ceil(rayado_merma));
   var rayado_arreglo = 0.33;
-  $("#rayado_arreglo").html(rayado_arreglo.toPrecision(2));
-  var rayado_tiraje = parseFloat($("#cant_producir").text())  / 500;
-  $("#rayado_tiro").html(rayado_tiraje.toPrecision(2));  
+  $("#rayado_arreglo").html(trunc(rayado_arreglo,2));
+  var rayado_tiraje = parseFloat($("#cant_producir").text().replace(/,/gi,''))  / 500;
+  $("#rayado_tiro").html(trunc(rayado_tiraje,2));  
 
   var arreglo_personas = 1;
   var tiraje_personas = 2;
@@ -198,9 +198,9 @@ $.caiman = function()
   var caiman_merma = ( 5 * parseFloat( $("#cant_requerida").val() ) ) / 1000;
   $("#caiman_merma").html(Math.ceil(caiman_merma));
   var caiman_arreglo = 0.17;
-  $("#caiman_arreglo").html(caiman_arreglo.toPrecision(2));
-  var caiman_tiraje = parseFloat($("#cant_producir").text())  / 500;
-  $("#caiman_tiro").html(caiman_tiraje.toPrecision(2));  
+  $("#caiman_arreglo").html(trunc(caiman_arreglo,2));
+  var caiman_tiraje = parseFloat($("#cant_producir").text().replace(/,/gi,''))  / 500;
+  $("#caiman_tiro").html(trunc(caiman_tiraje,2));  
 
   var arreglo_personas = 1;
   var tiraje_personas = 2;
@@ -217,16 +217,16 @@ $.suajado = function()
     if($("#tipo_suajado").val() == 1)
     {
       var suajado_arreglo = 1.50;
-      $("#suajado_arreglo").html(suajado_arreglo.toPrecision(2));
+      $("#suajado_arreglo").html(trunc(suajado_arreglo,2));
       var suajado_tiraje = parseFloat($("#cant_requerida").text() * 2.5)  / 1000;
-      $("#suajado_tiro").html(suajado_tiraje.toPrecision(2));
+      $("#suajado_tiro").html(trunc(suajado_tiraje,2));
     }
     else if($("#tipo_suajado").val() == 2)
     {
       var suajado_arreglo = 2;
-      $("#suajado_arreglo").html(suajado_arreglo.toPrecision(2));
+      $("#suajado_arreglo").html(trunc(suajado_arreglo,2));
       var suajado_tiraje = parseFloat($("#cant_requerida").text() * 0.4)  / 1000;
-      $("#suajado_tiro").html(suajado_tiraje.toPrecision(2));            
+      $("#suajado_tiro").html(trunc(suajado_tiraje,2));            
     }
 
   var arreglo_personas = 1;
@@ -237,11 +237,16 @@ $.suajado = function()
   {
     var suajado_cunit = (parseFloat( $("#suajado_arreglo").text() ) * arreglo_personas * costo_hrhombre) + ( parseFloat($("#suajado_tiro").text()) * tiraje_personas * costo_hrhombre );
     $("#suajado_cunit").html( currency(suajado_cunit,2) );  
+    var costosuaje = 2.50;
+    var costo_suaje = parseFloat($("#cm_suaje").val().replace(/,/gi,'')) * parseFloat(costosuaje);
+    $("#costo_suaje").html(currency(costo_suaje,2));    
   }
   else
   {
     $("#suajado_cunit").html('0');
+    $("#costo_suaje").html("0");
   }
+
 }
 
 $.flejado = function()
@@ -255,8 +260,8 @@ $.flejado = function()
   {
     $("#flejado_arreglo").html('0');
   }
-  var flejado_tiraje = parseFloat($("#cant_producir").text())  / 1000;
-  $("#flejado_tiro").html(flejado_tiraje.toPrecision(2));  
+  var flejado_tiraje = parseFloat($("#cant_producir").text().replace(/,/gi,''))  / 1000;
+  $("#flejado_tiro").html(trunc(flejado_tiraje,2));  
 
   var arreglo_personas = 0;
   var tiraje_personas = 1;
@@ -276,8 +281,8 @@ $.entarimado = function()
   {
     $("#entarimado_arreglo").html('0');
   }
-  var entarimado_tiraje = parseFloat($("#cant_producir").text())  / 1000;
-  $("#entarimado_tiro").html(entarimado_tiraje.toPrecision(2));  
+  var entarimado_tiraje = parseFloat($("#cant_producir").text().replace(/,/gi,''))  / 1000;
+  $("#entarimado_tiro").html(trunc(entarimado_tiraje,2));  
 
   var arreglo_personas = 0;
   var tiraje_personas = 1;
@@ -292,10 +297,11 @@ $.total_merma = function()
   $("#total_merma").html(total_merma); 
 
   var cant_producir = parseFloat($("#cant_requerida").val()) + total_merma;
-  $("#cant_producir").html(cant_producir);
+  $("#cant_producir").html(number_format(cant_producir));
 
-  var m2_req = cant_producir * parseFloat($("#m2_xcaja").text()); 
+  var m2_req = cant_producir * parseFloat($("#m2_xcaja").val()); 
   $("#m2_req").html(currency(m2_req,2));
+
 }
 
 $.total_arreglo = function()
@@ -312,28 +318,133 @@ $.total_tiro = function()
 
 $.total_cunit = function()
 {
-  var total_cunit = parseFloat($("#imp_cunit").text()) + parseFloat($("#rayado_cunit").text()) + parseFloat($("#caiman_cunit").text()) + parseFloat($("#grapado_cunit").text()) + parseFloat($("#flejado_cunit").text()) + parseFloat($("#refilado_cunit").text()) + parseFloat($("#flexo_cunit").text()) + parseFloat($("#pegado_cunit").text()) + parseFloat($("#suajado_cunit").text()) + parseFloat($("#entarimado_cunit").text());
-  $("#total_cunit").html(total_cunit);
+  var total_cunit = parseFloat($("#imp_cunit").text().replace(/,/gi,'')) + parseFloat($("#rayado_cunit").text().replace(/,/gi,'')) + parseFloat($("#caiman_cunit").text().replace(/,/gi,'')) + parseFloat($("#grapado_cunit").text().replace(/,/gi,'')) + parseFloat($("#flejado_cunit").text().replace(/,/gi,'')) + parseFloat($("#refilado_cunit").text().replace(/,/gi,'')) + parseFloat($("#flexo_cunit").text().replace(/,/gi,'')) + parseFloat($("#pegado_cunit").text().replace(/,/gi,'')) + parseFloat($("#suajado_cunit").text().replace(/,/gi,'')) + parseFloat($("#entarimado_cunit").text().replace(/,/gi,''));
+  $("#total_cunit").html(currency(total_cunit,2));
+}
+
+$.costocarton = function()
+{
+  var costo_carton = parseFloat($("#m2_req").text().replace(/,/gi,'')) * parseFloat($("#costo_m2").text().replace(/,/gi,''));
+  $("#costo_carton").html(currency(costo_carton,2));
+}
+
+$.costo_tinta = function()
+{
+  var costotinta = 50;
+  if($("#articulo").val() == "CAJAS CON IMPRESION")
+  {
+    var costo_tinta = parseFloat( $("#consumo_tinta").text().replace(/,/gi,'')) * costotinta;
+    $("#costo_tinta").html(currency(costo_tinta,2));
+  }
+  else
+  {
+    $("#costo_tinta").html("0.00");
+  }
+}
+
+$.costo_cirel = function()
+{
+  var costocirel = 0.50;
+  if( $("#articulo").val() == "CAJAS CON IMPRESION")
+  {
+    var costo_cirel = parseFloat( $("#total_tinta").text().replace(/,/gi,'') ) * parseFloat(costocirel);
+    $("#costo_cirel").html(currency(costo_cirel,2));
+  }
+  else
+  {
+    $("#costo_cirel").html("0.00");
+  }
+}
+
+$.total_material = function()
+{
+  var total_material  = parseFloat($("#costo_carton").text().replace(/,/gi,'')) + parseFloat($("#costo_tinta").text().replace(/,/gi,'')) + parseFloat($("#costo_cirel").text().replace(/,/gi,'')) + parseFloat($("#costo_suaje").text().replace(/,/gi,''));
+  $("#total_material").html(currency(total_material,2));
+
+}
+
+$.total_envio = function()
+{
+  var total_enviado = $("#cant_enviar1").val().replace(/,/gi,'') + $("#cant_enviar2").val().replace(/,/gi,'') + $("#cant_enviar3").val().replace(/,/gi,'');
+  $("#total_enviado").html(number_format(total_enviado));
+
+  var difvs_pedido = parseFloat($("#cant_requerida").val().replace(/,/gi,'')) - parseFloat($("#total_enviado").text().replace(/,/gi,''));
+  $("#difvs_pedido").html(number_format(difvs_pedido));
+
+  var costo_envio = parseFloat($("#costo_envio1").text().replace(/,/gi,'')) + parseFloat($("#costo_envio2").text().replace(/,/gi,'')) + parseFloat($("#costo_envio3").text().replace(/,/gi,''));
+  $("#total_envio").html(currency(costo_envio,2));
 }
 
 function currency(value, decimals, separators) {
-  decimals = decimals >= 0 ? parseInt(decimals, 0) : 2;
-  separators = separators || [',', ",", '.'];
-  var number = (parseFloat(value) || 0).toFixed(decimals);
-  if (number.length <= (4 + decimals))
-    return number.replace('.', separators[separators.length - 1]);
-  var parts = number.split(/[-.]/);
-  value = parts[parts.length > 1 ? parts.length - 2 : 0];
-  var result = value.substr(value.length - 3, 3) + (parts.length > 1 ?
-    separators[separators.length - 1] + parts[parts.length - 1] : '');
-  var start = value.length - 6;
-  var idx = 0;
-  while (start > -3) {
-    result = (start > 0 ? value.substr(start, 3) : value.substr(0, 3 + start))
-    + separators[idx] + result;
-    idx = (++idx) % 2;
-    start -= 3;
+    decimals = decimals >= 0 ? parseInt(decimals, 0) : 2;
+    separators = separators || [',', ",", '.'];
+    var number = (parseFloat(value) || 0).toFixed(decimals);
+    if (number.length <= (4 + decimals))
+        return number.replace('.', separators[separators.length - 1]);
+    var parts = number.split(/[-.]/);
+    value = parts[parts.length > 1 ? parts.length - 2 : 0];
+    var result = value.substr(value.length - 3, 3) + (parts.length > 1 ?
+        separators[separators.length - 1] + parts[parts.length - 1] : '');
+    var start = value.length - 6;
+    var idx = 0;
+    while (start > -3) {
+        result = (start > 0 ? value.substr(start, 3) : value.substr(0, 3 + start))
+            + separators[idx] + result;
+        idx = (++idx) % 2;
+        start -= 3;
+    }
+    return (parts.length == 3 ? '-' : '') + result;
+}
+
+function trunc (x, posiciones = 0) {
+  var s = x.toString()
+  var l = s.length
+  var decimalLength = s.indexOf('.') + 1
+
+  if (l - decimalLength <= posiciones){
+    return x
   }
-  return (parts.length == 3 ? '-' : '') + result;
-}  
+  // Parte decimal del número
+  var isNeg  = x < 0
+  var decimal =  x % 1
+  var entera  = isNeg ? Math.ceil(x) : Math.floor(x)
+  // Parte decimal como número entero
+  // Ejemplo: parte decimal = 0.77
+  // decimalFormated = 0.77 * (10^posiciones)
+  // si posiciones es 2 ==> 0.77 * 100
+  // si posiciones es 3 ==> 0.77 * 1000
+  var decimalFormated = Math.floor(
+    Math.abs(decimal) * Math.pow(10, posiciones)
+  )
+  // Sustraemos del número original la parte decimal
+  // y le sumamos la parte decimal que hemos formateado
+  var finalNum = entera + 
+    ((decimalFormated / Math.pow(10, posiciones))*(isNeg ? -1 : 1))
+  
+  return finalNum
+}
+
+function number_format(amount, decimals) {
+
+amount += ''; // por si pasan un numero en vez de un string
+amount = parseFloat(amount.replace(/[^0-9\.]/g, '')); // elimino cualquier cosa que no sea numero o punto
+
+decimals = decimals || 0; // por si la variable no fue fue pasada
+
+// si no es un numero o es igual a cero retorno el mismo cero
+if (isNaN(amount) || amount === 0) 
+  return parseFloat(0).toFixed(decimals);
+
+// si es mayor o menor que cero retorno el valor formateado como numero
+amount = '' + amount.toFixed(decimals);
+
+var amount_parts = amount.split('.'),
+regexp = /(\d+)(\d{3})/;
+
+while (regexp.test(amount_parts[0]))
+  amount_parts[0] = amount_parts[0].replace(regexp, '$1' + ',' + '$2');
+
+return amount_parts.join('.');
+}
+
 });

@@ -71,15 +71,16 @@ class Application_Model_DbTable_Tiposcajas extends Zend_Db_Table_Abstract
     public function selectproducto($clasificacion, $clasificacion2)
     {
 
-        $datos = $this->fetchAll(
-            $this->select()
-            ->where('id_estatus = ?', '1')
+        $select = $this->select()
+            //->where('id_estatus = ?', '1')
             ->where('Clasificacion = ?', $clasificacion)
-            ->where('Clasificacion2 = ?', $clasificacion2)
-        );
-
+            ->where('Clasificacion2 = ?', $clasificacion2);
+        $rowset = $this->fetchAll($select);
+                        //$consulta = $select->__toString();
+                        //echo $consulta;
+                        //exit();
         $UTF8 = new Application_Model_Utf8EncodeArray();
-        $tiposMovi = $UTF8->encode($datos);
+        $tiposMovi = $UTF8->encode($rowset);
 
         $response = new stdClass();
         $data = "";

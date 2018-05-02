@@ -1,9 +1,9 @@
 <?php
 class Application_Model_DbTable_DetalleOrdenProduccion extends Zend_Db_Table_Abstract
 {
-	protected $_name = 'detalle_ordenes_produccion';
+    protected $_name = 'detalle_ordenes_produccion';
 
-	public function addOrden($array, $OrdProduccion){
+    public function addOrden($array, $OrdProduccion){
 
         $db = Zend_Db_Table_Abstract::getDefaultAdapter();
 
@@ -51,7 +51,7 @@ class Application_Model_DbTable_DetalleOrdenProduccion extends Zend_Db_Table_Abs
 
     }
 
-    public function updateOrden($datos, $OrdProduccion){
+    public function updateOrden($datos){
 
         $Id = $datos['id_ordenproduccion'];
 

@@ -77,6 +77,8 @@
 				'med_suaje' => $_POST['med_suaje'],
 				'med_cito' => $_POST['med_cito'],
 				'tipo_desbarbe' => $_POST['tipo_desbarbe'],
+				'no_suaje' => $_POST['no_suaje'],
+				'pz_xhoja' => $_POST['pz_xhoja'],				
 				'tipo_pegado' => $_POST['tipo_pegado'],
 				'predoblado' => $_POST['predoblado'],
 				'clave_pegamento' => $_POST['clave_pegamento'],
@@ -175,7 +177,7 @@
 		}
 
 		public function activasAction(){		
-			$this->view->titulo="** Ordenes Activas **"; 
+			$this->view->titulo="** Ordenes en Producción **"; 
 		}        
 
 		public function canceladasAction(){		
@@ -398,6 +400,8 @@
 				'med_suaje' => $_POST['med_suaje'],
 				'med_cito' => $_POST['med_cito'],
 				'tipo_desbarbe' => $_POST['tipo_desbarbe'],
+				'no_suaje' => $_POST['no_suaje'],
+				'pz_xhoja' => $_POST['pz_xhoja'],
 				'tipo_pegado' => $_POST['tipo_pegado'],
 				'predoblado' => $_POST['predoblado'],
 				'clave_pegamento' => $_POST['clave_pegamento'],
@@ -458,10 +462,14 @@
 
 			);
 
-			$OrdenProd = new Application_Model_DbTable_DetalleOrdenProduccion();
-			$orden = $OrdenProd->updateOrden($datos, $OrdProduccion);
+			$detalleOrdenProd = new Application_Model_DbTable_DetalleOrdenProduccion();
+			$detalleOrden = $detalleOrdenProd->updateOrden($datos);
+
+			$OrdenProd = new Application_Model_DbTable_OrdenesProduccion();
+			$orden = $OrdenProd->updateOrden($OrdProduccion);			
 
 			echo Zend_Json::encode($orden);
+			echo Zend_Json::encode($detalleOrden);
 
 		}
 
@@ -529,7 +537,7 @@
 
 	public function esperadematerialAction(){
 		
-		$this->view->titulo="** En espera **";
+		$this->view->titulo="** Espera de material **";
 	}	
 
 		public function consultarenesperadematerialAction(){

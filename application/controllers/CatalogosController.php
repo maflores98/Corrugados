@@ -206,6 +206,17 @@ class CatalogosController extends Zend_Controller_Action{
 		echo Zend_Json::encode($insertar);
 	}
 
+    public function tiposdireccionAction()
+    {
+		$this->_helper->layout->disableLayout();
+		$this->_helper->viewRenderer->setNoRender();
+
+		$consulta = new Application_Model_DbTable_Clientes();
+		$consultar = $consulta->tiposdireccion();
+
+		echo Zend_Json::encode($consultar);	    	
+    }	
+
 ///////////////////////////////////////////////////////
 ///						PROVEEDORES					///
 ///////////////////////////////////////////////////////	

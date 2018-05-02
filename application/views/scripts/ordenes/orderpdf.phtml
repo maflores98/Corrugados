@@ -123,11 +123,11 @@ class PDF extends FPDF{
 		$this->Cell(40, 6,"valor", 1, 0,'C');
 		$this->Cell(10);
 		$this->Cell(40, 6,"Pzas. por hoja", 1, 0,'C');
-		$this->Cell(20, 6,"$data->med_cito", 1, 0,'C');
+		$this->Cell(20, 6,"$data->pz_xhoja", 1, 0,'C');
 		$this->Ln();
 		$this->Cell(130);
 		$this->Cell(40, 6,"No. Suaje", 1, 0,'C');
-		$this->Cell(20, 6,"$data->med_cito", 1, 0,'C');
+		$this->Cell(20, 6,"$data->no_suaje", 1, 0,'C');
 		$this->Ln(10);
 		$this->Cell(100);
 		$this->SetFont('Helvetica','B', 10);

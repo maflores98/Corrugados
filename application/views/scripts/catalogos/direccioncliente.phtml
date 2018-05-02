@@ -151,6 +151,16 @@ $.ajax({
           }
       });   
 
+$.ajax({
+	dataType: "json",
+	url: 'tiposdireccion',
+	async: false,
+          //type: "POST",
+          success: function(data){
+          	$('select[name="tipodireccion"]').append(data);
+          }
+      });  
+
 var idcliente = getParameterByName('ID');
 var cliente = getParameterByName('nombrecliente');
 

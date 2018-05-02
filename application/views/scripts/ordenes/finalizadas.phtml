@@ -1,7 +1,9 @@
 <div class="row">
 	<div class="col-md-9">
+		<button id="nuevaOrden" class="btn btn-primary">Nueva</button>
 		<button id="btn-recuperar" class="btn btn-primary">Recuperar</button>
-	</div>	
+		<a class="btn btn-primary" href="http://localhost/Corrugados/public/ordenes/orderpdf?Id=16" role="button" id="btn-imprimir" target="FormatoPDF">Imprimir</a>
+	</div>		
 	<div class="col-md-3"><h1><?php  echo $this->titulo; echo @$this->nombreCliente?></h1></div>
 </div>
 <div class="row">
@@ -28,6 +30,11 @@
 </div>
 
 <script>
+
+	$("#nuevaOrden").attr('disabled', false);
+	$("#btn-recuperar").attr('disabled', true);
+	$("#btn-imprimir").attr('disabled', true);
+
 	var ordFinalizadas = $('#ordFinalizadas').DataTable({
 		ajax:{
 			url: 'consultarfinalizadas'
@@ -44,26 +51,48 @@
 		{"className": "dt-body-left", "targets": [1]},
 		{"className": "dt-head-center", "targets": "_all"}
 		],	
-	//"info" : false,
-	"searching": true,
-	"paging":    false,
-	"scrollY":   '65vh',
-	"scrollX": true			
-});
+		"searching": true,
+		"paging":    false,
+		"scrollY":   '320px',
+		"scrollX": true			
+	});
 
 	$('#ordFinalizadas tbody').on( 'click', 'tr', function () {
 		if ( $(this).hasClass('selected') ) {
 			$(this).removeClass('selected');
+			$("#nuevaOrden").attr('disabled', false);
+			$("#btn-recuperar").attr('disabled', true);
+			$("#btn-imprimir").attr('disabled', true);
 		}
 		else {
 			ordFinalizadas.$('tr.selected').removeClass('selected');
 			$(this).addClass('selected');
+			$("#nuevaOrden").attr('disabled', true);
+			$("#btn-recuperar").attr('disabled', false);
+			$("#btn-imprimir").attr('disabled', false);
+
 		}
+
 		var id = $(this).find('td').eq(0).html();
-		alert(id);
-	});  	
+
+		$("#btn-recuperar").click(function(){
+
+			window.location.href = "show?ID="+id+"&Tipo=2";
+
+		});
+
+		$("a[id='btn-imprimir']").attr('href', 'orderpdf?Id='+id);
+
+		return false;
+
+	});
 
 	$("#nuevaOrden").click(function(){
-		window.location.href = "show";  		
+
+		window.location.href = "show?ID=0&Tipo=1";
+
 	});
+
+
+
 </script>

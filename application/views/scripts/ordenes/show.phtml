@@ -67,9 +67,36 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
   .right-ajust {
     padding-right: 0px;
   }
+
+  #datos-header{
+    background-color: #fff;
+    position: fixed;
+    //top:0;
+    right: 0;
+    bottom: 0;
+    text-align: right;
+    z-index:1030;
+  }
 </style>
 
 <form id="OrdenProduccion">
+
+<div class="row">
+  <div class="col-md-12" id="datos-header">
+    <div >
+      <button type="button" class="btn btn-default" id="btn-salir">Salir</button>
+      <button type="button" class="btn btn-primary" id="btn-guardar">Guardar</button>
+      <button type="button" class="btn btn-primary" id="btn-editar">Editar</button>
+      <button type="button" class="btn btn-primary" id="btn-liberar">Liberar</button>
+      <button type="button" class="btn btn-primary" id="btn-clonar">Clonar</button>
+      <button type="button" class="btn btn-primary" id="btn-editar2">Guardar</button>
+      <button type="button" class="btn btn-primary" id="btn-guardar2">Guardar</button>
+      <button type="button" class="btn btn-primary" id="btn-cancelar">Cancelar</button>
+      <a class="btn btn-primary" role="button" id="btn-imprimir" target="FormatoPDF">Imprimir</a>
+    </div>
+  </div>
+</div>
+
   <div class="row">
     <div class="col-md-3">
       <p class="Folio">Folio OP:
@@ -299,10 +326,10 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
                         <label>
                           <input type="radio" id="maq-plana" name="maquina_suajado" value="10" data-maquina="SUAJADORA PLANA" data-proceso="1">Plana</label>
                       </div>
-                      <div class="radio">
+                      <!--div class="radio">
                         <label>
                           <input type="radio" id="maq-plana" name="maquina_suajado" value="16" data-maquina="SUAJADORA DE RODILLO" data-proceso="1">De rodillo</label>
-                      </div>
+                      </div-->
 
                     </div>
                   </div>
@@ -329,26 +356,31 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
                   <div class="form-horizontal">
                     <div class="form-group">
                       <label for="tipo_desbarbe" class="col-md-6 control-label">Desbarbe:</label>
-                      <div class="col-md-6">
+                      <div class="checkbox">
+                        <label>
+                          <input type="checkbox" value="1" name="tipo_desbarbe" id="tipo_desbarbe">
+                        </label>
+                      </div>                      
+                      <!--div class="col-md-6">
                         <input type="text" class="form-control input-sm" id="tipo_desbarbe" name="tipo_desbarbe">
+                      </div-->
+                    </div>
+                  </div>
+
+                  <div class="form-horizontal">
+                    <div class="form-group">
+                      <label for="no_suaje" class="col-md-6 control-label">Nº suaje:</label>
+                      <div class="col-md-6">
+                        <input type="text" class="form-control input-sm" id="no_suaje" name="no_suaje">
                       </div>
                     </div>
                   </div>
 
                   <div class="form-horizontal">
                     <div class="form-group">
-                      <label for="tipo_desbarbe" class="col-md-6 control-label">Nº suaje:</label>
+                      <label for="pz_xhoja" class="col-md-6 control-label">Pzas. por hoja:</label>
                       <div class="col-md-6">
-                        <input type="text" class="form-control input-sm" id="tipo_desbarbe" name="tipo_desbarbe">
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="form-horizontal">
-                    <div class="form-group">
-                      <label for="tipo_desbarbe" class="col-md-6 control-label">Pzas. por hoja:</label>
-                      <div class="col-md-6">
-                        <input type="text" class="form-control input-sm" id="tipo_desbarbe" name="tipo_desbarbe">
+                        <input type="text" class="form-control input-sm" id="pz_xhoja" name="pz_xhoja">
                       </div>
                     </div>
                   </div>
@@ -925,7 +957,7 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
           </div>
         </div>
         <!--Botones-->
-        <div class="col-md-12">
+        <!--div class="col-md-12">
           <div class="panel panel-default">
             <h4 class="bs-titulo">
               <span>Opciones</span>
@@ -945,7 +977,7 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
               </div>
             </div>
           </div>
-        </div>
+        </div-->
       </div>
     </div>
   </div>
@@ -1119,6 +1151,7 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
     $('#btn-liberar').hide();
     $('#btn-clonar').hide();
     $('#btn-cancelar').hide();
+    $("#btn-imprimir").hide();
 
 
   }
@@ -1129,6 +1162,7 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
     $('#btn-editar2').hide();
     $('#btn-guardar2').hide();
     $('#btn-clonar').hide();
+    $("#btn-imprimir").show();
 
     var IdOrden = getParameterByName('ID');
 
@@ -1196,6 +1230,7 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
         $('input[name="selector_material"][value="' + response['selector_material'] + '"]').prop("checked", true);
         $('input[name="maquina_suajado"][value="' + response['maquina_suajado'] + '"]').prop("checked", true);
         $('input[name="tipo_pegado"][value="' + response['tipo_pegado'] + '"]').prop("checked", true);
+        $('input[name="tipo_desbarbe"][value="' + response['tipo_desbarbe'] + '"]').prop("checked", true);
         $('input[name="predoblado"][value="' + response['predoblado'] + '"]').prop("checked", true);
         $('input[name="pegado_con"][value="' + response['pegado_con'] + '"]').prop("checked", true);
         $('input[name="grapado"]').prop("checked", true);
@@ -1891,6 +1926,7 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
     var IdOrden = getParameterByName('ID');
 
     var ordenProduccion = $("#OrdenProduccion").serialize() + "&id_ordenproduccion=" + IdOrden;
+    console.log(ordenProduccion);
 
     $.ajax({
 
@@ -1957,6 +1993,9 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
     });
   });
 
+  $('#btn-imprimir').on('click',function(){
+    $("a[id='btn-imprimir']").attr('href', 'orderpdf?Id='+IdOrden);
+  });
 
   $("#btn-salir").click(function () {
     window.location.href = "activas";

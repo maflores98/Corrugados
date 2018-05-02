@@ -342,4 +342,21 @@ class Application_Model_DbTable_Clientes extends Zend_Db_Table_Abstract
         return $response;
     }      
 
+      public function tiposdireccion(){
+        $db = Zend_Db_Table_Abstract::getDefaultAdapter();
+        $select = $db ->select()
+        ->from('tipos_direcciones');
+        $sql = $db->query($select);
+        $rows = $sql->fetchAll();
+        
+      $response = new stdClass();        
+       $data = "";
+       foreach ($rows as $row) {
+           $data .= '<option value="'.$row['id_direccion'].'" data-descripcion="'.$row['descripcion'].'">'.$row['descripcion'].'</option>';                            
+       }
+
+        $response = $data;
+        return $data;
+    }    
+
 }

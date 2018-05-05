@@ -252,9 +252,9 @@ $('input[name="selector_material"]:radio').click(function(){
 });
 
 $('#med_frente' ).keyup(function() {
- $.medidas();
- if( $("#caja").prop("checked", true) )
- {
+$.medidas();
+if( $("#caja").prop("checked", true) )
+{
   $.medidascaja();
 }
 });
@@ -291,22 +291,22 @@ $("#med_ancho").keyup(function(){
 $('input[name="tipo_medida"]').click(function() {
   if( $(this).val() == 1 )
   {
-    $("#med_ancho").attr("disabled", true);
-    $("#med_largo").attr("disabled", true);
-    $("#med_frente").attr("disabled", false);
-    $("#med_fondo").attr("disabled", false);
-    $("#med_alto").attr("disabled", false);
+    //$("#med_ancho").attr("disabled", true);
+    //$("#med_largo").attr("disabled", true);
+    //$("#med_frente").attr("disabled", false);
+    //$("#med_fondo").attr("disabled", false);
+    //$("#med_alto").attr("disabled", false);
     $.medidascaja();
     $.costocarton();
     $.total_material();
   }  
   else if( $(this).val() == 2 )
   {
-    $("#med_frente").attr("disabled", true);
-    $("#med_fondo").attr("disabled", true);
-    $("#med_alto").attr("disabled", true);
-    $("#med_ancho").attr("disabled", false);
-    $("#med_largo").attr("disabled", false); 
+    //$("#med_frente").attr("disabled", true);
+    //$("#med_fondo").attr("disabled", true);
+    //$("#med_alto").attr("disabled", true);
+    //$("#med_ancho").attr("disabled", false);
+    //$("#med_largo").attr("disabled", false); 
     $.medidascarton();
     $.costocarton(); 
     $.total_material();  
@@ -344,9 +344,9 @@ $("#no_tintas").bind('keyup mouseup',function(){
         $("#t3_ancho").val("");    
         $("#t4_ancho").val("");
 
-        $("#t2_res").html("0");    
-        $("#t3_res").html("0");    
-        $("#t4_res").html("0");
+        $("#t2_res").val("0");    
+        $("#t3_res").val("0");    
+        $("#t4_res").val("0");
         $.totaltinta();               
         $.costo_tinta();
         $.costo_cirel();
@@ -368,8 +368,8 @@ $("#no_tintas").bind('keyup mouseup',function(){
         $("#t3_ancho").val("");    
         $("#t4_ancho").val("");
 
-        $("#t3_res").html("0");    
-        $("#t4_res").html("0");        
+        $("#t3_res").val("0");    
+        $("#t4_res").val("0");        
         $.totaltinta();             
         $.costo_tinta();
         $.costo_cirel();
@@ -389,7 +389,7 @@ $("#no_tintas").bind('keyup mouseup',function(){
         $("#t4_largo").val("");
         $("#t4_ancho").val("");
 
-        $("#t4_res").html("0");
+        $("#t4_res").val("0");
         $.totaltinta();                                
         $.costo_tinta();
         $.costo_cirel();
@@ -413,7 +413,7 @@ $("#no_tintas").bind('keyup mouseup',function(){
 });
 
 $("#t1_largo").keyup(function(){
-  $("#t1_res").html( $("#t1_largo").val() * $("#t1_ancho").val() );
+  $("#t1_res").val( $("#t1_largo").val() * $("#t1_ancho").val() );
   $.totaltinta();
   $.costo_tinta();
   $.costo_cirel();
@@ -421,7 +421,7 @@ $("#t1_largo").keyup(function(){
 });
 
 $("#t1_ancho").keyup(function(){
-  $("#t1_res").html( $("#t1_ancho").val() * $("#t1_largo").val() );
+  $("#t1_res").val( $("#t1_ancho").val() * $("#t1_largo").val() );
   $.totaltinta();
   $.costo_tinta();
   $.costo_cirel();
@@ -429,7 +429,7 @@ $("#t1_ancho").keyup(function(){
 });
 
 $("#t2_largo").keyup(function(){
-  $("#t2_res").html( $("#t2_largo").val() * $("#t2_ancho").val() );
+  $("#t2_res").val( $("#t2_largo").val() * $("#t2_ancho").val() );
   $.totaltinta();
   $.costo_tinta();
   $.costo_cirel();
@@ -437,7 +437,7 @@ $("#t2_largo").keyup(function(){
 });
 
 $("#t2_ancho").keyup(function(){
-  $("#t2_res").html( $("#t2_ancho").val() * $("#t2_largo").val() );
+  $("#t2_res").val( $("#t2_ancho").val() * $("#t2_largo").val() );
   $.totaltinta();
   $.costo_tinta();
   $.costo_cirel();
@@ -445,7 +445,7 @@ $("#t2_ancho").keyup(function(){
 });
 
 $("#t3_largo").keyup(function(){
-  $("#t3_res").html( $("#t3_largo").val() * $("#t3_ancho").val() );
+  $("#t3_res").val( $("#t3_largo").val() * $("#t3_ancho").val() );
   $.totaltinta();
   $.costo_tinta();
   $.costo_cirel();
@@ -453,7 +453,7 @@ $("#t3_largo").keyup(function(){
 });
 
 $("#t3_ancho").keyup(function(){
-  $("#t3_res").html( $("#t3_ancho").val() * $("#t3_largo").val() );
+  $("#t3_res").val( $("#t3_ancho").val() * $("#t3_largo").val() );
   $.totaltinta();
   $.costo_tinta();
   $.costo_cirel();
@@ -461,7 +461,7 @@ $("#t3_ancho").keyup(function(){
 });
 
 $("#t4_largo").keyup(function(){
-  $("#t4_res").html( $("#t4_largo").val() * $("#t4_ancho").val() );
+  $("#t4_res").val( $("#t4_largo").val() * $("#t4_ancho").val() );
   $.totaltinta();
   $.costo_tinta();
   $.costo_cirel();
@@ -469,7 +469,7 @@ $("#t4_largo").keyup(function(){
 });
 
 $("#t4_ancho").keyup(function(){
-  $("#t4_res").html( $("#t4_ancho").val() * $("#t4_largo").val() );
+  $("#t4_res").val( $("#t4_ancho").val() * $("#t4_largo").val() );
   $.totaltinta();
   $.costo_tinta();
   $.costo_cirel();

@@ -235,6 +235,11 @@
         $this->view->titulo="** Cotizador de Cartón 2**";
     }    
 
+    public function carton3Action(){
+        
+        $this->view->titulo="** Cotizador de Cartón 3**";
+    }   
+
         public function buscaclientesAction(){
 
             $this->_helper->layout->disableLayout();

@@ -53,9 +53,9 @@ $.margen = function()
 
 $.totaltinta = function(){
   //$("#t"+t+"_res").html( $("#t"+t+"_largo").val() * $("#t"+t+"_ancho").val() );
-  $("#total_tinta").html( parseFloat($("#t1_res").html()) + parseFloat($("#t2_res").html()) + parseFloat($("#t3_res").html()) + parseFloat($("#t4_res").html()) +parseFloat( $("#t4_res").html()) );
-  consumo_tinta = (parseFloat( $("#cant_requerida").val() ) * parseFloat( $("#total_tinta").text() ) * factor_tinta);
-  $("#consumo_tinta").html( currency(consumo_tinta,4) );    
+  $("#total_tinta").val( parseFloat($("#t1_res").val()) + parseFloat($("#t2_res").val()) + parseFloat($("#t3_res").val()) + parseFloat($("#t4_res").val()) +parseFloat( $("#t4_res").val()) );
+  consumo_tinta = (parseFloat( $("#cant_requerida").val() ) * parseFloat( $("#total_tinta").val() ) * factor_tinta);
+  $("#consumo_tinta").val( currency(consumo_tinta,4) );    
 }
 
 $.impresion = function()
@@ -251,7 +251,6 @@ $.suajado = function()
 
 $.flejado = function()
 {
-  $("#flejado_merma").html('0');
   if($("#cant_requerida").val() <= 1000)
   {
     $("#flejado_arreglo").html('0');
@@ -272,7 +271,6 @@ $.flejado = function()
 
 $.entarimado = function()
 {
-  $("#entarimado_merma").html('0');
   if($("#cant_requerida").val() <= 1000)
   {
     $("#entarimado_arreglo").html('0');
@@ -307,13 +305,13 @@ $.total_merma = function()
 $.total_arreglo = function()
 {
   var total_arreglo = parseFloat($("#imp_arreglo").text()) + parseFloat($("#rayado_arreglo").text()) + parseFloat($("#caiman_arreglo").text()) + parseFloat($("#grapado_arreglo").text()) + parseFloat($("#flejado_arreglo").text()) + parseFloat($("#refilado_arreglo").text()) + parseFloat($("#flexo_arreglo").text()) + parseFloat($("#pegado_arreglo").text()) + parseFloat($("#suajado_arreglo").text()) + parseFloat($("#entarimado_arreglo").text());
-  $("#total_arreglo").html(total_arreglo);  
+  $("#total_arreglo").html(currency(total_arreglo,2));  
 }
 
 $.total_tiro = function()
 {
   var total_tiro = parseFloat($("#imp_tiro").text()) + parseFloat($("#rayado_tiro").text()) + parseFloat($("#caiman_tiro").text()) + parseFloat($("#grapado_tiro").text()) + parseFloat($("#flejado_tiro").text()) + parseFloat($("#refilado_tiro").text()) + parseFloat($("#flexo_tiro").text()) + parseFloat($("#pegado_tiro").text()) + parseFloat($("#suajado_tiro").text()) + parseFloat($("#entarimado_tiro").text());
-  $("#total_tiro").html(total_tiro);  
+  $("#total_tiro").html(currency(total_tiro,2));  
 }
 
 $.total_cunit = function()
@@ -333,7 +331,7 @@ $.costo_tinta = function()
   var costotinta = 50;
   if($("#articulo").val() == "CAJAS CON IMPRESION")
   {
-    var costo_tinta = parseFloat( $("#consumo_tinta").text().replace(/,/gi,'')) * costotinta;
+    var costo_tinta = parseFloat( $("#consumo_tinta").val().replace(/,/gi,'')) * costotinta;
     $("#costo_tinta").html(currency(costo_tinta,2));
   }
   else
@@ -347,7 +345,7 @@ $.costo_cirel = function()
   var costocirel = 0.50;
   if( $("#articulo").val() == "CAJAS CON IMPRESION")
   {
-    var costo_cirel = parseFloat( $("#total_tinta").text().replace(/,/gi,'') ) * parseFloat(costocirel);
+    var costo_cirel = parseFloat( $("#total_tinta").val().replace(/,/gi,'') ) * parseFloat(costocirel);
     $("#costo_cirel").html(currency(costo_cirel,2));
   }
   else

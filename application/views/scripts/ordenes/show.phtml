@@ -1177,9 +1177,11 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
 
         var emision = data['fecha_emision'];
         emision = emision.split(" ");
+        alert(emision);
 
         var requerida = data['fecha_requeridaentrega'];
         requerida = requerida.split(" ");
+        alert(requerida);
 
         $('input').attr('readonly', true);
         $('input:radio').attr('disabled', true);
@@ -1199,6 +1201,9 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
         $('textarea[name="notas"]').val(data['notas']);
 
         $('#id_cliente').selectpicker('refresh');
+
+        $('#nombre_proveedor').selectpicker('val', data['id_proveedor']);
+        $('#nombre_proveedor').selectpicker('refresh');         
 
       }
     });
@@ -1220,9 +1225,77 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
 
         selTamanoCarton(response['carton']);
 
-        $.each(response, function (index, value) {
-          $('input[name="' + index + '"]').val(value);
-        });
+        //$.each(response, function (index, value) {
+        //  $('input[name="' + index + '"]').val(value);
+        //});
+
+        $('input[name=id_partida]').val(response['id_partida']);
+        $('input[name=id_ordenproduccion]').val(response['id_ordenproduccion']);
+        $('input[name=cant_requerida]').val(response['cant_requerida']);
+        $('input[name=cant_cmerma]').val(response['cant_cmerma']);
+        $('input[name=id_material]').val(response['id_material']);
+        $('input[name=med_frente]').val(response['med_frente']);
+        $('input[name=med_fondo]').val(response['med_fondo']);
+        $('input[name=med_alto]').val(response['med_alto']);
+        $('input[name=med_largo]').val(response['med_largo']);
+        $('input[name=med_ancho]').val(response['med_ancho']);
+        $('input[name=med_ext_largo]').val(response['med_ext_largo']);
+        $('input[name=med_ext_ancho]').val(response['med_ext_ancho']);
+        $('input[name=largo_tinta1]').val(response['largo_tinta1']);
+        $('input[name=ancho_tinta1]').val(response['ancho_tinta1']);
+        $('input[name=largo_tinta2]').val(response['largo_tinta2']);
+        $('input[name=ancho_tinta2]').val(response['ancho_tinta2']);
+        $('input[name=largo_tinta3]').val(response['largo_tinta3']);
+        $('input[name=ancho_tinta3]').val(response['ancho_tinta3']);
+        $('input[name=largo_tinta4]').val(response['largo_tinta4']);
+        $('input[name=ancho_tinta4]').val(response['ancho_tinta4']);
+        $('input[name=color_tinta1]').val(response['color_tinta1']);
+        $('input[name=color_tinta2]').val(response['color_tinta2']);
+        $('input[name=color_tinta3]').val(response['color_tinta3']);
+        $('input[name=color_tinta4]').val(response['color_tinta4']);
+        $('input[name=med_suaje]').val(response['med_suaje']);
+        $('input[name=med_cito]').val(response['med_cito']);
+        $('input[name=clave_pegamento]').val(response['clave_pegamento']);
+        $('input[name=num_grapas]').val(response['num_grapas']);
+        $('input[name=num_ligas]').val(response['num_ligas']);
+        $('input[name=num_fajillas]').val(response['num_fajillas']);
+        $('input[name=granel]').val(response['granel']);
+        $('input[name=cant_xpaquete]').val(response['cant_xpaquete']);
+        $('input[name=cant_xcorrugado]').val(response['cant_xcorrugado']);
+        $('input[name=cant_xtarima]').val(response['cant_xtarima']);
+        $('input[name=impresion]').val(response['impresion']);
+        $('input[name=rayado]').val(response['rayado']);
+        $('input[name=flexo]').val(response['flexo']);
+        $('input[name=caiman]').val(response['caiman']);
+        $('input[name=pegado]').val(response['pegado']);
+        $('input[name=suajado]').val(response['suajado']);
+        $('input[name=cant_flejado]').val(response['cant_flejado']);
+        $('input[name=entarimado]').val(response['entarimado']);
+        $('select[name="id_direccionentrega"]>option[value="' + response['id_direccionentrega'] + '"]').attr("selected", true);
+        $('input[name=id_camion1]').val(response['id_camion1']);
+        $('input[name=id_camion2]').val(response['id_camion2']);
+        $('input[name=id_camion3]').val(response['id_camion3']);
+        $('input[name=cantidad_envio1]').val(response['cantidad_envio1']);
+        $('input[name=cantidad_envio2]').val(response['cantidad_envio2']);
+        $('input[name=cantidad_envio3]').val(response['cantidad_envio3']);
+        $('input[name=cant_parc1]').val(response['cant_parc1']);
+        $('input[name=cant_parc2]').val(response['cant_parc2']);
+        $('input[name=cant_parc3]').val(response['cant_parc3']);
+        $('input[name=cant_parc4]').val(response['cant_parc4']);
+        $('input[name=cant_parc5]').val(response['cant_parc5']);
+        $('input[name=cant_parc6]').val(response['cant_parc6']);
+        $('input[name=cant_parc7]').val(response['cant_parc7']);
+        $('input[name=cant_parc8]').val(response['cant_parc8']);
+        $('input[name=fec_parc1]').val(response['fec_parc1']);
+        $('input[name=fec_parc2]').val(response['fec_parc2']);
+        $('input[name=fec_parc3]').val(response['fec_parc3']);
+        $('input[name=fec_parc4]').val(response['fec_parc4']);
+        $('input[name=fec_parc5]').val(response['fec_parc5']);
+        $('input[name=fec_parc6]').val(response['fec_parc6']);
+        $('input[name=fec_parc7]').val(response['fec_parc7']);
+        $('input[name=fec_parc8]').val(response['fec_parc8']);
+        $('input[name=no_suaje]').val(response['no_suaje']);
+        $('input[name=pz_xhoja]').val(response['pz_xhoja']);
 
         $('input[name="tipo_medida"][value="' + response['tipo_medida'] + '"]').prop("checked", true);
         $('input[id="med_requerido"]').val(response['med_largo'] + " x " + response['med_ancho']);
@@ -1327,7 +1400,7 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
 
 
 
-  })
+  });
 
   $('select[name="articulo"]').change(function () {
 
@@ -2086,7 +2159,7 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
 
   $('#id_cliente.selectpicker').on('change', function () {
     var selected = $('#id_cliente option:selected').val();
-    alert(selected);
+    //alert(selected);
     buscaDireccion(selected);
   });
 

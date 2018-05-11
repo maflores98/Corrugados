@@ -36,7 +36,8 @@
 				'fecha_ultactualizacion' => $_POST['fecha_ultactualizacion'], 
 				'id_estatusorden' => 1, 
 				'tipo_orden' => $_POST['tipo_orden'], 
-				'notas' => $_POST['notas']
+				'notas' => $_POST['notas'],
+				'id_proveedor' => $_POST['nombre_proveedor']
 
 			);
 
@@ -358,7 +359,8 @@
 				'id_cotizacion' => $_POST['id_cotizacion'],
 				'fecha_requeridaentrega' => $_POST['fecha_requeridaentrega'],
 				'id_estatusorden' => 1,
-				'notas' => $_POST['notas']
+				'notas' => $_POST['notas'],
+				'id_proveedor' => $_POST['nombre_proveedor']
 
 			);
 

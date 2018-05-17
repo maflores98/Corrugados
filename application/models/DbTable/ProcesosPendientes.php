@@ -74,7 +74,8 @@ class Application_Model_DbTable_ProcesosPendientes extends Zend_Db_Table_Abstrac
        "id_proceso"=>$row["id_proceso"],
        "nombre_proceso"=>$row["nombre_proceso"],
        "cant_requerida"=>$row["cant_requerida"],
-       "fechahora_registro"=>$row["fechahora_registro"]
+       "fechahora_registro"=>$row["fechahora_registro"],
+       "situacion"=>$row["situacion"]
      );
    }
 
@@ -170,6 +171,7 @@ class Application_Model_DbTable_ProcesosPendientes extends Zend_Db_Table_Abstrac
       "nombre_proceso"=>$copiardedetalle[0]["nombre_proceso"],
       "cant_requerida"=>$copiardedetalle[0]["cant_requerida"],
       "fechahora_registro"=>$copiardedetalle[0]["fechahora_registro"],
+      "situacion"=>$copiardedetalle[0]["situacion"]
       ));
 
         $db = Zend_Db_Table_Abstract::getDefaultAdapter();

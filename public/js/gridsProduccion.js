@@ -961,7 +961,8 @@ $("#guardar").click(function()
 								cantidadok:cantidadok,
 								cantidadmerma:cantidadmerma,
 								notas:notas,
-								parcial:parcial
+								parcial:parcial,
+								situacion:"PRODUCCION"
 							},
 							function(result)
 							{
@@ -1079,7 +1080,8 @@ $("#guardar").click(function()
 								cantidadok:cantidadok,
 								cantidadmerma:cantidadmerma,
 								notas:notas,
-								parcial:parcial
+								parcial:parcial,
+								situacion:"PRODUCCION"
 							},
 							function(result)
 							{
@@ -1281,7 +1283,8 @@ $("#guardar").click(function()
 								cantidadok:cantidadok,
 								cantidadmerma:cantidadmerma,
 								notas:notas,
-								parcial:parcial
+								parcial:parcial,
+								situacion:"PRODUCCION"
 							},
 							function(result)
 							{

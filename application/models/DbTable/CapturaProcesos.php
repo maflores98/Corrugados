@@ -65,7 +65,8 @@ class Application_Model_DbTable_CapturaProcesos extends Zend_Db_Table_Abstract
 									"id_proceso"=>$copiardependientes[0]["id_proceso"],
 									"nombre_proceso"=>$copiardependientes[0]["nombre_proceso"],
 									"cant_requerida"=>$copiardependientes[0]["cant_requerida"],
-									"fechahora_registro"=>$copiardependientes[0]["fechahora_registro"]
+									"fechahora_registro"=>$copiardependientes[0]["fechahora_registro"],
+									"situacion"=>$copiardependientes[0]["situacion"]
 									));
 
         $db = Zend_Db_Table_Abstract::getDefaultAdapter();
@@ -104,7 +105,8 @@ class Application_Model_DbTable_CapturaProcesos extends Zend_Db_Table_Abstract
 				"nombre_operador" => $row["nombre_operador"],
 				"cant_requerida"=>$row["cant_requerida"],
 				"fechahora_registro"=>$row["fechahora_registro"],
-				"fechahora_inicio" => $row["fechahora_inicio"]
+				"fechahora_inicio" => $row["fechahora_inicio"],
+				"situacion"=>$row["situacion"]
 				); 
 		}
 
@@ -172,7 +174,8 @@ class Application_Model_DbTable_CapturaProcesos extends Zend_Db_Table_Abstract
 									"id_operador"=>$copiardedetalle[0]["id_operador"],
 									"nombre_operador"=>$copiardedetalle[0]["nombre_operador"],									
 									"cant_requerida"=>$copiardedetalle[0]["cant_requerida"],
-									"fechahora_registro"=>$copiardedetalle[0]["fechahora_registro"]
+									"fechahora_registro"=>$copiardedetalle[0]["fechahora_registro"],
+									"situacion"=>$copiardedetalle[0]["situacion"]
 									));
 
         $db = Zend_Db_Table_Abstract::getDefaultAdapter();

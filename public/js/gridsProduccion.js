@@ -256,8 +256,8 @@ $("#ajusteempalmadora").click(function(){
 		$("#ajusteempalmadora").attr("disabled", false);
 	} else {		
 		$("#ajusteempalmadora").attr("disabled", true);
-		$("#pegadocajas").attr("disabled", false);
-		//idproceso = this.value;
+		$("#empalme").attr("disabled", false);
+		idproceso = this.value;
 		proceso = "AJUSTE EMPALMADORA";
 	}
 });
@@ -980,7 +980,7 @@ $("#guardar").click(function()
 														{			
 														  if(proceso == "AJUSTE EMPALMADORA")
 														  {												  	
-														  	idproceso = $("#ranurado").val();						      	
+														  	idproceso = $("#empalme").val();						      	
 														  	proceso = "EMPALME";
 														  }	
 														  if(proceso == "AJUSTE CAIMAN")
@@ -1100,8 +1100,8 @@ $("#guardar").click(function()
 															id_proceso = result.id_proceso;
 														  if(proceso == "AJUSTE EMPALMADORA")
 														  {
-														  	$("#ranurado").attr("disabled", true);
-														  	idproceso = $("#ranurado").val();						      	
+														  	$("#empalme").attr("disabled", true);
+														  	idproceso = $("#empalme").val();						      	
 														  	proceso = "EMPALME";
 														  }	
 														  if(proceso == "AJUSTE CAIMAN")
@@ -1339,7 +1339,8 @@ $("#guardar").click(function()
 								cantidadok:cantidadok,
 								cantidadmerma:cantidadmerma,
 								notas:notas,
-								parcial:parcial
+								parcial:parcial,
+								situacion:"PRODUCCION"
 							},
 							function(result)
 							{

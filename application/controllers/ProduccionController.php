@@ -387,4 +387,16 @@ class ProduccionController extends Zend_Controller_Action
 		echo Zend_Json::encode($eliminar);
 	}	
 
+	public function validarenprocesoAction(){
+		$this->_helper->layout->disableLayout();
+		$this->_helper->viewRenderer->setNoRender();
+
+		$vista = $_REQUEST['vista'];
+
+		$existe = new Application_Model_DbTable_CapturaProcesos();
+		$existen = $existe->validarenproceso($vista);
+
+		echo Zend_Json::encode($existen);		
+	}	
+
 }

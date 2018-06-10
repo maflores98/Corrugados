@@ -1,7 +1,6 @@
 <?php
 
 require('Zend/FPDF/fpdf.php');
-
 $data = $this->data;
 
 class PDF extends FPDF{
@@ -284,7 +283,12 @@ class PDF extends FPDF{
 		$this->SetFont('Helvetica','', 9);
 		$this->Ln();
 		$this->MultiCell(0, 6, "$data->notas", 1);
+		//$this->Ln();
+
+		$this->SetFont('Helvetica','', 11);
+		$this->Cell(0, 6, "Usuario: " . utf8_decode($data->usuario),0,0,'R');
 		$this->Ln();
+		$this->Cell(0, 6, "Fecha de Registro: " . utf8_decode($data->fecha_emision),0,0,'R');		
 
 	}
 

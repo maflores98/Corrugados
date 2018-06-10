@@ -155,7 +155,7 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
         <div class="form-group">
           <label for="fecha_emision" class="col-md-6 control-label">Fecha registro:</label>
           <div class="col-md-6">
-            <input type="date" class="form-control input-sm date-cls" id="fecha_emision" name="fecha_emision" value="<?php echo date("Y-m-d");?>" readonly>
+            <input type="datetime-local" class="form-control input-sm date-cls" id="fecha_emision" name="fecha_emision" readonly>
           </div>
         </div>
       </div>
@@ -984,6 +984,7 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
 </form>
 
 <script type="text/javascript">
+
   function getParameterByName(name, url) {
     if (!url) url = window.location.href;
     name = name.replace(/[\[\]]/g, "\\$&");
@@ -1153,6 +1154,8 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
     $('#btn-cancelar').hide();
     $("#btn-imprimir").hide();
 
+    d = new Date();
+    $('#fecha_emision').val(d.getFullYear()+"-"+zeroPadded(d.getMonth() + 1)+"-"+zeroPadded(d.getDate())+"T"+zeroPadded(d.getHours())+":"+zeroPadded(d.getMinutes())+":"+zeroPadded(d.getSeconds()));
 
   }
 
@@ -1177,11 +1180,9 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
 
         var emision = data['fecha_emision'];
         emision = emision.split(" ");
-        alert(emision);
 
         var requerida = data['fecha_requeridaentrega'];
         requerida = requerida.split(" ");
-        alert(requerida);
 
         $('input').attr('readonly', true);
         $('input:radio').attr('disabled', true);
@@ -1195,6 +1196,11 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
           $('input[name="' + index + '"]').val(value);
         });
 
+        d = new Date(data['fecha_emision']);
+        $('#fecha_emision').val(d.getFullYear()+"-"+zeroPadded(d.getMonth() + 1)+"-"+zeroPadded(d.getDate())+"T"+zeroPadded(d.getHours())+":"+zeroPadded(d.getMinutes())+":"+zeroPadded(d.getSeconds()));
+
+        //d2 = new Date(data['fecha_requeridaentrega']);
+        //$('#fecha_requeridaentrega').val(d2.getFullYear()+"-"+zeroPadded(d2.getMonth() + 1)+"-"+zeroPadded(d2.getDate()));        
         $('.num_folio').text(data['id_ordenproduccion']);
 
         $('#id_cliente').selectpicker('val', data['id_cliente']);
@@ -1286,14 +1292,31 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
         $('input[name=cant_parc6]').val(response['cant_parc6']);
         $('input[name=cant_parc7]').val(response['cant_parc7']);
         $('input[name=cant_parc8]').val(response['cant_parc8']);
-        $('input[name=fec_parc1]').val(response['fec_parc1']);
-        $('input[name=fec_parc2]').val(response['fec_parc2']);
-        $('input[name=fec_parc3]').val(response['fec_parc3']);
-        $('input[name=fec_parc4]').val(response['fec_parc4']);
-        $('input[name=fec_parc5]').val(response['fec_parc5']);
-        $('input[name=fec_parc6]').val(response['fec_parc6']);
-        $('input[name=fec_parc7]').val(response['fec_parc7']);
-        $('input[name=fec_parc8]').val(response['fec_parc8']);
+
+        fec_parc1 = new Date(response['fecha_requeridaentrega']);
+         $('input[name=fec_parc1]').val(fec_parc1.getFullYear()+"-"+zeroPadded(fec_parc1.getMonth() + 1)+"-"+zeroPadded(fec_parc1.getDate()));
+
+        fec_parc2 = new Date(response['fecha_requeridaentrega']);
+        $('input[name=fec_parc2]').val(fec_parc2.getFullYear()+"-"+zeroPadded(fec_parc2.getMonth() + 1)+"-"+zeroPadded(fec_parc2.getDate()));
+
+        fec_parc3 = new Date(response['fecha_requeridaentrega']);
+        $('input[name=fec_parc3]').val(fec_parc3.getFullYear()+"-"+zeroPadded(fec_parc3.getMonth() + 1)+"-"+zeroPadded(fec_parc3.getDate()));
+        
+        fec_parc4 = new Date(response['fecha_requeridaentrega']);
+        $('input[name=fec_parc4]').val(fec_parc4.getFullYear()+"-"+zeroPadded(fec_parc4.getMonth() + 1)+"-"+zeroPadded(fec_parc4.getDate()));
+        
+        fec_parc5 = new Date(response['fecha_requeridaentrega']);
+        $('input[name=fec_parc5]').val(fec_parc5.getFullYear()+"-"+zeroPadded(fec_parc5.getMonth() + 1)+"-"+zeroPadded(fec_parc5.getDate()));
+        
+        fec_parc6 = new Date(response['fecha_requeridaentrega']);
+        $('input[name=fec_parc6]').val(fec_parc6.getFullYear()+"-"+zeroPadded(fec_parc6.getMonth() + 1)+"-"+zeroPadded(fec_parc6.getDate()));
+
+        fec_parc7 = new Date(response['fecha_requeridaentrega']);
+        $('input[name=fec_parc7]').val(fec_parc7.getFullYear()+"-"+zeroPadded(fec_parc7.getMonth() + 1)+"-"+zeroPadded(fec_parc7.getDate()));
+        
+        fec_parc8 = new Date(response['fecha_requeridaentrega']);
+        $('input[name=fec_parc8]').val(fec_parc8.getFullYear()+"-"+zeroPadded(fec_parc8.getMonth() + 1)+"-"+zeroPadded(fec_parc8.getDate()));
+
         $('input[name=no_suaje]').val(response['no_suaje']);
         $('input[name=pz_xhoja]').val(response['pz_xhoja']);
 
@@ -2177,5 +2200,12 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
       }
     });
   }
+
+function zeroPadded(val) {
+  if (val >= 10)
+    return val;
+  else
+    return '0' + val;
+}  
 
 </script>

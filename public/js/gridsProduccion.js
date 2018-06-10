@@ -777,65 +777,77 @@ $("#inicio").click(function()
 	else 
 	{
 		//validaAjustes();
-
-		$.post('copiarprocesoacaptura', {id_pendiente:id_pendiente},
-			function(data)
+		$.post('validarenproceso', {vista:vista},
+			function(result)
 			{
-				if (data.validacion == true) 
+				if (result.validacion == 'false') 
 				{
-					id_proceso = data.id_proceso;
-					$.post('iniciarajuste', 
-						{
-							id_proceso:id_proceso,
-							idmaquina:idmaquina,
-							maquina:maquina,
-							idproceso:idproceso,
-							proceso:proceso,
-							idoperador:idoperador,
-							nombreoperador:nombreoperador
-						},
+					$.post('copiarprocesoacaptura', {id_pendiente:id_pendiente},
 						function(data)
 						{
-							if (data.validacion==true) 
+							if (data.validacion == true) 
 							{
-								$.post('eliminarprocesoenpendiente', {id_pendiente:id_pendiente},
-									function(result)
+								id_proceso = data.id_proceso;
+								$.post('iniciarajuste', 
 									{
-										if (result.validacion == true) 
+										id_proceso:id_proceso,
+										idmaquina:idmaquina,
+										maquina:maquina,
+										idproceso:idproceso,
+										proceso:proceso,
+										idoperador:idoperador,
+										nombreoperador:nombreoperador
+									},
+									function(data)
+									{
+										if (data.validacion==true) 
 										{
-											inicio();
-											$("#inicio").attr("disabled", true);
-											$("#orden").attr("disabled", true);
-											//$("#operador").attr("disabled", true);
-											$("#inicio").attr("disabled",true);
-											//swal("Correcto","success");
-											idinicio = 1;
-											var strDate = new Date();
-											horainicio = strDate.getFullYear() + "-" + (strDate.getMonth()+1) + "-" + strDate.getDate() + " " + strDate.getHours() + ":" + strDate.getMinutes() + ":" + strDate.getSeconds();
-											$("#horainicio").val(horainicio);
-											enProceso.ajax.reload();
-											enPendiente.ajax.reload();
+											$.post('eliminarprocesoenpendiente', {id_pendiente:id_pendiente},
+												function(result)
+												{
+													if (result.validacion == true) 
+													{
+														inicio();
+														$("#inicio").attr("disabled", true);
+														$("#orden").attr("disabled", true);
+														//$("#operador").attr("disabled", true);
+														$("#inicio").attr("disabled",true);
+														//swal("Correcto","success");
+														idinicio = 1;
+														var strDate = new Date();
+														horainicio = strDate.getFullYear() + "-" + (strDate.getMonth()+1) + "-" + strDate.getDate() + " " + strDate.getHours() + ":" + strDate.getMinutes() + ":" + strDate.getSeconds();
+														$("#horainicio").val(horainicio);
+														enProceso.ajax.reload();
+														enPendiente.ajax.reload();
+													}
+													else
+													{        
+													swal("Error","error");  
+													}         
+												},'json'
+											);								
 										}
 										else
 										{        
-										swal("Error","error");  
-										}         
+											swal("Error","error");  
+										}
 									},'json'
-								);								
+								);																								
 							}
 							else
 							{        
 								swal("Error","error");  
-							}
+							}  		
 						},'json'
-					);																								
+					);
 				}
 				else
-				{        
-					swal("Error","error");  
-				}  		
+				{
+					swal("Alto","Existe un proceso en ejecución","");
+					limpiar();
+				}			
 			},'json'
-		);			
+		);
 	}
 });
 
@@ -1449,6 +1461,7 @@ $("input[type=text]").val("");
 $("button[type=button]").attr("disabled",false);
 $("#operador").attr("disabled",false);
 $('textarea#notas').val("");
+$('#parcial').prop('checked',false);
 enProceso.$('tr.selected').removeClass('selected');
 enPendiente.$('tr.selected').removeClass('selected');
 idmaquina=0;

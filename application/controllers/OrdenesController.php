@@ -459,7 +459,7 @@
 				'fec_parc5' => $_POST['fec_parc5'],
 				'fec_parc6' => $_POST['fec_parc6'],
 				'fec_parc7' => $_POST['fec_parc7'],
-				'fec_parc8' => $_POST['fec_parc8'],
+				'fec_parc8' => $_POST['fec_parc8']
 
 
 			);

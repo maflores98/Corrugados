@@ -843,7 +843,7 @@ $("#inicio").click(function()
 				}
 				else
 				{
-					swal("Alto","Existe un proceso en ejecución","");
+					swal("Alto","Ya existe un proceso en ejecución","");
 					limpiar();
 				}			
 			},'json'
@@ -873,8 +873,12 @@ $("#parar").click(function(){
 						$("#cantidadreq").val("0");												
 					}
 				},'json');
-		}
-			$.post('consultaracumulados', {orden:orden,vista:vista},
+		}	
+
+		if( (proceso.substr(0,6) == 'AJUSTE') )			
+		{
+
+			$.post('acumuladoajuste', {orden:orden},
 				function(result){
 					if(result.data.length>0)
 					{
@@ -887,10 +891,9 @@ $("#parar").click(function(){
 					{
 						$("#acumuladorep").val("0");						
 					}
-				},'json');		
+				},'json'
+			);
 
-		if( (proceso.substr(0,6) == 'AJUSTE') )			
-		{
 			$('#myModal').modal('show');
 			$("#parar").attr("disabled", true);			
 			$("#ordenrep").val(orden);
@@ -906,6 +909,23 @@ $("#parar").click(function(){
 			$("#acumuladorep").val(acumulado);
 			$("#acumerma").val(mermaacumulado);								
 		} else {
+
+			$.post('acumuladotiro', {orden:orden},
+				function(result){
+					if(result.data.length>0)
+					{
+						acumulado = result.data[0].acumulado;
+						$("#acumuladorep").val(acumulado);
+						mermaacumulado = result.data[0].acumuladomerma;
+						$("#acumerma").val(mermaacumulado);
+					}
+					else
+					{
+						$("#acumuladorep").val("0");						
+					}
+				},'json'
+			);
+
 			$('#myModal').modal('show');
 			$("#parar").attr("disabled", true);
 			$("#ordenrep").val(orden);

@@ -164,7 +164,7 @@ class ProduccionController extends Zend_Controller_Action
 		echo Zend_Json::encode($copiaradetalle);	
 	}
 	
-	public function consultaracumuladosAction(){
+	public function acumuladoajusteAction(){
 
 		$this->_helper->layout->disableLayout();
 		$this->_helper->viewRenderer->setNoRender();
@@ -172,9 +172,21 @@ class ProduccionController extends Zend_Controller_Action
 		$id_orden = $_POST['orden'];
 
 		$consulta = new Application_Model_DbTable_vAcumulados();
-		$consultar = $consulta->consultaracumulados($id_orden);
+		$consultar = $consulta->acumuladoajuste($id_orden);
 		echo Zend_Json::encode($consultar);       	
 	}
+
+	public function acumuladotiroAction(){
+
+		$this->_helper->layout->disableLayout();
+		$this->_helper->viewRenderer->setNoRender();
+
+		$id_orden = $_POST['orden'];
+
+		$consulta = new Application_Model_DbTable_vAcumulados();
+		$consultar = $consulta->acumuladotiro($id_orden);
+		echo Zend_Json::encode($consultar);       	
+	}	
 
 	public function reportarprocesoAction(){
 

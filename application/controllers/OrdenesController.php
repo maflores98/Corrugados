@@ -470,7 +470,7 @@
 			$OrdenProd = new Application_Model_DbTable_OrdenesProduccion();
 			$orden = $OrdenProd->updateOrden($OrdProduccion);			
 
-			echo Zend_Json::encode($orden);
+			//echo Zend_Json::encode($orden);
 			echo Zend_Json::encode($detalleOrden);
 
 		}
@@ -494,9 +494,11 @@
 
 			$IdOrden = $_POST['id_orden'];
 			$Estatus = $_POST['estatus'];
+			$numordcompra = $_POST['numordcompra'];
+			$cantproducir = $_POST['cantproducir'];			
 
 			$OrdenProd = new Application_Model_DbTable_OrdenesProduccion();
-			$orden = $OrdenProd->updateEstatus($IdOrden, $Estatus);
+			$orden = $OrdenProd->updateEstatus($IdOrden, $Estatus, $numordcompra, $cantproducir);
 
 			echo Zend_Json::encode($orden);
 		}

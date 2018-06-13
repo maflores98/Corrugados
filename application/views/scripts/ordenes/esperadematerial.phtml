@@ -70,7 +70,7 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="cant_prod" class="control-label">Cantidad a Producir</label>
-                      <input type="text" class="form-control" id="cant_prod" readonly>
+                      <input type="text" class="form-control" id="cant_prod">
                     </div>
                   </div>                 
               </div>
@@ -136,7 +136,7 @@
 		var numorden = $("#numorden").val();
 		var trabajo = $("#trabajo").val();
 
-		$.post('estatusordenproduccion',{id_orden:numorden,estatus: 2},
+		$.post('estatusordenproduccion',{id_orden:numorden,estatus: 2, numordcompra: $("#ord_compra").val(), cantproducir:$("#cant_prod").val()},
 			function(result){
 				ord_preliberadas.ajax.reload();
 				$("#myModal").modal('hide');

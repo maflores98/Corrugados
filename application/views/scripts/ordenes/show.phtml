@@ -481,7 +481,7 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
                         <center>
                           <div class="checkbox">
                             <label>
-                              <input type="checkbox" value="15" name="grapado" data-maquina="ENGRAPADORA" data-proceso="9"> Grapado
+                              <input type="checkbox" value="1" name="grapado" data-idmaquina="15" data-maquina="ENGRAPADORA" data-proceso="9"> Grapado
                             </label>
                           </div>
                           <div class="form-group" style="margin: 10px 0 10px 100px;">
@@ -765,7 +765,7 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
                 <div class="col-md-2">
                   <div class="radio">
                     <label>
-                      <input type="radio" name="tipo_impresion" id="imp-flexo" name="tipo_impresion" value="3" data-maquina="FLEXOGRAFICA" data-proceso="8">Flexo
+                      <input type="radio" name="tipo_impresion" id="imp-flexo" value="3" data-maquina="FLEXOGRAFICA" data-proceso="8">Flexo
                     </label>
                   </div>
                 </div>
@@ -1329,7 +1329,7 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
         $('input[name="tipo_desbarbe"][value="' + response['tipo_desbarbe'] + '"]').prop("checked", true);
         $('input[name="predoblado"][value="' + response['predoblado'] + '"]').prop("checked", true);
         $('input[name="pegado_con"][value="' + response['pegado_con'] + '"]').prop("checked", true);
-        $('input[name="grapado"]').prop("checked", true);
+        $('input[name="grapado"][value="' + response['grapado'] + '"]').prop("checked", true);
         $('input[name="tipo_envio"][value="' + response['tipo_envio'] + '"]').prop("checked", true);
         $('input[name="tipo_entrega"][value="' + response['tipo_entrega'] + '"]').prop("checked", true);
         $('input[name="maquina_ranurado"][value="' + response['maquina_ranurado'] + '"]').prop("checked", true);
@@ -1363,7 +1363,7 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
 
 
   $("#btn-salir").click(function () {
-    window.location.href = "activas";
+    window.location.href = "esperadematerial";
   });
 
   $('input[type=radio]').click(function (e) {
@@ -1639,7 +1639,7 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
 
     if ($('input[name="grapado"]:checkbox').is(':checked')) {
 
-      var idmaquina = $('input[name="grapado"]:checked').val();
+      var idmaquina = $('input[name="grapado"]:checked').data('idmaquina');
 
       var maquina = $('input[name="grapado"]:checked').data('maquina');
 
@@ -1910,7 +1910,7 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
 
       if (idmaquina == 3) {
 
-        var nombreproceso = 'FLEXOGRAFICA';
+        var nombreproceso = 'IMPRESION';
 
       }
 
@@ -2045,14 +2045,16 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
           $('select').attr('disabled', true);
           $('textarea').attr('readonly', true);
 
-          swal(
-            '',
-            'Se ha guardado la orden correctamente',
-            'success'
+            swal(
 
-          );
+              '',
+
+              'Se ha guardado la orden correctamente',
+
+              'success'
+
+            );
         }
-
       }
 
     });

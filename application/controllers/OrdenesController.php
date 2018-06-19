@@ -594,6 +594,21 @@
 			$consultar = $consulta->consultarpendientes();
 
 			echo Zend_Json::encode($consultar);		
-		}				
+		}	
+
+		public function estatusordenesAction(){
+			
+			$this->view->titulo="** Estatus de Ordenes **";
+		}
+
+		public function consultarestatusordenesAction(){
+			$this->_helper->layout->disableLayout();
+			$this->_helper->viewRenderer->setNoRender();
+
+			$consulta = new Application_Model_DbTable_vMapeoProcesos();
+			$consultar = $consulta->consultarestatusordenes();
+
+			echo Zend_Json::encode($consultar);		
+		}								
 
 	}

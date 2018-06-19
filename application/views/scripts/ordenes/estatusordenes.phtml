@@ -1,0 +1,265 @@
+<style>
+td.highlight {
+        font-weight: bold;
+        color: blue;
+    }	
+</style>
+<div class="row">	
+	<div class="col-md-3 col-md-offset-9"><h1><?php  echo $this->titulo; echo @$this->nombreCliente?></h1></div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<table id="estatusordenes" class="compact cell-border" cellspacing="0" width="100%" style="text-align: center;">
+			<thead>
+				<tr>
+					<th>OP</th>
+					<th>TRABAJO</th>
+					<th>CLIENTE</th>
+					<th>F.ENTREGA</th>
+					<th>REFILADO</th>
+					<th>RAYADO</th>	
+					<th>REFILADO RAYADO</th>
+					<th>IMPRESION</th>
+					<th>RANURADO</th>
+					<th>SUAJADO	</th>
+					<th>GRAPADO</th>
+					<th>PEGADO LINEAL</th>
+					<th>PEGADO CAJAS</th>
+					<th>EMPALME</th>
+				</tr>
+			</thead>
+			<tbody>
+				<!--Registro de la BD-->
+			</tbody>
+		</table>				
+	</div> 	
+</div>
+
+<script>
+	var estatusordenes = $('#estatusordenes').DataTable({
+		ajax:{
+			url: 'consultarestatusordenes'
+		}, 	
+		"columns":[
+		{data:"numorden"},
+		{data:"trabajo"},
+		{data:"cliente"},
+		{data:"fentrega"},
+		{data:"refilado",
+	        render: function ( data, type, row, meta ) {
+				switch(data) {
+				    case "PENDIENTE":
+				        data = "<b style='color:orange;'>" + data + "</b>";
+				        break;
+				    case "PROCESO":
+				        	data = "<b style='color:green;'>" + data + "</b>";
+				        break;
+				        case "FINALIZADO":
+				        	data = "<b style='color:blue;'>" + data + "</b>";
+				        break;
+				    default:
+				        data = "<b style='color:black;'>" + data + "</b>";
+				}	        	
+				return data;	            
+	        }
+		},
+		{data:"rayado",
+	        render: function ( data, type, row, meta ) {
+				switch(data) {
+				    case "PENDIENTE":
+				        data = "<b style='color:orange;'>" + data + "</b>";
+				        break;
+				    case "PROCESO":
+				        	data = "<b style='color:green;'>" + data + "</b>";
+				        break;
+				        case "FINALIZADO":
+				        	data = "<b style='color:blue;'>" + data + "</b>";
+				        break;
+				    default:
+				        data = "<b style='color:black;'>" + data + "</b>";
+				}	        	
+				return data;	            
+	        }
+		},
+		{data:"refiladorayado",
+	        render: function ( data, type, row, meta ) {
+				switch(data) {
+				    case "PENDIENTE":
+				        data = "<b style='color:orange;'>" + data + "</b>";
+				        break;
+				    case "PROCESO":
+				        	data = "<b style='color:green;'>" + data + "</b>";
+				        break;
+				        case "FINALIZADO":
+				        	data = "<b style='color:blue;'>" + data + "</b>";
+				        break;
+				    default:
+				        data = "<b style='color:black;'>" + data + "</b>";
+				}	        	
+				return data;	            
+	        }
+		},
+		{data:"impresion",
+	        render: function ( data, type, row, meta ) {
+				switch(data) {
+				    case "PENDIENTE":
+				        data = "<b style='color:orange;'>" + data + "</b>";
+				        break;
+				    case "PROCESO":
+				        	data = "<b style='color:green;'>" + data + "</b>";
+				        break;
+				        case "FINALIZADO":
+				        	data = "<b style='color:blue;'>" + data + "</b>";
+				        break;
+				    default:
+				        data = "<b style='color:black;'>" + data + "</b>";
+				}	        	
+				return data;	            
+	        }
+		},
+		{data:"ranurado",
+	        render: function ( data, type, row, meta ) {
+				switch(data) {
+				    case "PENDIENTE":
+				        data = "<b style='color:orange;'>" + data + "</b>";
+				        break;
+				    case "PROCESO":
+				        	data = "<b style='color:green;'>" + data + "</b>";
+				        break;
+				        case "FINALIZADO":
+				        	data = "<b style='color:blue;'>" + data + "</b>";
+				        break;
+				    default:
+				        data = "<b style='color:black;'>" + data + "</b>";
+				}	        	
+				return data;	            
+	        }
+		},
+		{data:"suajado",
+	        render: function ( data, type, row, meta ) {
+				switch(data) {
+				    case "PENDIENTE":
+				        data = "<b style='color:orange;'>" + data + "</b>";
+				        break;
+				    case "PROCESO":
+				        	data = "<b style='color:green;'>" + data + "</b>";
+				        break;
+				        case "FINALIZADO":
+				        	data = "<b style='color:blue;'>" + data + "</b>";
+				        break;
+				    default:
+				        data = "<b style='color:black;'>" + data + "</b>";
+				}	        	
+				return data;	            
+	        }
+		},
+		{data:"grapado",
+	        render: function ( data, type, row, meta ) {
+				switch(data) {
+				    case "PENDIENTE":
+				        data = "<b style='color:orange;'>" + data + "</b>";
+				        break;
+				    case "PROCESO":
+				        	data = "<b style='color:green;'>" + data + "</b>";
+				        break;
+				        case "FINALIZADO":
+				        	data = "<b style='color:blue;'>" + data + "</b>";
+				        break;
+				    default:
+				        data = "<b style='color:black;'>" + data + "</b>";
+				}	        	
+				return data;	            
+	        }
+		},
+		{data:"peglineal",
+	        render: function ( data, type, row, meta ) {
+				switch(data) {
+				    case "PENDIENTE":
+				        data = "<b style='color:orange;'>" + data + "</b>";
+				        break;
+				    case "PROCESO":
+				        	data = "<b style='color:green;'>" + data + "</b>";
+				        break;
+				        case "FINALIZADO":
+				        	data = "<b style='color:blue;'>" + data + "</b>";
+				        break;
+				    default:
+				        data = "<b style='color:black;'>" + data + "</b>";
+				}	        	
+				return data;	            
+	        }
+		},
+		{data:"pegcajas",
+	        render: function ( data, type, row, meta ) {
+				switch(data) {
+				    case "PENDIENTE":
+				        data = "<b style='color:orange;'>" + data + "</b>";
+				        break;
+				    case "PROCESO":
+				        	data = "<b style='color:green;'>" + data + "</b>";
+				        break;
+				        case "FINALIZADO":
+				        	data = "<b style='color:blue;'>" + data + "</b>";
+				        break;
+				    default:
+				        data = "<b style='color:black;'>" + data + "</b>";
+				}	        	
+				return data;	            
+	        }
+		},
+		{data:"empalme",
+	        render: function ( data, type, row, meta ) {
+				switch(data) {
+				    case "PENDIENTE":
+				        data = "<b style='color:orange;'>" + data + "</b>";
+				        break;
+				    case "PROCESO":
+				        	data = "<b style='color:green;'>" + data + "</b>";
+				        break;
+				        case "FINALIZADO":
+				        	data = "<b style='color:blue;'>" + data + "</b>";
+				        break;
+				    default:
+				        data = "<b style='color:black;'>" + data + "</b>";
+				}	        	
+				return data;	            
+	        }
+		}
+		],
+
+		"columnDefs": 
+		[
+			{"className": "dt-body-left", "targets": [1]},
+			{"className": "dt-head-center", "targets": "_all"}
+		],				
+		"order": [[0, "desc" ]],
+		"searching": true,
+		"paging":    false,
+		//"scrollY":   '320px',
+		"scrollX": true,
+        /*"initComplete": function (row,data) {
+        	alert(data);
+            var api = this.api();
+            api.$('td').click( function () {
+                api.search( this.innerHTML ).draw();
+            } );
+        }*/		
+	    /*rowCallback:function(row,data)
+	    {	     
+			if(data[4] == "PENDIENTE")
+			{
+			$($(row).find("td")[4]).css("background-color","yellow");
+			}
+			else if(data[4] == "PROCESO"){
+			  $($(row).find("td")[4]).css("background-color","green");
+			}
+			else if(data[4] == "FINALIZADO"){
+			  $($(row).find("td")[4]).css("background-color","blue");
+			}
+			else
+			{
+				$($(row).find("td")[4]).css("background-color","transparent");
+			}      
+	    }*/			
+	});
+</script>

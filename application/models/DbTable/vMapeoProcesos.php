@@ -18,15 +18,18 @@ class Application_Model_DbTable_vMapeoProcesos extends Zend_Db_Table_Abstract
 		foreach ($rows as $row) {
 
 		Zend_Date::setOptions(array('format_type' => 'php'));
-		$date = new Zend_Date($row['Fec_Entrega']);
+		//$date = new Zend_Date($row['Fec_Entrega']);
 
-		$date=new Zend_Date($row['Fec_Entrega'], 'dd.MM.yyyy');
+		$fentrega=new Zend_Date($row['Fec_Entrega'], 'dd.MM.yyyy');
+		$femision=new Zend_Date($row['Fec_Emision'], 'dd.MM.yyyy');
 
 		$estatusordenes[] = array(
 			"numorden"=> $row['NumOrden'],
 			"trabajo" => $row['Trabajo'],
 			"cliente" => $row['Cliente'],
-			"fentrega"=> $date->toString('d-m-Y'),
+			"femision"=> $femision->toString('d-m-Y'),
+			"fentrega"=> $fentrega->toString('d-m-Y'),
+			"dias" => $row['Dias'],
 			"refilado"=> $row['REFILADO'],
 			"rayado" => $row['RAYADO'],
 			"refiladorayado" => $row['REFILADORAYADO'],

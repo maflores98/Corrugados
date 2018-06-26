@@ -284,11 +284,11 @@ class PDF extends FPDF{
 		$this->Ln();
 		$this->MultiCell(0, 6, "$data->notas", 1);
 		//$this->Ln();
-
+date_default_timezone_set('America/Mexico_City');
 		$this->SetFont('Helvetica','', 11);
 		$this->Cell(0, 6, "Usuario: " . utf8_decode($data->usuario),0,0,'R');
 		$this->Ln();
-		$this->Cell(0, 6, "Fecha de Registro: " . utf8_decode($data->fecha_emision),0,0,'R');		
+		$this->Cell(0, 6, "Fecha de Registro: " . $fecha = date('d-m-Y H:i'),0,0,'R');		
 
 	}
 

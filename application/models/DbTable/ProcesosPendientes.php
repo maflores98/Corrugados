@@ -47,7 +47,8 @@ class Application_Model_DbTable_ProcesosPendientes extends Zend_Db_Table_Abstrac
        "proceso" => $row['nombre_proceso'],
        "id_proceso" => $row['id_proceso'],
        "cantidadreq" => $row['cant_requerida'],
-       "horaregistro" => $row['fechahora_registro']
+       "horaregistro" => $row['fechahora_registro'],
+       "cant_producir"=>$row['cant_producir']
      );                           
    }
    $response->data = $enproceso;
@@ -75,7 +76,8 @@ class Application_Model_DbTable_ProcesosPendientes extends Zend_Db_Table_Abstrac
        "nombre_proceso"=>$row["nombre_proceso"],
        "cant_requerida"=>$row["cant_requerida"],
        "fechahora_registro"=>$row["fechahora_registro"],
-       "situacion"=>$row["situacion"]
+       "situacion"=>$row["situacion"],
+       "cant_producir"=>$row["cant_producir"]
      );
    }
 
@@ -171,7 +173,8 @@ class Application_Model_DbTable_ProcesosPendientes extends Zend_Db_Table_Abstrac
       "nombre_proceso"=>$copiardedetalle[0]["nombre_proceso"],
       "cant_requerida"=>$copiardedetalle[0]["cant_requerida"],
       "fechahora_registro"=>$copiardedetalle[0]["fechahora_registro"],
-      "situacion"=>$copiardedetalle[0]["situacion"]
+      "situacion"=>$copiardedetalle[0]["situacion"],
+      "cant_producir"=>$copiardedetalle[0]["cant_producir"]
       ));
 
         $db = Zend_Db_Table_Abstract::getDefaultAdapter();
@@ -208,9 +211,10 @@ class Application_Model_DbTable_ProcesosPendientes extends Zend_Db_Table_Abstrac
     return $response;
   }
   
-    public function updatesituacion($numorden, $situacion){
+    public function updatesituacion($numorden, $situacion, $cant_producir){
         $data = array(
             'situacion' => $situacion,
+            'cant_producir' => $cant_producir
         );
         $where = $this->getAdapter()->quoteInto('id_orden = ?', $numorden);
         $this->update($data, $where);

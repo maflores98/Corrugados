@@ -113,6 +113,7 @@
 				'entarimado' => $_POST['entarimado'],
 				'tipo_envio' => $_POST['tipo_envio'],
 				'tipo_entrega' => $_POST['tipo_entrega'],
+				'id_direccionentrega' => $_POST['id_direccionentrega'],
 				'id_camion1' => $_POST['id_camion1'],
 				'id_camion2' => $_POST['id_camion2'],
 				'id_camion3' => $_POST['id_camion3'],
@@ -494,11 +495,12 @@
 
 			$IdOrden = $_POST['id_orden'];
 			$Estatus = $_POST['estatus'];
+			$cant_producir = $_POST['cantproducir'];
 			//$numordcompra = $_POST['numordcompra'];
 			//$cantproducir = $_POST['cantproducir'];			
 
 			$OrdenProd = new Application_Model_DbTable_OrdenesProduccion();
-			$orden = $OrdenProd->updateEstatus($IdOrden, $Estatus);
+			$orden = $OrdenProd->updateEstatus($IdOrden, $Estatus,$cant_producir);
 
 			echo Zend_Json::encode($orden);
 		}
@@ -575,9 +577,10 @@
 
 			$numorden = $_POST['numorden'];
 			$situacion = $_POST['situacion'];
+			$cant_producir = $_POST['cantproducir'];
 
 			$OrdenProd = new Application_Model_DbTable_ProcesosPendientes();
-			$orden = $OrdenProd->updatesituacion($numorden, $situacion);
+			$orden = $OrdenProd->updatesituacion($numorden, $situacion,$cant_producir);
 
 			echo Zend_Json::encode($orden);
 		}	

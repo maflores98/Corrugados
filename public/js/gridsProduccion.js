@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	var vista, ajuste, existe;
-	var idoperador, nombreoperador, id_pendiente=0, id_proceso=0, id_detalle=0, parcial='no', orden=0, trabajo, proceso, maquina, diferencia=0, cantidadreal=0, cantreq=0, control, tiempodeejec=0, tiemporep=0, idinicio = 0,
+	var idoperador, nombreoperador, id_pendiente=0, id_proceso=0, id_detalle=0, parcial='no', orden=0, trabajo, proceso, maquina, diferencia=0, cantidadreal=0, cantreq=0, cantproducir=0, control, tiempodeejec=0, tiemporep=0, idinicio = 0,
 	horainicio, horaregistro, centesimas = 0, segundos = 0, minutos = 0, horas = 0, acumulado=0, mermaacumulado=0, cantidadrep=0, 
 	diferenciaacum=0, cantidadmerma=0, diferenciamerma=0, idproceso=0, idmaquina=0; 
 	switch (window.location.pathname) {
@@ -558,7 +558,8 @@ $('#enProceso tbody').on( 'click', 'tr', function () {
 		      idoperador = result.data[0].operador;
 		      nombreoperador = result.data[0].nombreoperador;
 		      horainicio = result.data[0].horainicio;
-		      cantreq = result.data[0].cantidadreq;           
+		      cantreq = result.data[0].cantidadreq;
+		      cantproducir = result.data[0].cant_producir;           
 		      $("#orden").val(orden);
 		      $("#trabajo").val(trabajo);
 		      $("#operador").val(idoperador);
@@ -865,11 +866,14 @@ $("#parar").click(function(){
 				function(result){
 					if(result.data.length>0)
 					{
+						cantproducir = result.data[0].cant_producir; 	
+						$("#cantidadproducir").val(cantproducir);						
 						cantreq = result.data[0].cantidadreq; 	
 						$("#cantidadreq").val(cantreq);						
 					}
 					else
 					{
+						$("#cantidadproducir").val("0");
 						$("#cantidadreq").val("0");												
 					}
 				},'json');
@@ -898,7 +902,8 @@ $("#parar").click(function(){
 			$("#parar").attr("disabled", true);			
 			$("#ordenrep").val(orden);
 			$("#trabajorep").val(trabajo);
-			$("#cantidadreq").val(cantreq);			
+			$("#cantidadreq").val(cantreq);
+			$("#cantidadproducir").val(cantproducir);			
 			$("#tiemporep").val(tiempodeejec);	
 			$("#procesorep").val(proceso);
 			$("#maquinarep").val(maquina);								
@@ -912,6 +917,7 @@ $("#parar").click(function(){
 
 			$.post('acumuladotiro', {orden:orden},
 				function(result){
+					alert(result.data);
 					if(result.data.length>0)
 					{
 						acumulado = result.data[0].acumulado;
@@ -932,9 +938,11 @@ $("#parar").click(function(){
 			$("#trabajorep").val(trabajo);
 			$("#tiemporep").val(tiempodeejec);
 			$("#cantidadreq").val(cantreq);
+			$("#cantidadproducir").val(cantproducir);
 			$("#cantidadrep").attr("disabled",false);
 			$("#cantmerma").attr("disabled",false);
 			$("#cantidadreq").attr("disabled", true);
+			$("#cantidadproducir").attr("disabled", true);
 			$("#acumuladorep").attr("disabled", true);
 			$("#acumerma").attr("disabled", true);		
 			$("#procesorep").val(proceso);
@@ -1214,7 +1222,8 @@ $("#guardar").click(function()
 																			      idoperador = result.data[0].operador;
 																			      nombreoperador = result.data[0].nombreoperador;
 																			      horainicio = result.data[0].horainicio;
-																			      cantreq = result.data[0].cantidadreq;           
+																			      cantreq = result.data[0].cantidadreq;  
+																			      cantproducir = result.data[0].cant_producir;         
 																			      $("#orden").val(orden);
 																			      $("#trabajo").val(trabajo);
 																			      $("#operador").val(idoperador);

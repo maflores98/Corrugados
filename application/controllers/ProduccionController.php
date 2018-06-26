@@ -171,7 +171,7 @@ class ProduccionController extends Zend_Controller_Action
 
 		$id_orden = $_POST['orden'];
 
-		$consulta = new Application_Model_DbTable_vAcumulados();
+		$consulta = new Application_Model_DbTable_DetalleProcesos();
 		$consultar = $consulta->acumuladoajuste($id_orden);
 		echo Zend_Json::encode($consultar);       	
 	}
@@ -183,7 +183,7 @@ class ProduccionController extends Zend_Controller_Action
 
 		$id_orden = $_POST['orden'];
 
-		$consulta = new Application_Model_DbTable_vAcumulados();
+		$consulta = new Application_Model_DbTable_DetalleProcesos();
 		$consultar = $consulta->acumuladotiro($id_orden);
 		echo Zend_Json::encode($consultar);       	
 	}	

@@ -153,8 +153,8 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
     <div class="col-md-3">
       <div class="form-horizontal">
         <div class="form-group">
-          <label for="fecha_emision" class="col-md-6 control-label">Fecha registro:</label>
-          <div class="col-md-6">
+          <label for="fecha_emision" class="col-md-4 control-label">Fecha registro:</label>
+          <div class="col-md-8">
             <input type="datetime-local" class="form-control input-sm date-cls" id="fecha_emision" name="fecha_emision" readonly>
           </div>
         </div>
@@ -1040,7 +1040,9 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
       async: false,
       type: 'POST',
       success: function (data) {
+        $('select[name="articulo"]').html('<option value="null">SELECCIONAR</option>');
         $('select[name="articulo"]').append(data);
+        $('select[name="articulo"]>option').removeAttr("selected");
       }
     });
   }
@@ -1190,7 +1192,7 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
        
         $('textarea').attr('readonly', true);
 
-        selDireccion(data['id_ordencompra']);
+        selDireccion(data['id_cliente']);
 
         $.each(data, function (index, value) {
           $('input[name="' + index + '"]').val(value);
@@ -1347,8 +1349,7 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
         $('input[name="esquineros"][value="' + response['esquineros'] + '"]').prop("checked", true);
         $('input[name="emplayado"][value="' + response['emplayado'] + '"]').prop("checked", true);
 
-        $('select[name="articulo"]>option').removeAttr("selected");
-        $('select[name="articulo"]>option[value="' + response['articulo'] + '"]').attr("selected", true);
+        $('select[name="articulo"]>option[value="' + response['articulo'] + '"]').attr("selected", true);   
         $('select[name="tipo_producto"]>option[value="' + response['tipo_producto'] + '"]').attr("selected", true);
         $('select[name="tipo_material"]>option[value="' + response['tipo_material'] + '"]').attr("selected", true);
         $('select[name="carton"]>option[value="' + response['carton'] + '"]').attr("selected", true);
@@ -1408,15 +1409,14 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
         url: 'seltamcorrugados',
         type: "POST",
         data: {
-          Descripcion: id
+          Id: id
         },
         success: function (data2) {
           $('select[name="tam-carton"]').html('<option value="null">SELECCIONAR</option>');
           $('select[name="tam-carton"]').append(data2);
 
         }
-      });
-
+      });  
 
     });
 

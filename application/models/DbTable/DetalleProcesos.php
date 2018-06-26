@@ -18,7 +18,8 @@ class Application_Model_DbTable_DetalleProcesos extends Zend_Db_Table_Abstract
 			"cant_requerida"=>$copiardecaptura[0]["cant_requerida"],
 			"fechahora_registro"=>$copiardecaptura[0]["fechahora_registro"],
 			"fechahora_inicio"=>$copiardecaptura[0]["fechahora_inicio"],
-			"situacion"=>$copiardecaptura[0]["situacion"]
+			"situacion"=>$copiardecaptura[0]["situacion"],
+			"cant_producir"=>$copiardecaptura[0]["cant_producir"]
 			));
 
         $db = Zend_Db_Table_Abstract::getDefaultAdapter();
@@ -99,7 +100,8 @@ class Application_Model_DbTable_DetalleProcesos extends Zend_Db_Table_Abstract
 		"id_operador" => $row["id_operador"],
 		"nombre_operador" => $row["nombre_operador"],       
        "fechahora_registro"=>$row["fechahora_registro"],
-       "situacion"=>$row["situacion"]       
+       "situacion"=>$row["situacion"],
+       "cant_producir"=>$row["cant_producir"]
      );
    }
    return $copiar;
@@ -126,11 +128,74 @@ class Application_Model_DbTable_DetalleProcesos extends Zend_Db_Table_Abstract
 				"nombre_proceso"=>$row["nombre_proceso"],
 				"cant_requerida"=>$row["cant_requerida"],
 				"fechahora_registro"=>$row["fechahora_registro"],
-				"situacion"=>$row["situacion"]
+				"situacion"=>$row["situacion"],
+				"cant_producir"=>$row["cant_producir"]
 				); 
 		}
 
 		return $copiar;
+	}	
+
+	public function acumuladoajuste($id_orden){
+		$select = $this->select();
+		$select->from('detalle_procesos', new Zend_Db_Expr('SUM(cantidad_ok) AS Acumulado, SUM(cantidad_merma) AS MermaAcumulado'));
+		$select->where("id_orden = ?", $id_orden);
+		$select->where("nombre_proceso LIKE '%AJUSTE%'");
+		$response=new stdClass();
+		$rows = $this->fetchAll($select);
+                        //$consulta = $select->__toString();
+                        //echo $consulta;
+                        //exit();
+		$acumulados = array();
+		foreach ($rows as $row) {
+
+			if( is_null($row['Acumulado']) )
+			{
+				$row['Acumulado'] = '0';
+			}
+			if( is_null($row['MermaAcumulado']) )
+			{
+				$row['MermaAcumulado'] = '0';
+			}			
+
+			$acumulados[] = array(
+				"acumulado"=> $row["Acumulado"],
+				"acumuladomerma" => $row['MermaAcumulado']
+				); 
+		}
+		$response->data = $acumulados;
+		return $response;		
+	}
+
+	public function acumuladotiro($id_orden){
+		$select = $this->select();
+		$select->from('detalle_procesos', new Zend_Db_Expr('SUM(cantidad_ok) AS Acumulado, SUM(cantidad_merma) AS MermaAcumulado'));
+		$select->where("id_orden = ?", $id_orden);
+		$select->where("nombre_proceso NOT LIKE '%AJUSTE%'");
+		$response=new stdClass();
+		$rows = $this->fetchAll($select);
+                        //$consulta = $select->__toString();
+                        //echo $consulta;
+                        //exit();
+		$acumulados = array();
+		foreach ($rows as $row) {
+
+			if( is_null($row['Acumulado']) )
+			{
+				$row['Acumulado'] = '0';
+			}
+			if( is_null($row['MermaAcumulado']) )
+			{
+				$row['MermaAcumulado'] = '0';
+			}
+
+			$acumulados[] = array(
+				"acumulado"=> $row["Acumulado"],
+				"acumuladomerma" => $row['MermaAcumulado']
+				); 
+		}
+		$response->data = $acumulados;
+		return $response;		
 	}	 
 
 }

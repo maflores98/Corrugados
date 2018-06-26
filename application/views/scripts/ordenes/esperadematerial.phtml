@@ -141,9 +141,11 @@
 				ord_preliberadas.ajax.reload();
 				$("#myModal").modal('hide');
 			},'json');
-		$.post('updatesituacion',{numorden:numorden,situacion: "PRODUCCION"},
+		$.post('updatesituacion',{numorden:numorden,situacion: "PRODUCCION",cantproducir:$("#cant_prod").val()},
 			function(result){
 				//ord_preliberadas.ajax.reload();
+        $("#ord_compra").val("");
+        $("cant_prod").val();
 				$("#myModal").modal('hide');
 			},'json');		
 	});

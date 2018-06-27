@@ -917,7 +917,6 @@ $("#parar").click(function(){
 
 			$.post('acumuladotiro', {orden:orden},
 				function(result){
-					alert(result.data);
 					if(result.data.length>0)
 					{
 						acumulado = result.data[0].acumulado;

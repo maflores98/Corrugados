@@ -102,6 +102,7 @@ $date = new Zend_Date($row['Fecha_Entrega']);
             $activas[] = array(
                 "numorden"=> $row['Num_Orden'],
                 "trabajo" => $row['Trabajo'],
+                "cliente" => $row['Cliente'],
                 "estatus" => $row['Estatus'],
                 "cantidad"=>$row['Cantidad'],
                 "fecha_entrega"=> $date->toString('d-m-Y'),

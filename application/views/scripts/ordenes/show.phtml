@@ -1972,7 +1972,8 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
       dataType: "json",
       data: {
         'id_orden': idorden,
-        'estatus': 5
+        'estatus': 5,
+        'cantproducir':0
       },
       url: 'estatusordenproduccion',
       type: 'post',
@@ -2070,7 +2071,8 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
       dataType: "json",
       data: {
         'id_orden': idorden,
-        'estatus': 4
+        'estatus': 4,
+        'cantproducir': 0
       },
       url: 'estatusordenproduccion',
       type: 'post',

@@ -380,9 +380,25 @@ class ProduccionController extends Zend_Controller_Action
 		$this->_helper->viewRenderer->setNoRender();
 
 		$id_orden = $_POST['numorden'];
+		//$elimina = new Application_Model_DbTable_ProcesosPendientes();
+		//$eliminar = $elimina->finalizarenpendiente($id_orden);
+		$finalizadependientes = new Application_Model_DbTable_ProcesosPendientes();
+		$finalizardependientes = $finalizadependientes->finalizardeprocesospendientes($id_orden);
+		
+		$finalizaadetalle = new Application_Model_DbTable_DetalleProcesos();
+		$finalizaradetalle = $finalizaadetalle->finalizaradetalleprocesos($finalizardependientes);		
+
+		echo Zend_Json::encode($finalizaradetalle);
+	}	
+
+	public function eliminarprocesoenpendiente2Action(){
+		$this->_helper->layout->disableLayout();
+		$this->_helper->viewRenderer->setNoRender();
+
+		$id_orden = $_POST['numorden'];
 
 		$elimina = new Application_Model_DbTable_ProcesosPendientes();
-		$eliminar = $elimina->finalizarenpendiente($id_orden);
+		$eliminar = $elimina->eliminarprocesoenpendiente2($id_orden);
 
 		echo Zend_Json::encode($eliminar);
 	}	
@@ -392,12 +408,43 @@ class ProduccionController extends Zend_Controller_Action
 		$this->_helper->viewRenderer->setNoRender();
 
 		$id_orden = $_POST['numorden'];
+		//$elimina = new Application_Model_DbTable_CapturaProcesos();
+		//$eliminar = $elimina->finalizarenproceso($id_orden);
+		$finalizaenproceso = new Application_Model_DbTable_CapturaProcesos();
+		$finalizarenproceso = $finalizaenproceso->finalizardecapturaproceso($id_orden);
+		
+		$finalizaadetalle = new Application_Model_DbTable_DetalleProcesos();
+		$finalizaradetalle = $finalizaadetalle->finalizaradetalleprocesos2($finalizarenproceso);		
+
+
+		echo Zend_Json::encode($finalizaradetalle);
+	}	
+
+	public function eliminarprocesoenproceso2Action(){
+		$this->_helper->layout->disableLayout();
+		$this->_helper->viewRenderer->setNoRender();
+
+		$id_orden = $_POST['numorden'];
 
 		$elimina = new Application_Model_DbTable_CapturaProcesos();
-		$eliminar = $elimina->finalizarenproceso($id_orden);
+		$eliminar = $elimina->eliminarprocesoenproceso2($id_orden);
 
 		echo Zend_Json::encode($eliminar);
-	}	
+	}		
+
+		public function estatusordenproduccion2Action(){ //Cambiar estatus desde Liberacion
+
+		$this->_helper->layout->disableLayout();
+		$this->_helper->viewRenderer->setNoRender();
+
+		$IdOrden = $_POST['id_orden'];
+		$Estatus = $_POST['estatus'];
+
+		$OrdenProd = new Application_Model_DbTable_OrdenesProduccion();
+		$orden = $OrdenProd->updateEstatus2($IdOrden, $Estatus);
+
+		echo Zend_Json::encode($orden);
+	}
 
 	public function validarenprocesoAction(){
 		$this->_helper->layout->disableLayout();

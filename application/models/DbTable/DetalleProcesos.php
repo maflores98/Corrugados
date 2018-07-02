@@ -198,4 +198,76 @@ class Application_Model_DbTable_DetalleProcesos extends Zend_Db_Table_Abstract
 		return $response;		
 	}	 
 
+	public function finalizaradetalleprocesos($copiadependientes){
+		date_default_timezone_set('America/Mexico_City');
+		$today = new Zend_Date();
+		foreach ($copiadependientes as $copiar) {		
+			$insert = $this->insert(array(
+				"id_orden"=>$copiar["id_orden"],
+				"nombre_trabajo"=>$copiar["nombre_trabajo"],
+				"id_maquina"=>$copiar["id_maquina"],
+				"nombre_maquina"=>$copiar["nombre_maquina"],
+				"id_proceso"=>$copiar["id_proceso"],
+				"nombre_proceso"=>$copiar["nombre_proceso"],
+				"cant_requerida"=>$copiar["cant_requerida"],
+				"fechahora_registro"=>$copiar["fechahora_registro"],
+				"fechahora_inicio"=> $today->get('YYYY-MM-dd HH:mm:ss'),
+				"fechahora_fin"=> $today->get('YYYY-MM-dd HH:mm:ss'),
+				"cantidad_ok"=> 0,
+				"cantidad_ok"=> 0,
+				"cantidad_merma"=> 0,
+				"tiempo"=> 0,
+				"notas" => "",
+				"parcial"=> "no",
+				"situacion"=>$copiar["situacion"],
+				"cant_producir"=>$copiar["cant_producir"]
+				));
+		}
+
+        //$db = Zend_Db_Table_Abstract::getDefaultAdapter();
+        //$row = $db->fetchrow(
+        //    $db->select()
+        //    ->from('detalle_procesos',array(new Zend_Db_Expr('max(id) as MaxId')))
+        //);
+        //$id_detalle = $row['MaxId'];
+
+		$response = new stdClass();
+		//$response->id_detalle = $id_detalle;
+		$response->validacion = true;
+		return $response;
+	}	
+
+	public function finalizaradetalleprocesos2($copiardecaptura){
+		date_default_timezone_set('America/Mexico_City');
+		$today = new Zend_Date();
+		foreach ($copiardecaptura as $copiar) {		
+			$insert = $this->insert(array(
+				"id_orden"=>$copiar["id_orden"],
+				"nombre_trabajo"=>$copiar["nombre_trabajo"],
+				"id_maquina"=>$copiar["id_maquina"],
+				"nombre_maquina"=>$copiar["nombre_maquina"],
+				"id_proceso"=>$copiar["id_proceso"],
+				"nombre_proceso"=>$copiar["nombre_proceso"],
+				"id_operador"=>$copiar["id_operador"],
+				"nombre_operador"=>$copiar["nombre_operador"],
+				"cant_requerida"=>$copiar["cant_requerida"],
+				"fechahora_registro"=>$copiar["fechahora_registro"],
+				"fechahora_inicio"=> $copiar["fechahora_inicio"],
+				"fechahora_fin"=> $today->get('YYYY-MM-dd HH:mm:ss'),
+				"cantidad_ok"=> 0,
+				"cantidad_ok"=> 0,
+				"cantidad_merma"=> 0,
+				"tiempo"=> 0,
+				"notas" => "",
+				"parcial"=> "no",
+				"situacion"=>$copiar["situacion"],
+				"cant_producir"=>$copiar["cant_producir"]
+				));
+		}
+
+		$response = new stdClass();
+		$response->validacion = true;
+		return $response;
+	}		
+
 }

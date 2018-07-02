@@ -137,6 +137,7 @@ var enpendiente, numorden;
 	{	
 		var data = liberacion.row($(this).parents("tr")).data();
 		numorden = data.numorden;
+		alert(numorden);
 
     	$.post('existenenpendiente',{numorden:numorden},
     		function(result){
@@ -171,7 +172,7 @@ var enpendiente, numorden;
 			    			}
 			    			else
 			    			{
-		    					$.post('estatusordenproduccion',{id_orden:numorden,estatus:'3'},
+		    					$.post('estatusordenproduccion2',{id_orden:numorden,estatus:'3'},
 		    						function(result){
 		    							swal("Finalizado","","success");
 		    							liberacion.ajax.reload();
@@ -191,19 +192,39 @@ var enpendiente, numorden;
 		alert(numorden);
 		$.post('finalizarenpendiente', {numorden:numorden},
 			function(result){
-				$.post('finalizarenproceso', {numorden:numorden},
+				$.post('eliminarprocesoenpendiente2', {numorden:numorden},
 					function(result){
-						$.post('estatusordenproduccion',{id_orden:numorden,estatus:'3'},
+						$.post('finalizarenproceso', {numorden:numorden},
 							function(result){
-								swal("Finalizado","","success");
-								liberacion.ajax.reload();
-								$("#modalenpendiente").modal('hide');
+								$.post('eliminarprocesoenproceso2', {numorden:numorden},
+									function(result){
+										$.post('estatusordenproduccion2',{id_orden:numorden,estatus:'3'},
+											function(result){
+												swal("Finalizado","","success");
+												liberacion.ajax.reload();
+												$("#modalenpendiente").modal('hide');
+											},'json'
+										);						
+									},'json'
+								);
 							},'json'
-						);					
+						);
 					},'json'
-				);				
+				);
 			},'json'
 		);
+
+		//$.post('finalizarenproceso', {numorden:numorden},
+		//	function(result){
+		//		$.post('estatusordenproduccion',{id_orden:numorden,estatus:'3'},
+		//			function(result){
+		//				swal("Finalizado","","success");
+		//				liberacion.ajax.reload();
+		//				$("#modalenpendiente").modal('hide');
+		//			},'json'
+		//		);					
+		//	},'json'
+		//);			
 	});
 
 	$("#cancelar").click(function(){

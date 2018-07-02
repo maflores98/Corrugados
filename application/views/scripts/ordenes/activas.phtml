@@ -1,7 +1,7 @@
 <div class="row">
 	<div class="col-md-9">
 		<button id="nuevaOrden" class="btn btn-primary">Nueva</button>
-		<button id="btn-recuperar" class="btn btn-primary">Recuperar</button>
+		<!--button id="btn-recuperar" class="btn btn-primary">Recuperar</button-->
 		<a class="btn btn-primary" href="http://localhost/Corrugados/public/ordenes/orderpdf?Id=16" role="button" id="btn-imprimir" target="FormatoPDF">Imprimir</a>
 	</div>	
 	<div class="col-md-3"><h1><?php  echo $this->titulo; echo @$this->nombreCliente?></h1></div>
@@ -72,11 +72,9 @@
 
 		var id = $(this).find('td').eq(0).html();
 
-		$("#btn-recuperar").click(function(){
-
-			window.location.href = "show?ID="+id+"&Tipo=2";
-
-		});
+		//$("#btn-recuperar").click(function(){
+		//	window.location.href = "show?ID="+id+"&Tipo=2";
+		//});
 
 		$("a[id='btn-imprimir']").attr('href', 'orderpdf?Id='+id);
 

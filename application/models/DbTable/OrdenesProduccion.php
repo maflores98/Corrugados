@@ -49,6 +49,21 @@ class Application_Model_DbTable_OrdenesProduccion extends Zend_Db_Table_Abstract
         return $response;
     }
 
+    public function updateEstatus2($idOrden, $estatus){
+
+        $data = array(
+            'id_estatusorden' => $estatus
+        );
+
+        $where = $this->getAdapter()->quoteInto('id_ordenproduccion = ?', $idOrden);
+
+        $this->update($data, $where);
+
+        $response = new stdClass();
+        $response->validacion = true;
+        return $response;
+    }    
+
     public function updateOrden($OrdProduccion){
 
         $Id = $OrdProduccion['id_ordenproduccion'];

@@ -85,7 +85,7 @@ class Application_Model_DbTable_ProcesosPendientes extends Zend_Db_Table_Abstrac
  }             
  
  //3
- public function eliminarprocesoenpendiente($id_pendiente)
+ public function eliminarprocesoenpendiente($id_pendiente)//Eliminar por Id
  {
    $where = array();
    $where[] = $this->getAdapter()->quoteInto('id = ?', $id_pendiente);
@@ -246,7 +246,45 @@ class Application_Model_DbTable_ProcesosPendientes extends Zend_Db_Table_Abstrac
    return $response;    
   }  
 
- public function finalizarenpendiente($id_orden)
+ //public function finalizarenpendiente($id_orden)
+ //{
+ //  $where = array();
+ //  $where[] = $this->getAdapter()->quoteInto('id_orden = ?', $id_orden);
+ //  $delete = $this->delete($where);                                                          
+ //  $response = new stdClass();
+ //  $response->validacion = true;
+ //  return $response;
+ //}    
+
+ public function finalizardeprocesospendientes($id_orden)
+ {
+   $select = $this->select();
+   $select->where("id_orden = ?",$id_orden);
+
+   $response=new stdClass();
+   $rows = $this->fetchAll($select);
+
+   $copiar = array();
+   foreach ($rows as $row) {
+
+     $copiar[] = array(
+       "id_orden"=> $row["id_orden"],
+       "nombre_trabajo"=>$row["nombre_trabajo"],
+       "id_maquina"=>$row['id_maquina'],
+       "nombre_maquina"=>$row["nombre_maquina"],
+       "id_proceso"=>$row["id_proceso"],
+       "nombre_proceso"=>$row["nombre_proceso"],
+       "cant_requerida"=>$row["cant_requerida"],
+       "fechahora_registro"=>$row["fechahora_registro"],
+       "situacion"=>$row["situacion"],
+       "cant_producir"=>$row["cant_producir"]
+     );
+   }
+
+   return $copiar;
+ }   
+
+ public function eliminarprocesoenpendiente2($id_orden)
  {
    $where = array();
    $where[] = $this->getAdapter()->quoteInto('id_orden = ?', $id_orden);
@@ -256,6 +294,6 @@ class Application_Model_DbTable_ProcesosPendientes extends Zend_Db_Table_Abstrac
    $response = new stdClass();
    $response->validacion = true;
    return $response;
- }    
+ }  
 
 }

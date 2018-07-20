@@ -54,8 +54,75 @@ $.margen = function()
 $.totaltinta = function(){
   //$("#t"+t+"_res").html( $("#t"+t+"_largo").val() * $("#t"+t+"_ancho").val() );
   $("#total_tinta").val( parseFloat($("#t1_res").val()) + parseFloat($("#t2_res").val()) + parseFloat($("#t3_res").val()) + parseFloat($("#t4_res").val()) +parseFloat( $("#t4_res").val()) );
-  consumo_tinta = (parseFloat( $("#cant_requerida").val() ) * parseFloat( $("#total_tinta").val() ) * factor_tinta);
-  $("#consumo_tinta").val( currency(consumo_tinta,4) );    
+  consumo_tinta = (parseFloat( $("#cant_requerida").val() ) * parseFloat( $("#total_tinta").val() ) * parseFloat(factor_tinta));
+  $("#consumo_tinta").html( currency(consumo_tinta,6) );    
+}
+
+$.tipo_producto = function(clasificacion, clasificacion2,tipoproducto)
+{
+  $.post('cotizadorprocesos', {clasificacion : clasificacion, clasificacion2: clasificacion2, tipoproducto : tipoproducto},
+    function(result){
+
+      if( result.data[0].Impresion == 1 )
+      {
+        $.impresion();                          
+      }
+      if( result.data[0].FlexoRanurado == 1 )
+      {
+        $.flexoranurado();                          
+      }
+      if( result.data[0].Pegado == 1 )
+      {      
+        $.pegado();                           
+      }
+      if( result.data[0].Grapado == 1 )
+      {      
+        $.grapado();                           
+      } 
+      if( result.data[0].Refilado == 1 )
+      {      
+        $.refilado();                           
+      }    
+      if( result.data[0].Rayado == 1 )
+      {      
+        $.rayado();                           
+      }
+      if( result.data[0].Caiman == 1 )
+      {      
+        $.caiman();                           
+      }
+      if( result.data[0].Autoarmado == 1 )
+      {      
+        $.suajado();                
+      }   
+      if( result.data[0].Flejado == 1 )
+      {      
+        $.flejado();                           
+      }
+      if( result.data[0].Entarimado == 1 )
+      {      
+        $.entarimado();                           
+      }                                                            
+    },'json'
+  );  
+}
+
+$.tipo_carton = function(descripcion)
+{
+  $.ajax({
+    dataType: "json",
+    url: 'seltamcorrugados',
+    type: "POST",
+    data: {Descripcion : descripcion},
+    success: function(data2){
+      $('select[name="tam_carton"]').html('<option value="null">SELECCIONAR</option>');
+      $('select[name="tam_carton"]').append(data2.data);      
+
+      $("#costo_m2").html(trunc(data2.costo,2));
+      $.costocarton();
+      $.total_material();      
+    }
+  });  
 }
 
 $.impresion = function()
@@ -214,7 +281,13 @@ $.suajado = function()
   var suajado_merma = ( 10 * parseFloat( $("#cant_requerida").val() ) ) / 1000;
   $("#suajado_merma").html(Math.ceil(suajado_merma));
 
-    if($("#tipo_suajado").val() == 1)
+    if($("#tipo_suajado").val() == 0)
+    {
+      $("#suajado_merma").html("0");
+      $("#suajado_arreglo").html("0");
+      $("#suajado_tiro").html("0");
+    }
+    else if($("#tipo_suajado").val() == 1)
     {
       var suajado_arreglo = 1.50;
       $("#suajado_arreglo").html(trunc(suajado_arreglo,2));
@@ -371,6 +444,30 @@ $.total_envio = function()
 
   var costo_envio = parseFloat($("#costo_envio1").text().replace(/,/gi,'')) + parseFloat($("#costo_envio2").text().replace(/,/gi,'')) + parseFloat($("#costo_envio3").text().replace(/,/gi,''));
   $("#total_envio").html(currency(costo_envio,2));
+}
+
+$.importe = function()
+{
+  var importe = parseFloat( $("#total_cunit").text().replace(/,/gi,'') ) + parseFloat( $("#total_material").text().replace(/,/gi,'') ) + parseFloat( $("#total_envio").text().replace(/,/gi,'') );
+  $("#importe").html(currency(importe,2));
+}
+
+$.totalmargen = function()
+{
+var totalmargen = (parseFloat( $("#importe").text().replace(/,/gi,'') ) * $("#por_margen").text()) / 100;
+$("#margen").html(currency(totalmargen,2));
+}
+
+$.preciounitario = function()
+{
+  var punitario = (parseFloat( $("#importe").text().replace(/,/gi,'') ) + parseFloat( $("#margen").text().replace(/,/gi,'') )) / parseFloat( $("#cant_requerida").val().replace(/,/gi,'') );
+  $("#punitario").html(currency(punitario,2));
+}
+
+$.total = function()
+{
+  var ptotal = parseFloat( $("#importe").text().replace(/,/gi,'') ) + parseFloat( $("#margen").text().replace(/,/gi,'') );
+  $("#total").html(currency(ptotal,2));
 }
 
 function currency(value, decimals, separators) {

@@ -3,7 +3,7 @@
 class Application_Model_DbTable_CapturaProcesos extends Zend_Db_Table_Abstract
 {
 	protected $_name = 'captura_procesos';
-	protected $_primary='id_orden';
+	protected $_primary='id_orden';	
 
 	public function consultarenproceso($vista)
 	{	
@@ -58,6 +58,8 @@ class Application_Model_DbTable_CapturaProcesos extends Zend_Db_Table_Abstract
 
 	//1
 	public function copiaracapturaprocesos($copiardependientes){
+	date_default_timezone_set('America/Mexico_City');
+	$today = new Zend_Date();			
 		$insert = $this->insert(array(
 									"id_orden"=>$copiardependientes[0]["id_orden"],
 									"nombre_trabajo"=>$copiardependientes[0]["nombre_trabajo"],
@@ -67,6 +69,7 @@ class Application_Model_DbTable_CapturaProcesos extends Zend_Db_Table_Abstract
 									"nombre_proceso"=>$copiardependientes[0]["nombre_proceso"],
 									"cant_requerida"=>$copiardependientes[0]["cant_requerida"],
 									"fechahora_registro"=>$copiardependientes[0]["fechahora_registro"],
+									"fechahora_inicio" => $today->get('YYYY-MM-dd HH:mm:ss'),
 									"situacion"=>$copiardependientes[0]["situacion"],
 									"cant_producir"=>$copiardependientes[0]["cant_producir"]
 									));
@@ -227,10 +230,11 @@ class Application_Model_DbTable_CapturaProcesos extends Zend_Db_Table_Abstract
 	//	return $response;
 	//} 
 
-	public function validarenproceso($vista)
+	public function validarenproceso($vista,$proceso)
 	{	
 		$select = $this->select();
 		$select->where("nombre_maquina IN (?)",$vista);
+		$select->where("nombre_proceso IN (?)",$proceso);		
 		$response = new stdClass();
 		$rows = $this->fetchAll($select);
                         //$consulta = $select->__toString();

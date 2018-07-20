@@ -778,11 +778,11 @@ $("#inicio").click(function()
 	else 
 	{
 		//validaAjustes();
-		$.post('validarenproceso', {vista:vista},
-			function(result)
-			{
-				if (result.validacion == 'false') 
-				{
+		//$.post('validarenproceso', {vista:vista,proceso:proceso},
+		//	function(result)
+		//	{
+		//		if (result.validacion == 'false') 
+		//		{
 					$.post('copiarprocesoacaptura', {id_pendiente:id_pendiente},
 						function(data)
 						{
@@ -841,14 +841,14 @@ $("#inicio").click(function()
 							}  		
 						},'json'
 					);
-				}
-				else
-				{
-					swal("Alto","Ya existe un proceso en ejecución","");
-					limpiar();
-				}			
-			},'json'
-		);
+		//		}
+		//		else
+		//		{
+		//			swal("Alto","Ya existe un proceso en ejecución","");
+		//			limpiar();
+		//		}			
+		//	},'json'
+		//);
 	}
 });
 

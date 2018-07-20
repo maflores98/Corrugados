@@ -104,14 +104,14 @@ class PDF extends FPDF{
 		$this->Cell(31.6,10,"",1,0,'C');
 		$this->Cell(31.6,10,"",1,0,'C');	
 		$this->Ln();
-		$this->Cell(31.6,10,"",1,0,'C');			
+		$this->Cell(31.6,10,"Desbarbe",1,0,'C');			
 		$this->Cell(31.6,10,"",1,0,'C');
 		$this->Cell(31.6,10,"",1,0,'C');
 		$this->Cell(31.6,10,"",1,0,'C');
 		$this->Cell(31.6,10,"",1,0,'C');
 		$this->Cell(31.6,10,"",1,0,'C');
 		$this->Ln();
-		$this->Cell(31.6,10,"",1,0,'C');			
+		$this->Cell(31.6,10,"Empaque",1,0,'C');			
 		$this->Cell(31.6,10,"",1,0,'C');
 		$this->Cell(31.6,10,"",1,0,'C');
 		$this->Cell(31.6,10,"",1,0,'C');
@@ -119,12 +119,14 @@ class PDF extends FPDF{
 		$this->Cell(31.6,10,"",1,0,'C');		
 		$this->Ln(20);
 		$this->SetFont('Helvetica','B', 16);
-		$this->Cell(95,8,"Cantidad requerida",1,0,'L');			
-		$this->Cell(95,8,"Metodo de envio",1,0,'L');
+		$this->Cell(63.33,8,"Cantidad Pzas.",1,0,'C');			
+		$this->Cell(63.33,8,"Cantidad Laminas",1,0,'C');
+		$this->Cell(63.33,8,"Metodo de envio",1,0,'C');
 		$this->Ln();
 		$this->SetFont('Helvetica','', 16);
-		$this->Cell(95,20,"$data->cant_requerida",1,0,'C');			
-		$this->Cell(95,20,"$data->tipo_envio",1,0,'C');
+		$this->Cell(63.33,20,"$data->cant_requerida",1,0,'C');			
+		$this->Cell(63.33,20,"$data->lam_requeridas",1,0,'C');
+		$this->Cell(63.33,20,"$data->tipo_envio",1,0,'C');
 	}
 
 }

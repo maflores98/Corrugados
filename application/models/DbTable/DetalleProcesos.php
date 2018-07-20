@@ -3,9 +3,11 @@
 class Application_Model_DbTable_DetalleProcesos extends Zend_Db_Table_Abstract
 {
 	protected $_name = 'detalle_procesos';
-	protected $_primary='id';
+	protected $_primary='id';	
 
 	public function copiaradetalleprocesos($copiardecaptura){
+	date_default_timezone_set('America/Mexico_City');
+	$today = new Zend_Date();			
 		$insert = $this->insert(array(
 			"id_orden"=>$copiardecaptura[0]["id_orden"],
 			"nombre_trabajo"=>$copiardecaptura[0]["nombre_trabajo"],
@@ -18,6 +20,7 @@ class Application_Model_DbTable_DetalleProcesos extends Zend_Db_Table_Abstract
 			"cant_requerida"=>$copiardecaptura[0]["cant_requerida"],
 			"fechahora_registro"=>$copiardecaptura[0]["fechahora_registro"],
 			"fechahora_inicio"=>$copiardecaptura[0]["fechahora_inicio"],
+			"fechahora_fin"=> $today->get('YYYY-MM-dd HH:mm:ss'),
 			"situacion"=>$copiardecaptura[0]["situacion"],
 			"cant_producir"=>$copiardecaptura[0]["cant_producir"]
 			));
@@ -199,8 +202,8 @@ class Application_Model_DbTable_DetalleProcesos extends Zend_Db_Table_Abstract
 	}	 
 
 	public function finalizaradetalleprocesos($copiadependientes){
-		date_default_timezone_set('America/Mexico_City');
-		$today = new Zend_Date();
+	date_default_timezone_set('America/Mexico_City');
+	$today = new Zend_Date();		
 		foreach ($copiadependientes as $copiar) {		
 			$insert = $this->insert(array(
 				"id_orden"=>$copiar["id_orden"],
@@ -238,8 +241,8 @@ class Application_Model_DbTable_DetalleProcesos extends Zend_Db_Table_Abstract
 	}	
 
 	public function finalizaradetalleprocesos2($copiardecaptura){
-		date_default_timezone_set('America/Mexico_City');
-		$today = new Zend_Date();
+	date_default_timezone_set('America/Mexico_City');
+	$today = new Zend_Date();		
 		foreach ($copiardecaptura as $copiar) {		
 			$insert = $this->insert(array(
 				"id_orden"=>$copiar["id_orden"],

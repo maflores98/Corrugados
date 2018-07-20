@@ -1,4 +1,7 @@
 $(document).ready(function(){
+
+  var clasificacion, clasificacion2, tipoproducto, descripcion;
+
 $.ajax({
   type: "GET",
   url: 'buscaclientes',
@@ -63,14 +66,15 @@ $('select[name="articulo"]').change(function(){
 
 $('select[name="tipo_producto"]').change(function(){
 
-  var clasificacion = $('select[name="articulo"] option:selected').data('descripcion');
-  var clasificacion2 = $("#m2_requeridos").val().replace(",","");
-  var tipoproducto = $('select[name="tipo_producto"] option:selected').data('val');
+  clasificacion = $('select[name="articulo"] option:selected').data('descripcion');
+  clasificacion2 = $("#m2_requeridos").val().replace(",","");
+  tipoproducto = $('select[name="tipo_producto"] option:selected').data('val');
   $("#grapado_merma").html("0");
   $("#grapado_arreglo").html("0");
   $("#grapado_tiro").html("0");
   $("#grapado_cunit").html("0");
-    $.post('cotizadorprocesos', {clasificacion : clasificacion, clasificacion2: clasificacion2, tipoproducto : tipoproducto},
+  $.tipo_producto(clasificacion, clasificacion2,tipoproducto);
+    /*$.post('cotizadorprocesos', {clasificacion : clasificacion, clasificacion2: clasificacion2, tipoproducto : tipoproducto},
       function(result){
         if( result.data[0].Impresion == 1 )
         {
@@ -80,7 +84,11 @@ $('select[name="tipo_producto"]').change(function(){
           $.total_tiro();
           $.total_cunit();
           $.costocarton();
-          $.total_material();          
+          $.total_material();
+          $.importe();
+          $.totalmargen();
+          $.preciounitario();
+          $.total();                    
         }
         if( result.data[0].FlexoRanurado == 1 )
         {
@@ -90,7 +98,11 @@ $('select[name="tipo_producto"]').change(function(){
           $.total_tiro();
           $.total_cunit();
           $.costocarton();
-          $.total_material();          
+          $.total_material();
+          $.importe();
+          $.totalmargen();
+          $.preciounitario();
+          $.total();                    
         }
         if( result.data[0].Pegado == 1 )
         {      
@@ -100,7 +112,11 @@ $('select[name="tipo_producto"]').change(function(){
           $.total_tiro();
           $.total_cunit();
           $.costocarton();
-          $.total_material();          
+          $.total_material();
+          $.importe();
+          $.totalmargen();
+          $.preciounitario();
+          $.total();                    
         }
         if( result.data[0].Grapado == 1 )
         {      
@@ -110,7 +126,11 @@ $('select[name="tipo_producto"]').change(function(){
           $.total_tiro();
           $.total_cunit();
           $.costocarton();
-          $.total_material();          
+          $.total_material();
+          $.importe();
+          $.totalmargen();
+          $.preciounitario();
+          $.total();                    
         } 
         if( result.data[0].Refilado == 1 )
         {      
@@ -120,7 +140,11 @@ $('select[name="tipo_producto"]').change(function(){
           $.total_tiro();
           $.total_cunit();
           $.costocarton();
-          $.total_material();          
+          $.total_material();
+          $.importe();
+          $.totalmargen();
+          $.preciounitario();
+          $.total();                    
         }    
         if( result.data[0].Rayado == 1 )
         {      
@@ -130,7 +154,11 @@ $('select[name="tipo_producto"]').change(function(){
           $.total_tiro();
           $.total_cunit();
           $.costocarton();
-          $.total_material();          
+          $.total_material();
+          $.importe();
+          $.totalmargen();
+          $.preciounitario();
+          $.total();                    
         }
         if( result.data[0].Caiman == 1 )
         {      
@@ -140,7 +168,11 @@ $('select[name="tipo_producto"]').change(function(){
           $.total_tiro();
           $.total_cunit();
           $.costocarton();
-          $.total_material();          
+          $.total_material();
+          $.importe();
+          $.totalmargen();
+          $.preciounitario();
+          $.total();                    
         }
         if( result.data[0].Autoarmado == 1 )
         {      
@@ -151,6 +183,10 @@ $('select[name="tipo_producto"]').change(function(){
           $.total_cunit();
           $.costocarton();
           $.total_material();
+                    $.importe();
+          $.totalmargen();
+          $.preciounitario();
+          $.total();
         }   
         if( result.data[0].Flejado == 1 )
         {      
@@ -160,7 +196,11 @@ $('select[name="tipo_producto"]').change(function(){
           $.total_tiro();
           $.total_cunit();
           $.costocarton();
-          $.total_material();          
+          $.total_material();
+          $.importe();
+          $.totalmargen();
+          $.preciounitario();
+          $.total();                    
         }
         if( result.data[0].Entarimado == 1 )
         {      
@@ -170,10 +210,14 @@ $('select[name="tipo_producto"]').change(function(){
           $.total_tiro();
           $.total_cunit();
           $.costocarton();
-          $.total_material();          
+          $.total_material();
+          $.importe();
+          $.totalmargen();
+          $.preciounitario();
+          $.total();                    
         }                                                            
       },'json'
-    );
+    );*/
 });
 
 $('select[name="tipo_material"]').change(function(){
@@ -191,31 +235,30 @@ $('select[name="tipo_material"]').change(function(){
   });
 });
 
-  $.ajax({
+$.ajax({
     dataType: "json",
     url: 'seltiposcamiones',
     //type: "POST",
     //data: {Material : texto},
-  success: function(data){
-    $('select[name="tipo_camion1"]').html('<option value="SELECCIONAR" selected disabled>SELECCIONAR</option>');
-    $('select[name="tipo_camion1"]').append(data);
-    $('select[name="tipo_camion1"]').append('<option value="NINGUNO">NINGUNO</option>');
+    success: function(data){
+      $('select[name="tipo_camion1"]').html('<option value="SELECCIONAR" selected disabled>SELECCIONAR</option>');
+      $('select[name="tipo_camion1"]').append(data);
+      $('select[name="tipo_camion1"]').append('<option value="NINGUNO">NINGUNO</option>');
 
-    $('select[name="tipo_camion2"]').html('<option value="SELECCIONAR" selected disabled>SELECCIONAR</option>');
-    $('select[name="tipo_camion2"]').append(data);
-    $('select[name="tipo_camion2"]').append('<option value="NINGUNO">NINGUNO</option>');
+      $('select[name="tipo_camion2"]').html('<option value="SELECCIONAR" selected disabled>SELECCIONAR</option>');
+      $('select[name="tipo_camion2"]').append(data);
+      $('select[name="tipo_camion2"]').append('<option value="NINGUNO">NINGUNO</option>');
 
-    $('select[name="tipo_camion3"]').html('<option value="SELECCIONAR" selected disabled>SELECCIONAR</option>');
-    $('select[name="tipo_camion3"]').append(data); 
-    $('select[name="tipo_camion3"]').append('<option value="NINGUNO">NINGUNO</option>');           
-  }
+      $('select[name="tipo_camion3"]').html('<option value="SELECCIONAR" selected disabled>SELECCIONAR</option>');
+      $('select[name="tipo_camion3"]').append(data); 
+      $('select[name="tipo_camion3"]').append('<option value="NINGUNO">NINGUNO</option>');           
+    }
 });
 
 $('select[name="tipo_carton"]').change(function(){
-
-  var descripcion = $('select[name="tipo_carton"] option:selected').val();
-
-  $.ajax({
+  descripcion = $('select[name="tipo_carton"] option:selected').val();
+  $.tipo_carton(descripcion);
+  /*$.ajax({
     dataType: "json",
     url: 'seltamcorrugados',
     type: "POST",
@@ -227,15 +270,16 @@ $('select[name="tipo_carton"]').change(function(){
       $("#costo_m2").html(trunc(data2.costo,2));
       $.costocarton();
       $.total_material();
+      $.importe();
+      $.totalmargen();
+      $.preciounitario();
+      $.total();      
     }
-  });
-
+  });*/
 });
 
 $('input[name="selector_material"]:radio').click(function(){
-
   var value = $('input[name="selector_material"]:checked').val();
-
   $.ajax({
     dataType: "json",
     url: 'tipomaterial',
@@ -248,7 +292,6 @@ $('input[name="selector_material"]:radio').click(function(){
       $('select[name="tipo_material"]').append(data);
     }
   });
-
 });
 
 $('#med_frente' ).keyup(function() {
@@ -299,6 +342,8 @@ $('input[name="tipo_medida"]').click(function() {
     $.medidascaja();
     $.costocarton();
     $.total_material();
+    $.total_merma();
+    $.total_material();
   }  
   else if( $(this).val() == 2 )
   {
@@ -309,6 +354,8 @@ $('input[name="tipo_medida"]').click(function() {
     //$("#med_largo").attr("disabled", false); 
     $.medidascarton();
     $.costocarton(); 
+    $.total_material();
+    $.total_merma();
     $.total_material();  
   }  
 });
@@ -316,7 +363,8 @@ $('input[name="tipo_medida"]').click(function() {
 $("#cant_requerida").change(function(){
   $("#total_enviado").html("0");
   $("#difvs_pedido").html("0");
-  $("#total_envio").html("0");  
+  $("#total_envio").html("0"); 
+  $.tipo_producto(clasificacion, clasificacion2,tipoproducto); 
   $.margen();
   $.total_merma();
   $.total_envio();
@@ -351,6 +399,10 @@ $("#no_tintas").bind('keyup mouseup',function(){
         $.costo_tinta();
         $.costo_cirel();
         $.total_material();
+        $.importe();
+        $.totalmargen();
+        $.preciounitario();
+        $.total();        
         break;
     case '2':
         $("#t1_largo").attr("disabled",false);
@@ -374,6 +426,10 @@ $("#no_tintas").bind('keyup mouseup',function(){
         $.costo_tinta();
         $.costo_cirel();
         $.total_material();
+        $.importe();
+        $.totalmargen();
+        $.preciounitario();
+        $.total();        
         break;
     case '3':
         $("#t1_largo").attr("disabled",false);
@@ -394,6 +450,10 @@ $("#no_tintas").bind('keyup mouseup',function(){
         $.costo_tinta();
         $.costo_cirel();
         $.total_material();
+        $.importe();
+        $.totalmargen();
+        $.preciounitario();
+        $.total();        
         break;
     case '4':
         $("#t1_largo").attr("disabled",false);
@@ -408,6 +468,10 @@ $("#no_tintas").bind('keyup mouseup',function(){
         $.costo_tinta();
         $.costo_cirel();
         $.total_material();
+        $.importe();
+        $.totalmargen();
+        $.preciounitario();
+        $.total();        
         break;                
   }
 });
@@ -418,6 +482,10 @@ $("#t1_largo").keyup(function(){
   $.costo_tinta();
   $.costo_cirel();
   $.total_material();
+  $.importe();
+  $.totalmargen();
+  $.preciounitario();
+  $.total();
 });
 
 $("#t1_ancho").keyup(function(){
@@ -426,6 +494,10 @@ $("#t1_ancho").keyup(function(){
   $.costo_tinta();
   $.costo_cirel();
   $.total_material();
+  $.importe();
+  $.totalmargen();
+  $.preciounitario();
+  $.total();
 });
 
 $("#t2_largo").keyup(function(){
@@ -434,6 +506,10 @@ $("#t2_largo").keyup(function(){
   $.costo_tinta();
   $.costo_cirel();
   $.total_material();
+  $.importe();
+  $.totalmargen();
+  $.preciounitario();
+  $.total();
 });
 
 $("#t2_ancho").keyup(function(){
@@ -442,6 +518,10 @@ $("#t2_ancho").keyup(function(){
   $.costo_tinta();
   $.costo_cirel();
   $.total_material();
+  $.importe();
+  $.totalmargen();
+  $.preciounitario();
+  $.total();
 });
 
 $("#t3_largo").keyup(function(){
@@ -449,7 +529,11 @@ $("#t3_largo").keyup(function(){
   $.totaltinta();
   $.costo_tinta();
   $.costo_cirel();
-  $.total_material();  
+  $.total_material();
+  $.importe();
+  $.totalmargen();
+  $.preciounitario();
+  $.total();    
 });
 
 $("#t3_ancho").keyup(function(){
@@ -457,7 +541,11 @@ $("#t3_ancho").keyup(function(){
   $.totaltinta();
   $.costo_tinta();
   $.costo_cirel();
-  $.total_material();  
+  $.total_material();
+  $.importe();
+  $.totalmargen();
+  $.preciounitario();
+  $.total();    
 });
 
 $("#t4_largo").keyup(function(){
@@ -465,7 +553,11 @@ $("#t4_largo").keyup(function(){
   $.totaltinta();
   $.costo_tinta();
   $.costo_cirel();
-  $.total_material();  
+  $.total_material();
+  $.importe();
+  $.totalmargen();
+  $.preciounitario();
+  $.total();    
 });
 
 $("#t4_ancho").keyup(function(){
@@ -473,7 +565,11 @@ $("#t4_ancho").keyup(function(){
   $.totaltinta();
   $.costo_tinta();
   $.costo_cirel();
-  $.total_material();  
+  $.total_material();
+  $.importe();
+  $.totalmargen();
+  $.preciounitario();
+  $.total();    
 });
 
 $("#refiladorayado").click(function(){
@@ -638,19 +734,27 @@ $("#cant_enviar1").change(function(){
     var costo_envio1 = parseFloat($("#num_viajes1").text().replace(/,/gi,'')) * parseFloat($("#costo_viaje1").text().replace(/,/gi,''));
     $("#costo_envio1").html(currency(costo_envio1,2));
     $.total_envio();
+    $.importe();
+    $.totalmargen();
+    $.preciounitario();
+    $.total();    
   }
   else
   {
     $("#costo_envio1").html("0");
     $.total_envio();
+    $.importe();
+    $.totalmargen();
+    $.preciounitario();
+    $.total();    
   }
 });
 
 $("#cant_enviar2").change(function(){
 
-$("#total_enviado").html("0");
-$("#difvs_pedido").html("0");
-$("#total_envio").html("0");
+  $("#total_enviado").html("0");
+  $("#difvs_pedido").html("0");
+  $("#total_envio").html("0");
 
   if( $("#cant_enviar2").val() > 1000 )
   {

@@ -25,7 +25,7 @@ $date=new Zend_Date($row['Fecha_Entrega'], 'dd.MM.yyyy');
 				"numorden"=> $row['Num_Orden'],
 				"trabajo" => $row['Trabajo'],
 				"estatus" => $row['Estatus'],
-				"cantidad"=>$row['Cantidad'],
+				"cantidad"=>$row['cant_requerida'],
 				"fecha_entrega"=> $date->toString('d-m-Y')
 				); 
 		}
@@ -51,7 +51,9 @@ $date = new Zend_Date($row['Fecha_Entrega']);
 				"numorden"=> $row['Num_Orden'],
 				"trabajo" => $row['Trabajo'],
 				"estatus" => $row['Estatus'],
-				"cantidad"=>$row['Cantidad'],
+				"cant_requerida"=>$row['cant_requerida'],
+				"cant_liberada"=>$row['cant_liberada'],
+				"cant_merma"=>$row['cant_merma'],
 				"fecha_entrega"=>$date->toString('d-m-Y')
 				); 
 		}
@@ -76,7 +78,7 @@ $date = new Zend_Date($row['Fecha_Entrega']);
 				"numorden"=> $row['Num_Orden'],
 				"trabajo" => $row['Trabajo'],
 				"estatus" => $row['Estatus'],
-				"cantidad"=>$row['Cantidad'],
+				"cantidad"=>$row['cant_requerida'],
 				"fecha_entrega"=>$date->toString('d-m-Y')
 				); 
 		}
@@ -104,7 +106,7 @@ $date = new Zend_Date($row['Fecha_Entrega']);
                 "trabajo" => $row['Trabajo'],
                 "cliente" => $row['Cliente'],
                 "estatus" => $row['Estatus'],
-                "cantidad"=>$row['Cantidad'],
+                "cantidad"=>$row['cant_requerida'],
                 "fecha_entrega"=> $date->toString('d-m-Y'),
                 "liberar" => "<a class='btn btn-default btn-xs btn-xliberar' data-id='".$row['Num_Orden']."'> <span class='glyphicon glyphicon-triangle-right'></a>"
                 ); 
@@ -133,7 +135,7 @@ $date=new Zend_Date($row['Fecha_Entrega'], 'dd.MM.yyyy');
 				"numorden"=> $row['Num_Orden'],
 				"trabajo" => $row['Trabajo'],
 				"estatus" => $row['Estatus'],
-				"cantidad"=>$row['Cantidad'],
+				"cantidad"=>$row['cant_requerida'],
 				"fecha_entrega"=> $date->toString('d-m-Y')
 				); 
 		}
@@ -160,7 +162,7 @@ $date=new Zend_Date($row['Fecha_Entrega'], 'dd.MM.yyyy');
                 "numorden"=> $row['Num_Orden'],
                 "trabajo" => $row['Trabajo'],
                 "estatus" => $row['Estatus'],
-                "cantidad"=>$row['Cantidad'],
+                "cantidad"=>$row['cant_requerida'],
                 "fecha_entrega"=> $date->toString('d-m-Y'),
                 "liberar" => "<a class='btn btn-default btn-xs btn-xliberar' data-id='".$row['Num_Orden']."'> <span class='glyphicon glyphicon-triangle-right'></a>"
                 ); 

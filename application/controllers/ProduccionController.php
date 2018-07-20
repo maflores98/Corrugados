@@ -450,10 +450,11 @@ class ProduccionController extends Zend_Controller_Action
 		$this->_helper->layout->disableLayout();
 		$this->_helper->viewRenderer->setNoRender();
 
-		$vista = $_REQUEST['vista'];
+		$vista = $_POST['vista'];
+		$proceso = $_POST['proceso'];
 
 		$existe = new Application_Model_DbTable_CapturaProcesos();
-		$existen = $existe->validarenproceso($vista);
+		$existen = $existe->validarenproceso($vista,$proceso);
 
 		echo Zend_Json::encode($existen);		
 	}	

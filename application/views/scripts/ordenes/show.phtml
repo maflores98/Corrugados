@@ -77,6 +77,12 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
     text-align: right;
     z-index:1030;
   }
+
+.alertify .ajs-body .ajs-content {
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+}  
 </style>
 
 <form id="OrdenProduccion">
@@ -87,7 +93,7 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
       <button type="button" class="btn btn-default" id="btn-salir">Salir</button>
       <button type="button" class="btn btn-primary" id="btn-guardar">Guardar</button>
       <button type="button" class="btn btn-primary" id="btn-editar">Editar</button>
-      <button type="button" class="btn btn-primary" id="btn-liberar">Liberar</button>
+      <button type="button" class="btn btn-primary" id="btn-liberar">Preliberar</button>
       <button type="button" class="btn btn-primary" id="btn-clonar">Clonar</button>
       <button type="button" class="btn btn-primary" id="btn-editar2">Guardar</button>
       <button type="button" class="btn btn-primary" id="btn-guardar2">Guardar</button>
@@ -198,10 +204,22 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
   </div>
 
   <div class="row">
+    <div class="col-md-3" style="text-align:center;">
+      <label class="control-label">Cantidad</label>
+    </div>
+    <div class="col-md-3" style="text-align:center;">
+      <label class="control-label">Medidas Caja</label>
+    </div>
+    <div class="col-md-3" style="text-align:center;">
+      <label class="control-label"></label>
+    </div>
+    <div class="col-md-3" style="text-align:center;">
+      <label class="control-label">Medidas Cartón</label>
+    </div>            
     <div class="col-md-3">
       <div class="form-horizontal">
         <div class="form-group">
-          <label class="col-sm-4 control-label">Cantidad:</label>
+          <!--label class="col-sm-4 control-label">Cantidad:</label-->
           <div class="col-sm-4 right-ajust">
             <span class="help-block helper">Requerida</span>
             <input type="text" class="form-control input-sm" id="cant_requerida" name="cant_requerida">
@@ -210,23 +228,27 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
             <span class="help-block helper">Merma</span>
             <input type="text" class="form-control input-sm" id="cant_cmerma" name="cant_cmerma">
           </div>
+          <div class="col-sm-4 right-ajust">
+            <span class="help-block helper">Real</span>
+            <input type="text" class="form-control input-sm" id="cantidad_producir" name="cantidad_producir" readonly>
+          </div>          
         </div>
       </div>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-3">
       <div class="form-horizontal">
         <div class="form-group">
-          <label class="col-sm-3 control-label">M. Final:</label>
-          <div class="col-sm-3 left-ajust">
+          <!--label class="col-sm-3 control-label"></label-->
+          <div class="col-sm-4 right-ajust">
             <span class="help-block helper">Frente</span>
             <input type="text" class="form-control input-sm" id="med_frente" name="med_frente">
           </div>
-          <div class="col-sm-3 left-ajust">
+          <div class="col-sm-4 right-ajust">
             <span class="help-block helper">Fondo</span>
             <input type="text" class="form-control input-sm" id="med_fondo" name="med_fondo">
           </div>
-          <div class="col-sm-3 left-ajust">
+          <div class="col-sm-4 right-ajust">
             <span class="help-block helper">Alto</span>
             <input type="text" class="form-control input-sm" id="med_alto" name="med_alto">
           </div>
@@ -234,8 +256,8 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
       </div>
     </div>
 
-    <div class="col-md-2">
-      <div class="radio" style="margin-top: 35px;">
+    <div class="col-md-3 right-ajust">
+      <div class="radio" style="margin:35px 0 0 50px">
         <label class="radio-inline">
           <input type="radio" id="mcaja" name="tipo_medida" value="option1"> M. Caja
         </label>
@@ -245,21 +267,24 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
       </div>
     </div>
 
-    <div class="col-md-1 left-ajust">
-      <span class="help-block helper">Largo</span>
-      <input type="text" class="form-control input-sm" id="med_largo" name="med_largo" />
-    </div>
-
-    <div class="col-md-1 left-ajust">
-      <span class="help-block helper">Ancho</span>
-      <input type="text" class="form-control input-sm" id="med_ancho" name="med_ancho">
-    </div>
-
-
-    <div class="col-md-1 left-ajust">
-      <span class="help-block helper">Med. req</span>
-      <input type="text" class="form-control input-sm" id="med_requerido" readonly style="padding: 5px;">
-    </div>
+    <div class="col-md-3">
+      <div class="form-horizontal">
+        <div class="form-group">
+          <div class="col-sm-4 left-ajust">
+            <span class="help-block helper">Largo</span>
+            <input type="text" class="form-control input-sm" id="med_largo" name="med_largo">
+          </div>
+          <div class="col-sm-4 left-ajust">
+            <span class="help-block helper">Ancho</span>
+            <input type="text" class="form-control input-sm" id="med_ancho" name="med_ancho">
+          </div>
+          <div class="col-sm-4 left-ajust">
+            <span class="help-block helper">Med. req</span>
+            <input type="text" class="form-control input-sm" id="med_requerido" name="med_requerido">
+          </div>
+        </div>
+      </div>
+    </div>    
   </div>
 
   <div class="row">
@@ -983,7 +1008,101 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
   </div>
 </form>
 
+<!-- Modal  Cancelacion-->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Cancelar Orden</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                  <label for="ordenrep" class="control-label">Orden</label>
+                  <input type="text" class="form-control" id="ordenrep" >
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div>
+                  <label for="fechaCancel" class="control-label">Fecha</label>
+                  <input type="date" class="form-control" id="fechaCancel" value="<?php echo date("Y-m-d"); ?>" readonly>
+                </div>
+            </div>                                                                      
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="motivoCancel" class="control-label">Motivo de Cancelación</label>
+                <textarea class="form-control" id="motivoCancel" name="motivoCancel"></textarea>
+              </div>
+            </div>            
+          </div>          
+        </form>        
+      </div>
+      <div class="modal-footer">
+        <button id="cancelar" type="button" class="btn btn-default" data-dismiss="modal">Salir</button>
+        <button id="guardar_cancelacion" type="button" class="btn btn-primary">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script type="text/javascript">
+
+var estatus = getParameterByName('Estatus');
+  switch(estatus) {
+    case 'pendientes':
+      $('#btn-guardar').hide();
+      $('#btn-editar2').hide();
+      $('#btn-guardar2').hide();
+      $('#btn-clonar').hide();
+      $("#btn-imprimir").show();
+      $('#btn-liberar').hide();      
+    break;
+    case 'esperadematerial':
+      $('#btn-guardar').hide();
+      $('#btn-editar').hide();
+      $('#btn-editar2').hide();
+      $('#btn-guardar2').hide();
+      $('#btn-clonar').hide();
+      $("#btn-imprimir").show();
+      $('#btn-liberar').hide();
+    break;
+    case 'activas':
+      $('#btn-guardar').hide();
+      $('#btn-editar').hide();
+      $('#btn-editar2').hide();
+      $('#btn-guardar2').hide();
+      $('#btn-clonar').hide();
+      $("#btn-imprimir").show();
+      $('#btn-liberar').show();
+    break;
+    case 'canceladas':
+      $('#btn-guardar').hide();
+      $('#btn-editar').hide();
+      $('#btn-editar2').hide();
+      $('#btn-guardar2').hide();
+      $('#btn-clonar').hide();
+      $("#btn-imprimir").show();
+      $('#btn-liberar').hide();
+      $("#btn-cancelar").hide();
+    break; 
+    case 'finalizadas':
+      $('#btn-guardar').hide();
+      $('#btn-editar').hide();
+      $('#btn-editar2').hide();
+      $('#btn-guardar2').hide();
+      $('#btn-clonar').hide();
+      $("#btn-imprimir").show();
+      $('#btn-liberar').hide();
+      $("#btn-cancelar").hide();
+    break;           
+    default:
+        //code block
+  }
 
   function getParameterByName(name, url) {
     if (!url) url = window.location.href;
@@ -1163,11 +1282,11 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
 
   if (Tipo == 2) {
 
-    $('#btn-guardar').hide();
-    $('#btn-editar2').hide();
-    $('#btn-guardar2').hide();
-    $('#btn-clonar').hide();
-    $("#btn-imprimir").show();
+    //$('#btn-guardar').hide();
+    //$('#btn-editar2').hide();
+    //$('#btn-guardar2').hide();
+    //$('#btn-clonar').hide();
+    //$("#btn-imprimir").show();
 
     var IdOrden = getParameterByName('ID');
 
@@ -1349,11 +1468,6 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
 
   }
 
-
-  $("#btn-salir").click(function () {
-    window.location.href = "esperadematerial";
-  });
-
   $('input[type=radio]').click(function (e) {
 
     if (e.ctrlKey) {
@@ -1436,6 +1550,8 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
     var user = localStorage.user;
 
     var ordenProduccion = $("#OrdenProduccion").serialize() + "&id_usuario=" + user + "&tipo_orden=MANUAL";
+    console.log(ordenProduccion);
+    //return false;
 
     $.ajax({
 
@@ -1467,9 +1583,6 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
       }
 
     });
-
-
-
   });
 
   $('input[name="selector_material"]:radio').click(function () {
@@ -2054,30 +2167,47 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
 
     var idorden = $('span[id="IdOrden"]').text();
 
-    $.ajax({
-      dataType: "json",
-      data: {
-        'id_orden': idorden,
-        'estatus': 4,
-        'cantproducir': 0
-      },
-      url: 'estatusordenproduccion',
-      type: 'post',
-      success: function (data) {
+    alertify.confirm('Alerta', '¿Estas seguro que deseas cancelar la orden?', 
+      function(){
+        var idor=$('.num_folio').text();
+            console.log(idor);
+
+        $('#myModal').modal('show');
+        $('#motivoCancel').val("");
+        $('#motivoCancel').attr('readonly', false);
+        $('#ordenrep').val(idor);       
+      }, 
+      function()
+      { 
+        
+      });
+  });
+
+  $("#guardar_cancelacion").click(function()
+  {
+    var idor= $('#ordenrep').val();
+    var fechaCancel= $('#fechaCancel').val();
+    var motivoCancel =$('#motivoCancel').val();
+
+    $.post('estatuscancelacion',{idor: idor,'estatus': 4,'cantproducir': 0,fechaCancel:fechaCancel,motivoCancel:motivoCancel},
+      function(data){
         if (data.validacion) {
-
-          swal(
-            '¡Correcto!',
-            'Se ha cancelado la orden',
-            'success'
-          );
-          orden = $('.num_folio').text();
-
-
+              orden = $('.num_folio').text();
+              $.post('eliminarprocesoenpendiente2',{numorden:idor},
+                function(result){
+                $.post('eliminarprocesoenproceso2',{numorden:idor},
+                  function(result){
+                    swal(
+                      '¡Correcto!',
+                      'Se ha cancelado la orden',
+                      'success'
+                    );              
+                  },'json');              
+                },'json'); 
+           $('#myModal').modal('hide');
+          window.location.href ="canceladas";
         }
-      }
-
-    });
+      },'json');
   });
 
   $('#btn-imprimir').on('click',function(){
@@ -2085,7 +2215,7 @@ $this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstra
   });
 
   $("#btn-salir").click(function () {
-    window.location.href = "activas";
+    window.location.href = estatus;
   });
 
 

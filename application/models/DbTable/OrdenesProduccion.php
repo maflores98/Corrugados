@@ -76,5 +76,25 @@ class Application_Model_DbTable_OrdenesProduccion extends Zend_Db_Table_Abstract
         $response->validacion = true;
         return $response;
 
-    }       
+    }  
+
+    //// CANCELAR ORDENES BRIT
+    public function updateCancelacion($idOrden, $estatus, $cant_producir,$fechaCancel,$motivoCancel,$usuario){
+
+        $data = array(
+            'id_estatusorden' => $estatus,
+            'cantidad_producir' => $cant_producir,
+            'fecha_cancelacion' => $fechaCancel,
+            'motivo_cancelacion' => $motivoCancel,
+            'usuario_cancelacion' => $usuario
+        );
+
+        $where = $this->getAdapter()->quoteInto('id_ordenproduccion = ?', $idOrden);
+
+        $this->update($data, $where);
+
+        $response = new stdClass();
+        $response->validacion = true;
+        return $response;
+    }         
 }

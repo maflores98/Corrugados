@@ -17,7 +17,9 @@
 			          <th>Nombre Trabajo</th>
 			          <th>Estatus</th>
 			          <th>Cantidad</th>
-			          <th>Fecha Entrega</th>
+			          <th>Fecha Calcela</th>
+			          <th>Motivo Cancela</th>
+			          <th>Usuario</th>			          
 			        </tr>
 			      </thead>
 			      <tbody>
@@ -42,9 +44,11 @@
 		"columns":[
 		{data:"numorden",width:"5%"},
 		{data:"trabajo"},
-		{data:"estatus",width:"10%"},
-		{data:"cantidad",width:"10%"},
-		{data:"fecha_entrega",width:"10%"}
+		{data:"estatus",width:"7%"},
+		{data:"cantidad",width:"7%"},
+		{data:"fecha_cancelacion",width:"7%"},
+		{data:"motivo_cancelacion",width:"20%"},
+		{data:"usuario_cancelacion",width:"10%"}
 		],
 		"columnDefs": 
 		[
@@ -78,7 +82,7 @@
 
 		$("#btn-recuperar").click(function(){
 
-			window.location.href = "show?ID="+id+"&Tipo=2";
+			window.location.href = "show?ID="+id+"&Tipo=2&Estatus=canceladas";
 
 		});
 

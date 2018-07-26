@@ -1,10 +1,10 @@
 <div class="row">
-	<div class="col-md-9">
-		<button id="nuevaOrden" class="btn btn-primary">Nueva</button>
-		<!--button id="btn-recuperar" class="btn btn-primary">Recuperar</button-->
-		<a class="btn btn-primary" href="http://localhost/Corrugados/public/ordenes/orderpdf?Id=16" role="button" id="btn-imprimir" target="FormatoPDF">Imprimir</a>
-	</div>	
-	<div class="col-md-3"><h1><?php  echo $this->titulo; echo @$this->nombreCliente?></h1></div>
+  <div class="col-md-9">
+    <button id="btn-nueva" class="btn btn-primary">Nueva</button>
+    <button id="btn-recuperar" class="btn btn-primary">Recuperar</button>
+    <a class="btn btn-primary" href="#!" role="button" id="btn-imprimir" target="FormatoPDF">Imprimir</a>
+  </div>  
+  <div class="col-md-3"><h1><?php  echo $this->titulo; echo @$this->nombreCliente?></h1></div>
 </div>
 <div class="row">
 	<div class="col-md-12">
@@ -14,7 +14,7 @@
 					<th>IdOrden</th>
 					<th>Nombre Trabajo</th>
 					<th>Estatus</th>
-					<th>Cantidad</th>
+					<th>Cant_requerida</th>
 					<th>Fecha Entrega</th>
 				</tr>
 			</thead>
@@ -27,7 +27,7 @@
 
 <script>
 
-	$("#nuevaOrden").attr('disabled', false);
+	$("#btn-nueva").attr('disabled', false);
 	$("#btn-recuperar").attr('disabled', true);
 	$("#btn-imprimir").attr('disabled', true);
 
@@ -39,7 +39,7 @@
 		{data:"numorden",width:"5%"},
 		{data:"trabajo"},
 		{data:"estatus",width:"10%"},
-		{data:"cantidad",width:"10%"},
+		{data:"cant_requerida",width:"10%"},
 		{data:"fecha_entrega",width:"10%"}
 		],
 		"columnDefs": 
@@ -57,14 +57,14 @@
 	$('#ordActivas tbody').on( 'click', 'tr', function () {
 		if ( $(this).hasClass('selected') ) {
 			$(this).removeClass('selected');
-			$("#nuevaOrden").attr('disabled', false);
+			$("#btn-nueva").attr('disabled', false);
 			$("#btn-recuperar").attr('disabled', true);
 			$("#btn-imprimir").attr('disabled', true);
 		}
 		else {
 			ordActivas.$('tr.selected').removeClass('selected');
 			$(this).addClass('selected');
-			$("#nuevaOrden").attr('disabled', true);
+			$("#btn-nueva").attr('disabled', true);
 			$("#btn-recuperar").attr('disabled', false);
 			$("#btn-imprimir").attr('disabled', false);
 
@@ -72,9 +72,9 @@
 
 		var id = $(this).find('td').eq(0).html();
 
-		//$("#btn-recuperar").click(function(){
-		//	window.location.href = "show?ID="+id+"&Tipo=2";
-		//});
+		$("#btn-recuperar").click(function(){
+			window.location.href = "show?ID="+id+"&Tipo=2&Estatus=activas";
+		});
 
 		$("a[id='btn-imprimir']").attr('href', 'orderpdf?Id='+id);
 
@@ -82,7 +82,7 @@
 
 	});
 
-	$("#nuevaOrden").click(function(){
+	$("#btn-nueva").click(function(){
 
 		window.location.href = "show?ID=0&Tipo=1";
 

@@ -2,13 +2,16 @@
 .modal-dialog
 {
   width: 40%;
-}	
+} 
 </style>
 
 <div class="row">
-  <div class="col-md-9 btns">
-    <!--button class="btn btn-primary" id='excel-clientes'>Exportar a Excel</button-->
-  </div>
+  <div class="col-md-9">
+    <button id="btn-nueva" class="btn btn-primary">Nueva</button>
+    <button id="btn-recuperar" class="btn btn-primary">Recuperar</button>
+    <!--button id="btn-preliberar" class="btn btn-primary">Preliberar</button-->
+    <a class="btn btn-primary" href="#!" role="button" id="btn-imprimir" target="FormatoPDF">Imprimir</a>
+  </div>  
   <div class="col-md-3"><h1><?php  echo $this->titulo; echo @$this->nombreCliente?></h1></div>
 </div>
 
@@ -95,10 +98,10 @@
 
 <script>
 
-	var ord_preliberadas = $('#ord_preliberadas').DataTable({
-		ajax:{
-			url: 'consultarenesperadematerial'
-		}, 	
+  var ord_preliberadas = $('#ord_preliberadas').DataTable({
+    ajax:{
+      url: 'consultarenesperadematerial'
+    },  
     "columns":[
     {data:"numorden",width:"5%"},
     {data:"trabajo"},
@@ -113,47 +116,86 @@
     {"className": "dt-body-left", "targets": [1,2]},  
     {"className": "dt-body-center", "targets": [3,4,5,6]},
     {"className": "dt-head-center", "targets": "_all"}
-		],	
+    ],  
     "order": [[0, "desc" ]],
-		"searching": true,
-		"paging":    false,
-		"scrollY":   '320px',
-		"scrollX": true			
-	});
+    "searching": true,
+    "paging":    false,
+    "scrollY":   '320px',
+    "scrollX": true     
+  });
 
-	$('#ord_preliberadas').on("click", "a.btn-xliberar", function () 
-	{	
-		var data = ord_preliberadas.row($(this).parents("tr")).data();
-		var numorden = data.numorden;
-		var trabajo = data.trabajo;
+  $('#ord_preliberadas tbody').on("click", "a.btn-xliberar", function () 
+  { 
+    var data = ord_preliberadas.row($(this).parents("tr")).data();
+    var numorden = data.numorden;
+    var trabajo = data.trabajo;
     var cantidad = data.cantidad;
-		$('#myModal').modal('show');
-		$("#numorden").val(numorden);
-		$("#trabajo").val(trabajo);
+    $('#myModal').modal('show');
+    $("#numorden").val(numorden);
+    $("#trabajo").val(trabajo);
     $("#cant_req").val(cantidad);
-	});
+  });
 
-	$("#liberar").click(function(){
+  $("#liberar").click(function(){
 
-		var numorden = $("#numorden").val();
-		var trabajo = $("#trabajo").val();
+    var numorden = $("#numorden").val();
+    var trabajo = $("#trabajo").val();
 
-		$.post('estatusordenproduccion',{id_orden:numorden,estatus: 2, numordcompra: $("#ord_compra").val(), cantproducir:$("#cant_prod").val()},
-			function(result){
-				ord_preliberadas.ajax.reload();
-				$("#myModal").modal('hide');
-			},'json');
-		$.post('updatesituacion',{numorden:numorden,situacion: "PRODUCCION",cantproducir:$("#cant_prod").val()},
-			function(result){
-				//ord_preliberadas.ajax.reload();
-        $("#ord_compra").val("");
-        $("cant_prod").val();
-				$("#myModal").modal('hide');
-			},'json');		
-	});
+    $.post('estatusordenproduccion',{id_orden:numorden,estatus: 2, numordcompra: $("#ord_compra").val(), cantproducir:$("#cant_prod").val()},
+      function(result){
+        ord_preliberadas.ajax.reload();
+        $("#myModal").modal('hide');
+        $.post('updatesituacion',{numorden:numorden,situacion: "PRODUCCION",cantproducir:$("#cant_prod").val()},
+          function(result){
+            //ord_preliberadas.ajax.reload();
+            $("#ord_compra").val("");
+            $("cant_prod").val();
+            $("#myModal").modal('hide');
+          },'json');      
+      },'json');    
+  });
 
-	$("#cancelar").click(function(){
-		$("#myModal").modal('hide');
-	});
+  $("#cancelar").click(function(){
+    $("#myModal").modal('hide');
+  });
+
+  $('#ord_preliberadas tbody').on( 'click', 'tr', function () {
+    if ( $(this).hasClass('selected') ) {
+      $(this).removeClass('selected');
+      $("#btn-nueva").attr('disabled', false);
+      $("#btn-recuperar").attr('disabled', true);
+      $("#btn-imprimir").attr('disabled', true);
+      //$("#btn-preliberar").attr('disabled', true);
+    }
+    else {
+      ord_preliberadas.$('tr.selected').removeClass('selected');
+      $(this).addClass('selected');
+      $("#btn-nueva").attr('disabled', true);
+      $("#btn-recuperar").attr('disabled', false);
+      $("#btn-imprimir").attr('disabled', false);
+      //$("#btn-preliberar").attr('disabled', false);
+    }
+
+    id = $(this).find('td').eq(0).html();
+    trabajo = $(this).find('td').eq(1).html();
+    cantidad = $(this).find('td').eq(4).html();
+
+    $("#btn-recuperar").click(function(){
+
+      window.location.href = "show?ID="+id+"&Tipo=2"+"&Estatus=esperadematerial";
+
+    });
+
+    $("a[id='btn-imprimir']").attr('href', 'orderpdf?Id='+id);
+
+    return false;
+
+  });
+
+  $("#btn-nueva").click(function(){
+
+    window.location.href = "show?ID=0&Tipo=1";    
+
+  });   
 
 </script>

@@ -27,6 +27,8 @@ class Application_Model_DbTable_vMapeoProcesos extends Zend_Db_Table_Abstract
 			"numorden"=> $row['NumOrden'],
 			"trabajo" => $row['Trabajo'],
 			"cliente" => $row['Cliente'],
+			"cant_requerida" => $row['cant_requerida'],
+			"cant_producir" => $row['cantidad_producir'],
 			"femision"=> $femision->toString('d-m-Y'),
 			"fentrega"=> $fentrega->toString('d-m-Y'),
 			"dias" => $row['Dias'],

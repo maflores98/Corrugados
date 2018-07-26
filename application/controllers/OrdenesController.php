@@ -135,8 +135,8 @@
 				'fec_parc5' => $_POST['fec_parc5'],
 				'fec_parc6' => $_POST['fec_parc6'],
 				'fec_parc7' => $_POST['fec_parc7'],
-				'fec_parc8' => $_POST['fec_parc8']
-
+				'fec_parc8' => $_POST['fec_parc8'],
+				'lam_requeridas' => $_POST['lam_requeridas']
 			);
 
 			$OrdenProd = new Application_Model_DbTable_DetalleOrdenProduccion();
@@ -460,8 +460,8 @@
 				'fec_parc5' => $_POST['fec_parc5'],
 				'fec_parc6' => $_POST['fec_parc6'],
 				'fec_parc7' => $_POST['fec_parc7'],
-				'fec_parc8' => $_POST['fec_parc8']
-
+				'fec_parc8' => $_POST['fec_parc8'],
+				'lam_requeridas' => $_POST['lam_requeridas']
 
 			);
 
@@ -612,6 +612,52 @@
 			$consultar = $consulta->consultarestatusordenes();
 
 			echo Zend_Json::encode($consultar);		
-		}								
+		}
+
+		/// cancelar ordenes
+		public function estatuscancelacionAction(){
+
+			$this->_helper->layout->disableLayout();
+			$this->_helper->viewRenderer->setNoRender();
+
+			$IdOrden = $_POST['idor'];
+			$Estatus = $_POST['estatus'];
+			$cant_producir = $_POST['cantproducir'];
+			$fechaCancel= $_POST['fechaCancel'];
+			$motivoCancel=$_POST['motivoCancel'];
+			$usuario = Zend_Auth::getInstance()->getIdentity();  
+			$usuario = $usuario->nombre; 
+			//$numordcompra = $_POST['numordcompra'];
+			//$cantproducir = $_POST['cantproducir'];			
+
+			$OrdenProd = new Application_Model_DbTable_OrdenesProduccion();
+			$orden = $OrdenProd->updateCancelacion($IdOrden, $Estatus,$cant_producir,$fechaCancel,$motivoCancel,$usuario);
+
+			echo Zend_Json::encode($orden);
+		}		
+
+	    public function eliminarprocesoenproceso2Action(){
+	        $this->_helper->layout->disableLayout();
+	        $this->_helper->viewRenderer->setNoRender();
+
+	        $id_orden = $_POST['numorden'];
+
+	        $elimina = new Application_Model_DbTable_CapturaProcesos();
+	        $eliminar = $elimina->eliminarprocesoenproceso2($id_orden);
+
+	        echo Zend_Json::encode($eliminar);
+	    }
+
+	    public function eliminarprocesoenpendiente2Action(){
+	        $this->_helper->layout->disableLayout();
+	        $this->_helper->viewRenderer->setNoRender();
+
+	        $id_orden = $_POST['numorden'];
+
+	        $elimina = new Application_Model_DbTable_ProcesosPendientes();
+	        $eliminar = $elimina->eliminarprocesoenpendiente2($id_orden);
+
+	        echo Zend_Json::encode($eliminar);
+	    }  										
 
 	}

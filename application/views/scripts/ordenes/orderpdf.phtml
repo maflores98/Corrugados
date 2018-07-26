@@ -1,7 +1,11 @@
 <?php
 
+ini_set('display_errors', 'on');
+error_reporting(E_ALL | E_STRICT);
+
 require('Zend/FPDF/fpdf.php');
 $data = $this->data;
+
 
 class PDF extends FPDF{
 
@@ -146,29 +150,30 @@ class PDF extends FPDF{
 		$this->Cell(100);
 		$this->SetFont('Helvetica','B', 10);
 		$this->Cell(90, 6,'Grapado', 1, 0,'C', true);
-		$this->SetFont('Helvetica','', 9);
 		$this->Ln();
-		/*$this->SetFont('Helvetica','B', 10);
+
+		$this->SetFont('Helvetica','B', 10);
 		$this->Cell(90, 6,"Procesos", 1, 0,'C', true);
 		$this->SetFont('Helvetica','', 9);
-		$this->Cell(10);*/
-		$this->Cell(100);
+		$this->Cell(10);
 		$this->Cell(45, 6,"No. Grapas", 1, 0,'C');
 		$this->Cell(45, 6,"$data->num_grapas", 1, 0,'C');
 		$this->Ln();
-		$this->SetFont('Helvetica','B', 10);
-		$this->Cell(90, 6,"Procesos", 1, 0,'C', true);
-		$this->SetFont('Helvetica','', 9);
-		$this->Ln();
+
 		$this->Cell(20, 6,'Refilado', 1, 0,'C');
 		$this->Cell(70, 6,"$data->maq_refilado", 1, 0,'C');
-		$this->Cell(10);
+		$this->Ln();
+
+		$this->Cell(20, 6,'Rayado', 1, 0,'C');
+		$this->Cell(70, 6,"$data->maq_rayado", 1, 0,'C');		
 		$this->SetFont('Helvetica','B', 10);
+		$this->Cell(10);
 		$this->Cell(90, 6,'Empaque', 1, 0,'C', true);
 		$this->SetFont('Helvetica','', 9);
 		$this->Ln();
-		$this->Cell(20, 6,'Rayado', 1, 0,'C');
-		$this->Cell(70, 6,"$data->maq_rayado", 1, 0,'C');
+
+		$this->Cell(20, 6,'Impresion', 1, 0,'C');
+		$this->Cell(70, 6,"$data->maq_impresion", 1, 0,'C');
 		$this->Cell(10);
 		$this->Cell(20, 6,"Flejado", 1, 0,'C');
 		$this->Cell(10, 6,"$data->flejado", 1, 0,'C');
@@ -177,9 +182,10 @@ class PDF extends FPDF{
 		$this->Cell(10, 6,"$data->ligas", 1, 0,'C');
 		$this->Cell(15, 6,"$data->num_ligas", 1, 0,'C');
 		$this->Ln();
-		$this->Cell(20, 6,'Impresion', 1, 0,'C');
-		$this->Cell(70, 6,"$data->maq_impresion", 1, 0,'C');
-		$this->Cell(10);
+
+		$this->Cell(20, 6,'Ranurado', 1, 0,'C');
+		$this->Cell(70, 6,"$data->maq_ranurado", 1, 0,'C');
+		$this->Cell(10);		
 		$this->Cell(20, 6,"Corrugado", 1, 0,'C');
 		$this->Cell(10, 6,"$data->corrugado", 1, 0,'C');
 		$this->Cell(15, 6,"$data->cant_xcorrugado", 1, 0,'C');
@@ -187,9 +193,10 @@ class PDF extends FPDF{
 		$this->Cell(10, 6,"$data->fajillas", 1, 0,'C');
 		$this->Cell(15, 6,"$data->num_fajillas", 1, 0,'C');
 		$this->Ln();
-		$this->Cell(20, 6,'Ranurado', 1, 0,'C');
-		$this->Cell(70, 6,"$data->maq_ranurado", 1, 0,'C');
-		$this->Cell(10);
+
+		$this->Cell(20, 6,'Suajado', 1, 0,'C');
+		$this->Cell(70, 6,"$data->maq_suajado", 1, 0,'C');
+		$this->Cell(10);				
 		$this->Cell(20, 6,"Tarima", 1, 0,'C');
 		$this->Cell(10, 6,"$data->tarima", 1, 0,'C');
 		$this->Cell(15, 6,"$data->cant_xtarima", 1, 0,'C');
@@ -197,45 +204,58 @@ class PDF extends FPDF{
 		$this->Cell(10, 6,"$data->paquetes", 1, 0,'C');
 		$this->Cell(15, 6,"$data->cant_xpaquete", 1, 0,'C');
 		$this->Ln();
-		$this->Cell(20, 6,'Suajado', 1, 0,'C');
-		$this->Cell(70, 6,"$data->maq_suajado", 1, 0,'C');
-		$this->Cell(10);
+
+		$this->Cell(20, 6,'Pegado', 1, 0,'C');
+		$this->Cell(70, 6,"$data->maq_pegado", 1, 0,'C');
+		$this->Cell(10);		
 		$this->Cell(30, 6,"Emplayado: $data->emplayado", 1, 0,'C');
 		$this->Cell(35, 6,"Esquinero: $data->tipo_desbarbe", 1, 0,'C');
 		$this->Cell(25, 6,"Granel: $data->granel", 1, 0,'C');
 		$this->Ln();
-		$this->Cell(20, 6,'Pegado', 1, 0,'C');
-		$this->Cell(70, 6,"$data->maq_pegado", 1, 0,'C');
-		$this->Ln();
+		
 		$this->Cell(20, 6,'Grapado', 1, 0,'C');
-		$this->Cell(70, 6,"$data->maq_grapado", 1, 0,'C');
+		$this->Cell(70, 6,"$data->maq_grapado", 1, 0,'C');		
+		$this->Ln();
+
+		$this->Cell(20, 6,'Empalme', 1, 0,'C');
+		$this->Cell(70, 6,"$data->maq_empalme", 1, 0,'C');
 		$this->Cell(10);
 		$this->SetFont('Helvetica','B', 10);
 		$this->Cell(90, 6,"Envio", 1, 0,'C', true);
 		$this->SetFont('Helvetica','', 9);
 		$this->Ln();
-		$this->Cell(20, 6,'Empalme', 1, 0,'C');
-		$this->Cell(70, 6,"$data->maq_empalme", 1, 0,'C');
-		$this->Cell(10);
+
+		$this->Cell(100);
 		$this->Cell(45, 6,"Tipo de envio", 1, 0,'C');
 		$this->Cell(45, 6,"$data->tipo_envio", 1, 0,'C');
 		$this->Ln();
-		$this->Cell(100);
-		$this->Cell(90, 6,"$data->tipo_envio", 1, 0,'C');
-
-		$this->Ln(10);
-
+		
 		$this->SetFont('Helvetica','B', 10);
 		$this->Cell(90, 6,'Impresion', 1, 0,'C', true);
 		$this->Cell(10);
-		$this->Cell(90, 6,'Entrega', 1, 0,'C', true);
-		$this->SetFont('Helvetica','', 9);
+		$this->SetFont('Helvetica','', 9);		
+		$this->Cell(90, 6, "$data->direccion", 1);		
 		$this->Ln();
 
+		$this->SetFont('Helvetica','', 9);
 		$this->Cell(20, 6,'Tinta 1', 1, 0,'C');
 		$this->Cell(35, 6,"$data->largo_tinta1 x $data->ancho_tinta1", 1, 0,'C');
 		$this->Cell(35, 6,"$data->color_tinta1", 1, 0,'C');
+		$this->Ln();
+
+		$this->Cell(20, 6,'Tinta 2', 1, 0,'C');
+		$this->Cell(35, 6,"$data->largo_tinta2 x $data->ancho_tinta2", 1, 0,'C');
+		$this->Cell(35, 6,"$data->color_tinta2", 1, 0,'C');
 		$this->Cell(10);
+		$this->SetFont('Helvetica','B', 10);
+		$this->Cell(90, 6,'Entrega', 1, 0,'C', true);		
+		$this->Ln();
+
+		$this->SetFont('Helvetica','', 9);
+		$this->Cell(20, 6,'Tinta 3', 1, 0,'C');
+		$this->Cell(35, 6,"$data->largo_tinta3 x $data->ancho_tinta3", 1, 0,'C');
+		$this->Cell(35, 6,"$data->color_tinta3", 1, 0,'C');
+		$this->Cell(10);		
 		$this->Cell(5, 6,'1', 1, 0,'C', true);
 		$this->Cell(20, 6,"$data->cant_parc1", 1, 0,'C');
 		$this->Cell(20, 6,"$data->fec_parc1", 1, 0,'C');
@@ -243,9 +263,10 @@ class PDF extends FPDF{
 		$this->Cell(20, 6,"$data->cant_parc5", 1, 0,'C');
 		$this->Cell(20, 6,"$data->fec_parc5", 1, 0,'C');
 		$this->Ln();
-		$this->Cell(20, 6,'Tinta 2', 1, 0,'C');
-		$this->Cell(35, 6,"$data->largo_tinta2 x $data->ancho_tinta2", 1, 0,'C');
-		$this->Cell(35, 6,"$data->color_tinta2", 1, 0,'C');
+
+		$this->Cell(20, 6,'Tinta 4', 1, 0,'C');
+		$this->Cell(35, 6,"$data->largo_tinta4 x $data->ancho_tinta4", 1, 0,'C');
+		$this->Cell(35, 6,"$data->color_tinta4", 1, 0,'C');
 		$this->Cell(10);
 		$this->Cell(5, 6,'2', 1, 0,'C',true);
 		$this->Cell(20, 6,"$data->cant_parc2", 1, 0,'C');
@@ -254,9 +275,8 @@ class PDF extends FPDF{
 		$this->Cell(20, 6,"$data->cant_parc6", 1, 0,'C');
 		$this->Cell(20, 6,"$data->fec_parc6", 1, 0,'C');
 		$this->Ln();
-		$this->Cell(20, 6,'Tinta 3', 1, 0,'C');
-		$this->Cell(35, 6,"$data->largo_tinta3 x $data->ancho_tinta3", 1, 0,'C');
-		$this->Cell(35, 6,"$data->color_tinta3", 1, 0,'C');
+
+		$this->Cell(90, 6,"Sel. Color: $data->sel_color", 1, 0,'C');
 		$this->Cell(10);
 		$this->Cell(5, 6,'3', 1, 0,'C', true);
 		$this->Cell(20, 6,"$data->cant_parc3", 1, 0,'C');
@@ -265,10 +285,8 @@ class PDF extends FPDF{
 		$this->Cell(20, 6,"$data->cant_parc7", 1, 0,'C');
 		$this->Cell(20, 6,"$data->fec_parc7", 1, 0,'C');
 		$this->Ln();
-		$this->Cell(20, 6,'Tinta 4', 1, 0,'C');
-		$this->Cell(35, 6,"$data->largo_tinta4 x $data->ancho_tinta4", 1, 0,'C');
-		$this->Cell(35, 6,"$data->color_tinta4", 1, 0,'C');
-		$this->Cell(10);
+
+		$this->Cell(100);
 		$this->Cell(5, 6,'4', 1, 0,'C', true);
 		$this->Cell(20, 6,"$data->cant_parc4", 1, 0,'C');
 		$this->Cell(20, 6,"$data->fec_parc4", 1, 0,'C');
@@ -276,20 +294,22 @@ class PDF extends FPDF{
 		$this->Cell(20, 6,"$data->cant_parc8", 1, 0,'C');
 		$this->Cell(20, 6,"$data->fec_parc8", 1, 0,'C');
 		$this->Ln();
-		$this->Cell(90, 6,"Sel. Color: $data->sel_color", 1, 0,'C');
-		$this->Ln(10);
+		$this->Ln();
+
 		$this->SetFont('Helvetica','B', 10);
 		$this->Cell(0, 6,"Observaciones", 1, 0,'C',true);
 		$this->SetFont('Helvetica','', 9);
 		$this->Ln();
 		$this->MultiCell(0, 6, "$data->notas", 1);
-		//$this->Ln();
-date_default_timezone_set('America/Mexico_City');
-		$this->SetFont('Helvetica','', 11);
-		$this->Cell(0, 6, "Usuario: " . utf8_decode($data->usuario),0,0,'R');
+		$this->Ln(2);
+				
+		date_default_timezone_set('America/Mexico_City');
+		$this->SetFont('Helvetica','', 9);
+		$this->Cell(0, 4, "Usuario: " . utf8_decode($data->usuario),0,0,'R');
 		$this->Ln();
-		$this->Cell(0, 6, "Fecha de Registro: " . $fecha = date('d-m-Y H:i'),0,0,'R');		
-
+		$this->Cell(0, 4, "Registro: " . $data->fecha_emision , 0, 0,'R');
+		$this->Ln();
+		$this->Cell(0, 4, "Impresion: " . date('d/m/Y H:i'),0,0,'R');
 	}
 
 }
@@ -303,5 +323,5 @@ $pdf->SetAutoPageBreak(true, 10);
 $pdf->Tabla1(
 	$data
 );
-
+//ob_end_clean();
 $pdf->Output();

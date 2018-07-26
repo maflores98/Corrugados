@@ -1,6 +1,6 @@
 <div class="row">
 	<div class="col-md-9">
-		<button id="nuevaOrden" class="btn btn-primary">Nueva</button>
+		<button id="btn-nueva" class="btn btn-primary">Nueva</button>
 		<button id="btn-recuperar" class="btn btn-primary">Recuperar</button>
 		<a class="btn btn-primary" href="http://localhost/Corrugados/public/ordenes/orderpdf?Id=16" role="button" id="btn-imprimir" target="FormatoPDF">Imprimir</a>
 	</div>		
@@ -19,6 +19,7 @@
 							<th>Cant_requerida</th>
 							<th>Cant_liberada</th>
 							<th>Cant_merma</th>
+							<th>Cant_producida</th>
 							<th>Fecha Entrega</th>
 						</tr>
 					</thead>
@@ -33,7 +34,7 @@
 
 <script>
 
-	$("#nuevaOrden").attr('disabled', false);
+	$("#btn-nueva").attr('disabled', false);
 	$("#btn-recuperar").attr('disabled', true);
 	$("#btn-imprimir").attr('disabled', true);
 
@@ -48,6 +49,8 @@
 		{data:"cant_requerida",width:"10%"},
 		{data:"cant_liberada",width:"10%"},
 		{data:"cant_merma",width:"10%"},
+		{data:"cant_producida",width:"10%"},
+
 		{data:"fecha_entrega",width:"10%"}
 		],
 		"columnDefs": 
@@ -65,14 +68,14 @@
 	$('#ordFinalizadas tbody').on( 'click', 'tr', function () {
 		if ( $(this).hasClass('selected') ) {
 			$(this).removeClass('selected');
-			$("#nuevaOrden").attr('disabled', false);
+			$("#btn-nueva").attr('disabled', false);
 			$("#btn-recuperar").attr('disabled', true);
 			$("#btn-imprimir").attr('disabled', true);
 		}
 		else {
 			ordFinalizadas.$('tr.selected').removeClass('selected');
 			$(this).addClass('selected');
-			$("#nuevaOrden").attr('disabled', true);
+			$("#btn-nueva").attr('disabled', true);
 			$("#btn-recuperar").attr('disabled', false);
 			$("#btn-imprimir").attr('disabled', false);
 
@@ -82,7 +85,7 @@
 
 		$("#btn-recuperar").click(function(){
 
-			window.location.href = "show?ID="+id+"&Tipo=2";
+			window.location.href = "show?ID="+id+"&Tipo=2&Estatus=finalizadas";
 
 		});
 
@@ -92,7 +95,7 @@
 
 	});
 
-	$("#nuevaOrden").click(function(){
+	$("#btn-nueva").click(function(){
 
 		window.location.href = "show?ID=0&Tipo=1";
 

@@ -25,7 +25,8 @@ $date=new Zend_Date($row['Fecha_Entrega'], 'dd.MM.yyyy');
 				"numorden"=> $row['Num_Orden'],
 				"trabajo" => $row['Trabajo'],
 				"estatus" => $row['Estatus'],
-				"cantidad"=>$row['cant_requerida'],
+				"cant_requerida"=>$row['cant_requerida'],
+				"cant_liberada"=>$row['cant_liberada'],
 				"fecha_entrega"=> $date->toString('d-m-Y')
 				); 
 		}
@@ -51,9 +52,10 @@ $date = new Zend_Date($row['Fecha_Entrega']);
 				"numorden"=> $row['Num_Orden'],
 				"trabajo" => $row['Trabajo'],
 				"estatus" => $row['Estatus'],
-				"cant_requerida"=>$row['cant_requerida'],
-				"cant_liberada"=>$row['cant_liberada'],
-				"cant_merma"=>$row['cant_merma'],
+				"cant_requerida"=>number_format($row['cant_requerida']),
+				"cant_liberada"=>number_format($row['cant_liberada']),
+				"cant_merma"=>number_format($row['cant_merma']),
+				"cant_producida"=>number_format($row['cant_producida']),
 				"fecha_entrega"=>$date->toString('d-m-Y')
 				); 
 		}
@@ -71,15 +73,17 @@ $date = new Zend_Date($row['Fecha_Entrega']);
 		$canceladas = array();
 		foreach ($rows as $row) {
 
-Zend_Date::setOptions(array('format_type' => 'php'));
-$date = new Zend_Date($row['Fecha_Entrega']);			
+		Zend_Date::setOptions(array('format_type' => 'php'));
+		$date = new Zend_Date($row['fecha_cancelacion']);			
 
 			$canceladas[] = array(
 				"numorden"=> $row['Num_Orden'],
 				"trabajo" => $row['Trabajo'],
 				"estatus" => $row['Estatus'],
 				"cantidad"=>$row['cant_requerida'],
-				"fecha_entrega"=>$date->toString('d-m-Y')
+				"fecha_cancelacion"=>$date->toString('d-m-Y'),
+				"motivo_cancelacion"=>$row['motivo_cancelacion'],
+				"usuario_cancelacion"=>$row['usuario_cancelacion']
 				); 
 		}
 		$response->data = $canceladas;

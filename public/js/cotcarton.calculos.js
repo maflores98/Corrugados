@@ -1,7 +1,7 @@
 $(document).ready(function(){
 //Parametros fijos:
 var cejapegue= 4;
-var factor_tinta = 0.006 / 1000;
+var factor_tinta = parseFloat(0.006 / 1000);
 
 $.medidas = function()
 {
@@ -116,11 +116,7 @@ $.tipo_carton = function(descripcion)
     data: {Descripcion : descripcion},
     success: function(data2){
       $('select[name="tam_carton"]').html('<option value="null">SELECCIONAR</option>');
-      $('select[name="tam_carton"]').append(data2.data);      
-
-      $("#costo_m2").html(trunc(data2.costo,2));
-      $.costocarton();
-      $.total_material();      
+      $('select[name="tam_carton"]').append(data2.data);   
     }
   });  
 }
@@ -129,8 +125,8 @@ $.impresion = function()
 {
   if( $('select[name="articulo"]').val() == "CAJAS CON IMPRESION" )
   {          
-    var imp_merma = ( 15 * parseFloat( $("#cant_requerida").val() ) ) / 1000;
-    $("#imp_merma").html(Math.ceil(imp_merma));
+    //var imp_merma = ( 15 * parseFloat( $("#cant_requerida").val() ) ) / 1000;
+    //$("#imp_merma").html(Math.ceil(imp_merma));
     var imp_arreglo = 1;
     $("#imp_arreglo").html(trunc(imp_arreglo,2));
     var imp_tiraje = ( parseFloat($("#cant_requerida").val()) * 1.5 ) / 1000;
@@ -156,8 +152,8 @@ $.impresion = function()
 
 $.flexoranurado = function()
 {
-  var merma = ( 6 * parseFloat( $("#cant_requerida").val() ) ) / 1000;
-  $("#flexo_merma").html(Math.ceil(merma));
+  //var merma = ( 6 * parseFloat( $("#cant_requerida").val() ) ) / 1000;
+  //$("#flexo_merma").html(Math.ceil(merma));
   var arreglo = 0.67;
   $("#flexo_arreglo").html(trunc(arreglo,2));
 
@@ -188,8 +184,8 @@ $.flexoranurado = function()
 
 $.pegado = function()
 {
-  var pegado_merma = ( 10 * parseFloat( $("#cant_requerida").val() ) ) / 1000;
-  $("#pegado_merma").html(Math.ceil(pegado_merma));
+  //var pegado_merma = ( 10 * parseFloat( $("#cant_requerida").val() ) ) / 1000;
+  //$("#pegado_merma").html(Math.ceil(pegado_merma));
   var pegado_arreglo = 0.25;
   $("#pegado_arreglo").html(trunc(pegado_arreglo,2));
   var pegado_tiraje = parseFloat($("#cant_producir").text().replace(/,/gi,''))  / 1000;
@@ -204,9 +200,8 @@ $.pegado = function()
 
 $.grapado = function()
 {
-  var grapado_merma = ( 20 * parseFloat( $("#cant_requerida").val() ) ) / 1000;
-  $("#grapado_merma").html(Math.ceil(grapado_merma));
-  $.total_merma();
+  //var grapado_merma = ( 20 * parseFloat( $("#cant_requerida").val() ) ) / 1000;
+  //$("#grapado_merma").html(Math.ceil(grapado_merma));
 
     if($("#cant_requerida").val() <= 1000)
     {
@@ -230,8 +225,8 @@ $.grapado = function()
 
 $.refilado = function()
 {
-  var refilado_merma = ( 2 * parseFloat( $("#cant_requerida").val() ) ) / 1000;
-  $("#refilado_merma").html(Math.ceil(refilado_merma));
+  //var refilado_merma = ( 2 * parseFloat( $("#cant_requerida").val() ) ) / 1000;
+  //$("#refilado_merma").html(Math.ceil(refilado_merma));
   var refilado_arreglo = 0.33;
   $("#refilado_arreglo").html(trunc(refilado_arreglo,2));
   var refilado_tiraje = parseFloat($("#cant_producir").text().replace(/,/gi,''))  / 500;
@@ -246,8 +241,8 @@ $.refilado = function()
 
 $.rayado = function()
 {
-  var rayado_merma = ( 2 * parseFloat( $("#cant_requerida").val() ) ) / 1000;
-  $("#rayado_merma").html(Math.ceil(rayado_merma));
+  //var rayado_merma = ( 2 * parseFloat( $("#cant_requerida").val() ) ) / 1000;
+  //$("#rayado_merma").html(Math.ceil(rayado_merma));
   var rayado_arreglo = 0.33;
   $("#rayado_arreglo").html(trunc(rayado_arreglo,2));
   var rayado_tiraje = parseFloat($("#cant_producir").text().replace(/,/gi,''))  / 500;
@@ -262,8 +257,8 @@ $.rayado = function()
 
 $.caiman = function()
 {
-  var caiman_merma = ( 5 * parseFloat( $("#cant_requerida").val() ) ) / 1000;
-  $("#caiman_merma").html(Math.ceil(caiman_merma));
+  //var caiman_merma = ( 5 * parseFloat( $("#cant_requerida").val() ) ) / 1000;
+  //$("#caiman_merma").html(Math.ceil(caiman_merma));
   var caiman_arreglo = 0.17;
   $("#caiman_arreglo").html(trunc(caiman_arreglo,2));
   var caiman_tiraje = parseFloat($("#cant_producir").text().replace(/,/gi,''))  / 500;
@@ -278,8 +273,8 @@ $.caiman = function()
 
 $.suajado = function()
 {
-  var suajado_merma = ( 10 * parseFloat( $("#cant_requerida").val() ) ) / 1000;
-  $("#suajado_merma").html(Math.ceil(suajado_merma));
+  //var suajado_merma = ( 10 * parseFloat( $("#cant_requerida").val() ) ) / 1000;
+  //$("#suajado_merma").html(Math.ceil(suajado_merma));
 
     if($("#tipo_suajado").val() == 0)
     {
@@ -362,6 +357,48 @@ $.entarimado = function()
   $("#entarimado_cunit").html( currency(entarimado_cunit,2) );  
 }
 
+$.impmerma = function()
+{
+    var imp_merma = ( 15 * parseFloat( $("#cant_requerida").val() ) ) / 1000;
+    $("#imp_merma").html(Math.ceil(imp_merma));
+}
+$.flexomerma = function()
+{
+    var merma = ( 6 * parseFloat( $("#cant_requerida").val() ) ) / 1000;
+    $("#flexo_merma").html(Math.ceil(merma));
+}
+$.pegadomerma = function()
+{  
+    var pegado_merma = ( 10 * parseFloat( $("#cant_requerida").val() ) ) / 1000;
+    $("#pegado_merma").html(Math.ceil(pegado_merma));
+}
+$.grapadomerma = function()
+{
+    var grapado_merma = ( 20 * parseFloat( $("#cant_requerida").val() ) ) / 1000;
+    $("#grapado_merma").html(Math.ceil(grapado_merma));
+}
+$.refiladomerma = function()
+{
+    var refilado_merma = ( 2 * parseFloat( $("#cant_requerida").val() ) ) / 1000;
+    $("#refilado_merma").html(Math.ceil(refilado_merma));
+}
+$.rayadomerma = function()
+{
+    var rayado_merma = ( 2 * parseFloat( $("#cant_requerida").val() ) ) / 1000;
+    $("#rayado_merma").html(Math.ceil(rayado_merma));
+
+}
+$.caimanmerma = function()
+{
+    var caiman_merma = ( 5 * parseFloat( $("#cant_requerida").val() ) ) / 1000;
+    $("#caiman_merma").html(Math.ceil(caiman_merma));
+}
+$.suajadomerma = function()
+{
+    var suajado_merma = ( 10 * parseFloat( $("#cant_requerida").val() ) ) / 1000;
+    $("#suajado_merma").html(Math.ceil(suajado_merma));    
+}
+
 $.total_merma = function()
 {
   var total_merma = parseFloat($("#imp_merma").text()) + parseFloat($("#rayado_merma").text()) + parseFloat($("#caiman_merma").text()) + parseFloat($("#grapado_merma").text()) + parseFloat($("#flejado_merma").text()) + parseFloat($("#refilado_merma").text()) + parseFloat($("#flexo_merma").text()) + parseFloat($("#pegado_merma").text()) + parseFloat($("#suajado_merma").text()) + parseFloat($("#entarimado_merma").text());
@@ -404,7 +441,7 @@ $.costo_tinta = function()
   var costotinta = 50;
   if($("#articulo").val() == "CAJAS CON IMPRESION")
   {
-    var costo_tinta = parseFloat( $("#consumo_tinta").val().replace(/,/gi,'')) * costotinta;
+    var costo_tinta = parseFloat( $("#consumo_tinta").text().replace(/,/gi,'')) * costotinta;
     $("#costo_tinta").html(currency(costo_tinta,2));
   }
   else

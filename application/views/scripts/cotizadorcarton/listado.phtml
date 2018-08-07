@@ -8,14 +8,13 @@
 </div>
 <div class="row">
 	<div class="col-md-12">
-		<table id="ordActivas" class="compact cell-border" cellspacing="0" width="100%" style="text-align: center;">
+		<table id="listacarton" class="compact cell-border" cellspacing="0" width="100%" style="text-align: center;">
 			<thead>
 				<tr>
-					<th>IdOrden</th>
+					<th>Id_cotizacion</th>
 					<th>Nombre Trabajo</th>
-					<th>Estatus</th>
-					<th>Cant_requerida</th>
-					<th>Fecha Entrega</th>
+					<th>Nombre Cliente</th>
+					<th>Fecha Emisión</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -29,18 +28,17 @@
 
 	$("#btn-nueva").attr('disabled', false);
 	$("#btn-recuperar").attr('disabled', true);
-	$("#btn-imprimir").attr('disabled', true);
+	//$("#btn-imprimir").attr('disabled', true);
 
-	var ordActivas = $('#ordActivas').DataTable({
+	var listacarton = $('#listacarton').DataTable({
 		ajax:{
-			url: 'consultaractivas'
+			url: 'consultarcotizaciones'
 		}, 	
 		"columns":[
-		{data:"numorden",width:"5%"},
-		{data:"trabajo"},
-		{data:"estatus",width:"10%"},
-		{data:"cant_requerida",width:"10%"},
-		{data:"fecha_entrega",width:"10%"}
+		{data:"id_cotizacion",width:"5%"},
+		{data:"nombre_trabajo",width:"40%"},
+		{data:"nombre_cliente",width:"40%"},
+		{data:"fecha_emision",width:"10%"},
 		],
 		"columnDefs": 
 		[
@@ -54,7 +52,7 @@
 		"scrollX": true			
 	});
 
-	$('#ordActivas tbody').on( 'click', 'tr', function () {
+	$('#listacarton tbody').on( 'click', 'tr', function () {
 		if ( $(this).hasClass('selected') ) {
 			$(this).removeClass('selected');
 			$("#btn-nueva").attr('disabled', false);
@@ -62,21 +60,21 @@
 			$("#btn-imprimir").attr('disabled', true);
 		}
 		else {
-			ordActivas.$('tr.selected').removeClass('selected');
+			listacarton.$('tr.selected').removeClass('selected');
 			$(this).addClass('selected');
 			$("#btn-nueva").attr('disabled', true);
 			$("#btn-recuperar").attr('disabled', false);
-			$("#btn-imprimir").attr('disabled', false);
+			//$("#btn-imprimir").attr('disabled', false);
 
 		}
 
 		var id = $(this).find('td').eq(0).html();
 
 		$("#btn-recuperar").click(function(){
-			window.location.href = "show?ID="+id+"&Tipo=2&Estatus=activas";
+			window.location.href = "show?ID="+id+"&Tipo=2&id="+id;
 		});
 
-		$("a[id='btn-imprimir']").attr('href', 'orderpdf?Id='+id);
+		//$("a[id='btn-imprimir']").attr('href', 'orderpdf?Id='+id);
 
 		return false;
 
@@ -84,7 +82,7 @@
 
 	$("#btn-nueva").click(function(){
 
-		window.location.href = "show?ID=0&Tipo=1&Estatus=activas";
+		window.location.href = "carton";
 
 	});
 

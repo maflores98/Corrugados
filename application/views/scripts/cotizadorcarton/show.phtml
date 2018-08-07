@@ -1,0 +1,1412 @@
+<?php 
+$this->headLink()->appendStylesheet('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css');
+$this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js','text/javascript');
+//$this->headScript()->appendFile($this->baseUrl('js/cotcarton.validaciones.js'), 'text/javascript');
+$this->headScript()->appendFile($this->baseUrl('js/cotcarton.calculos.js'), 'text/javascript');
+//$this->headLink()->appendStylesheet($this->baseUrl('css/estilos.cotcarton.css'));
+?>
+<style>
+label[for=mcaja], label[for=mcarton]{
+	margin: 33px 0 0;
+}	
+label[for=refiladorayado]{
+	margin: 15px -16px 0;
+}
+.procesos{
+	text-align:center;
+}
+.total-fixed{
+	position: fixed;
+	width: 260px;
+	margin-left: -15px;
+}
+label[for=total_tinta] {
+    margin-top: 10px;
+}
+.envio{
+	text-align:center;
+}
+.btn-fixed{
+    background-color: #fff;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    text-align: right;
+    z-index:500;	
+    bottom: 30px;
+}
+</style>
+<div class="row">
+	<div class="col-md-12">
+		<h1 style="margin-top: 5px;"><?php  echo $this->titulo; echo @$this->nombreCliente?></h1>
+	</div>     
+</div>
+<form id="generarcotizacion" method="POST">
+    <div class="row">
+        <div class="col-md-9"><!--COTIZADOR-->
+			<div class="row">
+				<div class="col-md-12">
+			      	<div class="panel panel-default">
+				       	<div>
+				         	<h4 class="bs-titulo"><span>Datos</span></h4>
+				       	</div>
+				       	<div class="panel-body">
+				       		<div class="form-row">
+				                <div class="form-group">
+			           				<label class="col-md-3 control-label">Fecha registro:</label>
+			           				<div class="col-md-3">
+			            				<input type="date" class="form-control" id="fecha_emision" name="fecha_emision" value="<?php echo date("Y-m-d");?>" readonly>
+			          				</div>
+				                </div>
+				                <div class="form-group">
+			          				<label class="col-md-3 control-label" style="font-size: 1.2em; color: red;">Folio cotización:</label>
+			      					<div class="col-md-3">
+			        					<label id="id_cotizacion" style="font-size: 1.2em; color: red;">por asignar</label>
+			      					</div>
+				                </div>	
+				            </div>
+				            <br>
+				            <div class="form-row">
+				                <div class="form-group">
+		         					<label class="col-md-2 control-label">Cliente:</label>
+		         					<div class="col-md-10">
+		          						<select class="selectpicker form-control" id="id_cliente" name="id_cliente" data-live-search="true"></select>
+		       						</div>
+				                </div>		            	
+				            </div>
+				            <br>
+				            <div class="form-row">
+				                <div class="form-group">
+		       						<label class="col-md-2 control-label">Trabajo:</label>
+		       						<div class="col-md-10">
+		        						<input type="text" class="form-control" id="nombre_trabajo" name="nombre_trabajo">
+		      						</div>
+				                </div>		            	
+				            </div>		            	                	       			
+				       	</div>
+			   		</div>					
+				</div>
+				<div class="col-md-12">
+			      	<div class="panel panel-default">
+				       	<div>
+				         	<h4 class="bs-titulo"><span>Medidas</span></h4>
+				       	</div>
+				       	<div class="panel-body">
+				       		<!--div class="form-row">
+		          				<div class="form-group">
+		           					<label for="cant_requerida" class="col-md-1 col-md-offset-4 control-label">Cantidad</label>
+		            				<div class="col-md-2">
+		              					<input type="text" class="form-control" id="cant_requerida" name="cant_requerida" value="0">
+		            				</div>
+		          				</div>		       			
+				       		</div>
+				       		<br><br-->		       		
+				       		<div class="form-row">
+		          				<div class="form-group col-md-2">            
+		            				<label for="cant_requerida">Cantidad</label>
+		            				<input type="text" class="form-control" id="cant_requerida" name="cant_requerida" required>
+		          				</div>				       			
+		          				<div class="form-group col-md-2">            
+		            				<label for="med_frente">Frente</label>
+		            				<input type="text" class="form-control" id="med_frente" name="med_frente" required>
+		          				</div>
+						        <div class="form-group col-md-2">
+						        	<label for="med_fondo">Fondo</label>
+						            <input type="text" class="form-control" id="med_fondo" name="med_fondo" required>
+						        </div>
+		          				<div class="form-group col-md-2">  
+		            				<label for="med_alto">Alto</label>          
+		            				<input type="text" class="form-control" id="med_alto" name="med_alto" required>
+		          				</div>
+		          				<div class="form-group col-md-2">  
+		            				<label for="med_lamina" style="color:transparent;">.</label>          
+		            				<input type="text" class="form-control" id="med_lamina" name="med_lamina" value="(x)" readonly>
+		          				</div>
+		          				<div class="form-group col-md-2">  
+		            				<label for="m2_requeridos">m<sup>2</sup> req.</label>          
+		            				<input type="text" class="form-control" id="m2_requeridos" name="m2_requeridos" value="0.00" readonly>
+		          				</div>		       			
+				       		</div>		       		
+				       		<div class="form-row">
+		          				<div class="form-group col-md-2 col-md-offset-1">
+		           					<label for="med_largo">Largo</label>
+		           					<input type="text" class="form-control" id="med_largo" name="med_largo" required>
+		         				</div> 
+		     					<div class="form-group col-md-2">
+		          					<label for="med_ancho">Ancho</label>
+		          					<input type="text" class="form-control" id="med_ancho" name="med_ancho" required>
+		        				</div>
+								<div class="form-group col-md-2">
+		      						<label for="m2_xcaja" style="color:transparent;">.</label>
+		          					<input type="text" class="form-control" id="m2_xcaja" name="m2_xcaja" value="0.00" readonly>
+		       					</div>
+		          				<div class="form-group col-md-2">
+		         					<label for="mcaja" class="radio-inline">
+		          						<input type="radio" id="mcaja" name="tipo_medida" class="tipo_medida" value="1" required> M.Caja
+		        					</label>
+		         				</div>
+		          				<div class="form-group col-md-2">
+		        					<label for="mcarton" class="radio-inline">
+		          						<input type="radio" id="mcarton" name="tipo_medida" class="tipo_medida" value="2"> M.Cartón
+		    						</label>
+		         				</div>		       							       			
+				       		</div>	
+				       		<!--br><br>       		
+				       		<div class="form-row">
+		          				<div class="form-group col-md-2 col-md-offset-3">
+		         					<label for="caja" class="radio-inline">
+		          						<input type="radio" id="caja" name="tipo_medida" class="tipo_medida" value="1"> M.Caja
+		        					</label>
+		         				</div>
+		          				<div class="form-group col-md-2 col-md-offset-2">
+		        					<label class="radio-inline">
+		          						<input type="radio" id="carton" name="tipo_medida" class="tipo_medida" value="2"> M.Cartón
+		    						</label>
+		         				</div>         										       			
+				       		</div-->
+				       	</div>          	
+				    </div>										
+				</div>
+				<div class="col-md-8">
+			      	<div class="panel panel-default">
+				       	<div>
+				         	<h4 class="bs-titulo"><span>Tintas</span></h4>
+				       	</div>
+				       	<div class="panel-body">
+				       		<div class="form-row">
+		          				<div class="form-group">
+		           					<label for="no_tintas" class="col-md-3 col-md-offset-2 control-label">#Tintas</label>
+		            				<div class="col-md-3">
+		              					<input type="number" max="4" class="form-control" id="no_tintas" name="no_tintas" value="0">
+		            				</div>
+		          				</div>		       			
+				       		</div>
+				       		<br>
+				       		<div class="form-row">
+		          				<div class="form-group">
+		           					<label for="t1_largo" class="col-md-2 control-label">Tinta1</label>
+		            				<div class="col-md-3">
+		              					<input type="text" class="form-control" id="t1_largo" name="t1_largo" placeholder="Largo (cm)" readonly>
+		            				</div>
+		          				</div>
+		          				<div class="form-group">
+						          	<label for="t1_ancho" class="control-label"></label>
+						          	<div class="col-md-3">
+						            	<input type="text" class="form-control" id="t1_ancho" name="t1_ancho" placeholder="Ancho (cm)" readonly>
+						          	</div> 
+						          	<div class="col-md-3">
+						          		<input type="text" class="form-control" id="t1_res" name="t1_res" value="0" readonly>
+						          	</div>         					
+		          				</div>
+		          				<div class="form-group">
+		           					<label for="t2_largo" class="col-md-2 control-label">Tinta2</label>
+		            				<div class="col-md-3">
+		              					<input type="text" class="form-control" id="t2_largo" name="t2_largo" placeholder="Largo (cm)" readonly>
+		            				</div>		            				
+		          				</div>
+		          				<div class="form-group">
+						          	<label for="t2_ancho" class="control-label"></label>
+						          	<div class="col-md-3">
+						            	<input type="text" class="form-control" id="t2_ancho" name="t2_ancho" placeholder="Ancho (cm)" readonly>
+						          	</div>
+						          	<div class="col-md-3">
+						          		<input type="text" class="form-control" id="t2_res" name="t1_res" value="0" readonly>
+						          	</div>          					
+		          				</div>
+		          				<div class="form-group">
+		          					<label for="t3_largo" class="col-md-2 control-label">Tinta3</label>
+		          					<div class="col-md-3">
+		            					<input type="text" class="form-control" id="t3_largo" name="t3_largo" placeholder="Largo (cm)" readonly>
+		          					</div>          					
+		          				</div>
+		          				<div class="form-group">
+		          					<label for="t3_ancho" class="control-label"></label>
+		          					<div class="col-md-3">
+		            					<input type="text" class="form-control" id="t3_ancho" name="t3_ancho" placeholder="Ancho (cm)" readonly>
+		          					</div>
+		          					<div class="col-md-3">
+						          		<input type="text" class="form-control" id="t3_res" name="t1_res" value="0" readonly>
+						          	</div>          					
+		          				</div>
+		          				<div class="form-group">
+		          					<label for="t4_largo" class="col-md-2 control-label">Tinta4</label>
+		          					<div class="col-md-3">
+		            					<input type="text" class="form-control" id="t4_largo" name="t4_largo" placeholder="Largo (cm)" readonly>
+		          					</div>          					
+		          				</div>
+		          				<div class="form-group">
+		          					<label for="t4_ancho" class="control-label"></label>
+		          					<div class="col-md-3">
+		            					<input type="text" class="form-control" id="t4_ancho" name="t4_ancho" placeholder="Ancho (cm)" readonly>
+		          					</div>  
+		          					<div class="col-md-3">
+						          		<input type="text" class="form-control" id="t4_res" name="t1_res" value="0" readonly>
+						          	</div>        					
+		          				</div>  
+		          				<div class="form-group">
+		          					<label for="total_tinta" class="col-md-3 col-md-offset-5 control-label" style="text-align:right;">Total</label>
+		          					<div class="col-md-3">
+		            					<input type="text" class="form-control" id="total_tinta" name="total_tinta" value="0" readonly>
+		          					</div>          					
+		          				</div>		          				        						       			
+				       		</div>		
+				       	</div>
+				    </div>										
+				</div>
+				<div class="col-md-4">
+		       		<div class="form-row">
+						<div class="form-group col-md-9">
+						<label for="tipo_suajado" class="control-label">Tipo Suajado:</label>
+		      				<select class="form-control" id="tipo_suajado" name="tipo_suajado">
+		        				<option value="0" selected>SELECCIONAR</option>
+		        				<option value="1">MANUAL</option>
+		        				<option value="2">AUTOMATICO</option>
+		      				</select>
+						</div> 
+			       		<div class="form-group">
+			  				<div class="form-group col-md-7">            
+			    				<label for="cm_suaje">Suaje(cm)</label>
+			    				<input type="text" class="form-control" id="cm_suaje" name="cm_suaje" value="0">
+			  				</div>       			
+			       		</div>
+		  				<div class="form-group col-md-9">
+		 					<label for="refiladorayado" class="radio-inline">
+		  					<input type="checkbox" id="refiladorayado" name="refiladorayado" value="1"> Refilado/Rayado
+							</label>
+		 				</div>	       						      			
+		       		</div>					
+				</div>	
+				<div class="col-md-12">
+			      	<div class="panel panel-default">
+				       	<div>
+				         	<h4 class="bs-titulo"><span>Productos</span></h4>
+				       	</div>
+				       	<div class="panel-body">
+				       		<div class="form-row">
+								<div class="form-group">
+									<label for="articulo" class="col-md-1 control-label">Articulo</label>
+									<div class="col-md-3">
+					      				<select class="form-control" id="articulo" name="articulo" required>
+					        				<option value="0" selected>SELECCIONAR</option>
+					      				</select>
+				      				</div>
+								</div>
+		          				<div class="form-group">
+		         					<label for="mat-corrugados" class="col-md-2 col-md-offset-1 radio-inline">
+		          						<input type="radio" id="mat-corrugados" name="selector_material" value="Corrugados" required>Corrugados
+		        					</label>
+		         				</div>
+								<div class="form-group">
+									<label for="tipo_material" class="col-md-1 col-md-offset-1 control-label">Tipo</label>
+									<div class="col-md-3">
+					      				<select class="form-control" id="tipo_material" name="tipo_material" required>
+					        				<option value="0" selected>SELECCIONAR</option>
+					      				</select>
+				      				</div>
+								</div>
+								<div class="form-group">
+									<label for="tipo_producto" class="col-md-1 control-label">Producto</label>
+									<div class="col-md-3">
+					      				<select class="form-control" id="tipo_producto" name="tipo_producto" required>
+					        				<option value="0" selected>SELECCIONAR</option>
+					      				</select>
+					      			</div>
+								</div>
+		          				<div class="form-group">
+		         					<label for="mat-kaples" class="col-md-2 col-md-offset-1 radio-inline">
+		          					<input type="radio" id="mat-kaples" name="selector_material" value="Kaples">Kaples
+		        					</label>
+		         				</div>
+								<div class="form-group">
+									<label for="carton" class="col-md-1 col-md-offset-1 control-label">Cartón</label>
+									<div class="col-md-3">
+					      				<select class="form-control" id="carton" name="carton" required>
+					        				<option value="0" selected>SELECCIONAR</option>
+					      				</select>
+					      			</div>
+								</div>
+								<div class="form-group">
+									<label for="tam_carton" class="col-md-1 col-md-offset-8 control-label">Tamaño</label>
+									<div class="col-md-3">
+					      				<select class="form-control" id="tam_carton" name="tam_carton" required>
+					        				<option value="0" selected>SELECCIONAR</option>
+					      				</select>
+					      			</div>
+								</div>	
+							</div>
+				       	</div>		
+				    </div>					
+				</div>
+				<div class="col-md-8">
+			      	<div class="panel panel-default">
+				       	<div>
+				         	<h4 class="bs-titulo"><span>Procesos</span></h4>
+				       	</div>
+				       	<div class="panel-body">
+						    <div class="row">
+						  	    <label class="col-md-3 control-label">Procesos</label>
+							    <label class="col-md-2 control-label">Merma</label> 
+						        <label class="col-md-2 control-label">Arreglo</label> 
+						        <label class="col-md-2 control-label">Tiro</label> 
+						        <label class="col-md-2 control-label">C.Unit</label>                               
+						    </div>
+						    <div class="row">
+						       	<label class="col-md-3 control-label">Impresión</label>
+						       	<span class="col-md-2 procesos" id="imp_merma">0</span>
+						       	<span class="col-md-2 procesos" id="imp_arreglo">0</span>
+						       	<span class="col-md-2 procesos" id="imp_tiro">0</span>
+						       	<span class="col-md-2 procesos" id="imp_cunit">0</span>
+						    </div>
+							<div class="row">
+						       	<label class="col-md-3 control-label">Refilado</label>
+						       	<span class="col-md-2 procesos" id="refilado_merma">0</span>
+						       	<span class="col-md-2 procesos" id="refilado_arreglo">0</span>
+						       	<span class="col-md-2 procesos" id="refilado_tiro">0</span>
+						       	<span class="col-md-2 procesos" id="refilado_cunit">0</spa>            
+						    </div>
+						   	<div class="row">
+						     	<label class="col-md-3 control-label">Rayado</label>
+						     	<span class="col-md-2 procesos" id="rayado_merma">0</span>
+						     	<span class="col-md-2 procesos" id="rayado_arreglo">0</span>
+						     	<span class="col-md-2 procesos" id="rayado_tiro">0</span>
+						     	<span class="col-md-2 procesos" id="rayado_cunit">0</span> 
+							</div>
+							<div class="row">
+						     	<label class="col-md-3 control-label">Flexo</label>
+						     	<span class="col-md-2 procesos" id="flexo_merma">0</span>
+						     	<span class="col-md-2 procesos" id="flexo_arreglo">0</span>
+						     	<span class="col-md-2 procesos" id="flexo_tiro">0</span>
+						     	<span class="col-md-2 procesos" id="flexo_cunit">0</span>                                 
+						   	</div>
+						    <div class="row">
+						       	<label class="col-md-3 control-label">Caiman</label>   
+						       	<span class="col-md-2 procesos" id="caiman_merma">0</span>
+						       	<span class="col-md-2 procesos" id="caiman_arreglo">0</span>
+						       	<span class="col-md-2 procesos" id="caiman_tiro">0</span>
+						       	<span class="col-md-2 procesos" id="caiman_cunit">0</span> 
+							</div>
+							<div class="row">
+						       	<label class="col-md-3 control-label">Pegado</label>
+						       	<span class="col-md-2 procesos" id="pegado_merma">0</span>
+						       	<span class="col-md-2 procesos" id="pegado_arreglo">0</span>
+						       	<span class="col-md-2 procesos" id="pegado_tiro">0</span>
+						       	<span class="col-md-2 procesos" id="pegado_cunit">0</span>                     
+						    </div>
+						   	<div class="row">
+						     	<label class="col-md-3 control-label">Grapado</label>
+						     	<span class="col-md-2 procesos" id="grapado_merma">0</span>
+						     	<span class="col-md-2 procesos" id="grapado_arreglo">0</span>
+						     	<span class="col-md-2 procesos" id="grapado_tiro">0</span>
+						     	<span class="col-md-2 procesos" id="grapado_cunit">0</span>
+						     </div>                                
+						     <div class="row">
+						     	<label class="col-md-3 control-label">Suajado</label>
+						     	<span class="col-md-2 procesos" id="suajado_merma">0</span>
+						     	<span class="col-md-2 procesos" id="suajado_arreglo">0</span>
+						     	<span class="col-md-2 procesos" id="suajado_tiro">0</span>
+						     	<span class="col-md-2 procesos" id="suajado_cunit">0</span>                   
+						 	</div> 
+						 	<div class="row">
+						   		<label class="col-md-3 control-label">Flejado</label>   
+						   		<span class="col-md-2 procesos" id="flejado_merma">0</span>
+						   		<span class="col-md-2 procesos" id="flejado_arreglo">0</span>
+						   		<span class="col-md-2 procesos" id="flejado_tiro">0</span>
+						   		<span class="col-md-2 procesos" id="flejado_cunit">0</span>
+						   	</div>                              
+						   	<div class="row">
+						   		<label class="col-md-3 control-label">Entarimado</label>
+						   		<span class="col-md-2 procesos" id="entarimado_merma">0</span>
+						   		<span class="col-md-2 procesos" id="entarimado_arreglo">0</span>
+						   		<span class="col-md-2 procesos" id="entarimado_tiro">0</span>
+						   		<span class="col-md-2 procesos" id="entarimado_cunit">0</span>
+							</div>
+							<div class="row">
+						   		<label style="font-weight: bold;" class="col-md-3 control-label">Total</label>
+						   		<span style="font-weight: bold;" class="col-md-2 procesos" id="total_merma">0</span>
+						   		<span style="font-weight: bold;" class="col-md-2 procesos" id="total_arreglo">0</span>
+						   		<span style="font-weight: bold;" class="col-md-2 procesos" id="total_tiro">0</span>
+						   		<span style="font-weight: bold;" class="col-md-2 procesos" id="total_cunit">0</span>    
+							</div>				       		
+				       	</div>					
+				    </div>
+				</div>
+				<div class="col-md-4">
+			      	<div class="panel panel-default">
+				       	<div>
+				         	<h4 class="bs-titulo"><span>Materiales</span></h4>
+				       	</div>
+				       	<div class="panel-body">
+		      				<div class="row">
+		        				<label class="col-md-8 control-label">Cantidad a producir</label>
+		        				<span class="col-md-4 materiales" id="cant_producir">0</span>
+		      				</div>     
+		      				<div class="row">
+		        				<label class="col-md-8 control-label">Metros<sup>2</sup> totales</label>
+		        				<span class="col-md-4 materiales" id="m2_req">0</span>
+		      				</div>
+		      				<div class="row">
+		        				<label class="col-md-8 control-label">Costo por m<sup>2</sup></label> 
+		        				<span class="col-md-4 materiales" id="costo_m2">0</span>   
+		      				</div>
+		      				<div class="row">
+		        				<label class="col-md-8 control-label">Consumo tinta(kg)</label> 
+		        				<span class="col-md-4 materiales" id="consumo_tinta">0</span>   
+		      				</div>
+		      				<div class="row">
+		        				<label class="col-md-8 control-label">Costo carton</label> 
+		        				<span class="col-md-4 materiales" id="costo_carton">0</span> 
+		      				</div>
+		      				<div class="row">
+		        				<label class="col-md-8 control-label">Costo tinta</label>  
+		        				<span class="col-md-4 materiales" id="costo_tinta">0</span>
+		      				</div>
+		      				<div class="row">
+		        				<label class="col-md-8 control-label">Costo Cirel</label> 
+		        				<span class="col-md-4 materiales" id="costo_cirel">0</span>
+		      				</div>
+		      				<div class="row">
+		        				<label class="col-md-8 control-label">Costo suaje</label> 
+		        				<span class="col-md-4 materiales" id="costo_suaje">0</span>
+		      				</div>
+		      				<div class="row">
+		        				<label class="col-md-8 control-label">Costo</label> 
+		        				<span class="col-md-4 materiales" id="total_material">0</span>           
+		      				</div>		       		
+				       	</div>		
+				    </div>					
+				</div>
+				<div class="col-md-8">
+			      	<div class="panel panel-default">
+				       	<div>
+				         	<h4 class="bs-titulo"><span>Envios</span></h4>
+				       	</div>
+				       	<div class="panel-body">
+				       		<div class="form-row">
+								<div class="form-group">
+									<label for="tipo_camion1" class="col-md-3 control-label">Unidad</label>
+									<div class="col-md-3">
+					      				<select class="form-control camion" id="tipo_camion1" name="tipo_camion1">
+					        				<option value="0" selected>SELECCIONAR</option>
+					      				</select>
+				      				</div>
+								</div>
+								<div class="form-group col-md-3">
+				      				<select class="form-control camion" id="tipo_camion2" name="tipo_camion2">
+				        				<option value="0" selected>SELECCIONAR</option>
+				      				</select>
+								</div>
+								<div class="form-group col-md-3">
+				      				<select class="form-control camion" id="tipo_camion3" name="tipo_camion3">
+				        				<option value="0" selected>SELECCIONAR</option>
+				      				</select>
+								</div>												
+							</div>
+							<br><br>
+		    				<div class="form-row">    					
+		      					<label class="col-md-3 control-label">Capacidad</label>
+		      					<span class="col-md-3 envios" id="capacidad1">0</span>
+		      					<span class="col-md-3 envios" id="capacidad2">0</span>   
+		      					<span class="col-md-3 envios" id="capacidad3">0</span>
+		  					</div>
+		  					<br><br>
+		  					<div class="form-row">
+							    <label class="col-md-3 control-label">Costo viaje</label>
+							    <span class="col-md-3 envios" id="costo_viaje1">0</span>
+							    <span class="col-md-3 envios" id="costo_viaje2">0</span>   
+							    <span class="col-md-3 envios" id="costo_viaje3">0</span>  
+							</div>
+							<br>
+				       		<div class="form-row">
+								<div class="form-group">
+		           					<label for="cant_enviar1" class="col-md-3 control-label">Cantidad</label>
+		            				<div class="col-md-3">
+		              					<input type="text" class="form-control cantidad" id="cant_enviar1" name="cant_enviar1" data-cantidad="1" readonly>
+		            				</div>
+								</div>
+								<div class="form-group col-md-3">
+									<input type="text" class="form-control cantidad" id="cant_enviar2" name="cant_enviar2" data-cantidad="2" readonly>
+								</div>
+								<div class="form-group col-md-3">
+				      				<input type="text" class="form-control cantidad" id="cant_enviar3" name="cant_enviar3" data-cantidad="3" readonly>
+								</div>												
+							</div>
+							<br><br>
+							<div class="form-row">
+		  						<label class="col-md-3 control-label">Num.Viajes</label>
+		  						<span class="col-md-3 envios" id="num_viajes1">0</span>
+		  						<span class="col-md-3 envios" id="num_viajes2">0</span>   
+		  						<span class="col-md-3 envios" id="num_viajes3">0</span>						
+							</div>
+							<br><br>
+							<div class="form-row">
+		  						<label class="col-md-3 control-label">Costo</label>
+		  						<span class="col-md-3 envios" id="costo_envio1">0</span>
+		  						<span class="col-md-3 envios" id="costo_envio2">0</span>   
+		  						<span class="col-md-3 envios" id="costo_envio3">0</span>
+							</div>													
+				       	</div>		
+				    </div>					
+				</div>	
+				<div class="col-md-4">
+			      	<div class="panel panel-default">
+				       	<div>
+				         	<h4 class="bs-titulo"><span>Total envio	</span></h4>
+				       	</div>
+				       	<div class="panel-body">
+							<div class="form-row">
+		  						<label class="col-md-8 control-label">Total Enviado (pzas)</label>
+		  						<span class="col-md-4 envios" id="total_enviado">0</span>
+							</div>	
+							<br><br>
+							<div class="form-row">
+		  						<label class="col-md-8 control-label">Diferencia VS. pedido</label>
+		  						<span class="col-md-3 envios" id="difvs_pedido">0</span>
+							</div>
+							<br><br><br>
+							<div class="form-row">
+		  						<label class="col-md-8 control-label">Costo por envio</label>
+		  						<span class="col-md-4 envios" id="total_envio">0</span>
+							</div>
+				       	</div>
+				    </div>						
+				</div>		
+			</div>
+		</div>
+		<div class="col-md-3"><!--TOTALES-->
+			<div class="total-fixed">
+		      	<div class="panel panel-default">
+			       	<div>
+			         	<h4 class="bs-titulo"><span>Total</span></h4>
+			       	</div>
+			       	<div class="panel-body">
+					    <div class="row">
+					  		<label class="col-md-5 control-label">Importe:</label>
+					      	<span class="col-md-7 total" id="importe"></span>          
+					    </div>
+					    <div class="row">    
+					      	<label class="col-md-5 control-label">Margen:</label>
+					      	<span class="col-md-4 total" id="margen">0</span>
+					      	<span class="col-md-2 total" id="por_margen">0</span>%
+					    </div>
+					    <div class="row">    
+					      	<label class="col-md-5 control-label">P.Unitario:</label>
+					      	<span class="col-md-7 total" id="punitario">0</span>             
+					    </div>
+					    <div class="row">    
+					      	<label class="col-md-5 control-label">Total:</label>
+					      	<span class="col-md-7 total" id="total">0</span>              
+					    </div>		       			
+			       	</div>
+			    </div>  					   					
+			</div>
+   		</div>
+   		<div class="col-md-12">
+   			<div class="btn-fixed">
+		      <button type="button" class="btn btn-default" id="btn-limpiar">Limpiar</button>
+		      <button type="button" class="btn btn-primary" id="btn-calcular">Calcular</button>  
+		      <button type="submit" class="btn btn-primary" id="btn-guardar">Guardar</button>
+   			</div>
+   		</div>
+   	</div>
+</form>
+<script>
+var clasificacion, clasificacion2, tipoproducto, material, carton;
+
+  var Tipo = getParameterByName('Tipo');
+	if(Tipo == 2)
+	{
+		var id_cotizacion = getParameterByName('id');
+	    $.post('extraercotizacion',{id_cotizacion: id_cotizacion},
+	    	function (data) 
+	    	{
+				$.each(data, function (index, value) {
+					$('input[id="' + index + '"]').val(value);
+					$('span[id="' + index + '"]').html(currency(value,2));
+				}); 
+
+		        d = new Date(data['fecha_emision']);
+		        $('#fecha_emision').val(d.getFullYear()+"-"+zeroPadded(d.getMonth() + 1)+"-"+zeroPadded(d.getDate())+"T"+zeroPadded(d.getHours())+":"+zeroPadded(d.getMinutes())+":"+zeroPadded(d.getSeconds()));	
+
+	    		$('#id_cliente').selectpicker('val', data['id_cliente']);
+	    		$('#id_cliente').selectpicker('refresh');
+	    		$('input[name="tipo_medida"][value="' + data['tipo_medida'] + '"]').prop("checked", true);
+
+    			selProducto(data['articulo']);
+    			selTipoMaterial(data['selector_material']);
+    			selCarton(data['tipo_material']);
+    			selTamanoCarton(data['carton']);
+
+				$('input[name="selector_material"][value="' + data['selector_material'] + '"]').prop("checked", true);
+	    		$('select[name="articulo"]>option[value="' + data['articulo'] + '"]').attr("selected", true);
+	    		$('select[name="tipo_producto"]>option[value="' + data['tipo_producto'] + '"]').attr("selected", true);
+	    		$('select[name="tipo_material"]>option[value="' + data['tipo_material'] + '"]').attr("selected", true);
+	    		$('select[name="carton"]>option[value="' + data['carton'] + '"]').attr("selected", true);
+	    		$('select[name="tam_carton"]>option[value="' + data['tam_carton'] + '"]').attr("selected", true);
+	    		$('select[name="tipo_suajado"]>option').removeAttr("selected");
+	    		$('select[name="tipo_suajado"]>option[value="' + data['tipo_suajado'] + '"]').attr("selected", true);
+	    		$('input[name="refiladorayado"][value="' + data['refiladorayado'] + '"]').prop("checked", true);	    		
+	    		$('select[name="tipo_camion1"]>option[value="' + data['tipo_camion1'] + '"]').attr("selected", true);
+	    		$('select[name="tipo_camion2"]>option[value="' + data['tipo_camion2'] + '"]').attr("selected", true);
+	    		$('select[name="tipo_camion3"]>option[value="' + data['tipo_camion3'] + '"]').attr("selected", true);
+	    		$('#por_margen').html(data['por_margen']);
+
+	    	},'json'
+	    );
+	}
+
+
+$.ajax({
+	type: "GET",
+	url: 'buscaclientes',
+	async: false,
+	success: function (response) {
+		$('#id_cliente').html(response);
+
+	},
+	error: function () {
+		$('#id_cliente').html('Hubo un error');
+	}
+});	
+
+selArticulo();
+
+$.post('seltiposcamiones',
+	function(data)
+	{
+		$('select[name="tipo_camion1"]').html('<option value="0">SELECCIONAR</option>');
+		$('select[name="tipo_camion1"]').append(data);
+		$('select[name="tipo_camion1"]>option').removeAttr("selected");
+
+		$('select[name="tipo_camion2"]').html('<option value="0">SELECCIONAR</option>');
+		$('select[name="tipo_camion2"]').append(data);
+		$('select[name="tipo_camion2"]>option').removeAttr("selected");
+
+		$('select[name="tipo_camion3"]').html('<option value="0">SELECCIONAR</option>');
+		$('select[name="tipo_camion3"]').append(data);
+		$('select[name="tipo_camion3"]>option').removeAttr("selected"); 
+	},'json'
+	);
+
+$("#no_tintas").bind('keyup mouseup',function(){
+	var no_tintas = this.value;
+	switch(no_tintas) 
+	{
+		case '1':
+		$("#t1_largo").removeAttr("readonly");
+		$("#t1_ancho").removeAttr("readonly");
+
+		$("#t2_largo").attr("readonly","readonly");    
+		$("#t3_largo").attr("readonly","readonly");    
+		$("#t4_largo").attr("readonly","readonly");
+		$("#t2_ancho").attr("readonly","readonly");    
+		$("#t3_ancho").attr("readonly","readonly");    
+		$("#t4_ancho").attr("readonly","readonly"); 
+
+		$("#t2_largo").val("");    
+		$("#t3_largo").val("");    
+		$("#t4_largo").val("");
+		$("#t2_ancho").val("");    
+		$("#t3_ancho").val("");    
+		$("#t4_ancho").val("");
+
+		$("#t2_res").val("0");    
+		$("#t3_res").val("0");    
+		$("#t4_res").val("0");        
+		break;
+		case '2':
+		$("#t1_largo").removeAttr("readonly");
+		$("#t2_largo").removeAttr("readonly");
+		$("#t1_ancho").removeAttr("readonly");
+		$("#t2_ancho").removeAttr("readonly");
+
+		$("#t3_largo").attr("readonly","readonly");    
+		$("#t4_largo").attr("readonly","readonly");
+		$("#t3_ancho").attr("readonly","readonly");    
+		$("#t4_ancho").attr("readonly","readonly");   
+
+		$("#t3_largo").val("");    
+		$("#t4_largo").val("");
+		$("#t3_ancho").val("");    
+		$("#t4_ancho").val("");
+
+		$("#t3_res").val("0");    
+		$("#t4_res").val("0");              
+		break;
+		case '3':
+		$("#t1_largo").removeAttr("readonly");
+		$("#t2_largo").removeAttr("readonly");    
+		$("#t3_largo").removeAttr("readonly");
+		$("#t1_ancho").removeAttr("readonly");
+		$("#t2_ancho").removeAttr("readonly");    
+		$("#t3_ancho").removeAttr("readonly");
+
+		$("#t4_largo").attr("readonly","readonly");
+		$("#t4_ancho").attr("readonly","readonly");
+
+		$("#t4_largo").val("");
+		$("#t4_ancho").val("");
+
+		$("#t4_res").val("0");       
+		break;
+		case '4':
+		$("#t1_largo").removeAttr("readonly");
+		$("#t2_largo").removeAttr("readonly");    
+		$("#t3_largo").removeAttr("readonly");    
+		$("#t4_largo").removeAttr("readonly");
+		$("#t1_ancho").removeAttr("readonly");
+		$("#t2_ancho").removeAttr("readonly");    
+		$("#t3_ancho").removeAttr("readonly");    
+		$("#t4_ancho").removeAttr("readonly");       
+		break;                
+	}
+});	
+
+$('select[name="articulo"]').change(function(){
+	clasificacion = $('select[name="articulo"] option:selected').data('descripcion');
+	clasificacion2 = $("#m2_requeridos").val().replace(",","");
+
+	if( clasificacion2 <= 700 )
+	{
+		$.post('selectproducto', {clasificacion : clasificacion, clasificacion2: "<= 700"},
+			function(data)
+			{
+				$('select[name="tipo_producto"]').html('<option value="0">SELECCIONAR</option>');
+				$('select[name="tipo_producto"]').append(data);					
+			},'json'
+			);
+	}
+	else if( clasificacion2 > 700 )
+	{
+		$.post('selectproducto', {clasificacion : clasificacion, clasificacion2: "> 700"},
+			function(data)
+			{
+				$('select[name="tipo_producto"]').html('<option value="0">SELECCIONAR</option>');
+				$('select[name="tipo_producto"]').append(data);					
+			},'json'
+			);
+	}		  	
+});
+
+$('select[name="tipo_producto"]').change(function(){
+
+	clasificacion = $('select[name="articulo"] option:selected').data('descripcion');
+	clasificacion2 = $("#m2_requeridos").val().replace(",","");
+	tipoproducto = $('select[name="tipo_producto"] option:selected').data('val');
+});	
+
+$('input[name="selector_material"]:radio').click(function(){
+	var value = $('input[name="selector_material"]:checked').val();
+	$.post('tipomaterial',{'tipoMaterial' : value},
+		function(data)
+		{
+			$('select[name="tipo_material"]').html('<option value="0">SELECCIONAR</option>');
+			$('select[name="carton"]').html('<option value="0">SELECCIONAR</option>');
+			$('select[name="tam_carton"]').html('<option value="0">SELECCIONAR</option>');
+			$('select[name="tipo_material"]').append(data);	  			
+		},'json'
+		);
+});	
+
+$('select[name="tipo_material"]').change(function(){
+
+	material = $('select[name="tipo_material"] option:selected').val();
+	var texto = material;
+	$.post('selmatcorrugados',{Material : texto},
+		function(data){
+			$('select[name="carton"]').html('<option value="0">SELECCIONAR</option>');
+			$('select[name="carton"]').append(data);
+		},'json'
+		);
+});	
+
+$('select[name="carton"]').change(function(){
+	carton = $('select[name="carton"] option:selected').val();
+	var descripcion = carton;
+	$.post('seltamcorrugados',{Descripcion : descripcion},
+		function(data){
+			$('select[name="tam_carton"]').html('<option value="0">SELECCIONAR</option>');
+			$('select[name="tam_carton"]').append(data.data);
+		},'json'
+		);
+}); 
+
+$(".camion").change(function(){
+	tipo_camion = $(this).val();
+	camion = $(this).data('camion');
+	if( $(this).val() == 0 )
+	{
+		$("#capacidad"+camion).html("0");
+		$("#costo_viaje"+camion).html("0");
+		$("#cant_enviar"+camion).val("");
+		$("#cant_enviar"+camion).attr("disabled", true);
+		$("#num_viajes"+camion).html("0");
+		$("#costo_total"+camion).html("0");
+	}
+	else
+	{	
+		$("#cant_enviar"+camion).attr("disabled", false);
+		detalle_camion(tipo_camion, camion);
+	}
+});	
+
+	//-------------------------------------------CALCULAR------------------------------------------------//
+
+	$("#btn-calcular").click(function()
+	{
+		$.medidas();
+		$.margen();
+
+		if( $('input:radio[name=tipo_medida]:checked').val() == 1 )
+		{
+			$.medidascaja();
+		}
+		else
+		{
+			$.medidascarton();
+		} 
+		if( $("#no_tintas").val() > 0 )
+		{
+			$("#t1_res").val( $("#t1_largo").val() * $("#t1_ancho").val() );
+			$("#t2_res").val( $("#t2_largo").val() * $("#t2_ancho").val() );
+			$("#t3_res").val( $("#t3_largo").val() * $("#t3_ancho").val() );
+			$("#t4_res").val( $("#t4_largo").val() * $("#t4_ancho").val() );
+			$.totaltinta();			
+		}
+		else
+		{
+			$("#t1_res").val("0");
+			$("#t2_res").val("0");
+			$("#t3_res").val("0");
+			$("#t4_res").val("0");				
+		}  
+
+		$.suajado();
+
+		if( $("#refiladorayado").is(':checked') )
+		{
+			$.refilado();
+			$.rayado();			
+		}
+		else
+		{
+			$("#rayado_merma").html("0");
+			$("#rayado_arreglo").html("0");
+			$("#rayado_tiro").html("0");
+			$("#rayado_cunit").html("0");
+			$("#refilado_merma").html("0");
+			$("#refilado_arreglo").html("0");
+			$("#refilado_tiro").html("0");
+			$("#refilado_cunit").html("0");			
+		}
+
+		if( $("#articulo").val() != 0 )
+		{
+			$.costo_tinta();
+			$.costo_cirel();			    
+		}
+
+			carton = $('select[name="carton"] option:selected').val();
+			var descripcion = carton;
+		  $.ajax({
+		    dataType: "json",
+		    url: 'seltamcorrugados',
+		    async:true,
+		    type: "POST",
+		    data: {Descripcion : descripcion},
+		    success: function(data){  
+		      $("#costo_m2").html(trunc(data.costo,2));		      		            
+		    }
+		  }); 
+
+
+			if( $("#cant_enviar1").val() > 1000 )
+			{
+				var num_viajes1 = parseFloat($("#cant_enviar1").val()) / parseFloat($("#capacidad1").text());
+				$("#num_viajes1").html(currency(Math.ceil(num_viajes1)),2);
+			}
+			else
+			{
+				var num_viajes1 = parseFloat($("#cant_enviar1").val()) / parseFloat($("#capacidad1").text());
+				$("#num_viajes1").html(currency(num_viajes1,2));
+			}
+
+			if($("#cant_enviar2").val() > 1)
+			{
+				var costo_envio2 = parseFloat($("#num_viajes2").text().replace(/,/gi,'')) * parseFloat($("#costo_viaje2").text().replace(/,/gi,''));
+				$("#costo_envio2").html(currency(costo_envio2,2));
+				$.total_envio();    			
+			}
+			else
+			{
+				var num_viajes2 = parseFloat($("#cant_enviar2").val()) / parseFloat($("#capacidad2").text());
+				$("#num_viajes2").html(currency(num_viajes2,2));
+				$.total_envio();   			
+			}
+
+			if( $("#cant_enviar3").val() > 1000 )
+			{
+				var num_viajes3 = parseFloat($("#cant_enviar3").val()) / parseFloat($("#capacidad3").text());
+				$("#num_viajes3").html(currency(Math.ceil(num_viajes3)),2);
+			}
+			else
+			{
+				var num_viajes3 = parseFloat($("#cant_enviar3").val()) / parseFloat($("#capacidad3").text());
+				$("#num_viajes3").html(currency(num_viajes3,2));
+			}
+
+			if($("#cant_enviar1").val() > 1)
+			{
+				var costo_envio1 = parseFloat($("#num_viajes1").text().replace(/,/gi,'')) * parseFloat($("#costo_viaje1").text().replace(/,/gi,''));
+				$("#costo_envio1").html(currency(costo_envio1,2));
+				$.total_envio();    			
+			}
+			else
+			{
+				$("#costo_envio1").html("0");
+				$.total_envio();   			
+			}
+
+			if( $("#cant_enviar2").val() > 1000 )
+			{
+				var num_viajes2 = $("#cant_enviar2").val() / $("#capacidad2").text();
+				$("#num_viajes2").html(currency(Math.ceil(num_viajes2)),2);
+			}
+			else
+			{
+				var num_viajes2 = $("#cant_enviar2").val() / $("#capacidad2").text();
+				$("#num_viajes2").html(currency(num_viajes2,2));
+			}
+
+			if($("#cant_enviar3").val() > 1)
+			{
+				var costo_envio3 = parseFloat($("#num_viajes3").text().replace(/,/gi,'')) * parseFloat($("#costo_viaje3").text().replace(/,/gi,''));
+				$("#costo_envio3").html(currency(costo_envio3,2));
+				$.total_envio();    			
+			}
+			else
+			{
+				$("#costo_envio3").html("0");
+				$.total_envio();   			
+			}		  		   		
+
+	    $.ajax({
+	      dataType: "json",
+	      url: 'cotizadorprocesos',
+	      async: true,
+	      type: 'POST',
+	      data: {
+	        clasificacion : clasificacion, 
+	        clasificacion2: clasificacion2, 
+	        tipoproducto : tipoproducto
+	      },
+	      success: function (result) {
+
+		      if( result.data[0].Impresion == 1 )
+		      {
+				$.impmerma();
+				$.total_merma();		      	
+		        $.impresion();
+				$.total_arreglo();
+				$.total_tiro();
+				$.total_cunit();		                                  
+		      }
+		      if( result.data[0].FlexoRanurado == 1 )
+		      {
+				$.flexomerma();
+				$.total_merma();		      	
+		        $.flexoranurado();
+				$.total_arreglo();
+				$.total_tiro();
+				$.total_cunit();		                                  
+		      }
+		      if( result.data[0].Pegado == 1 )
+		      {      
+				$.pegadomerma();
+				$.total_merma();		      	
+		        $.pegado();
+				$.total_arreglo();
+				$.total_tiro();
+				$.total_cunit();		                                   
+		      }
+		      if( result.data[0].Grapado == 1 )
+		      {      
+				$.grapadomerma();
+				$.total_merma();		      	
+		        $.grapado();
+				$.total_arreglo();
+				$.total_tiro();
+				$.total_cunit();		                                   
+		      } 
+		      if( result.data[0].Refilado == 1 )
+		      {    
+				$.refiladomerma();
+				$.total_merma();		        
+		        $.refilado();
+				$.total_arreglo();
+				$.total_tiro();
+				$.total_cunit();		                                   
+		      }    
+		      if( result.data[0].Rayado == 1 )
+		      {    
+				$.rayadomerma();
+				$.total_merma();		        
+		        $.rayado();
+				$.total_arreglo();
+				$.total_tiro();
+				$.total_cunit();		                                   
+		      }
+		      if( result.data[0].Caiman == 1 )
+		      {      
+				$.caimanmerma();
+				$.total_merma();		      	
+		        $.caiman();
+				$.total_arreglo();
+				$.total_tiro();
+				$.total_cunit();		                                   
+		      }
+		      if( result.data[0].Autoarmado == 1 )
+		      {      
+				$.suajadomerma();
+				$.total_merma();		      	
+		        $.suajado();
+				$.total_arreglo();
+				$.total_tiro();
+				$.total_cunit();		                        
+		      }   
+		      if( result.data[0].Flejado == 1 )
+		      {
+		      	$.total_merma();      
+		        $.flejado();
+				$.total_arreglo();
+				$.total_tiro();
+				$.total_cunit();		                                   
+		      }
+		      if( result.data[0].Entarimado == 1 )
+		      {
+		      	$.total_merma();      
+		        $.entarimado();
+				$.total_arreglo();
+				$.total_tiro();
+				$.total_cunit();		                                   
+		      }   					                        
+			}
+			
+	    });
+		
+		setTimeout(function(){
+				$.total_arreglo();
+				$.total_tiro();
+				$.total_cunit();			
+			$.costocarton();
+			$.total_material();
+
+			if( $('select[name="carton"]').val() != 0 )
+			{
+				$.importe();
+			}    
+
+			if( $('select[name="carton"]').val() != 0 )
+			{
+				$.totalmargen();
+			}    
+
+			if( $('select[name="carton"]').val() != 0 )
+			{
+				$.preciounitario();
+			}    
+
+			if( $('select[name="carton"]').val() != 0 )
+			{
+				$.total();
+			}
+
+		},1000); 
+
+	});	
+
+	//-------------------------------------------CALCULAR------------------------------------------------//
+
+	$("#generarcotizacion").submit(function(event){
+
+		var procesos = "";
+		$(".procesos").each(function(i)
+		{
+			procesos += ("&" + $(this).attr("id") + "=" + $(this).text().replace(/,/gi,''));				
+
+		});	
+
+		var materiales = "";
+		$(".materiales").each(function(i)
+		{
+			materiales += ("&" + $(this).attr("id") + "=" + $(this).text().replace(/,/gi,''));				
+		});	
+
+		var envios = "";
+		$(".envios").each(function(i)
+		{
+			envios += ("&" + $(this).attr("id") + "=" + $(this).text().replace(/,/gi,''));				
+
+		});		
+
+		var total = "";
+		$(".total").each(function(i)
+		{
+			total += ("&" + $(this).attr("id") + "=" + $(this).text().replace(/,/gi,''));				
+
+		});				
+
+		data = $("#generarcotizacion").serialize() + "&id_cliente="+$("#id_cliente").val() + procesos + materiales + envios + total;
+		console.log($("#generarcotizacion").serialize());
+		event.preventDefault();
+
+		$.post('guardarcotizacion', data,
+			function(result){
+
+	        if (result.validacion) {
+
+	        	$("#id_cotizacion").html(result.Id);
+	          swal(
+
+	            '',
+
+	            'Numero de Cotización: ' + result.Id,
+
+	            'success'
+
+	          );
+
+	        }
+
+			},'json');
+	});
+
+$("#btn-limpiar").click(function(){
+	limpiar();
+});
+
+function getParameterByName(name, url) {
+if (!url) url = window.location.href;
+name = name.replace(/[\[\]]/g, "\\$&");
+var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+  results = regex.exec(url);
+if (!results) return null;
+if (!results[2]) return '';
+return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+function limpiar()
+{
+		$("input[type='text']").val("0");
+		$("input[type='number']").val("0");
+		$(".procesos").html("0");
+		$(".materiales").html("0");
+		$(".envios").html("0");
+		$(".total").html("0");	
+}
+
+function detalle_camion(tipo_camion, camion)
+{
+	$.post('detallecamiones',{tipo_camion : tipo_camion},
+		function(result)
+		{
+			$("#capacidad"+camion).html(result.data[0].capacidad);
+			$("#costo_viaje"+camion).html(number_format(result.data[0].costo_viaje));				
+		},'json'
+		); 	
+}
+
+  function selArticulo() {
+    $.ajax({
+      dataType: "json",
+      url: 'selarticulo',
+      async: false,
+      type: 'POST',
+      success: function (data) {
+        $('select[name="articulo"]').html('<option value="null">SELECCIONAR</option>');
+        $('select[name="articulo"]').append(data);
+        $('select[name="articulo"]>option').removeAttr("selected");
+      }
+    });
+  }
+
+  function selProducto($articulo) {
+    $.ajax({
+      dataType: "json",
+      url: 'selproducto',
+      async: false,
+      type: 'POST',
+      data: {
+        Clasificacion: $articulo
+      },
+      success: function (data) {
+        $('select[name="tipo_producto"]').html('<option value="null">SELECCIONAR</option>');
+        $('select[name="tipo_producto"]').append(data);
+        $('select[name="tipo_producto"]>option').removeAttr("selected");
+
+      }
+    });
+  }  
+
+  function selTipoMaterial($material) {
+    $.ajax({
+      dataType: "json",
+      url: 'tipomaterial',
+      async: false,
+      type: 'POST',
+      data: {
+        'tipoMaterial': $material
+      },
+      success: function (data) {
+        $('select[name="tipo_material"]').html('<option value="null">SELECCIONAR</option>');
+        $('select[name="tipo_material"]').append(data);
+        $('select[name="tipo_material"]>option').removeAttr("selected");
+
+      }
+    });
+  }  
+
+  function selCarton($TipoMaterial) {
+    $.ajax({
+      dataType: "json",
+      url: 'selmatcorrugados',
+      async: false,
+      type: 'POST',
+      data: {
+        Material: $TipoMaterial
+      },
+      success: function (data) {
+
+        $('select[name="carton"]').html('<option value="null">SELECCIONAR</option>');
+        $('select[name="carton"]').append(data);
+        $('select[name="carton"]>option').removeAttr("selected");
+
+      }
+    });
+  }  
+
+  function selTamanoCarton($Carton) {
+    $.ajax({
+      dataType: "json",
+      url: 'seltamcorrugados',
+      async: false,
+      type: 'POST',
+      data: {
+        Descripcion: $Carton
+      },
+      success: function (data) {
+
+        $('select[name="tam_carton"]').html('<option value="null">SELECCIONAR</option>');
+        $('select[name="tam_carton"]').append(data.data);
+        $('select[name="tam_carton"]>option').removeAttr("selected");
+
+      }
+    });
+  }  
+
+  function tipoCamion()
+  {
+    $.ajax({
+      dataType: "json",
+      url: 'seltiposcamiones',
+      async: false,
+      type: 'POST',
+      success: function (data) {
+
+		$('select[name="tipo_camion1"]').html('<option value="0">SELECCIONAR</option>');
+		$('select[name="tipo_camion1"]').append(data);
+		$('select[name="tipo_camion1"]>option').removeAttr("selected");
+
+		$('select[name="tipo_camion2"]').html('<option value="0">SELECCIONAR</option>');
+		$('select[name="tipo_camion2"]').append(data);
+		$('select[name="tipo_camion2"]>option').removeAttr("selected");
+
+		$('select[name="tipo_camion3"]').html('<option value="0">SELECCIONAR</option>');
+		$('select[name="tipo_camion3"]').append(data); 
+		$('select[name="tipo_camion3"]>option').removeAttr("selected");
+
+      }
+    }); 	
+  }
+
+function zeroPadded(val) {
+  if (val >= 10)
+    return val;
+  else
+    return '0' + val;
+}   
+
+function number_format(amount, decimals)
+{
+		amount += ''; // por si pasan un numero en vez de un string
+		amount = parseFloat(amount.replace(/[^0-9\.]/g, '')); // elimino cualquier cosa que no sea numero o punto
+
+		decimals = decimals || 0; // por si la variable no fue fue pasada
+
+		// si no es un numero o es igual a cero retorno el mismo cero
+		if (isNaN(amount) || amount === 0) 
+			return parseFloat(0).toFixed(decimals);
+
+		// si es mayor o menor que cero retorno el valor formateado como numero
+		amount = '' + amount.toFixed(decimals);
+
+		var amount_parts = amount.split('.'),
+		regexp = /(\d+)(\d{3})/;
+
+		while (regexp.test(amount_parts[0]))
+			amount_parts[0] = amount_parts[0].replace(regexp, '$1' + ',' + '$2');
+
+		return amount_parts.join('.');
+	}	
+
+	function currency(value, decimals, separators) {
+		decimals = decimals >= 0 ? parseInt(decimals, 0) : 2;
+		separators = separators || [',', ",", '.'];
+		var number = (parseFloat(value) || 0).toFixed(decimals);
+		if (number.length <= (4 + decimals))
+			return number.replace('.', separators[separators.length - 1]);
+		var parts = number.split(/[-.]/);
+		value = parts[parts.length > 1 ? parts.length - 2 : 0];
+		var result = value.substr(value.length - 3, 3) + (parts.length > 1 ?
+			separators[separators.length - 1] + parts[parts.length - 1] : '');
+		var start = value.length - 6;
+		var idx = 0;
+		while (start > -3) {
+			result = (start > 0 ? value.substr(start, 3) : value.substr(0, 3 + start))
+			+ separators[idx] + result;
+			idx = (++idx) % 2;
+			start -= 3;
+		}
+		return (parts.length == 3 ? '-' : '') + result;
+	}
+
+	function trunc (x, posiciones = 0) {
+		var s = x.toString()
+		var l = s.length
+		var decimalLength = s.indexOf('.') + 1
+
+		if (l - decimalLength <= posiciones){
+			return x
+		}
+	  // Parte decimal del número
+	  var isNeg  = x < 0
+	  var decimal =  x % 1
+	  var entera  = isNeg ? Math.ceil(x) : Math.floor(x)
+	  // Parte decimal como número entero
+	  // Ejemplo: parte decimal = 0.77
+	  // decimalFormated = 0.77 * (10^posiciones)
+	  // si posiciones es 2 ==> 0.77 * 100
+	  // si posiciones es 3 ==> 0.77 * 1000
+	  var decimalFormated = Math.floor(
+	  	Math.abs(decimal) * Math.pow(10, posiciones)
+	  	)
+	  // Sustraemos del número original la parte decimal
+	  // y le sumamos la parte decimal que hemos formateado
+	  var finalNum = entera + 
+	  ((decimalFormated / Math.pow(10, posiciones))*(isNeg ? -1 : 1))
+	  
+	  return finalNum
+	}		
+
+
+	
+</script>

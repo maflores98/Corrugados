@@ -241,17 +241,18 @@ $baseUrl = $front -> getBaseUrl ();
                 </ul>
                 <?php } ?>
                 <?php if($menu->mnuventas == 1) { ?>
-                <li data-toggle="collapse" class="collapsed"><!--data-target="#service"-->
+                <li data-toggle="collapse" data-target="#service" class="collapsed">
                   <a href="#!"><i class="glyphicon glyphicon-usd"></i>Cotizador<span class="arrow"></span></a>
                 </li>  
                 <ul class="sub-menu collapse" id="service">                                    
-                  <li><a href="<?php echo $baseUrl;?>/Cotizador">Orden de producción</a></li>
+                  <!--li><a href="<?php echo $baseUrl;?>/Cotizador">Orden de producción</a></li>
                   <?php if($menu->mnuventas_cotizaciones_maquilas == 1) { ?>
                   <li><a href="<?php echo $baseUrl;?>/cotizador/maquilas">Cotizador de Maqulias</a></li>
                   <?php } ?>
-                  <li>Imprimir</li>
+                  <li>Imprimir</li-->
+                    <li><a href="<?php echo $baseUrl;?>/cotizadorcarton/show">Cartón</a></li>
                 </ul>
-                <?php } ?>
+                <?php } ?>               
                 <?php if($menu->mnucatalogos == 1) { ?>                              
                   <li data-toggle="collapse" data-target="#service2" class="collapsed">
                     <a href="#"><i class="fa fa-globe fa-lg"></i>Catálogos<span class="arrow"></span></a>

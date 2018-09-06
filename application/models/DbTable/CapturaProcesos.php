@@ -230,10 +230,10 @@ class Application_Model_DbTable_CapturaProcesos extends Zend_Db_Table_Abstract
 	//	return $response;
 	//} 
 
-	public function validarenproceso($vista)
+	public function validarenproceso($maquina)
 	{	
 		$select = $this->select();
-		$select->where("nombre_maquina IN (?)",$vista);
+		$select->where("nombre_maquina = (?)",$maquina);
 		//$select->where("nombre_proceso IN (?)",$proceso);		
 		$response = new stdClass();
 		$rows = $this->fetchAll($select);

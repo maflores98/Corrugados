@@ -658,6 +658,5 @@
 	        $eliminar = $elimina->eliminarprocesoenpendiente2($id_orden);
 
 	        echo Zend_Json::encode($eliminar);
-	    }  										
-
+	    }	    
 	}

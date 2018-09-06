@@ -1,0 +1,96 @@
+<?php
+
+require('Zend/FPDF/fpdf.php');
+
+$data = $this->data;
+
+date_default_timezone_set('America/Mexico_City');
+setlocale(LC_ALL,"es_ES");
+
+class PDF extends FPDF{
+
+			   //Tabla simple
+	function Tabla1($data){
+
+		$this->Image('http://localhost/Corrugados/library/Zend/FPDF/logo.PNG',9,9,45);
+
+		$this->Cell(100);
+		$this->Ln(5);
+		$this->Cell(62);
+		$this->SetTextColor(255,255,255);
+		$this->SetFont('Helvetica','BI', 11);
+		$this->Cell(0, 8,"R E M I S I O N", 1, 0,'C', true);
+		$this->SetTextColor(0,0,0);
+		$this->SetFont('Helvetica','B', 18);
+		$this->Ln(12);
+		$this->Cell(120);
+		$this->Cell(35, 10,utf8_decode("No.Remisión: "), 0, 0,'R');
+		$this->Cell(35, 10,$data->id_remision, 1, 0,'C');		
+		$this->Ln(15);
+
+		$this->SetFont('Helvetica','', 12);
+		$this->Cell(190,6,"Ecatepec de Morelos a ". utf8_decode(strftime("%A %d de %B del %Y")),0,0,'R');
+		$this->Ln(15);
+
+		$this->SetFont('Helvetica','B', 14);		
+		$this->Cell(52,8,"Cantidad Requerida:",0,0,'L');
+		$this->Cell(44,8,number_format($data->data['cant_requerida']),0,0,'C');
+		$this->SetLineWidth(0.1);
+		$this->Line(60,63,110,63);		
+		$this->Cell(52,8,"No.Orden:",0,0,'R');
+		$this->Cell(42,8,$data->data['id_ordenproduccion'],0,0,'C');
+		$this->SetLineWidth(0.1);
+		$this->Line(158,63,200,63);
+		$this->Ln(10);	
+
+		$this->SetFont('Helvetica','B', 14);		
+		$this->Cell(25,8,"Cliente:",0,0,'L');
+		$this->SetFont('Helvetica','', 12);		
+		$this->Cell(165,8,substr($data->data['cliente'],0,70),0,0,'L');
+		$this->Ln(10);
+
+		$this->SetFont('Helvetica','B', 14);		
+		$this->Cell(25,8,"Trabajo:",0,0,'L');
+		$this->SetFont('Helvetica','', 12);		
+		$this->Cell(165,8,substr($data->data['nombre_trabajo'],0,70),0,0,'L');
+		$this->Ln(20);
+
+		$this->SetFont('Helvetica','B', 14);		
+		$this->Cell(190,7,utf8_decode("DETALLE: "),1,0,'C');
+		$this->Ln(15);
+
+		$this->SetFont('Helvetica','', 14);
+		$this->Cell(53.3,8,"Cantidad entregada: ",1,0,'L');				
+		$this->SetFont('Helvetica','B', 14);
+		$this->Cell(73.3,8,number_format($data->cant_entregar),1,0,'C');			
+		$this->Cell(63.3,8,"Pzas.",1,0,'L');
+		$this->Ln(115);					
+
+		$this->SetFont('Helvetica','', 16);
+		$this->Cell(63.33,8,"",0,0,'C');
+		$this->SetLineWidth(0.1);
+		$this->Line(73,258,138,258);
+		$this->Cell(63.33,8,"Firma de recibido",0,0,'C');
+		$this->Cell(63.33,8,"",0,0,'C');
+		$this->Ln(20);
+				
+		//date_default_timezone_set('America/Mexico_City');
+		//$this->SetFont('Helvetica','', 9);
+		//$this->Cell(0, 4, "Registro: " . $data->fecha_emision , 0, 0,'R');
+		//$this->Ln();
+		//$this->Cell(0, 4, "Impresion: " . date('d/m/Y H:i'),0,0,'R');		
+	}
+
+}
+
+$pdf=new PDF();
+
+$pdf->AliasNbPages();
+$pdf->AddPage();
+$pdf->SetY(10);
+$pdf->SetAutoPageBreak(true, 10);
+$pdf->Tabla1(
+	$data
+);
+
+$pdf->Output();

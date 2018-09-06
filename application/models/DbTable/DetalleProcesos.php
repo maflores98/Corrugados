@@ -222,7 +222,7 @@ class Application_Model_DbTable_DetalleProcesos extends Zend_Db_Table_Abstract
 				"tiempo"=> 0,
 				"notas" => "",
 				"parcial"=> "no",
-				"situacion"=>$copiar["situacion"],
+				"situacion"=>"LIBERADO",
 				"cant_producir"=>$copiar["cant_producir"]
 				));
 		}

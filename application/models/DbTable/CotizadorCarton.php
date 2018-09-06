@@ -16,9 +16,11 @@ class Application_Model_DbTable_CotizadorCarton extends Zend_Db_Table_Abstract
 
         public function consultarcotizaciones(){
 
-        $db = Zend_Db_Table_Abstract::getDefaultAdapter();
+        $db = Zend_Db_Table::getDefaultAdapter(); 
         $select = $db->select()
-        ->from ("cot_carton");
+        //->from('cot_carton');
+        ->from(array('c' => 'cot_carton'), array('c.id_cotizacion','c.nombre_trabajo','c.fecha_emision'))
+        ->joinLeft(array('c2' => 'clientes'), 'c2.id_cliente = c.id_cliente', array('c2.rcomercial'));     
         $sql = $db->query($select);       
         $rows = $sql->fetchAll();
 
@@ -36,7 +38,7 @@ class Application_Model_DbTable_CotizadorCarton extends Zend_Db_Table_Abstract
 			$cotizaciones[] = array(
 				"id_cotizacion"=> $row['id_cotizacion'],
 				"nombre_trabajo" => $row['nombre_trabajo'],
-				"nombre_cliente" => $row['nombre_cliente'],
+				"nombre_cliente" => $row['rcomercial'],
 				"fecha_emision"=> $date->toString('d-m-Y')
 				); 
 		}
@@ -56,5 +58,19 @@ class Application_Model_DbTable_CotizadorCarton extends Zend_Db_Table_Abstract
 
         return $rowset[0];
     }
+
+    public function actualizarcotizacion($datos){
+
+        $id_cotizacion = $datos['id_cotizacion'];
+
+        $where = $this->getAdapter()->quoteInto('id_cotizacion = ?', $id_cotizacion);
+
+        $update = $this->update($datos, $where);     
+        
+        $response = new stdClass();
+        $response->validacion = true;
+        return $response;
+
+    }     
 
 }

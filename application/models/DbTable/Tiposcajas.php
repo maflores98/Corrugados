@@ -14,7 +14,6 @@ class Application_Model_DbTable_Tiposcajas extends Zend_Db_Table_Abstract
           $sql = $db->query($select);
         
         return  $row = $sql->fetchAll();
-
     }
     
     public function consultarConImpresion()
@@ -28,8 +27,6 @@ class Application_Model_DbTable_Tiposcajas extends Zend_Db_Table_Abstract
         return  $row = $sql->fetchAll();
 
     }
-
-
 
     public function guardar($datos)
     {
@@ -59,18 +56,15 @@ class Application_Model_DbTable_Tiposcajas extends Zend_Db_Table_Abstract
 
         foreach ($tiposMovi as $row) {
 
-            $data .= '<option value="'.$row['Id'].'" data-val="'.$row['Descripcion'].'">'.$row['Descripcion'].'</option>';          
+            $data .= '<option value="'.$row['Descripcion'].'" data-val="'.$row['Descripcion'].'">'.$row['Descripcion'].'</option>';          
         }
 
         $response = $data;
-
         return $data;
-
     }
 
     public function selectproducto($clasificacion, $clasificacion2)
     {
-
         $select = $this->select()
             //->where('id_estatus = ?', '1')
             ->where('Clasificacion = ?', $clasificacion)
@@ -127,7 +121,7 @@ class Application_Model_DbTable_Tiposcajas extends Zend_Db_Table_Abstract
                 "Flejado" => $row['Flejado'],
                 "Entarimado"=>$row['Entarimado'],
                 "Impresion" => $row['Impresion']
-                ); 
+            ); 
         }
         $response->data = $procesos;
         return $response;           

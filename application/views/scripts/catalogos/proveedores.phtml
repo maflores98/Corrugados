@@ -81,12 +81,14 @@
                 <!--div class="col-md-12"-->
                     <div class="form-group col-md-4">
                       <label for="categoria">Categoria</label>
-                      <select class="form-control" id="categoria" name="categoria" required>                         
+                      <select class="form-control" id="categoria" name="categoria" required>  
+                      <option value="" selected disabled>ELIGE UNA OPCIÓN</option>                       
                       </select>
                     </div>
                     <div class="form-group col-md-4">
                       <label for="estatus">Estatus</label>
-                      <select class="form-control" id="estatus" name="estatus" required>                       
+                      <select class="form-control" id="estatus" name="estatus" required>         
+                      <option value="" selected disabled>ELIGE UNA OPCIÓN</option>               
                       </select>
                     </div>              
                   <div class="col-md-2">
@@ -107,7 +109,7 @@
                       <input type="text" class="form-control modal-proveedores" id="contacto1" name="contacto1" required>
                     </div>
                   </div>  
-                  <div class="col-md-2">
+                  <div class="col-md-4">
                     <div class="form-group">
                       <label for="mobilcontacto1" class="control-label">Email:</label>
                       <input type="text" class="form-control modal-proveedores" id="mailcontacto1" name="mailcontacto1" required>
@@ -126,7 +128,7 @@
                       <input type="text" class="form-control modal-proveedores" id="contacto2" name="contacto2" required>
                     </div>
                   </div>  
-                  <div class="col-md-2">
+                  <div class="col-md-4">
                     <div class="form-group">
                       <label for="mailcontacto2" class="control-label">Email:</label>
                       <input type="text" class="form-control modal-proveedores" id="mailcontacto2" name="mailcontacto2" required>
@@ -145,7 +147,7 @@
                       <input type="text" class="form-control modal-proveedores" id="contacto3" name="contacto3" required>
                     </div>
                   </div>  
-                  <div class="col-md-2">
+                  <div class="col-md-4">
                     <div class="form-group">
                       <label for="mailcontacto3" class="control-label">Email:</label>
                       <input type="text" class="form-control modal-proveedores" id="mailcontacto3" name="mailcontacto3" required>
@@ -171,30 +173,31 @@
     </div>
 
     <script>
+    $.ajax({
+      type: "GET",
+      url: 'llenarcombotiposestatus',          
+      dataType: "json",          
+      //async: false,
+      //type: "POST",
+      success: function(data){
+        $('select[name="estatus"]').append(data);
+        $('select[name="estatus"]>option').removeAttr("selected");
+      }
+    });
+
+    $.ajax({
+      type: "GET",
+      url: 'llenarcombocategorias',          
+      dataType: "json",          
+      //async: false,
+      //type: "POST",
+      success: function(data){
+        $('select[name="categoria"]').append(data);
+        $('select[name="categoria"]>option').removeAttr("selected");
+      }
+    });     
 $(document).ready(function(){
-var idproveedor;  
-
-        $.ajax({
-          type: "GET",
-          url: 'llenarcombotiposestatus',          
-          dataType: "json",          
-          //async: false,
-          //type: "POST",
-          success: function(data){
-            $('select[name="estatus"]').append(data);
-          }
-        });
-
-        $.ajax({
-          type: "GET",
-          url: 'llenarcombocategorias',          
-          dataType: "json",          
-          //async: false,
-          //type: "POST",
-          success: function(data){
-            $('select[name="categoria"]').append(data);
-          }
-        });      
+var id_proveedor;     
 
   var catProveedores = $('#catProveedores').DataTable({
     ajax:{
@@ -237,9 +240,9 @@ var idproveedor;
     $("#nuevoproveedor").hide();
     $("#actualizarproveedor").show();
     var data = catProveedores.row($(this).parents("tr")).data();
-    idproveedor = data.id_proveedor;        
+    id_proveedor = data.id_proveedor;        
 
-    $.post('extraerproveedor', {idproveedor:idproveedor},
+    $.post('extraerproveedor', {id_proveedor:id_proveedor},
       function(result)
       {
       console.log(result);       
@@ -247,9 +250,7 @@ var idproveedor;
           $("#rfc").val(result.rfc);  
           $("#telefono").val(result["telefono"]);
           $("#pagweb").val(result.pagweb);
-          $('select[name="categoria"]>option').removeAttr("selected");
           $('select[name="categoria"]>option[value="'+result.id_categoria+'"]').attr("selected", true);  
-          $('select[name="estatus"]>option').removeAttr("selected");
           $('select[name="estatus"]>option[value="'+result.id_estatus+'"]').attr("selected", true);  
           $("#cpago").val(result.condpago);
           $("#drevision").val(result.diasrevision);
@@ -269,7 +270,7 @@ var idproveedor;
   });
 
   $("#actualizarproveedor").click(function(){
-    var cadena = $("#frmactualizarproveedor").serialize()+'&id_proveedor='+idproveedor;
+    var cadena = $("#frmactualizarproveedor").serialize()+'&id_proveedor='+id_proveedor;
     console.log(cadena);
     $.post('actualizarproveedor', cadena,
       function(result)
@@ -288,9 +289,8 @@ var idproveedor;
     $("#rfc").val("");  
     $("#telefono").val("");
     $("#pagweb").val("");
-    $("#categoria").val("");
-    $("select[id=categoria]").val("0");
-    $("select[id=estatus]").val("0");   
+    $('#categoria').val($('#categoria > option:first').val()); 
+    $('#estatus').val($('#estatus > option:first').val()); 
     $("#estado").val("");
     $("#drevision").val("");
     $("#contacto1").val("");
@@ -320,9 +320,9 @@ var idproveedor;
     $('#catProveedores').on("click", "a.btn-direccionproveedor", function () 
     {
     var data = catProveedores.row($(this).parents("tr")).data();
-    idproveedor = data.id_proveedor;  
+    id_proveedor = data.id_proveedor;  
     var nombreproveedor =data.rcomercial;
-      window.location.href = "direccionproveedor?ID="+idproveedor+"&nombreproveedor="+nombreproveedor;
+      window.location.href = "direccionproveedor?id_proveedor="+id_proveedor+"&nombreproveedor="+nombreproveedor;
 
     });
 

@@ -2,9 +2,13 @@
 .modal-dialog
 {
   width: 60%;
-}	
+}
+.alertify .ajs-body .ajs-content {
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+} 	
 </style>
-
 <div class="row">
   <div class="col-md-9 btns">
     <!--button class="btn btn-primary" id='excel-clientes'>Exportar a Excel</button-->
@@ -19,6 +23,7 @@
         <tr>
           <th>IdOrden</th>
           <th>Nombre Trabajo</th>
+          <th>Cliente</th>
           <th>Estatus</th>
           <th>Cantidad</th>
           <th>Fecha Entrega</th>
@@ -28,6 +33,69 @@
     </table>
   </div>
 </div>
+
+    <!-- Modal Cantidad a Liberar -->
+    <div class="modal fade" id="modalcantliberar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Cantidad a Liberar</h4>
+          </div>
+          	<form id="guardarliberacion" method="POST">
+	          <div class="modal-body">
+	          <div class="row">
+					<div class="col-md-12">
+						<b><span id="trabajo"></span> - <span id="cliente"></span></b>
+					</div>	          	
+	          </div>	
+	          <br>		      
+				<div class="row">
+	              	<div class="col-md-3">
+		                <div class="form-group">
+		                  	<label for="orden" class="control-label">Orden</label>
+		                  	<input type="text" class="form-control" id="orden" name="orden" readonly>
+		                </div>  
+		            </div> 	
+	              	<div class="col-md-3">
+		                <div class="form-group">
+		                  	<label for="cantidad" class="control-label">Cantidad</label>
+		                  	<input type="text" class="form-control" id="cantidad" name="cantidad" readonly>
+		                </div>  
+		            </div>	            			
+	              	<div class="col-md-3">
+		                <div class="form-group">
+		                  	<label for="cant_liberar" class="control-label">Cantidad a entregar</label>
+		                  	<input type="text" class="form-control" id="cant_liberar" name="cant_liberar" required>
+		                </div>
+	              	</div>
+	              	<div class="col-md-3">
+		                <div class="form-group">
+		                  	<label for="acumulado" class="control-label">Acumulado</label>
+		                  	<input type="text" class="form-control" id="acumulado" readonly>
+		                </div>  
+		            </div>   	                     
+				</div>					
+	          </div>
+	          <div class="modal-footer">
+					<div class="form-group form-check col-md-2 pull-left">
+						<input type="radio" name="tipoliberacion" class="form-check-input" id="total" value="total" required>
+						<label class="form-check-label" for="total">Total</label>
+					</div>	
+					<div class="form-group form-check col-md-2 col-md-offset-1 pull-left">
+						<input type="radio" name="tipoliberacion" class="form-check-input" id="parcial" value="parcial">
+						<label class="form-check-label" for="parcial">Parcial</label>
+					</div>					          	
+	              	<div>
+	                	<button type="submit" class="btn btn-primary">Guardar</button>
+	                	<!--a class="btn btn-default" id="finalizar">Finalizar</a-->
+	                	<a class="btn btn-default" id="btn-cancelar">Cancelar</a>						
+		            </div>
+	          </div>
+			</form>	     
+        </div>
+      </div>
+    </div>
 
     <!-- Modal  Liberar -->
     <div class="modal fade" id="modalenpendiente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -81,9 +149,9 @@
 			  </div>
 			</div>					
           </div>
-          <div class="modal-footer">
-            <button id="cancelar" type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-            <button id="finalizar" type="button" class="btn btn-primary">Finalizar</button>
+          <div class="modal-footer">        	
+            <a class="btn btn-default" id="btn-cancelar">Cancelar</a>
+            <button id="btn-finalizar" type="button" class="btn btn-primary">Finalizar</button>
           </div>
         </div>
       </div>
@@ -92,7 +160,18 @@
 <script>
 $(document).ready(function(){
 
-var enpendiente, numorden;
+	var base_url = window.location.origin;
+	var host = window.location.host;
+	var pathArray = window.location.pathname.split( '/' );	
+	var id_remision;
+
+	var enpendiente, numorden, acumulado;
+	$('.modal').modal({
+		backdrop: 'static',
+		keyboard: false,
+		show: false
+	});
+
 	var liberacion = $('#liberacion').DataTable({
 		ajax:{
 			url: 'consultarxliberar'
@@ -100,6 +179,7 @@ var enpendiente, numorden;
 		"columns":[
 		{data:"numorden",width:"5%"},
 		{data:"trabajo"},
+		{data:"cliente"},
 		{data:"estatus",width:"10%"},
 		{data:"cantidad",width:"10%"},
 		{data:"fecha_entrega",width:"10%"},
@@ -107,10 +187,15 @@ var enpendiente, numorden;
 		],
 		"columnDefs": 
 		[
+		{
+			"targets": [ 2 ],
+			"visible": false,
+			"searchable": true
+		},	    	
 		{"className": "dt-body-left", "targets": [1]},	
 		{"className": "dt-body-center", "targets": [2,3,4,5]},
 		{"className": "dt-head-center", "targets": "_all"}
-		],	
+		],			
 		"searching": true,
 		"paging":    false,
 		"scrollY":   '320px',
@@ -135,58 +220,124 @@ var enpendiente, numorden;
 
 	$('#liberacion').on("click", "a.btn-xliberar", function () 
 	{	
-		var data = liberacion.row($(this).parents("tr")).data();
-		numorden = data.numorden;
-		alert(numorden);
 
-    	$.post('existenenpendiente',{numorden:numorden},
-    		function(result){
-    			if(result.data.length>0)
-    			{
-    				//enpendiente = result.data[0].trabajo;
-    				$("#existentes1").html(result.data);    				
-			    	$.post('existenenproceso',{numorden:numorden},
-			    		function(result){
-			    			if(result.data.length>0)
-			    			{
-								$("#existentes2").html(result.data);
-								$("#modalenpendiente").modal('show');
-			    			}
-			    			else
-			    			{
-								$("#existentes2").html("<tr><td></td><td></td></tr>");
-								$("#modalenpendiente").modal('show');		    					
-			    			}			    			
-			    		},'json'
-			    	);    				
-    			}
-    			else
-    			{
-			    	$.post('existenenproceso',{numorden:numorden},
-			    		function(result){
-			    			if(result.data.length>0)
-			    			{
-								$("#existentes1").html("<tr><td></td><td></td></tr>");
-								$("#existentes2").html(result.data);
-								$("#modalenpendiente").modal('show');								
-			    			}
-			    			else
-			    			{
-		    					$.post('estatusordenproduccion2',{id_orden:numorden,estatus:'3'},
-		    						function(result){
-		    							swal("Finalizado","","success");
-		    							liberacion.ajax.reload();
-		    						},'json'
-		    					);		    					
-			    			}			    			
-			    		},'json'
-			    	);
-    			}
-    		},'json'
-    	);		
+		$("#modalcantliberar").modal('show');
+		var data = liberacion.row($(this).parents("tr")).data();
+		$("#orden").val(data.numorden);
+		numorden = data.numorden;
+		$("#cantidad").val(data.cantidad);		
+		$("#trabajo").html(data.trabajo);
+		$("#cliente").html(data.cliente);
+		$.post('validaracumulado',{orden:(data.numorden)},
+			function(result){
+				$("#acumulado").val(result.data[0].acumulado);
+				acumulado = result.data[0].acumulado;
+			},'json');	
 	});
 
-	$("#finalizar").click(function(){
+	$("#cant_liberar").keyup(function()
+	{
+		if($("#cant_liberar").val() !== "")
+		{
+			suma = parseInt($("#cant_liberar").val()) + parseInt(acumulado);
+			$("#acumulado").val(suma);                
+		}
+		else
+		{
+			$("#acumulado").val(acumulado);
+		}
+	});
+
+	$("#guardarliberacion").submit(function(event){
+		event.preventDefault();
+		data = $("#guardarliberacion").serialize();
+
+			tipoliberacion = $("input[type='radio']:checked").val();
+
+		    if(tipoliberacion === 'total')
+		    {
+		    	if($("#acumulado").val() < $("#cantidad").val() ){
+					alertify.confirm("La cantidad acumulada es menor a la cantidad requerida.Si finalizas la orden ya no podras editarla mas adelante.<br>¿Estas seguro de que deseas continuar?.",
+					  function(){
+						$.post('cantidadliberar', data,
+							function(data){	
+							id_remision = data.id_remision;					  	
+						    liberar();
+						    window.open('liberacionpdf?Id='+ $("#orden").val() + '&cant_entregar='+ $("#cant_liberar").val() + '&id_remision='+ id_remision,'_blank');
+						},'json');						    
+					  },
+				      function(){
+				      limpiar();							   	  
+					  }).setHeader('<em> Atención </em> ');		    		
+		    	}
+		    	else
+		    	{
+					liberar();
+					window.open('liberacionpdf?Id='+ $("#orden").val() + '&cant_entregar='+ $("#cant_liberar").val() + '&id_remision='+ id_remision,'_blank');		    		
+		    	}									
+					//swal('', 'Se registro correctamente', 'success');										
+		    }
+		    else if(tipoliberacion === 'parcial'){	    	
+				$.post('cantidadliberar', data,
+					function(data){	
+						id_remision = data.id_remision;											
+						window.open('liberacionpdf?Id='+ $("#orden").val() + '&cant_entregar='+ $("#cant_liberar").val() + '&id_remision='+ id_remision,'_blank');	
+						correo();
+						limpiar();				
+						swal('', 'Se registro correctamente', 'success');							
+					},'json'
+				);	    	
+		    }	
+
+/*	$.post('validaracumulado',{orden:$("#orden").val()},
+		function(result){
+			if( result.data[0].acumulado > $("#cantidad").val() )
+			{	
+				swal('', 'No se puede liberar mas de la cantidad producida', 'error');
+			}	
+			else
+			{
+				if( result.data[0].acumulado < $("#cantidad").val() ){
+					tipo = "parcial";
+				}
+				else{
+					tipo = "total";					
+				}					
+				correo(tipo);				
+				$.post('cantidadliberar', data,
+					function(data){												
+						window.open('liberacionpdf?Id='+ $("#orden").val() + 'cant_entregar='+ $("#cant_liberar").val(),'_blank');
+						limpiar();				
+						swal('', 'Se registro correctamente', 'success');							
+					},'json'
+				);				
+			}
+		},'json'
+	);*/
+});
+
+$("#finalizar").click(function(){
+
+	/*$.post('validaracumulado',{orden:$("#orden").val()},
+		function(result){
+			if( result.data[0].acumulado < $("#cantidad").val() )
+			{
+				alertify.confirm("Si finalizas la orden sin completar la liberación ya no podras editarla mas adelante.<br>¿Estas seguro de que deseas continuar?.",
+				  function(){
+				    liberar();
+				  },
+				  function(){
+				  }).setHeader('<em> Atención </em> ');				
+			}
+			else
+			{
+				liberar();
+			}
+		},'json'
+	);*/
+});
+
+	$("#btn-finalizar").click(function(){
 		//id_operador = "<?php $usuario = Zend_Auth::getInstance()->getIdentity(); echo $usuario->usuario; ?>";
 		//nombre_operador = "<?php $usuario = Zend_Auth::getInstance()->getIdentity(); echo $usuario->nombre; ?>";
 		alert(numorden);
@@ -198,11 +349,11 @@ var enpendiente, numorden;
 							function(result){
 								$.post('eliminarprocesoenproceso2', {numorden:numorden},
 									function(result){
-										$.post('estatusordenproduccion2',{id_orden:numorden,estatus:'3'},
+										$.post('estatusordenproduccion2',{id_orden:numorden,estatus:'0'},
 											function(result){
 												swal("Finalizado","","success");
-												liberacion.ajax.reload();
-												$("#modalenpendiente").modal('hide');
+												correo();												
+												limpiar();
 											},'json'
 										);						
 									},'json'
@@ -212,32 +363,80 @@ var enpendiente, numorden;
 					},'json'
 				);
 			},'json'
-		);
-
-		//$.post('finalizarenproceso', {numorden:numorden},
-		//	function(result){
-		//		$.post('estatusordenproduccion',{id_orden:numorden,estatus:'3'},
-		//			function(result){
-		//				swal("Finalizado","","success");
-		//				liberacion.ajax.reload();
-		//				$("#modalenpendiente").modal('hide');
-		//			},'json'
-		//		);					
-		//	},'json'
-		//);			
+		);			
 	});
 
-	$("#cancelar").click(function(){
-		$("#myModal").modal('hide');
-		enpendiente=0, numorden=0;
-		liberacion.ajax.reload();
+	$("#btn-cancelar").click(function(){
+		limpiar();
 	});	
 
-	$(document).bind('keydown',function(e){
+	/*$(document).bind('keydown',function(e){
 		$("#myModal").modal('hide');
 		enpendiente=0, numorden=0;
 		liberacion.ajax.reload();
-	});
+	});*/
 	
+	function limpiar(){
+		$(".modal").modal('hide');
+		$("input[type='text']").val("");
+		acumulado = 0;
+		guardar = 0;
+		enpendiente=0, numorden=0;
+		liberacion.ajax.reload();	
+	}
+
+	function liberar()
+	{
+		$.post('existenenpendiente',{numorden:numorden},
+			function(result){
+				if(result.data.length>0)
+				{
+					$("#existentes1").html(result.data);    				
+					$.post('existenenproceso',{numorden:numorden},
+						function(result){
+							if(result.data.length>0)
+							{
+								$("#existentes2").html(result.data);
+								$("#modalenpendiente").modal('show');
+							}
+							else
+							{
+								$("#existentes2").html("<tr><td></td><td></td><td></td></tr>");
+								$("#modalenpendiente").modal('show');		    					
+							}			    			
+						},'json'
+					);    				
+				}
+				else
+				{
+					$.post('existenenproceso',{numorden:numorden},
+						function(result){
+							if(result.data.length>0)
+							{
+								$("#existentes1").html("<tr><td></td><td></td><td></td></tr>");
+								$("#existentes2").html(result.data);
+								$("#modalenpendiente").modal('show');								
+							}
+							else
+							{
+								$.post('estatusordenproduccion2',{id_orden:numorden,estatus:'3'},
+									function(result){
+										correo();
+										limpiar();
+										swal("Finalizado","","success");
+									},'json'
+								);		    					
+							}			    			
+						},'json'
+					);
+				}
+			},'json'
+		);	
+	}
+
+function correo()
+{
+	$.post(pathArray + '../../../php/enviar_correo/correo.php ?>',{piezas:$("#cant_liberar").val(),orden:numorden,trabajo:$("#trabajo").text(),cliente:$("#cliente").text(),tipoliberacion:$("input[type='radio']:checked").val(),id_remision:id_remision});										
+}
 });
 </script>

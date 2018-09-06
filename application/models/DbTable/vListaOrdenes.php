@@ -165,8 +165,10 @@ $date=new Zend_Date($row['Fecha_Entrega'], 'dd.MM.yyyy');
             $activas[] = array(
                 "numorden"=> $row['Num_Orden'],
                 "trabajo" => $row['Trabajo'],
+                "cliente" => $row['Cliente'],
                 "estatus" => $row['Estatus'],
                 "cantidad"=>$row['cant_requerida'],
+                "cant_liberar"=>$row['cant_liberar'],
                 "fecha_entrega"=> $date->toString('d-m-Y'),
                 "liberar" => "<a class='btn btn-default btn-xs btn-xliberar' data-id='".$row['Num_Orden']."'> <span class='glyphicon glyphicon-triangle-right'></a>"
                 ); 
@@ -174,5 +176,24 @@ $date=new Zend_Date($row['Fecha_Entrega'], 'dd.MM.yyyy');
         $response->data = $activas;
         return $response;       
     }	
+
+	public function validaracumulado($id_orden){
+		$select = $this->select();
+		$select->where("Num_Orden = (?)", $id_orden);
+		$response=new stdClass();
+		$rows = $this->fetchAll($select);
+                        //$consulta = $select->__toString();
+                        //echo $consulta;
+                        //exit();
+		$acumulado = array();
+		foreach ($rows as $row) {
+
+			$acumulado[] = array(
+				"acumulado"=>$row['cant_liberar']
+				); 
+		}
+		$response->data = $acumulado;
+		return $response;		
+	}        
 
 }

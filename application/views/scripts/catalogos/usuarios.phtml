@@ -78,13 +78,15 @@
               </div>
             </div>                                                                 
             <div class="form-group col-md-4">
-              <label for="tipousuario">Tipo Usuario</label>
-              <select class="form-control" id="tipousuario" name="tipousuario">
+              <label for="id_tipo_usuario">Tipo Usuario</label>
+              <select class="form-control" id="id_tipo_usuario" name="id_tipo_usuario">
+                <option value="" selected disabled>ELIGE UNA OPCIÓN</option>
               </select>
             </div>                   
             <div class="form-group col-md-4">
-              <label for="estatus">Estatus</label>
-              <select class="form-control" id="estatus" name="estatus">
+              <label for="id_estatus">Estatus</label>
+              <select class="form-control" id="id_estatus" name="id_estatus">
+                <option value="" selected disabled>ELIGE UNA OPCIÓN</option>
               </select>
             </div>                                                        
             <!--/div-->                                                                      
@@ -107,8 +109,8 @@ $.ajax({
   url: 'llenarcombousuarios',
   type: "POST",
   success: function(data){
-    $('select[name="tipousuario"]').html('<option value="0" selected>ELIGE</option>');
-    $('select[name="tipousuario"]').append(data);           
+    $('select[name="id_tipo_usuario"]').append(data);   
+    $('select[name="id_estatus"]>option').removeAttr("selected");        
   }
 });
 
@@ -118,10 +120,15 @@ $.ajax({
   async: false,
           //type: "POST",
           success: function(data){
-            $('select[name="estatus"]').append(data);
+            $('select[name="id_estatus"]').append(data);
+            $('select[name="id_estatus"]>option').removeAttr("selected");
           }
-        });        
+        });  
 
+
+$(document).ready(function(){
+
+var id_usuario;
 var catUsuarios = $('#catUsuarios').DataTable({
   ajax:{
     url: 'consultarusuarios'
@@ -163,8 +170,8 @@ $('#catUsuarios').on("click", "a.btn-detalles", function ()
   $("#nuevousuario").hide();
   $("#actualizarusuario").show();
   var data = catUsuarios.row($(this).parents("tr")).data();
-  idusuario = data.id_usuario;
-  $.post('extraerusuario', {idusuario:idusuario},
+  id_usuario = data.id_usuario;
+  $.post('extraerusuario', {id_usuario:id_usuario},
     function(result)
     {
       console.log(result.rcomercial);       
@@ -172,10 +179,8 @@ $('#catUsuarios').on("click", "a.btn-detalles", function ()
       $("#nombre").val(result.nombre);  
       $("#correo").val(result.correo);
       $("#password").val(result.password);
-      $('select[name="tipousuario"]>option').removeAttr("selected");
-      $('select[name="tipousuario"]>option[value="'+result.id_tipo_usuario+'"]').attr("selected", true);      
-      $('select[name="estatus"]>option').removeAttr("selected");
-      $('select[name="estatus"]>option[value="'+result.id_estatus+'"]').attr("selected", true);      
+      $('select[name="id_tipo_usuario"]>option[value="'+result.id_tipo_usuario+'"]').attr("selected", true);            
+      $('select[name="id_estatus"]>option[value="'+result.id_estatus+'"]').attr("selected", true);      
       $("#detalleModal").modal('show');         
     },'json'
     );
@@ -183,7 +188,7 @@ $('#catUsuarios').on("click", "a.btn-detalles", function ()
 });
 
 $("#actualizarusuario").click(function(){
-  var cadena = $("#frmactualizarusuario").serialize()+'&id_usuario='+idusuario;
+  var cadena = $("#frmactualizarusuario").serialize()+'&id_usuario='+id_usuario;
   console.log(cadena);
   $.post('actualizarusuario', cadena,
     function(result)
@@ -202,8 +207,8 @@ $("#btnnuevousuario").click(function(){
   $("#nombre").val(""); 
   $("#correo").val("");
   $("#password").val("");
-  $("select[id=tipousuario]").val("0");
-  $("select[id=estatus]").val("0");
+  $('#id_tipo_usuario').val($('#id_tipo_usuario > option:first').val());
+  $('#id_estatus').val($('#id_estatus > option:first').val());
 });
 
 $("#nuevousuario").click(function(){
@@ -218,5 +223,5 @@ $("#nuevousuario").click(function(){
     },'json'
     );    
 });
-
+});
 </script>

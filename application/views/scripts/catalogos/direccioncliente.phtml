@@ -60,8 +60,8 @@
 					<div class="row">
 						<div class="col-md-1">
 							<div class="form-group">
-								<label for="idireccion" class="control-label">Id</label>
-								<input type="text" class="form-control modal-clientes" id="idireccion" name="idireccion" required>
+								<label for="id_direccion" class="control-label">Id</label>
+								<input type="text" class="form-control modal-clientes" id="id_direccion" name="id_direccion" readonly="readonly" required>
 							</div>
 						</div>                                  
 						<div class="col-md-6">
@@ -101,18 +101,20 @@
 							</div>
 						</div> 
 						<div class="form-group col-md-2">
-							<label for="estatus">Estatus</label>
-							<select class="form-control" id="estatus" name="estatus" required>
+							<label for="id_estatus">Estatus</label>
+							<select class="form-control" id="id_estatus" name="id_estatus" required>
+								<option value="" selected disabled>ELIGE UNA OPCIÓN</option>
 							</select>
 						</div>
 						<div class="form-group col-md-2">
-							<label for="tipodireccion">Tipo de direccion</label>
-							<select class="form-control" id="tipodireccion" name="tipodireccion" required>
+							<label for="id_tipodireccion">Tipo de direccion</label>
+							<select class="form-control" id="id_tipodireccion" name="id_tipodireccion" required>
+								<option value="" selected disabled>ELIGE UNA OPCIÓN</option>
 							</select>
 						</div>                   
 						<div class="col-md-12">
-							<label for="notas">Notas</label>
-							<textarea class="form-control" id="notas" name="notas" rows="2"></textarea>
+							<label for="nota">Notas</label>
+							<textarea class="form-control" id="nota" name="nota" rows="2"></textarea>
 						</div>                              
 
 					</div>         
@@ -128,26 +130,14 @@
 </div>
 
 <script>
-
-var idireccion;
-
-function getParameterByName(name, url) {
-	if (!url) url = window.location.href;
-	name = name.replace(/[\[\]]/g, "\\$&");
-	var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-	results = regex.exec(url);
-	if (!results) return null;
-	if (!results[2]) return '';
-	return decodeURIComponent(results[2].replace(/\+/g, " "));
-}
-
 $.ajax({
 	dataType: "json",
 	url: 'llenarcombotiposestatus',
 	async: false,
           //type: "POST",
           success: function(data){
-          	$('select[name="estatus"]').append(data);
+          	$('select[name="id_estatus"]').append(data);
+          	$('select[name="id_estatus"]>option').removeAttr("selected");
           }
       });   
 
@@ -157,18 +147,33 @@ $.ajax({
 	async: false,
           //type: "POST",
           success: function(data){
-          	$('select[name="tipodireccion"]').append(data);
+          	$('select[name="id_tipodireccion"]').append(data);
+          	$('select[name="id_tipodireccion"]>option').removeAttr("selected");
           }
-      });  
+      });
 
-var idcliente = getParameterByName('ID');
-var cliente = getParameterByName('nombrecliente');
+$(document).ready(function(){
 
-$("#cliente").html('"' + cliente + '"');
+	var id_direccion;
 
-var dirClientes = $('#dirClientes').DataTable({
-	"paging":    false,
-	"scrollY":   '58vh',
+	function getParameterByName(name, url) {
+		if (!url) url = window.location.href;
+		name = name.replace(/[\[\]]/g, "\\$&");
+		var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+		results = regex.exec(url);
+		if (!results) return null;
+		if (!results[2]) return '';
+		return decodeURIComponent(results[2].replace(/\+/g, " "));
+	}  
+
+	var id_cliente = getParameterByName('id_cliente');
+	var cliente = getParameterByName('nombrecliente');
+
+	$("#cliente").html('"' + cliente + '"');
+
+	var dirClientes = $('#dirClientes').DataTable({
+		"paging":    false,
+		"scrollY":   '58vh',
     //"scrollX": true 
     //"info" : false,
     //"searching": false,       
@@ -178,7 +183,7 @@ var dirClientes = $('#dirClientes').DataTable({
     ], 	
     ajax:{
     	url: 'consultardireccioncliente',
-    	data: {idcliente:idcliente}
+    	data: {idcliente:id_cliente}
     },     
     "columns":[
     {data:"id_direccion"},
@@ -199,54 +204,52 @@ var dirClientes = $('#dirClientes').DataTable({
     ]            
 }); 	
 
-$( ".buttons-excel" ).hide(); 
-$( "#excel-dircliente" ).on( "click", function() {
-	$( ".buttons-excel" ).trigger( "click" );
-});  
+	$( ".buttons-excel" ).hide(); 
+	$( "#excel-dircliente" ).on( "click", function() {
+		$( ".buttons-excel" ).trigger( "click" );
+	});  
 
-$('#dirClientes tbody').on( 'click', 'tr', function () {
-	if ( $(this).hasClass('selected') ) {
-		$(this).removeClass('selected');
-		idireccion = 0;	
-	}
-	else {
-		dirClientes.$('tr.selected').removeClass('selected');
-		$(this).addClass('selected');
-		idireccion = $(this).find('td').eq(0).html();
-	}
-});       
+	$('#dirClientes tbody').on( 'click', 'tr', function () {
+		if ( $(this).hasClass('selected') ) {
+			$(this).removeClass('selected');
+			id_direccion = "";
+		}
+		else {
+			dirClientes.$('tr.selected').removeClass('selected');
+			$(this).addClass('selected');	
+			id_direccion = $(this).find('td').eq(0).html();		
+		}		
+	});       
 
-$('#editardireccion').click(function () {
+	$('#editardireccion').click(function () {
 
-	if(idireccion == 0)
-	{
-		swal("No se ha seleccionado una direccion","error");
-	}
-	else
-	{
+		if(id_direccion == "")
+		{
+			swal("No se ha seleccionado una direccion","error");
+		}
+		else
+		{
 	    //data = dirClientes.row($(this).parents("tr")).data();
-	    //idireccion= data.id_direccion;
+	    //id_direccion= data.id_direccion;
 	    //$("#nuevodireccion").hide();
 	    $("#actualizardireccion").show();
 	    $("#nuevodireccioncliente").hide();
-	    $("#idcliente").attr("disabled", false);
+	    //$("#idcliente").attr("disabled", false);
 
-	    $.post('extraerdireccioncliente', {idireccion:idireccion},
+	    $.post('extraerdireccioncliente', {id_direccion:id_direccion},
 	    	function(result)
 	    	{
 	    		console.log(result);       
-	    		$("#idireccion").val(result.data[0].id_direccion);
+	    		$("#id_direccion").val(result.data[0].id_direccion);
 	    		$("#calle").val(result.data[0].calle);  
 	    		$("#colonia").val(result.data[0].colonia);
 	    		$("#ciudad").val(result.data[0].ciudad);  
 	    		$("#municipio").val(result.data[0].municipio);
 	    		$("#estado").val(result.data[0].estado);
 	    		$("#cp").val(result.data[0].cp);
-	    		$('select[name="estatus"]>option').removeAttr("selected");
-	    		$('select[name="estatus"]>option[value="'+result.data[0].estatus+'"]').attr("selected", true);  
-	    		$('select[name="tipodireccion"]>option').removeAttr("selected");
-	    		$('select[name="tipodireccion"]>option[value="'+result.data[0].tipo_direccion+'"]').attr("selected", true);
-	    		$("#notas").val(result.data[0].nota);
+	    		$('select[name="id_estatus"]>option[value="'+result.data[0].id_estatus+'"]').attr("selected", true);  
+	    		$('select[name="id_tipodireccion"]>option[value="'+result.data[0].tipo_direccion+'"]').attr("selected", true);
+	    		$("#nota").val(result.data[0].nota);
 	    		$("#detalledireccion").modal('show');
 	    	},'json'
 	    	);			
@@ -254,7 +257,7 @@ $('#editardireccion').click(function () {
 });  
 
 $("#actualizardireccion").click(function(){  	
-	var cadena = $("#frmactualizardireccioncliente").serialize()+'&id_direccion='+idireccion;
+	var cadena = $("#frmactualizardireccioncliente").serialize();
 	console.log(cadena);
 	$.post('actualizardireccioncliente', cadena,
 		function(result)
@@ -267,23 +270,24 @@ $("#actualizardireccion").click(function(){
 });
 
 $("#btnnuevodireccion").click(function(){
+	id_direccion = "";
 	$("#nuevodireccioncliente").show();
 	$("#actualizardireccion").hide();
-	$("#idcliente").attr("disabled", true);
+	//$("#idcliente").attr("disabled", true);
 	$("#detalledireccion").modal('show');
 	$("#calle").val("");
 	$("#colonia").val("");  
 	$("#ciudad").val("");
 	$("#municipio").val("");
 	$("#estado").val("");
-	$("select[id=estatus]").val("0");
-	$("select[id=tipodireccion]").val("0");   
+	$('#id_estatus').val($('#id_estatus > option:first').val());
+	$('#id_tipodireccion').val($('#id_tipodireccion > option:first').val());
 	$("#cp").val("");
-	$("#notas").val(""); 
+	$("#nota").val(""); 
 });
 
 $("#nuevodireccioncliente").click(function(){
-	var cadena = $("#frmactualizardireccioncliente").serialize()+'&idcliente='+idcliente;
+	var cadena = $("#frmactualizardireccioncliente").serialize()+'&id_cliente='+id_cliente;
 	console.log(cadena);
 	$.post('insertardireccioncliente', cadena,
 		function(result)
@@ -295,5 +299,5 @@ $("#nuevodireccioncliente").click(function(){
 		);   	
 });
 
-
+});
 </script>

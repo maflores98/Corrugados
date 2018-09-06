@@ -148,9 +148,7 @@ class Application_Model_DbTable_Materiales extends Zend_Db_Table_Abstract
        $select->where("id_material = ?", $idmaterial);
        $response=new stdClass();
        $rows = $this->fetchAll($select)->toArray();
-                            //$consulta = $select->__toString();
-                            //echo $consulta;
-                            //exit();
+       
        $material = array();
        foreach ($rows as $row) {
          $material[] = array(
@@ -168,35 +166,22 @@ class Application_Model_DbTable_Materiales extends Zend_Db_Table_Abstract
        return $rows[0];
      }     
 
-    public function actualizarmaterial($id_material, $clave, $descripcion, $proveedor, $categoria, $costo, $unidad, $estatus)
+    public function actualizarmaterial($datos)
     {
-        $where[] = "id_material = '$id_material'";
-        $update = $this->update(array(
-            "clave" => $clave, 
-            "descripcion" => $descripcion, 
-            "id_cli-prov" => $proveedor, 
-            "id_categoria" => $categoria,
-            "costo" => $costo,
-            "unidad" => $unidad,
-            "id_estatus" => $estatus
-        ), $where);
+        $id_material = $datos["id_material"];
+        $where = $this->getAdapter()->quoteInto('id_material = ?', $id_material);
+
+        $update = $this->update($datos, $where); 
 
         $response = new stdClass();
         $response->validacion = true;
         return $response;
     }
 
-    public function insertarmaterial($clave, $descripcion, $proveedor, $categoria, $costo, $unidad, $estatus)
+    public function insertarmaterial($datos)
     {
-        $insert = $this->insert(array(
-            "clave" => $clave, 
-            "descripcion" => $descripcion, 
-            "id_cli-prov" => $proveedor, 
-            "id_categoria" => $categoria,
-            "costo" => $costo,
-            "unidad" => $unidad,
-            "id_estatus" => $estatus
-            ));
+        $insert = $this->insert($datos);
+
         $response = new stdClass();
         $response->validacion = true;
         return $response;

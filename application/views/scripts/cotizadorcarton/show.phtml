@@ -1,6 +1,4 @@
 <?php 
-$this->headLink()->appendStylesheet('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css');
-$this->headScript()->appendFile('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js','text/javascript');
 //$this->headScript()->appendFile($this->baseUrl('js/cotcarton.validaciones.js'), 'text/javascript');
 $this->headScript()->appendFile($this->baseUrl('js/cotcarton.calculos.js'), 'text/javascript');
 //$this->headLink()->appendStylesheet($this->baseUrl('css/estilos.cotcarton.css'));
@@ -55,7 +53,7 @@ label[for=total_tinta] {
 				                <div class="form-group">
 			           				<label class="col-md-3 control-label">Fecha registro:</label>
 			           				<div class="col-md-3">
-			            				<input type="date" class="form-control" id="fecha_emision" name="fecha_emision" value="<?php echo date("Y-m-d");?>" readonly>
+			            				<input type="date" class="form-control" id="fecha_emision" name="fecha_emision" value="<?php echo date('Y-m-d H:i:s');?>" readonly>
 			          				</div>
 				                </div>
 				                <div class="form-group">
@@ -142,12 +140,12 @@ label[for=total_tinta] {
 		       					</div>
 		          				<div class="form-group col-md-2">
 		         					<label for="mcaja" class="radio-inline">
-		          						<input type="radio" id="mcaja" name="tipo_medida" class="tipo_medida" value="1" required> M.Caja
+		          						<input type="radio" id="mcaja" name="tipo_medida" class="tipo_medida" value="CAJA" required> M.Caja
 		        					</label>
 		         				</div>
 		          				<div class="form-group col-md-2">
 		        					<label for="mcarton" class="radio-inline">
-		          						<input type="radio" id="mcarton" name="tipo_medida" class="tipo_medida" value="2"> M.Cartón
+		          						<input type="radio" id="mcarton" name="tipo_medida" class="tipo_medida" value="CARTON"> M.Cartón
 		    						</label>
 		         				</div>		       							       			
 				       		</div>	
@@ -259,8 +257,8 @@ label[for=total_tinta] {
 						<label for="tipo_suajado" class="control-label">Tipo Suajado:</label>
 		      				<select class="form-control" id="tipo_suajado" name="tipo_suajado">
 		        				<option value="0" selected>SELECCIONAR</option>
-		        				<option value="1">MANUAL</option>
-		        				<option value="2">AUTOMATICO</option>
+		        				<option value="MANUAL">MANUAL</option>
+		        				<option value="AUTOMATICO">AUTOMATICO</option>
 		      				</select>
 						</div> 
 			       		<div class="form-group">
@@ -271,7 +269,7 @@ label[for=total_tinta] {
 			       		</div>
 		  				<div class="form-group col-md-9">
 		 					<label for="refiladorayado" class="radio-inline">
-		  					<input type="checkbox" id="refiladorayado" name="refiladorayado" value="1"> Refilado/Rayado
+		  					<input type="checkbox" id="refiladorayado" name="refiladorayado" value="SI"> Refilado/Rayado
 							</label>
 		 				</div>	       						      			
 		       		</div>					
@@ -602,20 +600,29 @@ label[for=total_tinta] {
    		</div>
    		<div class="col-md-12">
    			<div class="btn-fixed">
-		      <button type="button" class="btn btn-default" id="btn-limpiar">Limpiar</button>
+		      <button type="button" class="btn btn-default" id="btn-salir">Salir</button>
 		      <button type="button" class="btn btn-primary" id="btn-calcular">Calcular</button>  
 		      <button type="submit" class="btn btn-primary" id="btn-guardar">Guardar</button>
+		      <button type="button" class="btn btn-primary" id="btn-op">Generar OP</button>
    			</div>
    		</div>
    	</div>
 </form>
 <script>
 var clasificacion, clasificacion2, tipoproducto, material, carton;
+  $("#btn-calcular").text('Calcular');
+  $("#btn-guardar").text('Guardar');
+  $("#btn-op").hide();
 
   var Tipo = getParameterByName('Tipo');
 	if(Tipo == 2)
 	{
 		var id_cotizacion = getParameterByName('id');
+		$("#id_cotizacion").html(id_cotizacion)
+	  	$("#btn-calcular").text('Recalcular');
+	  	$("#btn-guardar").text('Actualizar');
+	  	$("#btn-op").show();
+		$.ajaxSetup({async: true});
 	    $.post('extraercotizacion',{id_cotizacion: id_cotizacion},
 	    	function (data) 
 	    	{
@@ -635,7 +642,11 @@ var clasificacion, clasificacion2, tipoproducto, material, carton;
     			selTipoMaterial(data['selector_material']);
     			selCarton(data['tipo_material']);
     			selTamanoCarton(data['carton']);
-
+    			tipoCamion();
+    			detalle_camion(data['tipo_camion1'],1);
+    			detalle_camion(data['tipo_camion2'],2);
+    			detalle_camion(data['tipo_camion3'],3);
+    			
 				$('input[name="selector_material"][value="' + data['selector_material'] + '"]').prop("checked", true);
 	    		$('select[name="articulo"]>option[value="' + data['articulo'] + '"]').attr("selected", true);
 	    		$('select[name="tipo_producto"]>option[value="' + data['tipo_producto'] + '"]').attr("selected", true);
@@ -644,11 +655,17 @@ var clasificacion, clasificacion2, tipoproducto, material, carton;
 	    		$('select[name="tam_carton"]>option[value="' + data['tam_carton'] + '"]').attr("selected", true);
 	    		$('select[name="tipo_suajado"]>option').removeAttr("selected");
 	    		$('select[name="tipo_suajado"]>option[value="' + data['tipo_suajado'] + '"]').attr("selected", true);
-	    		$('input[name="refiladorayado"][value="' + data['refiladorayado'] + '"]').prop("checked", true);	    		
+	    		$('input[name="refiladorayado"][value="' + data['refiladorayado'] + '"]').prop("checked", true);	
 	    		$('select[name="tipo_camion1"]>option[value="' + data['tipo_camion1'] + '"]').attr("selected", true);
 	    		$('select[name="tipo_camion2"]>option[value="' + data['tipo_camion2'] + '"]').attr("selected", true);
 	    		$('select[name="tipo_camion3"]>option[value="' + data['tipo_camion3'] + '"]').attr("selected", true);
 	    		$('#por_margen').html(data['por_margen']);
+
+	    		clasificacion = data['articulo'];
+	    		clasificacion2 = data['m2_requeridos'].replace(",",""); 
+	    		tipoproducto = data['tipo_producto'];
+	    		material = data['tipo_material'];
+	    		carton = data['carton'];
 
 	    	},'json'
 	    );
@@ -670,22 +687,23 @@ $.ajax({
 
 selArticulo();
 
-$.post('seltiposcamiones',
-	function(data)
-	{
-		$('select[name="tipo_camion1"]').html('<option value="0">SELECCIONAR</option>');
-		$('select[name="tipo_camion1"]').append(data);
-		$('select[name="tipo_camion1"]>option').removeAttr("selected");
+    $.ajax({
+      dataType: "json",
+      url: 'seltiposcamiones',
+      async: false,
+      type: 'POST',
+      success: function (data) {
 
-		$('select[name="tipo_camion2"]').html('<option value="0">SELECCIONAR</option>');
-		$('select[name="tipo_camion2"]').append(data);
-		$('select[name="tipo_camion2"]>option').removeAttr("selected");
+        $('select[name="tipo_camion1"]').append(data);
+        $('select[name="tipo_camion1"]>option').removeAttr("selected");
 
-		$('select[name="tipo_camion3"]').html('<option value="0">SELECCIONAR</option>');
-		$('select[name="tipo_camion3"]').append(data);
-		$('select[name="tipo_camion3"]>option').removeAttr("selected"); 
-	},'json'
-	);
+        $('select[name="tipo_camion2"]').append(data);
+        $('select[name="tipo_camion2"]>option').removeAttr("selected");   
+        
+        $('select[name="tipo_camion3"]').append(data);
+        $('select[name="tipo_camion3"]>option').removeAttr("selected");             
+      }
+    });
 
 $("#no_tintas").bind('keyup mouseup',function(){
 	var no_tintas = this.value;
@@ -849,6 +867,7 @@ $(".camion").change(function(){
 	}
 });	
 
+
 	//-------------------------------------------CALCULAR------------------------------------------------//
 
 	$("#btn-calcular").click(function()
@@ -856,7 +875,7 @@ $(".camion").change(function(){
 		$.medidas();
 		$.margen();
 
-		if( $('input:radio[name=tipo_medida]:checked').val() == 1 )
+		if( $('input:radio[name=tipo_medida]:checked').val() == "CAJA" )
 		{
 			$.medidascaja();
 		}
@@ -905,23 +924,24 @@ $(".camion").change(function(){
 			$.costo_cirel();			    
 		}
 
-			carton = $('select[name="carton"] option:selected').val();
-			var descripcion = carton;
-		  $.ajax({
+		carton = $('select[name="carton"] option:selected').val();
+		var descripcion = carton;
+
+  		$.ajax({
 		    dataType: "json",
 		    url: 'seltamcorrugados',
 		    async:true,
 		    type: "POST",
 		    data: {Descripcion : descripcion},
 		    success: function(data){  
-		      $("#costo_m2").html(trunc(data.costo,2));		      		            
+		      	$("#costo_m2").html(trunc(data.costo,2));		      		            
 		    }
-		  }); 
+	 	}); 
 
 
 			if( $("#cant_enviar1").val() > 1000 )
 			{
-				var num_viajes1 = parseFloat($("#cant_enviar1").val()) / parseFloat($("#capacidad1").text());
+				var num_viajes1 = parseFloat($("#cant_enviar1").val()) / parseFloat($("#capacidad1").text().replace(/,/gi,''));
 				$("#num_viajes1").html(currency(Math.ceil(num_viajes1)),2);
 			}
 			else
@@ -989,114 +1009,114 @@ $(".camion").change(function(){
 				$.total_envio();   			
 			}		  		   		
 
-	    $.ajax({
-	      dataType: "json",
-	      url: 'cotizadorprocesos',
-	      async: true,
-	      type: 'POST',
-	      data: {
-	        clasificacion : clasificacion, 
-	        clasificacion2: clasificacion2, 
-	        tipoproducto : tipoproducto
-	      },
-	      success: function (result) {
-
-		      if( result.data[0].Impresion == 1 )
-		      {
-				$.impmerma();
-				$.total_merma();		      	
-		        $.impresion();
-				$.total_arreglo();
-				$.total_tiro();
-				$.total_cunit();		                                  
-		      }
-		      if( result.data[0].FlexoRanurado == 1 )
-		      {
-				$.flexomerma();
-				$.total_merma();		      	
-		        $.flexoranurado();
-				$.total_arreglo();
-				$.total_tiro();
-				$.total_cunit();		                                  
-		      }
-		      if( result.data[0].Pegado == 1 )
-		      {      
-				$.pegadomerma();
-				$.total_merma();		      	
-		        $.pegado();
-				$.total_arreglo();
-				$.total_tiro();
-				$.total_cunit();		                                   
-		      }
-		      if( result.data[0].Grapado == 1 )
-		      {      
-				$.grapadomerma();
-				$.total_merma();		      	
-		        $.grapado();
-				$.total_arreglo();
-				$.total_tiro();
-				$.total_cunit();		                                   
-		      } 
-		      if( result.data[0].Refilado == 1 )
-		      {    
-				$.refiladomerma();
-				$.total_merma();		        
-		        $.refilado();
-				$.total_arreglo();
-				$.total_tiro();
-				$.total_cunit();		                                   
-		      }    
-		      if( result.data[0].Rayado == 1 )
-		      {    
-				$.rayadomerma();
-				$.total_merma();		        
-		        $.rayado();
-				$.total_arreglo();
-				$.total_tiro();
-				$.total_cunit();		                                   
-		      }
-		      if( result.data[0].Caiman == 1 )
-		      {      
-				$.caimanmerma();
-				$.total_merma();		      	
-		        $.caiman();
-				$.total_arreglo();
-				$.total_tiro();
-				$.total_cunit();		                                   
-		      }
-		      if( result.data[0].Autoarmado == 1 )
-		      {      
-				$.suajadomerma();
-				$.total_merma();		      	
-		        $.suajado();
-				$.total_arreglo();
-				$.total_tiro();
-				$.total_cunit();		                        
-		      }   
-		      if( result.data[0].Flejado == 1 )
-		      {
-		      	$.total_merma();      
-		        $.flejado();
-				$.total_arreglo();
-				$.total_tiro();
-				$.total_cunit();		                                   
-		      }
-		      if( result.data[0].Entarimado == 1 )
-		      {
-		      	$.total_merma();      
-		        $.entarimado();
-				$.total_arreglo();
-				$.total_tiro();
-				$.total_cunit();		                                   
-		      }   					                        
-			}
-			
+			$.ajax
+			(
+				{
+					dataType: "json",
+					url: 'cotizadorprocesos',
+					async: true,
+					type: 'POST',
+					data: {
+					clasificacion : clasificacion, 
+					clasificacion2: clasificacion2, 
+					tipoproducto : tipoproducto
+				},
+				success: function (result){
+				if( result.data[0].Impresion == 1 )
+				{
+					$.impmerma();
+					$.total_merma();		      	
+					$.impresion();
+					$.total_arreglo();
+					$.total_tiro();
+					$.total_cunit();		                                  
+				}
+				if( result.data[0].FlexoRanurado == 1 )
+				{
+					$.flexomerma();
+					$.total_merma();		      	
+					$.flexoranurado();
+					$.total_arreglo();
+					$.total_tiro();
+					$.total_cunit();		                                  
+				}
+				if( result.data[0].Pegado == 1 )
+				{      
+					$.pegadomerma();
+					$.total_merma();		      	
+					$.pegado();
+					$.total_arreglo();
+					$.total_tiro();
+					$.total_cunit();		                                   
+				}
+				if( result.data[0].Grapado == 1 )
+				{      
+					$.grapadomerma();
+					$.total_merma();		      	
+					$.grapado();
+					$.total_arreglo();
+					$.total_tiro();
+					$.total_cunit();		                                   
+				} 
+				if( result.data[0].Refilado == 1 )
+				{    
+					$.refiladomerma();
+					$.total_merma();		        
+					$.refilado();
+					$.total_arreglo();
+					$.total_tiro();
+					$.total_cunit();		                                   
+				}    
+				if( result.data[0].Rayado == 1 )
+				{    
+					$.rayadomerma();
+					$.total_merma();		        
+					$.rayado();
+					$.total_arreglo();
+					$.total_tiro();
+					$.total_cunit();		                                   
+				}
+				if( result.data[0].Caiman == 1 )
+				{      
+					$.caimanmerma();
+					$.total_merma();		      	
+					$.caiman();
+					$.total_arreglo();
+					$.total_tiro();
+					$.total_cunit();		                                   
+				}
+				if( result.data[0].Autoarmado == 1 )
+				{      
+					$.suajadomerma();
+					$.total_merma();		      	
+					$.suajado();
+					$.total_arreglo();
+					$.total_tiro();
+					$.total_cunit();		                        
+				}   
+				if( result.data[0].Flejado == 1 )
+				{
+					$.total_merma();      
+					$.flejado();
+					$.total_arreglo();
+					$.total_tiro();
+					$.total_cunit();		                                   
+				}
+				if( result.data[0].Entarimado == 1 )
+				{
+					$.total_merma();      
+					$.entarimado();
+					$.total_arreglo();
+					$.total_tiro();
+					$.total_cunit();		                                   
+				}   					                        
+			}			
 	    });
 		
 		setTimeout(function(){
-				$.total_arreglo();
-				$.total_tiro();
-				$.total_cunit();			
+			$.total_arreglo();
+			$.total_tiro();
+			$.total_cunit();			
 			$.costocarton();
 			$.total_material();
 
@@ -1121,7 +1141,6 @@ $(".camion").change(function(){
 			}
 
 		},1000); 
-
 	});	
 
 	//-------------------------------------------CALCULAR------------------------------------------------//
@@ -1156,32 +1175,60 @@ $(".camion").change(function(){
 		});				
 
 		data = $("#generarcotizacion").serialize() + "&id_cliente="+$("#id_cliente").val() + procesos + materiales + envios + total;
-		console.log($("#generarcotizacion").serialize());
 		event.preventDefault();
 
-		$.post('guardarcotizacion', data,
-			function(result){
+		if(Tipo == 2)
+		{
+			$.post('actualizarcotizacion', data + "&id_cotizacion=" + $("#id_cotizacion").text(),
+				function(result){
 
-	        if (result.validacion) {
+		        if (result.validacion) {
 
-	        	$("#id_cotizacion").html(result.Id);
-	          swal(
+		        	$("#id_cotizacion").html(result.Id);
+		          swal(
 
-	            '',
+		            '',
 
-	            'Numero de Cotización: ' + result.Id,
+		            'Numero de Cotización: ' + result.Id,
 
-	            'success'
+		            'success'
 
-	          );
+		          );
 
-	        }
+		        }
 
-			},'json');
+				},'json');
+		}
+		else
+		{
+			$.post('guardarcotizacion', data,
+				function(result){
+
+		        if (result.validacion) {
+
+		        	$("#id_cotizacion").html(result.Id);
+		          swal(
+
+		            '',
+
+		            'Numero de Cotización: ' + result.Id,
+
+		            'success'
+
+		          );
+
+		        }
+
+				},'json');
+		}
 	});
 
 $("#btn-limpiar").click(function(){
 	limpiar();
+});
+
+$("#btn-salir").click(function(){
+	window.location.href = 'listado';
 });
 
 function getParameterByName(name, url) {
@@ -1222,7 +1269,6 @@ function detalle_camion(tipo_camion, camion)
       async: false,
       type: 'POST',
       success: function (data) {
-        $('select[name="articulo"]').html('<option value="null">SELECCIONAR</option>');
         $('select[name="articulo"]').append(data);
         $('select[name="articulo"]>option').removeAttr("selected");
       }
@@ -1239,7 +1285,6 @@ function detalle_camion(tipo_camion, camion)
         Clasificacion: $articulo
       },
       success: function (data) {
-        $('select[name="tipo_producto"]').html('<option value="null">SELECCIONAR</option>');
         $('select[name="tipo_producto"]').append(data);
         $('select[name="tipo_producto"]>option').removeAttr("selected");
 
@@ -1257,7 +1302,6 @@ function detalle_camion(tipo_camion, camion)
         'tipoMaterial': $material
       },
       success: function (data) {
-        $('select[name="tipo_material"]').html('<option value="null">SELECCIONAR</option>');
         $('select[name="tipo_material"]').append(data);
         $('select[name="tipo_material"]>option').removeAttr("selected");
 
@@ -1276,7 +1320,6 @@ function detalle_camion(tipo_camion, camion)
       },
       success: function (data) {
 
-        $('select[name="carton"]').html('<option value="null">SELECCIONAR</option>');
         $('select[name="carton"]').append(data);
         $('select[name="carton"]>option').removeAttr("selected");
 
@@ -1295,7 +1338,6 @@ function detalle_camion(tipo_camion, camion)
       },
       success: function (data) {
 
-        $('select[name="tam_carton"]').html('<option value="null">SELECCIONAR</option>');
         $('select[name="tam_carton"]').append(data.data);
         $('select[name="tam_carton"]>option').removeAttr("selected");
 
@@ -1303,8 +1345,7 @@ function detalle_camion(tipo_camion, camion)
     });
   }  
 
-  function tipoCamion()
-  {
+  function tipoCamion() {
     $.ajax({
       dataType: "json",
       url: 'seltiposcamiones',
@@ -1312,20 +1353,16 @@ function detalle_camion(tipo_camion, camion)
       type: 'POST',
       success: function (data) {
 
-		$('select[name="tipo_camion1"]').html('<option value="0">SELECCIONAR</option>');
-		$('select[name="tipo_camion1"]').append(data);
-		$('select[name="tipo_camion1"]>option').removeAttr("selected");
+        $('select[name="tipo_camion1"]').append(data.data);
+        $('select[name="tipo_camion1"]>option').removeAttr("selected");
 
-		$('select[name="tipo_camion2"]').html('<option value="0">SELECCIONAR</option>');
-		$('select[name="tipo_camion2"]').append(data);
-		$('select[name="tipo_camion2"]>option').removeAttr("selected");
-
-		$('select[name="tipo_camion3"]').html('<option value="0">SELECCIONAR</option>');
-		$('select[name="tipo_camion3"]').append(data); 
-		$('select[name="tipo_camion3"]>option').removeAttr("selected");
-
+        $('select[name="tipo_camion2"]').append(data.data);
+        $('select[name="tipo_camion2"]>option').removeAttr("selected");   
+        
+        $('select[name="tipo_camion3"]').append(data.data);
+        $('select[name="tipo_camion3"]>option').removeAttr("selected");             
       }
-    }); 	
+    });
   }
 
 function zeroPadded(val) {

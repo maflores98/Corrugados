@@ -67,13 +67,15 @@
               </div>
             </div>
             <div class="form-group col-md-4">
-              <label for="proveedor">Proveedor</label>
-              <select class="form-control" id="proveedor" name="proveedor" required>
+              <label for="id_cli-prov">Proveedor</label>
+              <select class="form-control" id="id_cli-prov" name="id_cli-prov" required>
+                <option value="" selected disabled>ELIGE UNA OPCIÓN</option>
               </select>
             </div>                   
             <div class="form-group col-md-4">
-              <label for="categoriamateriales">Categoria</label>
-              <select class="form-control" id="categoriamateriales" name="categoriamateriales">
+              <label for="id_categoria">Categoria</label>
+              <select class="form-control" id="id_categoria" name="id_categoria">
+                <option value="" selected disabled>ELIGE UNA OPCIÓN</option>
               </select>
             </div>  
             <div class="col-md-4">
@@ -89,8 +91,9 @@
               </div>
             </div>
             <div class="form-group col-md-4">
-              <label for="estatus">Estatus</label>
-              <select class="form-control" id="estatus" name="estatus">              
+              <label for="id_estatus">Estatus</label>
+              <select class="form-control" id="id_estatus" name="id_estatus">
+              <option value="" selected disabled>ELIGE UNA OPCIÓN</option>              
               </select>
             </div>                                                       
             <!--/div-->                                                                      
@@ -113,7 +116,8 @@ $.ajax({
   url: 'llenarcombocategoriasmateriales',
   type: "POST",
   success: function(data){
-    $('select[name="categoriamateriales"]').append(data);
+    $('select[name="id_categoria"]').append(data);
+    $('select[name="id_categoria"]>option').removeAttr("selected");
   }
 });
 
@@ -122,7 +126,8 @@ $.ajax({
   url: 'llenarcomboproveedores',
   type: "POST",
   success: function(data){
-    $('select[name="proveedor"]').append(data);
+    $('select[name="id_cli-prov"]').append(data);
+    $('select[name="id_cli-prov"]>option').removeAttr("selected");
   }
 });
 
@@ -132,10 +137,12 @@ $.ajax({
   async: false,
           //type: "POST",
           success: function(data){
-            $('select[name="estatus"]').append(data);
+            $('select[name="id_estatus"]').append(data);
+            $('select[name="id_estatus"]>option').removeAttr("selected");
           }
         });
 
+$(document).ready(function(){
 
 var catMateriales = $('#catMateriales').DataTable({
   ajax:{
@@ -186,14 +193,11 @@ $('#catMateriales').on("click", "a.btn-detalles", function ()
       console.log(result.id_cliprov);       
       $("#clave").val(result.clave);
       $("#descripcion").val(result.descripcion);  
-      $('select[name="proveedor"]>option').removeAttr("selected");
-      $('select[name="proveedor"]>option[value="'+result.id_cliprov+'"]').attr("selected", true);      
-      $('select[name="categoriamateriales"]>option').removeAttr("selected");
-      $('select[name="categoriamateriales"]>option[value="'+result.id_categoria+'"]').attr("selected", true);      
+      $('select[name="id_cli-prov"]>option[value="'+result.id_cliprov+'"]').attr("selected", true);      
+      $('select[name="id_categoria"]>option[value="'+result.id_categoria+'"]').attr("selected", true);      
       $("#costo").val(result.costo);
       $("#unidad").val(result.unidad);
-      $('select[name="estatus"]>option').removeAttr("selected");
-      $('select[name="estatus"]>option[value="'+result.id_estatus+'"]').attr("selected", true);      
+      $('select[name="id_estatus"]>option[value="'+result.id_estatus+'"]').attr("selected", true);      
       $("#detalleModal").modal('show'); 
     },'json'
     );
@@ -218,11 +222,14 @@ $("#btnnuevomaterial").click(function(){
   $("#nuevomaterial").show();   
   $("#clave").val("");
   $("textarea#descripcion").val("");  
-  $("select[id=proveedor]").val("0");   
+  $("select[id=id_cli-prov]").val("0");   
   $("select[id=categoria]").val("0");
+  $('#id_cli-prov').val($('#id_cli-prov > option:first').val());
+  $('#id_categoria').val($('#id_categoria > option:first').val());
+  $('#id_estatus').val($('#id_estatus > option:first').val());
   $("#costo").val("");
   $("#unidad").val("");
-  $("select[id=estatus]").val("0");
+  $("select[id=id_estatus]").val("0");
 });
 
 $("#nuevomaterial").click(function(){
@@ -237,5 +244,5 @@ $("#nuevomaterial").click(function(){
     },'json'
     );    
 });
-
+});
 </script>    

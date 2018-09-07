@@ -96,5 +96,19 @@ class Application_Model_DbTable_OrdenesProduccion extends Zend_Db_Table_Abstract
         $response = new stdClass();
         $response->validacion = true;
         return $response;
-    }         
+    }  
+
+    /*public function cantidadliberar($id_orden,$acumulado){
+
+        $data = array(
+            'cant_liberar' => $acumulado
+        );
+
+        $where = $this->getAdapter()->quoteInto('id_ordenproduccion = ?', $id_orden);
+        $this->update($data, $where);
+
+        $response = new stdClass();
+        $response->validacion = true;
+        return $response;
+    }*/           
 }

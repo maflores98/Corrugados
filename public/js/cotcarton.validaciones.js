@@ -720,7 +720,7 @@ $("#cant_enviar1").change(function(){
 
   if( $("#cant_enviar1").val() > 1000 )
   {
-    var num_viajes1 = $("#cant_enviar1").val() / $("#capacidad1").text();
+    var num_viajes1 = $("#cant_enviar1").val() / $("#capacidad1").text().replace(/,/gi,'');
     $("#num_viajes1").html(currency(Math.ceil(num_viajes1)),2);
   }
   else

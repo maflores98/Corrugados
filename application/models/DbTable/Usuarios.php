@@ -48,15 +48,13 @@ class Application_Model_DbTable_Usuarios extends Zend_Db_Table_Abstract
        return $response;
      }
 
-      public function extraerusuario($idusuario)
+      public function extraerusuario($id_usuario)
       {
        $select = $this->select();
-       $select->where("id_usuario = ?", $idusuario);
+       $select->where("id_usuario = ?", $id_usuario);
        $response=new stdClass();
        $rows = $this->fetchAll($select)->toArray();
-                            //$consulta = $select->__toString();
-                            //echo $consulta;
-                            //exit();
+
        $usuario = array();
        foreach ($rows as $row) {
          $usuario[] = array(
@@ -73,33 +71,23 @@ class Application_Model_DbTable_Usuarios extends Zend_Db_Table_Abstract
        return $rows[0];
      }     
 
-    public function actualizarusuario($id_usuario, $usuario, $nombre, $correo, $password, $tipousuario, $estatus)
+    public function actualizarusuario($datos)
     {
-        $where[] = "id_usuario = '$id_usuario'";
-        $update = $this->update(array(
-            "usuario" => $usuario, 
-            "nombre" => $nombre, 
-            "correo" => $correo, 
-            "password" => $password,
-            "id_tipo_usuario" => $tipousuario,
-            "id_estatus" => $estatus
-        ), $where);
+
+        $id_usuario = $datos["id_usuario"];
+        $where = $this->getAdapter()->quoteInto('id_usuario = ?', $id_usuario);
+
+        $update = $this->update($datos, $where); 
 
         $response = new stdClass();
         $response->validacion = true;
         return $response;
     }
 
-    public function insertarusuario($usuario, $nombre, $correo, $password, $tipousuario, $estatus)
+    public function insertarusuario($datos)
     {
-        $insert = $this->insert(array(
-            "usuario" => $usuario, 
-            "nombre" => $nombre, 
-            "correo" => $correo, 
-            "password" => $password,
-            "id_tipo_usuario" => $tipousuario,
-            "id_estatus" => $estatus
-            ));
+        $insert = $this->insert($datos);
+
         $response = new stdClass();
         $response->validacion = true;
         return $response;

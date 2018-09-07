@@ -175,30 +175,29 @@ class Application_Model_DbTable_Clientes extends Zend_Db_Table_Abstract
        return $rows[0];
      }     
 
-    public function actualizarcliente($id_cliente, $rcomercial, $rfc, $telefono, $pagweb, $categoria, $estatus, $cpago, $drevision, 
-                                                    $contacto1, $mailcontacto1, $referencia1, $contacto2, $mailcontacto2, $referencia2, $contacto3,
-                                                    $mailcontacto3, $referencia3, $vendedor)
+    public function actualizarcliente($datos)
     {
-        $where[] = "id_cliente = '$id_cliente'";
+        $where =$datos["id_cliente"];
         $update = $this->update(array(
-            "rcomercial" => $rcomercial, 
-            "rfc" => $rfc, 
-            "telefono" => $telefono, 
-            "pagweb" => $pagweb, 
-            "id_categoria" => $categoria, 
-            "id_estatus" => $estatus, 
-            "condpago" => $cpago, 
-            "diasrevision" => $drevision, 
-            "contacto1" => $contacto1, 
-            "mailcont1" => $mailcontacto1,
-            "refcont1" => $referencia1,
-            "contacto2" => $contacto2,
-            "mailcont2" => $mailcontacto2, 
-            "refcont2" => $referencia2,
-            "contacto3" => $contacto3,
-            "mailcont3" => $mailcontacto3, 
-            "refcont3" => $referencia3,
-            "id_vendedor"=>$vendedor
+            "rcomercial" => $datos["rcomercial"], 
+            "rfc" => $datos["rfc"], 
+            "telefono" => $datos["telefono"], 
+            "pagweb" => $datos["pagweb"], 
+            "id_categoria" => $datos["categoria"], 
+            "id_estatus" => $datos["estatus"], 
+            "factura" => $datos["factura"],
+            "condpago" => $datos["cpago"], 
+            "diasrevision" => $datos["drevision"], 
+            "contacto1" => $datos["contacto1"], 
+            "mailcont1" => $datos["mailcontacto1"],
+            "refcont1" => $datos["referencia1"],
+            "contacto2" => $datos["contacto2"],
+            "mailcont2" => $datos["mailcontacto2"], 
+            "refcont2" => $datos["referencia2"],
+            "contacto3" => $datos["contacto3"],
+            "mailcont3" => $datos["mailcontacto3"], 
+            "refcont3" => $datos["referencia3"],
+            "id_vendedor"=>$datos["vendedor"]
         ), $where);
 
         $response = new stdClass();
@@ -207,140 +206,32 @@ class Application_Model_DbTable_Clientes extends Zend_Db_Table_Abstract
         echo $set;
     }
 
-    public function insertarcliente($rcomercial, $rfc, $telefono, $pagweb, $categoria, $estatus, $cpago, $drevision, 
-                                                    $contacto1, $mailcontacto1, $referencia1, $contacto2, $mailcontacto2, $referencia2, $contacto3,
-                                                    $mailcontacto3, $referencia3, $vendedor)
+    public function insertarcliente($datos)
     {
         $insert = $this->insert(array(
-            "rcomercial" => $rcomercial, 
-            "rfc" => $rfc, 
-            "telefono" => $telefono, 
-            "pagweb" => $pagweb, 
-            "id_categoria" => $categoria, 
-            "id_estatus" => $estatus, 
-            "condpago" => $cpago, 
-            "diasrevision" => $drevision, 
-            "contacto1" => $contacto1, 
-            "mailcont1" => $mailcontacto1,
-            "refcont1" => $referencia1,
-            "contacto2" => $contacto2,
-            "mailcont2" => $mailcontacto2, 
-            "refcont2" => $referencia2,
-            "contacto3" => $contacto3,
-            "mailcont3" => $mailcontacto3, 
-            "refcont3" => $referencia3,
-            "id_vendedor"=>$vendedor
+            "rcomercial" => $datos["rcomercial"], 
+            "rfc" => $datos["rfc"], 
+            "telefono" => $datos["telefono"], 
+            "pagweb" => $datos["pagweb"], 
+            "id_categoria" => $datos["categoria"], 
+            "id_estatus" => $datos["estatus"], 
+            "condpago" => $datos["cpago"], 
+            "diasrevision" => $datos["drevision"], 
+            "contacto1" => $datos["contacto1"], 
+            "mailcont1" => $datos["mailcontacto1"],
+            "refcont1" => $datos["referencia1"],
+            "contacto2" => $datos["contacto2"],
+            "mailcont2" => $datos["mailcontacto2"], 
+            "refcont2" => $datos["referencia2"],
+            "contacto3" => $datos["contacto3"],
+            "mailcont3" => $datos["mailcontacto3"], 
+            "refcont3" => $datos["referencia3"],
+            "id_vendedor"=>$datos["vendedor"]
             ));
         $response = new stdClass();
         $response->validacion = true;
         return $response;
-    }        
-
-      public function consultardireccioncliente($id_cliente){
-        $db = Zend_Db_Table_Abstract::getDefaultAdapter();
-        $select = $db ->select()
-        ->from('direcciones_clientes')
-        ->where("id_cliente = '$id_cliente'");
-            //$consulta = $select->__toString();
-            //echo $consulta;
-            //exit();
-        $sql = $db->query($select);
-        $rows = $sql->fetchAll();
-        
-       $cliente = array();
-       foreach ($rows as $row) {
-        $cliente[] = array(
-        "id_direccion"=>$row["id_direccion"],
-        "calle"=>utf8_encode($row["calle"]),
-        "colonia" => utf8_encode($row['colonia']),
-        "ciudad" => utf8_encode($row['ciudad']),
-        "municipio" => utf8_encode($row['municipio']),
-        "estado"=>utf8_encode($row['estado']),
-        "cp" => $row['cp'],       
-        "estatus" => $row['id_estatus'],   
-        "nota"=> utf8_encode($row["nota"])
-        //"detalle" => "<a class='btn btn-default btn-xs btn-detalles' data-id='".$row['id_cliente']."'> <span class='glyphicon glyphicon-pencil'></a>",
-          );
-       }
-
-       $response = new stdClass();
-        $response->data = $cliente;
-        return $response; 
-     }  
-
-      public function extraerdireccioncliente($id_direccion){
-        $db = Zend_Db_Table_Abstract::getDefaultAdapter();
-        $select = $db ->select()
-        ->from('direcciones_clientes')
-        ->where("id_direccion = '$id_direccion'");
-            //$consulta = $select->__toString();
-            //echo $consulta;
-            //exit();
-        $sql = $db->query($select);
-        $rows = $sql->fetchAll();
-        
-       $cliente = array();
-       foreach ($rows as $row) {
-        $cliente[] = array(
-        "id_direccion"=>$row["id_direccion"],
-        "calle"=>utf8_encode($row["calle"]),
-        "colonia" => utf8_encode($row['colonia']),
-        "ciudad" => utf8_encode($row['ciudad']),
-        "municipio" => utf8_encode($row['municipio']),
-        "estado"=>utf8_encode($row['estado']),
-        "cp" => $row['cp'],       
-        "estatus" => $row['id_estatus'], 
-        "tipo_direccion"=> $row['id_tipodireccion']  ,
-        "nota"=> utf8_encode($row["nota"])
-          );
-       }
-
-       $response = new stdClass();
-        $response->data = $cliente;
-        return $response; 
-     }       
-
-    public function actualizardireccioncliente($id_direccion, $calle, $colonia, $ciudad, $municipio, $estado, $cp, $estatus, $nota)
-    {
-        $db = Zend_Db_Table_Abstract::getDefaultAdapter();      
-        $where[] = "id_direccion = '$id_direccion'";
-        $update = $db->update("direcciones_clientes", array(
-            "calle" => strtoupper(utf8_decode($calle)), 
-            "colonia" => strtoupper(utf8_decode($colonia)), 
-            "ciudad" => strtoupper(utf8_decode($ciudad)), 
-            "municipio" => strtoupper(utf8_decode($municipio)), 
-            "ciudad" => strtoupper(utf8_decode($ciudad)), 
-            "municipio" => strtoupper(utf8_decode($municipio)), 
-            "estado" => strtoupper(utf8_decode($estado)), 
-            "cp" => $cp, 
-            "id_estatus" => $estatus,
-            "nota" => strtoupper(utf8_decode($nota))
-        ), $where);
-
-        $response = new stdClass();
-        $response->validacion = true;
-        return $response;
-        echo $set;
-    }      
-
-    public function insertardireccioncliente($id_cliente, $calle, $colonia, $ciudad, $municipio, $estado, $cp, $estatus, $nota)
-    {
-        $db = Zend_Db_Table_Abstract::getDefaultAdapter();
-        $insert = $db->insert("direcciones_clientes", array(
-            "id_cliente" => $id_cliente,
-            "calle" => $calle, 
-            "colonia" => $colonia, 
-            "ciudad" => $ciudad, 
-            "municipio" => $municipio, 
-            "estado" => $estado, 
-            "cp" => $cp, 
-            "id_estatus" => $estatus,
-            "nota" => $nota
-          ));
-        $response = new stdClass();
-        $response->validacion = true;
-        return $response;
-    }      
+    }              
 
       public function tiposdireccion(){
         $db = Zend_Db_Table_Abstract::getDefaultAdapter();

@@ -85,30 +85,10 @@ class CatalogosController extends Zend_Controller_Action{
 		$this->_helper->layout->disableLayout();
 		$this->_helper->viewRenderer->setNoRender();
 
-		$id_cliente = $_POST['id_cliente'];
-		$rcomercial = $_POST['rcomercial'];
-		$rfc = $_POST['rfc'];
-		$telefono = $_POST['telefono'];
-		$pagweb = $_POST['pagweb'];
-		$categoria = $_POST['categoria'];
-		$estatus = $_POST['estatus'];
-		$cpago = $_POST['cpago'];
-		$drevision = $_POST['drevision'];
-		$contacto1 = $_POST['contacto1'];
-		$mailcontacto1 = $_POST['mailcontacto1'];
-		$referencia1 = $_POST['referencia1'];
-		$contacto2 = $_POST['contacto2'];
-		$mailcontacto2 = $_POST['mailcontacto2'];
-		$referencia2 = $_POST['referencia2'];		
-		$contacto3 = $_POST['contacto3'];
-		$mailcontacto3 = $_POST['mailcontacto3'];
-		$referencia3 = $_POST['referencia3'];
-		$vendedor = $_POST['vendedor'];
+		$datos=$this->getRequest()->getPost();
 
 		$actualizar = new Application_Model_DbTable_Clientes();
-		$actualizar = $actualizar->actualizarcliente($id_cliente, $rcomercial, $rfc, $telefono, $pagweb, $categoria, $estatus, $cpago, $drevision, 
-													$contacto1, $mailcontacto1, $referencia1, $contacto2, $mailcontacto2, $referencia2, $contacto3,
-													$mailcontacto3, $referencia3,$vendedor);
+		$actualizar = $actualizar->actualizarcliente($datos);
 		echo Zend_Json::encode($actualizar);
 	}	
 
@@ -117,29 +97,10 @@ class CatalogosController extends Zend_Controller_Action{
 		$this->_helper->layout->disableLayout();
 		$this->_helper->viewRenderer->setNoRender();
 
-		$rcomercial = $_POST['rcomercial'];
-		$rfc = $_POST['rfc'];
-		$telefono = $_POST['telefono'];
-		$pagweb = $_POST['pagweb'];
-		$categoria = $_POST['categoria'];
-		$estatus = $_POST['estatus'];
-		$cpago = $_POST['cpago'];
-		$drevision = $_POST['drevision'];
-		$contacto1 = $_POST['contacto1'];
-		$mailcontacto1 = $_POST['mailcontacto1'];
-		$referencia1 = $_POST['referencia1'];
-		$contacto2 = $_POST['contacto2'];
-		$mailcontacto2 = $_POST['mailcontacto2'];
-		$referencia2 = $_POST['referencia2'];		
-		$contacto3 = $_POST['contacto3'];
-		$mailcontacto3 = $_POST['mailcontacto3'];
-		$referencia3 = $_POST['referencia3'];
-		$vendedor = $_POST['vendedor'];
+		$datos=$this->getRequest()->getPost();
 
 		$insertar = new Application_Model_DbTable_Clientes();
-		$insertar = $insertar->insertarcliente($rcomercial, $rfc, $telefono, $pagweb, $categoria, $estatus, $cpago, $drevision, 
-													$contacto1, $mailcontacto1, $referencia1, $contacto2, $mailcontacto2, $referencia2, $contacto3,
-													$mailcontacto3, $referencia3,$vendedor);
+		$insertar = $insertar->insertarcliente($datos);
 		echo Zend_Json::encode($insertar);
 	}	
 
@@ -148,7 +109,7 @@ class CatalogosController extends Zend_Controller_Action{
 		$this->_helper->viewRenderer->setNoRender();
 		$id_cliente = $_REQUEST["idcliente"];
 
-		$extrae = new Application_Model_DbTable_Clientes();
+		$extrae = new Application_Model_DbTable_ClientesDireccion();
 		$extraer = $extrae->consultardireccioncliente($id_cliente);
 
 		echo Zend_Json::encode($extraer);			
@@ -157,9 +118,9 @@ class CatalogosController extends Zend_Controller_Action{
 	public function extraerdireccionclienteAction(){
 		$this->_helper->layout->disableLayout();
 		$this->_helper->viewRenderer->setNoRender();
-		$id_direccion = $_POST["idireccion"];
+		$id_direccion = $_POST["id_direccion"];
 
-		$extrae = new Application_Model_DbTable_Clientes();
+		$extrae = new Application_Model_DbTable_ClientesDireccion();
 		$extraer = $extrae->extraerdireccioncliente($id_direccion);
 
 		echo Zend_Json::encode($extraer);			
@@ -170,18 +131,10 @@ class CatalogosController extends Zend_Controller_Action{
 		$this->_helper->layout->disableLayout();
 		$this->_helper->viewRenderer->setNoRender();
 
-		$id_direccion = $_POST['id_direccion'];
-		$calle = $_POST['calle'];
-		$colonia = $_POST['colonia'];
-		$ciudad = $_POST['ciudad'];
-		$municipio = $_POST['municipio'];
-		$estado = $_POST['estado'];
-		$cp = $_POST['cp'];
-		$estatus = $_POST['estatus'];
-		$nota = $_POST['notas'];
+		$datos=$this->getRequest()->getPost();
 	
-		$actualizar = new Application_Model_DbTable_Clientes();
-		$actualizar = $actualizar->actualizardireccioncliente($id_direccion, $calle, $colonia, $ciudad, $municipio, $estado, $cp, $estatus, $nota);
+		$actualizar = new Application_Model_DbTable_ClientesDireccion();
+		$actualizar = $actualizar->actualizardireccioncliente($datos);
 		echo Zend_Json::encode($actualizar);
 	}
 
@@ -190,19 +143,10 @@ class CatalogosController extends Zend_Controller_Action{
 		$this->_helper->layout->disableLayout();
 		$this->_helper->viewRenderer->setNoRender();
 
-		$id_cliente = $_POST['idcliente'];
-		$calle = $_POST['calle'];
-		$colonia = $_POST['colonia'];
-		$ciudad = $_POST['ciudad'];
-		$municipio = $_POST['municipio'];
-		$estado = $_POST['estado'];
-		$cp = $_POST['cp'];
-		$estatus = $_POST['estatus'];
-		//$tipo_direccion = $_POST['tipodireccion'];
-		$nota = $_POST['notas'];
+		$datos=$this->getRequest()->getPost();
 
-		$insertar = new Application_Model_DbTable_Clientes();
-		$insertar = $insertar->insertardireccioncliente($id_cliente, $calle, $colonia, $ciudad, $municipio, $estado, $cp, $estatus, $nota);
+		$insertar = new Application_Model_DbTable_ClientesDireccion();
+		$insertar = $insertar->insertardireccioncliente($datos);
 		echo Zend_Json::encode($insertar);
 	}
 
@@ -255,10 +199,10 @@ class CatalogosController extends Zend_Controller_Action{
 	public function extraerproveedorAction(){
 		$this->_helper->layout->disableLayout();
 		$this->_helper->viewRenderer->setNoRender();
-		$idproveedor = $_POST["idproveedor"];
+		$id_proveedor = $_POST["id_proveedor"];
 
 		$extrae = new Application_Model_DbTable_proveedores();
-		$extraer = $extrae->extraerproveedor($idproveedor);
+		$extraer = $extrae->extraerproveedor($id_proveedor);
 
 		echo Zend_Json::encode($extraer);			
 	}
@@ -268,30 +212,10 @@ class CatalogosController extends Zend_Controller_Action{
 		$this->_helper->layout->disableLayout();
 		$this->_helper->viewRenderer->setNoRender();
 
-		$id_proveedor = $_POST['id_proveedor'];
-		$rcomercial = $_POST['rcomercial'];
-		$rfc = $_POST['rfc'];
-		$telefono = $_POST['telefono'];
-		$pagweb = $_POST['pagweb'];
-		$categoria = $_POST['categoria'];
-		$estatus = $_POST['estatus'];
-		$cpago = $_POST['cpago'];
-		$drevision = $_POST['drevision'];
-		$contacto1 = $_POST['contacto1'];
-		$mailcontacto1 = $_POST['mailcontacto1'];
-		$referencia1 = $_POST['referencia1'];
-		$contacto2 = $_POST['contacto2'];
-		$mailcontacto2 = $_POST['mailcontacto2'];
-		$referencia2 = $_POST['referencia2'];		
-		$contacto3 = $_POST['contacto3'];
-		$mailcontacto3 = $_POST['mailcontacto3'];
-		$referencia3 = $_POST['referencia3'];
-		$vendedor = $_POST['vendedor'];
+		$datos=$this->getRequest()->getPost();
 
 		$actualizar = new Application_Model_DbTable_proveedores();
-		$actualizar = $actualizar->actualizarproveedor($id_proveedor, $rcomercial, $rfc, $telefono, $pagweb, $categoria, $estatus, $cpago, $drevision, 
-													$contacto1, $mailcontacto1, $referencia1, $contacto2, $mailcontacto2, $referencia2, $contacto3,
-													$mailcontacto3, $referencia3,$vendedor);
+		$actualizar = $actualizar->actualizarproveedor($datos);
 		echo Zend_Json::encode($actualizar);
 	}	
 
@@ -300,37 +224,19 @@ class CatalogosController extends Zend_Controller_Action{
 		$this->_helper->layout->disableLayout();
 		$this->_helper->viewRenderer->setNoRender();
 
-		$rcomercial = $_POST['rcomercial'];
-		$rfc = $_POST['rfc'];
-		$telefono = $_POST['telefono'];
-		$pagweb = $_POST['pagweb'];
-		$categoria = $_POST['categoria'];
-		$estatus = $_POST['estatus'];
-		$cpago = $_POST['cpago'];
-		$drevision = $_POST['drevision'];
-		$contacto1 = $_POST['contacto1'];
-		$mailcontacto1 = $_POST['mailcontacto1'];
-		$referencia1 = $_POST['referencia1'];
-		$contacto2 = $_POST['contacto2'];
-		$mailcontacto2 = $_POST['mailcontacto2'];
-		$referencia2 = $_POST['referencia2'];		
-		$contacto3 = $_POST['contacto3'];
-		$mailcontacto3 = $_POST['mailcontacto3'];
-		$referencia3 = $_POST['referencia3'];
+		$datos=$this->getRequest()->getPost();
 
 		$insertar = new Application_Model_DbTable_proveedores();
-		$insertar = $insertar->insertarproveedor($rcomercial, $rfc, $telefono, $pagweb, $categoria, $estatus, $cpago, $drevision, 
-													$contacto1, $mailcontacto1, $referencia1, $contacto2, $mailcontacto2, $referencia2, $contacto3,
-													$mailcontacto3, $referencia3);
+		$insertar = $insertar->insertarproveedor($datos);
 		echo Zend_Json::encode($insertar);
 	}	
 
 	public function consultardireccionproveedorAction(){
 		$this->_helper->layout->disableLayout();
 		$this->_helper->viewRenderer->setNoRender();
-		$id_proveedor = $_REQUEST["idproveedor"];
+		$id_proveedor = $_REQUEST["id_proveedor"];
 
-		$extrae = new Application_Model_DbTable_proveedores();
+		$extrae = new Application_Model_DbTable_ProveedoresDireccion();
 		$extraer = $extrae->consultardireccionproveedor($id_proveedor);
 
 		echo Zend_Json::encode($extraer);			
@@ -339,9 +245,9 @@ class CatalogosController extends Zend_Controller_Action{
 	public function extraerdireccionproveedorAction(){
 		$this->_helper->layout->disableLayout();
 		$this->_helper->viewRenderer->setNoRender();
-		$id_direccion = $_POST["idireccion"];
+		$id_direccion = $_POST["id_direccion"];
 
-		$extrae = new Application_Model_DbTable_proveedores();
+		$extrae = new Application_Model_DbTable_ProveedoresDireccion();
 		$extraer = $extrae->extraerdireccionproveedor($id_direccion);
 
 		echo Zend_Json::encode($extraer);			
@@ -352,18 +258,10 @@ class CatalogosController extends Zend_Controller_Action{
 		$this->_helper->layout->disableLayout();
 		$this->_helper->viewRenderer->setNoRender();
 
-		$id_direccion = $_POST['id_direccion'];
-		$calle = $_POST['calle'];
-		$colonia = $_POST['colonia'];
-		$ciudad = $_POST['ciudad'];
-		$municipio = $_POST['municipio'];
-		$estado = $_POST['estado'];
-		$cp = $_POST['cp'];
-		$estatus = $_POST['estatus'];
-		$nota = $_POST['notas'];
+		$datos=$this->getRequest()->getPost();
 	
-		$actualizar = new Application_Model_DbTable_proveedores();
-		$actualizar = $actualizar->actualizardireccionproveedor($id_direccion, $calle, $colonia, $ciudad, $municipio, $estado, $cp, $estatus, $nota);
+		$actualizar = new Application_Model_DbTable_ProveedoresDireccion();
+		$actualizar = $actualizar->actualizardireccionproveedor($datos);
 		echo Zend_Json::encode($actualizar);
 	}
 
@@ -372,19 +270,10 @@ class CatalogosController extends Zend_Controller_Action{
 		$this->_helper->layout->disableLayout();
 		$this->_helper->viewRenderer->setNoRender();
 
-		$id_proveedor = $_POST['idproveedor'];
-		$calle = $_POST['calle'];
-		$colonia = $_POST['colonia'];
-		$ciudad = $_POST['ciudad'];
-		$municipio = $_POST['municipio'];
-		$estado = $_POST['estado'];
-		$cp = $_POST['cp'];
-		$estatus = $_POST['estatus'];
-		//$tipo_direccion = $_POST['tipodireccion'];
-		$nota = $_POST['notas'];
+		$datos=$this->getRequest()->getPost();
 
-		$insertar = new Application_Model_DbTable_proveedores();
-		$insertar = $insertar->insertardireccionproveedor($id_proveedor, $calle, $colonia, $ciudad, $municipio, $estado, $cp, $estatus, $nota);
+		$insertar = new Application_Model_DbTable_ProveedoresDireccion();
+		$insertar = $insertar->insertardireccionproveedor($datos);
 		echo Zend_Json::encode($insertar);
 	}	
 
@@ -435,17 +324,10 @@ class CatalogosController extends Zend_Controller_Action{
 		$this->_helper->layout->disableLayout();
 		$this->_helper->viewRenderer->setNoRender();
 
-		$id_material = $_POST['id_material'];
-		$clave = $_POST['clave'];
-		$descripcion = $_POST['descripcion'];
-		$proveedor = $_POST['proveedor'];
-		$categoria = $_POST['categoriamateriales'];
-		$costo = $_POST['costo'];
-		$unidad = $_POST['unidad'];
-		$estatus = $_POST['estatus'];		
+		$datos=$this->getRequest()->getPost();		
 
 		$actualizar = new Application_Model_DbTable_Materiales();
-		$actualizar = $actualizar->actualizarmaterial($id_material, $clave, $descripcion, $proveedor, $categoria, $costo, $unidad, $estatus);
+		$actualizar = $actualizar->actualizarmaterial($datos);
 		echo Zend_Json::encode($actualizar);
 	}	
 
@@ -454,16 +336,10 @@ class CatalogosController extends Zend_Controller_Action{
 		$this->_helper->layout->disableLayout();
 		$this->_helper->viewRenderer->setNoRender();
 
-		$clave = $_POST['clave'];
-		$descripcion = $_POST['descripcion'];
-		$proveedor = $_POST['proveedor'];
-		$categoria = $_POST['categoriamateriales'];
-		$costo = $_POST['costo'];
-		$unidad = $_POST['unidad'];
-		$estatus = $_POST['estatus'];
+		$datos=$this->getRequest()->getPost();
 
 		$insertar = new Application_Model_DbTable_Materiales();
-		$insertar = $insertar->insertarmaterial($clave, $descripcion, $proveedor, $categoria, $costo, $unidad, $estatus);
+		$insertar = $insertar->insertarmaterial($datos);
 		echo Zend_Json::encode($insertar);
 	}
 
@@ -501,10 +377,10 @@ class CatalogosController extends Zend_Controller_Action{
 	public function extraerusuarioAction(){
 		$this->_helper->layout->disableLayout();
 		$this->_helper->viewRenderer->setNoRender();
-		$idusuario = $_POST["idusuario"];
+		$id_usuario = $_POST["id_usuario"];
 
 		$extrae = new Application_Model_DbTable_Usuarios();
-		$extraer = $extrae->extraerusuario($idusuario);
+		$extraer = $extrae->extraerusuario($id_usuario);
 
 		echo Zend_Json::encode($extraer);			
 	}
@@ -514,16 +390,10 @@ class CatalogosController extends Zend_Controller_Action{
 		$this->_helper->layout->disableLayout();
 		$this->_helper->viewRenderer->setNoRender();
 
-		$id_usuario = $_POST['id_usuario'];
-		$usuario = $_POST['usuario'];
-		$nombre = $_POST['nombre'];
-		$correo = $_POST['correo'];
-		$password = $_POST['password'];
-		$tipousuario = $_POST['tipousuario'];
-		$estatus = $_POST['estatus'];		
+		$datos=$this->getRequest()->getPost();
 
 		$actualizar = new Application_Model_DbTable_Usuarios();
-		$actualizar = $actualizar->actualizarusuario($id_usuario, $usuario, $nombre, $correo, $password, $tipousuario, $estatus);
+		$actualizar = $actualizar->actualizarusuario($datos);
 		echo Zend_Json::encode($actualizar);
 	}	
 
@@ -532,15 +402,10 @@ class CatalogosController extends Zend_Controller_Action{
 		$this->_helper->layout->disableLayout();
 		$this->_helper->viewRenderer->setNoRender();
 
-		$usuario = $_POST['usuario'];
-		$nombre = $_POST['nombre'];
-		$correo = $_POST['correo'];
-		$password = $_POST['password'];
-		$tipousuario = $_POST['tipousuario'];
-		$estatus = $_POST['estatus'];
+		$datos=$this->getRequest()->getPost();
 
 		$insertar = new Application_Model_DbTable_Usuarios();
-		$insertar = $insertar->insertarusuario($usuario, $nombre, $correo, $password, $tipousuario, $estatus);
+		$insertar = $insertar->insertarusuario($datos);
 		echo Zend_Json::encode($insertar);
 	}
 

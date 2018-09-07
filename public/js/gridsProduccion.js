@@ -428,19 +428,6 @@ $("#pegado").click(function(){
 	}
 });
 
-$("#pegadomanual").click(function(){
-	if( idinicio != 1 && orden == 0 )
-	{
-		$("#pegadomanual").attr("disabled", false);
-	} else {	
-		$('#pegadomanual').attr("disabled", true);
-		$('#ajustepegadora').attr("disabled", false);
-		$('#pegado').attr("disabled", false);
-		idproceso = this.value;
-		proceso = "PEGADO MANUAL";
-	}
-});
-
 $("#pegadoralinealgrande").click(function(){
 	if( idinicio != 1 && orden == 0 )
 	{
@@ -448,6 +435,7 @@ $("#pegadoralinealgrande").click(function(){
 	} else {	
 		$('#pegadoralinealgrande').attr("disabled", true);
 		$('#pegadoralinealchica').attr("disabled", false);
+		$('#pegadomanual').attr("disabled", false);
 		idmaquina = this.value;
 		maquina = "PEGADORA LINEAL GRANDE";
 	}
@@ -460,8 +448,22 @@ $("#pegadoralinealchica").click(function(){
 	} else {	
 		$('#pegadoralinealchica').attr("disabled", true);
 		$('#pegadoralinealgrande').attr("disabled", false);
+		$('#pegadomanual').attr("disabled", false);
 		idmaquina = this.value;
 		maquina = "PEGADORA LINEAL CHICA";
+	}
+});
+
+$("#pegadomanual").click(function(){
+	if( idinicio != 1 && orden == 0 )
+	{
+		$("#pegadomanual").attr("disabled", false);
+	} else {	
+		$('#pegadomanual').attr("disabled", true);
+		$('#pegadoralinealgrande').attr("disabled", false);
+		$('#pegadoralinealchica').attr("disabled", false);
+		idproceso = this.value;
+		proceso = "PEGADO MANUAL";
 	}
 });
 
@@ -740,7 +742,25 @@ $("#enPendiente tbody").on( 'click', 'tr', function () {
 			      	$("#ajusteengrapadora").attr("disabled", true);
 			      	idproceso = $("#ajusteengrapadora").val();					      	
 			      	proceso = "AJUSTE ENGRAPADORA";
+			      }	
+			      if(proceso == 'PEGADO' && maquina == "PEGADO MANUAL")
+			      {
+			      	$("#pegado").attr("disabled", true);
+			      	idproceso = 27;					      	
+			      	proceso = "PEGADO MANUAL";			      	
+			      }
+			      if(proceso == 'PEGADO' && maquina == "PEGADORA LINEAL GRANDE")
+			      {
+			      	$("#ajustepegadora").attr("disabled", true);
+			      	idproceso = 23;					      	
+			      	proceso = "AJUSTE PEGADORA LINEAL GRANDE";
 			      }			      
+			      if(proceso == 'PEGADO' && maquina == "PEGADORA LINEAL CHICA")
+			      {
+			      	$("#ajustepegadora").attr("disabled", true);
+			      	idproceso = 24;					      	
+			      	proceso = "AJUSTE PEGADORA LINEAL CHICA";
+			      }		      		      		      
 			}
 			else
 			{        
@@ -778,7 +798,7 @@ $("#inicio").click(function()
 	else 
 	{
 		//validaAjustes();
-		$.post('validarenproceso', {vista:vista},//proceso:proceso
+		$.post('validarenproceso', {maquina:maquina},//proceso:proceso
 			function(result)
 			{
 				if (result.validacion == 'false') 
@@ -844,7 +864,7 @@ $("#inicio").click(function()
 				}
 				else
 				{
-					swal("Alto","Ya existe un proceso en ejecución","");
+					swal("Alto","Ya existe un proceso en ejecución en esa maquina","");
 					limpiar();
 				}			
 			},'json'
@@ -1066,7 +1086,18 @@ $("#guardar").click(function()
 														  {
 														  	idproceso = $("#grapado").val();					      	
 														  	proceso = "GRAPADO";
-														  }														  																								
+														  }			
+														  if(proceso == "AJUSTE PEGADORA LINEAL GRANDE")
+														  {
+														  	idproceso = $("#pegado").val();					      	
+														  	proceso = "PEGADO";
+														  }	
+														  if(proceso == "AJUSTE PEGADORA LINEAL CHICA")
+														  {
+														  	idproceso = $("#pegado").val();					      	
+														  	proceso = "PEGADO";
+														  }														  
+													  													  													  											  																								
 															id_pendiente = result.id_pendiente;
 															$.post('actualizarproceso2',
 																{
@@ -1196,7 +1227,20 @@ $("#guardar").click(function()
 														  	$("#grapado").attr("disabled", true);
 														  	idproceso = $("#grapado").val();					      	
 														  	proceso = "GRAPADO";
-														  }														  
+														  }	
+														  if(proceso == "AJUSTE PEGADORA LINEAL GRANDE")
+														  {
+														  	$("#pegado").attr("disabled", true);
+														  	idproceso = $("#pegado").val();					      	
+														  	proceso = "PEGADO";
+														  }	
+														  if(proceso == "AJUSTE PEGADORA LINEAL CHICA")
+														  {
+														  	$("#pegado").attr("disabled", true);
+														  	idproceso = $("#pegado").val();					      	
+														  	proceso = "PEGADO";
+														  }															  
+														  													  													  													  
 															$.post('actualizarproceso', {id_proceso:id_proceso,idproceso:idproceso,proceso:proceso},
 																function(result)
 																{

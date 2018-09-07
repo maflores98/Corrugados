@@ -450,13 +450,51 @@ class ProduccionController extends Zend_Controller_Action
 		$this->_helper->layout->disableLayout();
 		$this->_helper->viewRenderer->setNoRender();
 
-		$vista = $_POST['vista'];
+		$maquina = $_POST['maquina'];
 		//$proceso = $_POST['proceso'];
 
 		$existe = new Application_Model_DbTable_CapturaProcesos();
-		$existen = $existe->validarenproceso($vista);
+		$existen = $existe->validarenproceso($maquina);
 
 		echo Zend_Json::encode($existen);		
-	}	
+	}
 
+    public function cantidadliberarAction(){
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+
+		$datos=$this->getRequest()->getPost();
+
+        $actualiza = new Application_Model_DbTable_Liberacion();
+        $actualizar = $actualiza->cantidadliberar($datos);
+
+        echo Zend_Json::encode($actualizar);
+    }
+
+    public function validaracumuladoAction(){
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+
+        $id_orden = $_POST['orden'];
+
+        $ejecuta = new Application_Model_DbTable_vListaOrdenes();
+        $ejecutar = $ejecuta->validaracumulado($id_orden);
+
+        echo Zend_Json::encode($ejecutar);
+    } 
+
+	public function liberacionpdfAction(){
+
+		$this->_helper->layout()->disableLayout();
+
+		$Id = $_GET['Id'];
+		$cant_entregar = $_GET['cant_entregar'];
+		$id_remision = $_GET['id_remision'];
+
+		$valores = new Application_Model_DbTable_vOrdenImpresa();
+		$data = $valores->consultar_remision($Id,$cant_entregar,$id_remision);
+
+		$this->view->data = $data;
+	}
+  
 }
